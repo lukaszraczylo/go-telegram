@@ -835,6 +835,20 @@ func goFieldX(plan *enumPlan, enumParent, overrideParent string, f spec.Field) s
 	if name := fieldTypeOverride(overrideParent, f.Name); name != "" {
 		return fmt.Sprintf("%s %s %s", f.Name, name, tag)
 	}
+	// Pinned companion-enum retype: allowed_updates is an Array of String
+	// in the upstream spec, but the Go API exposes a hand-curated
+	// UpdateType (api/enums.go) since the values are not enumerated
+	// inline by Telegram. Retype []string → []UpdateType wherever the
+	// wire field is allowed_updates so callers can pass typed constants
+	// (api.UpdateMessage, ...) without string casts. Wire format is
+	// unchanged: UpdateType is a typed string, marshals identically.
+	if f.JSONName == "allowed_updates" &&
+		f.Type.Kind == spec.KindArray &&
+		f.Type.ElemType != nil &&
+		f.Type.ElemType.Kind == spec.KindPrimitive &&
+		f.Type.ElemType.Name == "string" {
+		return fmt.Sprintf("%s []UpdateType %s", f.Name, tag)
+	}
 	return fmt.Sprintf("%s %s %s", f.Name, goType(f.Type, !f.Required), tag)
 }
 

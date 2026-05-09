@@ -91,7 +91,7 @@ type WebhookInfo struct {
 	// Optional. The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
 	MaxConnections *int64 `json:"max_connections,omitempty"`
 	// Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member
-	AllowedUpdates []string `json:"allowed_updates,omitempty"`
+	AllowedUpdates []UpdateType `json:"allowed_updates,omitempty"`
 }
 
 // This object represents a Telegram user or bot.
