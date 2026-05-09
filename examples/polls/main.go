@@ -94,12 +94,11 @@ func main() {
 			})
 			return nil
 		}
-		isAnon := false
 		msg, err := api.SendPoll(c.Ctx, c.Bot, &api.SendPollParams{
 			ChatID:      api.ChatIDFromInt(m.Chat.ID),
 			Question:    question,
 			Options:     pollOptions,
-			IsAnonymous: &isAnon,
+			IsAnonymous: api.Ptr(false),
 		})
 		if err != nil {
 			return err

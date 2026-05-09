@@ -96,11 +96,10 @@ func kickHandler(c *dispatch.Context, m *api.Message) error {
 	}); err != nil {
 		return handleAdminErr(c, m.Chat.ID, err)
 	}
-	truVal := true
 	if _, err := api.UnbanChatMember(c.Ctx, c.Bot, &api.UnbanChatMemberParams{
 		ChatID:       api.ChatIDFromInt(m.Chat.ID),
 		UserID:       target,
-		OnlyIfBanned: &truVal,
+		OnlyIfBanned: api.Ptr(true),
 	}); err != nil {
 		log.Printf("unban after kick: %v", err)
 	}
@@ -130,23 +129,21 @@ func muteHandler(c *dispatch.Context, m *api.Message) error {
 		reply(c, m.Chat.ID, "Reply to a user's message with /mute to silence them for 1 hour.")
 		return nil
 	}
-	until := time.Now().Add(time.Hour).Unix()
-	falseVal := false
 	if _, err := api.RestrictChatMember(c.Ctx, c.Bot, &api.RestrictChatMemberParams{
 		ChatID: api.ChatIDFromInt(m.Chat.ID),
 		UserID: target,
 		Permissions: api.ChatPermissions{
-			CanSendMessages:      &falseVal,
-			CanSendAudios:        &falseVal,
-			CanSendDocuments:     &falseVal,
-			CanSendPhotos:        &falseVal,
-			CanSendVideos:        &falseVal,
-			CanSendVideoNotes:    &falseVal,
-			CanSendVoiceNotes:    &falseVal,
-			CanSendPolls:         &falseVal,
-			CanSendOtherMessages: &falseVal,
+			CanSendMessages:      api.Ptr(false),
+			CanSendAudios:        api.Ptr(false),
+			CanSendDocuments:     api.Ptr(false),
+			CanSendPhotos:        api.Ptr(false),
+			CanSendVideos:        api.Ptr(false),
+			CanSendVideoNotes:    api.Ptr(false),
+			CanSendVoiceNotes:    api.Ptr(false),
+			CanSendPolls:         api.Ptr(false),
+			CanSendOtherMessages: api.Ptr(false),
 		},
-		UntilDate: &until,
+		UntilDate: api.Ptr(time.Now().Add(time.Hour).Unix()),
 	}); err != nil {
 		return handleAdminErr(c, m.Chat.ID, err)
 	}
