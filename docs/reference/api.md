@@ -134,29 +134,24 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func UnmarshalBackgroundFill\(data \[\]byte\) \(BackgroundFill, error\)](<#UnmarshalBackgroundFill>)
 - [type BackgroundFillFreeformGradient](<#BackgroundFillFreeformGradient>)
   - [func \(v \*BackgroundFillFreeformGradient\) MarshalJSON\(\) \(\[\]byte, error\)](<#BackgroundFillFreeformGradient.MarshalJSON>)
-- [type BackgroundFillFreeformGradientType](<#BackgroundFillFreeformGradientType>)
 - [type BackgroundFillGradient](<#BackgroundFillGradient>)
   - [func \(v \*BackgroundFillGradient\) MarshalJSON\(\) \(\[\]byte, error\)](<#BackgroundFillGradient.MarshalJSON>)
-- [type BackgroundFillGradientType](<#BackgroundFillGradientType>)
 - [type BackgroundFillSolid](<#BackgroundFillSolid>)
   - [func \(v \*BackgroundFillSolid\) MarshalJSON\(\) \(\[\]byte, error\)](<#BackgroundFillSolid.MarshalJSON>)
-- [type BackgroundFillSolidType](<#BackgroundFillSolidType>)
+- [type BackgroundFillType](<#BackgroundFillType>)
 - [type BackgroundType](<#BackgroundType>)
   - [func UnmarshalBackgroundType\(data \[\]byte\) \(BackgroundType, error\)](<#UnmarshalBackgroundType>)
 - [type BackgroundTypeChatTheme](<#BackgroundTypeChatTheme>)
   - [func \(v \*BackgroundTypeChatTheme\) MarshalJSON\(\) \(\[\]byte, error\)](<#BackgroundTypeChatTheme.MarshalJSON>)
-- [type BackgroundTypeChatThemeType](<#BackgroundTypeChatThemeType>)
 - [type BackgroundTypeFill](<#BackgroundTypeFill>)
   - [func \(v \*BackgroundTypeFill\) MarshalJSON\(\) \(\[\]byte, error\)](<#BackgroundTypeFill.MarshalJSON>)
   - [func \(m \*BackgroundTypeFill\) UnmarshalJSON\(data \[\]byte\) error](<#BackgroundTypeFill.UnmarshalJSON>)
-- [type BackgroundTypeFillType](<#BackgroundTypeFillType>)
+- [type BackgroundTypeKind](<#BackgroundTypeKind>)
 - [type BackgroundTypePattern](<#BackgroundTypePattern>)
   - [func \(v \*BackgroundTypePattern\) MarshalJSON\(\) \(\[\]byte, error\)](<#BackgroundTypePattern.MarshalJSON>)
   - [func \(m \*BackgroundTypePattern\) UnmarshalJSON\(data \[\]byte\) error](<#BackgroundTypePattern.UnmarshalJSON>)
-- [type BackgroundTypePatternType](<#BackgroundTypePatternType>)
 - [type BackgroundTypeWallpaper](<#BackgroundTypeWallpaper>)
   - [func \(v \*BackgroundTypeWallpaper\) MarshalJSON\(\) \(\[\]byte, error\)](<#BackgroundTypeWallpaper.MarshalJSON>)
-- [type BackgroundTypeWallpaperType](<#BackgroundTypeWallpaperType>)
 - [type BanChatMemberParams](<#BanChatMemberParams>)
 - [type BanChatSenderChatParams](<#BanChatSenderChatParams>)
 - [type Birthdate](<#Birthdate>)
@@ -210,13 +205,11 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func UnmarshalChatBoostSource\(data \[\]byte\) \(ChatBoostSource, error\)](<#UnmarshalChatBoostSource>)
 - [type ChatBoostSourceGiftCode](<#ChatBoostSourceGiftCode>)
   - [func \(v \*ChatBoostSourceGiftCode\) MarshalJSON\(\) \(\[\]byte, error\)](<#ChatBoostSourceGiftCode.MarshalJSON>)
-- [type ChatBoostSourceGiftCodeSource](<#ChatBoostSourceGiftCodeSource>)
 - [type ChatBoostSourceGiveaway](<#ChatBoostSourceGiveaway>)
   - [func \(v \*ChatBoostSourceGiveaway\) MarshalJSON\(\) \(\[\]byte, error\)](<#ChatBoostSourceGiveaway.MarshalJSON>)
-- [type ChatBoostSourceGiveawaySource](<#ChatBoostSourceGiveawaySource>)
+- [type ChatBoostSourceKind](<#ChatBoostSourceKind>)
 - [type ChatBoostSourcePremium](<#ChatBoostSourcePremium>)
   - [func \(v \*ChatBoostSourcePremium\) MarshalJSON\(\) \(\[\]byte, error\)](<#ChatBoostSourcePremium.MarshalJSON>)
-- [type ChatBoostSourcePremiumSource](<#ChatBoostSourcePremiumSource>)
 - [type ChatBoostUpdated](<#ChatBoostUpdated>)
 - [type ChatFullInfo](<#ChatFullInfo>)
   - [func GetChat\(ctx context.Context, b \*client.Bot, p \*GetChatParams\) \(\*ChatFullInfo, error\)](<#GetChat>)
@@ -242,22 +235,17 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func UnmarshalChatMember\(data \[\]byte\) \(ChatMember, error\)](<#UnmarshalChatMember>)
 - [type ChatMemberAdministrator](<#ChatMemberAdministrator>)
   - [func \(v \*ChatMemberAdministrator\) MarshalJSON\(\) \(\[\]byte, error\)](<#ChatMemberAdministrator.MarshalJSON>)
-- [type ChatMemberAdministratorStatus](<#ChatMemberAdministratorStatus>)
 - [type ChatMemberBanned](<#ChatMemberBanned>)
   - [func \(v \*ChatMemberBanned\) MarshalJSON\(\) \(\[\]byte, error\)](<#ChatMemberBanned.MarshalJSON>)
-- [type ChatMemberBannedStatus](<#ChatMemberBannedStatus>)
 - [type ChatMemberLeft](<#ChatMemberLeft>)
   - [func \(v \*ChatMemberLeft\) MarshalJSON\(\) \(\[\]byte, error\)](<#ChatMemberLeft.MarshalJSON>)
-- [type ChatMemberLeftStatus](<#ChatMemberLeftStatus>)
 - [type ChatMemberMember](<#ChatMemberMember>)
   - [func \(v \*ChatMemberMember\) MarshalJSON\(\) \(\[\]byte, error\)](<#ChatMemberMember.MarshalJSON>)
-- [type ChatMemberMemberStatus](<#ChatMemberMemberStatus>)
 - [type ChatMemberOwner](<#ChatMemberOwner>)
   - [func \(v \*ChatMemberOwner\) MarshalJSON\(\) \(\[\]byte, error\)](<#ChatMemberOwner.MarshalJSON>)
-- [type ChatMemberOwnerStatus](<#ChatMemberOwnerStatus>)
 - [type ChatMemberRestricted](<#ChatMemberRestricted>)
   - [func \(v \*ChatMemberRestricted\) MarshalJSON\(\) \(\[\]byte, error\)](<#ChatMemberRestricted.MarshalJSON>)
-- [type ChatMemberRestrictedStatus](<#ChatMemberRestrictedStatus>)
+- [type ChatMemberStatus](<#ChatMemberStatus>)
 - [type ChatMemberUpdated](<#ChatMemberUpdated>)
   - [func \(m \*ChatMemberUpdated\) UnmarshalJSON\(data \[\]byte\) error](<#ChatMemberUpdated.UnmarshalJSON>)
 - [type ChatOwnerChanged](<#ChatOwnerChanged>)
@@ -564,16 +552,13 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func UnmarshalMessageOrigin\(data \[\]byte\) \(MessageOrigin, error\)](<#UnmarshalMessageOrigin>)
 - [type MessageOriginChannel](<#MessageOriginChannel>)
   - [func \(v \*MessageOriginChannel\) MarshalJSON\(\) \(\[\]byte, error\)](<#MessageOriginChannel.MarshalJSON>)
-- [type MessageOriginChannelType](<#MessageOriginChannelType>)
 - [type MessageOriginChat](<#MessageOriginChat>)
   - [func \(v \*MessageOriginChat\) MarshalJSON\(\) \(\[\]byte, error\)](<#MessageOriginChat.MarshalJSON>)
-- [type MessageOriginChatType](<#MessageOriginChatType>)
 - [type MessageOriginHiddenUser](<#MessageOriginHiddenUser>)
   - [func \(v \*MessageOriginHiddenUser\) MarshalJSON\(\) \(\[\]byte, error\)](<#MessageOriginHiddenUser.MarshalJSON>)
-- [type MessageOriginHiddenUserType](<#MessageOriginHiddenUserType>)
+- [type MessageOriginType](<#MessageOriginType>)
 - [type MessageOriginUser](<#MessageOriginUser>)
   - [func \(v \*MessageOriginUser\) MarshalJSON\(\) \(\[\]byte, error\)](<#MessageOriginUser.MarshalJSON>)
-- [type MessageOriginUserType](<#MessageOriginUserType>)
 - [type MessageReactionCountUpdated](<#MessageReactionCountUpdated>)
 - [type MessageReactionUpdated](<#MessageReactionUpdated>)
   - [func \(mru \*MessageReactionUpdated\) GetSender\(\) \*Sender](<#MessageReactionUpdated.GetSender>)
@@ -583,10 +568,9 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func UnmarshalOwnedGift\(data \[\]byte\) \(OwnedGift, error\)](<#UnmarshalOwnedGift>)
 - [type OwnedGiftRegular](<#OwnedGiftRegular>)
   - [func \(v \*OwnedGiftRegular\) MarshalJSON\(\) \(\[\]byte, error\)](<#OwnedGiftRegular.MarshalJSON>)
-- [type OwnedGiftRegularType](<#OwnedGiftRegularType>)
+- [type OwnedGiftType](<#OwnedGiftType>)
 - [type OwnedGiftUnique](<#OwnedGiftUnique>)
   - [func \(v \*OwnedGiftUnique\) MarshalJSON\(\) \(\[\]byte, error\)](<#OwnedGiftUnique.MarshalJSON>)
-- [type OwnedGiftUniqueType](<#OwnedGiftUniqueType>)
 - [type OwnedGifts](<#OwnedGifts>)
   - [func GetBusinessAccountGifts\(ctx context.Context, b \*client.Bot, p \*GetBusinessAccountGiftsParams\) \(\*OwnedGifts, error\)](<#GetBusinessAccountGifts>)
   - [func GetChatGifts\(ctx context.Context, b \*client.Bot, p \*GetChatGiftsParams\) \(\*OwnedGifts, error\)](<#GetChatGifts>)
@@ -598,17 +582,14 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func \(m \*PaidMediaInfo\) UnmarshalJSON\(data \[\]byte\) error](<#PaidMediaInfo.UnmarshalJSON>)
 - [type PaidMediaLivePhoto](<#PaidMediaLivePhoto>)
   - [func \(v \*PaidMediaLivePhoto\) MarshalJSON\(\) \(\[\]byte, error\)](<#PaidMediaLivePhoto.MarshalJSON>)
-- [type PaidMediaLivePhotoType](<#PaidMediaLivePhotoType>)
 - [type PaidMediaPhoto](<#PaidMediaPhoto>)
   - [func \(v \*PaidMediaPhoto\) MarshalJSON\(\) \(\[\]byte, error\)](<#PaidMediaPhoto.MarshalJSON>)
-- [type PaidMediaPhotoType](<#PaidMediaPhotoType>)
 - [type PaidMediaPreview](<#PaidMediaPreview>)
   - [func \(v \*PaidMediaPreview\) MarshalJSON\(\) \(\[\]byte, error\)](<#PaidMediaPreview.MarshalJSON>)
-- [type PaidMediaPreviewType](<#PaidMediaPreviewType>)
 - [type PaidMediaPurchased](<#PaidMediaPurchased>)
+- [type PaidMediaType](<#PaidMediaType>)
 - [type PaidMediaVideo](<#PaidMediaVideo>)
   - [func \(v \*PaidMediaVideo\) MarshalJSON\(\) \(\[\]byte, error\)](<#PaidMediaVideo.MarshalJSON>)
-- [type PaidMediaVideoType](<#PaidMediaVideoType>)
 - [type PaidMessagePriceChanged](<#PaidMessagePriceChanged>)
 - [type ParseMode](<#ParseMode>)
 - [type PassportData](<#PassportData>)
@@ -664,13 +645,11 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func UnmarshalReactionType\(data \[\]byte\) \(ReactionType, error\)](<#UnmarshalReactionType>)
 - [type ReactionTypeCustomEmoji](<#ReactionTypeCustomEmoji>)
   - [func \(v \*ReactionTypeCustomEmoji\) MarshalJSON\(\) \(\[\]byte, error\)](<#ReactionTypeCustomEmoji.MarshalJSON>)
-- [type ReactionTypeCustomEmojiType](<#ReactionTypeCustomEmojiType>)
 - [type ReactionTypeEmoji](<#ReactionTypeEmoji>)
   - [func \(v \*ReactionTypeEmoji\) MarshalJSON\(\) \(\[\]byte, error\)](<#ReactionTypeEmoji.MarshalJSON>)
-- [type ReactionTypeEmojiType](<#ReactionTypeEmojiType>)
+- [type ReactionTypeKind](<#ReactionTypeKind>)
 - [type ReactionTypePaid](<#ReactionTypePaid>)
   - [func \(v \*ReactionTypePaid\) MarshalJSON\(\) \(\[\]byte, error\)](<#ReactionTypePaid.MarshalJSON>)
-- [type ReactionTypePaidType](<#ReactionTypePaidType>)
 - [type ReadBusinessMessageParams](<#ReadBusinessMessageParams>)
 - [type RefundStarPaymentParams](<#RefundStarPaymentParams>)
 - [type RefundedPayment](<#RefundedPayment>)
@@ -693,13 +672,11 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func UnmarshalRevenueWithdrawalState\(data \[\]byte\) \(RevenueWithdrawalState, error\)](<#UnmarshalRevenueWithdrawalState>)
 - [type RevenueWithdrawalStateFailed](<#RevenueWithdrawalStateFailed>)
   - [func \(v \*RevenueWithdrawalStateFailed\) MarshalJSON\(\) \(\[\]byte, error\)](<#RevenueWithdrawalStateFailed.MarshalJSON>)
-- [type RevenueWithdrawalStateFailedType](<#RevenueWithdrawalStateFailedType>)
+- [type RevenueWithdrawalStateKind](<#RevenueWithdrawalStateKind>)
 - [type RevenueWithdrawalStatePending](<#RevenueWithdrawalStatePending>)
   - [func \(v \*RevenueWithdrawalStatePending\) MarshalJSON\(\) \(\[\]byte, error\)](<#RevenueWithdrawalStatePending.MarshalJSON>)
-- [type RevenueWithdrawalStatePendingType](<#RevenueWithdrawalStatePendingType>)
 - [type RevenueWithdrawalStateSucceeded](<#RevenueWithdrawalStateSucceeded>)
   - [func \(v \*RevenueWithdrawalStateSucceeded\) MarshalJSON\(\) \(\[\]byte, error\)](<#RevenueWithdrawalStateSucceeded.MarshalJSON>)
-- [type RevenueWithdrawalStateSucceededType](<#RevenueWithdrawalStateSucceededType>)
 - [type RevokeChatInviteLinkParams](<#RevokeChatInviteLinkParams>)
 - [type SavePreparedInlineMessageParams](<#SavePreparedInlineMessageParams>)
 - [type SavePreparedKeyboardButtonParams](<#SavePreparedKeyboardButtonParams>)
@@ -836,22 +813,18 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type StoryAreaPosition](<#StoryAreaPosition>)
 - [type StoryAreaType](<#StoryAreaType>)
   - [func UnmarshalStoryAreaType\(data \[\]byte\) \(StoryAreaType, error\)](<#UnmarshalStoryAreaType>)
+- [type StoryAreaTypeKind](<#StoryAreaTypeKind>)
 - [type StoryAreaTypeLink](<#StoryAreaTypeLink>)
   - [func \(v \*StoryAreaTypeLink\) MarshalJSON\(\) \(\[\]byte, error\)](<#StoryAreaTypeLink.MarshalJSON>)
-- [type StoryAreaTypeLinkType](<#StoryAreaTypeLinkType>)
 - [type StoryAreaTypeLocation](<#StoryAreaTypeLocation>)
   - [func \(v \*StoryAreaTypeLocation\) MarshalJSON\(\) \(\[\]byte, error\)](<#StoryAreaTypeLocation.MarshalJSON>)
-- [type StoryAreaTypeLocationType](<#StoryAreaTypeLocationType>)
 - [type StoryAreaTypeSuggestedReaction](<#StoryAreaTypeSuggestedReaction>)
   - [func \(v \*StoryAreaTypeSuggestedReaction\) MarshalJSON\(\) \(\[\]byte, error\)](<#StoryAreaTypeSuggestedReaction.MarshalJSON>)
   - [func \(m \*StoryAreaTypeSuggestedReaction\) UnmarshalJSON\(data \[\]byte\) error](<#StoryAreaTypeSuggestedReaction.UnmarshalJSON>)
-- [type StoryAreaTypeSuggestedReactionType](<#StoryAreaTypeSuggestedReactionType>)
 - [type StoryAreaTypeUniqueGift](<#StoryAreaTypeUniqueGift>)
   - [func \(v \*StoryAreaTypeUniqueGift\) MarshalJSON\(\) \(\[\]byte, error\)](<#StoryAreaTypeUniqueGift.MarshalJSON>)
-- [type StoryAreaTypeUniqueGiftType](<#StoryAreaTypeUniqueGiftType>)
 - [type StoryAreaTypeWeather](<#StoryAreaTypeWeather>)
   - [func \(v \*StoryAreaTypeWeather\) MarshalJSON\(\) \(\[\]byte, error\)](<#StoryAreaTypeWeather.MarshalJSON>)
-- [type StoryAreaTypeWeatherType](<#StoryAreaTypeWeatherType>)
 - [type SuccessfulPayment](<#SuccessfulPayment>)
 - [type SuggestedPostApprovalFailed](<#SuggestedPostApprovalFailed>)
 - [type SuggestedPostApproved](<#SuggestedPostApproved>)
@@ -870,22 +843,18 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func UnmarshalTransactionPartner\(data \[\]byte\) \(TransactionPartner, error\)](<#UnmarshalTransactionPartner>)
 - [type TransactionPartnerAffiliateProgram](<#TransactionPartnerAffiliateProgram>)
   - [func \(v \*TransactionPartnerAffiliateProgram\) MarshalJSON\(\) \(\[\]byte, error\)](<#TransactionPartnerAffiliateProgram.MarshalJSON>)
-- [type TransactionPartnerAffiliateProgramType](<#TransactionPartnerAffiliateProgramType>)
 - [type TransactionPartnerChat](<#TransactionPartnerChat>)
   - [func \(v \*TransactionPartnerChat\) MarshalJSON\(\) \(\[\]byte, error\)](<#TransactionPartnerChat.MarshalJSON>)
 - [type TransactionPartnerFragment](<#TransactionPartnerFragment>)
   - [func \(v \*TransactionPartnerFragment\) MarshalJSON\(\) \(\[\]byte, error\)](<#TransactionPartnerFragment.MarshalJSON>)
   - [func \(m \*TransactionPartnerFragment\) UnmarshalJSON\(data \[\]byte\) error](<#TransactionPartnerFragment.UnmarshalJSON>)
-- [type TransactionPartnerFragmentType](<#TransactionPartnerFragmentType>)
 - [type TransactionPartnerOther](<#TransactionPartnerOther>)
   - [func \(v \*TransactionPartnerOther\) MarshalJSON\(\) \(\[\]byte, error\)](<#TransactionPartnerOther.MarshalJSON>)
-- [type TransactionPartnerOtherType](<#TransactionPartnerOtherType>)
 - [type TransactionPartnerTelegramAds](<#TransactionPartnerTelegramAds>)
   - [func \(v \*TransactionPartnerTelegramAds\) MarshalJSON\(\) \(\[\]byte, error\)](<#TransactionPartnerTelegramAds.MarshalJSON>)
-- [type TransactionPartnerTelegramAdsType](<#TransactionPartnerTelegramAdsType>)
 - [type TransactionPartnerTelegramApi](<#TransactionPartnerTelegramApi>)
   - [func \(v \*TransactionPartnerTelegramApi\) MarshalJSON\(\) \(\[\]byte, error\)](<#TransactionPartnerTelegramApi.MarshalJSON>)
-- [type TransactionPartnerTelegramApiType](<#TransactionPartnerTelegramApiType>)
+- [type TransactionPartnerType](<#TransactionPartnerType>)
 - [type TransactionPartnerUser](<#TransactionPartnerUser>)
   - [func \(v \*TransactionPartnerUser\) MarshalJSON\(\) \(\[\]byte, error\)](<#TransactionPartnerUser.MarshalJSON>)
   - [func \(m \*TransactionPartnerUser\) UnmarshalJSON\(data \[\]byte\) error](<#TransactionPartnerUser.UnmarshalJSON>)
@@ -2362,7 +2331,7 @@ The background is a freeform gradient that rotates after every message in the ch
 ```go
 type BackgroundFillFreeformGradient struct {
     // Type of the background fill, always “freeform_gradient”
-    Type BackgroundFillFreeformGradientType `json:"type"`
+    Type BackgroundFillType `json:"type"`
     // A list of the 3 or 4 base colors that are used to generate the freeform gradient in the RGB24 format
     Colors []int64 `json:"colors"`
 }
@@ -2377,23 +2346,6 @@ func (v *BackgroundFillFreeformGradient) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes BackgroundFillFreeformGradient with the discriminator field "type" forced to "freeform\_gradient". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="BackgroundFillFreeformGradientType"></a>
-## type [BackgroundFillFreeformGradientType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L7>)
-
-
-
-```go
-type BackgroundFillFreeformGradientType string
-```
-
-<a name="BackgroundFillFreeformGradientTypeFreeformGradient"></a>
-
-```go
-const (
-    BackgroundFillFreeformGradientTypeFreeformGradient BackgroundFillFreeformGradientType = "freeform_gradient"
-)
-```
-
 <a name="BackgroundFillGradient"></a>
 ## type [BackgroundFillGradient](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1777-L1786>)
 
@@ -2402,7 +2354,7 @@ The background is a gradient fill.
 ```go
 type BackgroundFillGradient struct {
     // Type of the background fill, always “gradient”
-    Type BackgroundFillGradientType `json:"type"`
+    Type BackgroundFillType `json:"type"`
     // Top color of the gradient in the RGB24 format
     TopColor int64 `json:"top_color"`
     // Bottom color of the gradient in the RGB24 format
@@ -2421,23 +2373,6 @@ func (v *BackgroundFillGradient) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes BackgroundFillGradient with the discriminator field "type" forced to "gradient". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="BackgroundFillGradientType"></a>
-## type [BackgroundFillGradientType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L13>)
-
-
-
-```go
-type BackgroundFillGradientType string
-```
-
-<a name="BackgroundFillGradientTypeGradient"></a>
-
-```go
-const (
-    BackgroundFillGradientTypeGradient BackgroundFillGradientType = "gradient"
-)
-```
-
 <a name="BackgroundFillSolid"></a>
 ## type [BackgroundFillSolid](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1753-L1758>)
 
@@ -2446,7 +2381,7 @@ The background is filled using the selected color.
 ```go
 type BackgroundFillSolid struct {
     // Type of the background fill, always “solid”
-    Type BackgroundFillSolidType `json:"type"`
+    Type BackgroundFillType `json:"type"`
     // The color of the background fill in the RGB24 format
     Color int64 `json:"color"`
 }
@@ -2461,20 +2396,22 @@ func (v *BackgroundFillSolid) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes BackgroundFillSolid with the discriminator field "type" forced to "solid". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="BackgroundFillSolidType"></a>
-## type [BackgroundFillSolidType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L19>)
+<a name="BackgroundFillType"></a>
+## type [BackgroundFillType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L7>)
 
 
 
 ```go
-type BackgroundFillSolidType string
+type BackgroundFillType string
 ```
 
-<a name="BackgroundFillSolidTypeSolid"></a>
+<a name="BackgroundFillTypeSolid"></a>
 
 ```go
 const (
-    BackgroundFillSolidTypeSolid BackgroundFillSolidType = "solid"
+    BackgroundFillTypeSolid            BackgroundFillType = "solid"
+    BackgroundFillTypeGradient         BackgroundFillType = "gradient"
+    BackgroundFillTypeFreeformGradient BackgroundFillType = "freeform_gradient"
 )
 ```
 
@@ -2513,7 +2450,7 @@ The background is taken directly from a built\-in chat theme.
 ```go
 type BackgroundTypeChatTheme struct {
     // Type of the background, always “chat_theme”
-    Type BackgroundTypeChatThemeType `json:"type"`
+    Type BackgroundTypeKind `json:"type"`
     // Name of the chat theme, which is usually an emoji
     ThemeName string `json:"theme_name"`
 }
@@ -2528,23 +2465,6 @@ func (v *BackgroundTypeChatTheme) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes BackgroundTypeChatTheme with the discriminator field "type" forced to "chat\_theme". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="BackgroundTypeChatThemeType"></a>
-## type [BackgroundTypeChatThemeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L25>)
-
-
-
-```go
-type BackgroundTypeChatThemeType string
-```
-
-<a name="BackgroundTypeChatThemeTypeChatTheme"></a>
-
-```go
-const (
-    BackgroundTypeChatThemeTypeChatTheme BackgroundTypeChatThemeType = "chat_theme"
-)
-```
-
 <a name="BackgroundTypeFill"></a>
 ## type [BackgroundTypeFill](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1879-L1886>)
 
@@ -2553,7 +2473,7 @@ The background is automatically filled based on the selected colors.
 ```go
 type BackgroundTypeFill struct {
     // Type of the background, always “fill”
-    Type BackgroundTypeFillType `json:"type"`
+    Type BackgroundTypeKind `json:"type"`
     // The background fill
     Fill BackgroundFill `json:"fill"`
     // Dimming of the background in dark themes, as a percentage; 0-100
@@ -2579,20 +2499,23 @@ func (m *BackgroundTypeFill) UnmarshalJSON(data []byte) error
 
 UnmarshalJSON decodes BackgroundTypeFill by dispatching union\-typed fields \(Fill\) through their concrete UnmarshalXxx helpers.
 
-<a name="BackgroundTypeFillType"></a>
-## type [BackgroundTypeFillType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L31>)
+<a name="BackgroundTypeKind"></a>
+## type [BackgroundTypeKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L15>)
 
 
 
 ```go
-type BackgroundTypeFillType string
+type BackgroundTypeKind string
 ```
 
-<a name="BackgroundTypeFillTypeFill"></a>
+<a name="BackgroundTypeKindFill"></a>
 
 ```go
 const (
-    BackgroundTypeFillTypeFill BackgroundTypeFillType = "fill"
+    BackgroundTypeKindFill      BackgroundTypeKind = "fill"
+    BackgroundTypeKindWallpaper BackgroundTypeKind = "wallpaper"
+    BackgroundTypeKindPattern   BackgroundTypeKind = "pattern"
+    BackgroundTypeKindChatTheme BackgroundTypeKind = "chat_theme"
 )
 ```
 
@@ -2604,7 +2527,7 @@ The background is a .PNG or .TGV \(gzipped subset of SVG with MIME type “appli
 ```go
 type BackgroundTypePattern struct {
     // Type of the background, always “pattern”
-    Type BackgroundTypePatternType `json:"type"`
+    Type BackgroundTypeKind `json:"type"`
     // Document with the pattern
     Document Document `json:"document"`
     // The background fill that is combined with the pattern
@@ -2636,23 +2559,6 @@ func (m *BackgroundTypePattern) UnmarshalJSON(data []byte) error
 
 UnmarshalJSON decodes BackgroundTypePattern by dispatching union\-typed fields \(Fill\) through their concrete UnmarshalXxx helpers.
 
-<a name="BackgroundTypePatternType"></a>
-## type [BackgroundTypePatternType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L37>)
-
-
-
-```go
-type BackgroundTypePatternType string
-```
-
-<a name="BackgroundTypePatternTypePattern"></a>
-
-```go
-const (
-    BackgroundTypePatternTypePattern BackgroundTypePatternType = "pattern"
-)
-```
-
 <a name="BackgroundTypeWallpaper"></a>
 ## type [BackgroundTypeWallpaper](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1929-L1940>)
 
@@ -2661,7 +2567,7 @@ The background is a wallpaper in the JPEG format.
 ```go
 type BackgroundTypeWallpaper struct {
     // Type of the background, always “wallpaper”
-    Type BackgroundTypeWallpaperType `json:"type"`
+    Type BackgroundTypeKind `json:"type"`
     // Document with the wallpaper
     Document Document `json:"document"`
     // Dimming of the background in dark themes, as a percentage; 0-100
@@ -2681,23 +2587,6 @@ func (v *BackgroundTypeWallpaper) MarshalJSON() ([]byte, error)
 ```
 
 MarshalJSON encodes BackgroundTypeWallpaper with the discriminator field "type" forced to "wallpaper". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
-
-<a name="BackgroundTypeWallpaperType"></a>
-## type [BackgroundTypeWallpaperType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L43>)
-
-
-
-```go
-type BackgroundTypeWallpaperType string
-```
-
-<a name="BackgroundTypeWallpaperTypeWallpaper"></a>
-
-```go
-const (
-    BackgroundTypeWallpaperTypeWallpaper BackgroundTypeWallpaperType = "wallpaper"
-)
-```
 
 <a name="BanChatMemberParams"></a>
 ## type [BanChatMemberParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2128-L2137>)
@@ -3436,7 +3325,7 @@ The boost was obtained by the creation of Telegram Premium gift codes to boost a
 ```go
 type ChatBoostSourceGiftCode struct {
     // Source of the boost, always “gift_code”
-    Source ChatBoostSourceGiftCodeSource `json:"source"`
+    Source ChatBoostSourceKind `json:"source"`
     // User for which the gift code was created
     User User `json:"user"`
 }
@@ -3451,23 +3340,6 @@ func (v *ChatBoostSourceGiftCode) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes ChatBoostSourceGiftCode with the discriminator field "source" forced to "gift\_code". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="ChatBoostSourceGiftCodeSource"></a>
-## type [ChatBoostSourceGiftCodeSource](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L49>)
-
-
-
-```go
-type ChatBoostSourceGiftCodeSource string
-```
-
-<a name="ChatBoostSourceGiftCodeSourceGiftCode"></a>
-
-```go
-const (
-    ChatBoostSourceGiftCodeSourceGiftCode ChatBoostSourceGiftCodeSource = "gift_code"
-)
-```
-
 <a name="ChatBoostSourceGiveaway"></a>
 ## type [ChatBoostSourceGiveaway](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4470-L4481>)
 
@@ -3476,7 +3348,7 @@ The boost was obtained by the creation of a Telegram Premium or a Telegram Star 
 ```go
 type ChatBoostSourceGiveaway struct {
     // Source of the boost, always “giveaway”
-    Source ChatBoostSourceGiveawaySource `json:"source"`
+    Source ChatBoostSourceKind `json:"source"`
     // Identifier of a message in the chat with the giveaway; the message could have been deleted already. May be 0 if the message isn't sent yet.
     GiveawayMessageID int64 `json:"giveaway_message_id"`
     // Optional. User that won the prize in the giveaway if any; for Telegram Premium giveaways only
@@ -3497,20 +3369,22 @@ func (v *ChatBoostSourceGiveaway) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes ChatBoostSourceGiveaway with the discriminator field "source" forced to "giveaway". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="ChatBoostSourceGiveawaySource"></a>
-## type [ChatBoostSourceGiveawaySource](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L55>)
+<a name="ChatBoostSourceKind"></a>
+## type [ChatBoostSourceKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L24>)
 
 
 
 ```go
-type ChatBoostSourceGiveawaySource string
+type ChatBoostSourceKind string
 ```
 
-<a name="ChatBoostSourceGiveawaySourceGiveaway"></a>
+<a name="ChatBoostSourceKindPremium"></a>
 
 ```go
 const (
-    ChatBoostSourceGiveawaySourceGiveaway ChatBoostSourceGiveawaySource = "giveaway"
+    ChatBoostSourceKindPremium  ChatBoostSourceKind = "premium"
+    ChatBoostSourceKindGiftCode ChatBoostSourceKind = "gift_code"
+    ChatBoostSourceKindGiveaway ChatBoostSourceKind = "giveaway"
 )
 ```
 
@@ -3522,7 +3396,7 @@ The boost was obtained by subscribing to Telegram Premium or by gifting a Telegr
 ```go
 type ChatBoostSourcePremium struct {
     // Source of the boost, always “premium”
-    Source ChatBoostSourcePremiumSource `json:"source"`
+    Source ChatBoostSourceKind `json:"source"`
     // User that boosted the chat
     User User `json:"user"`
 }
@@ -3536,23 +3410,6 @@ func (v *ChatBoostSourcePremium) MarshalJSON() ([]byte, error)
 ```
 
 MarshalJSON encodes ChatBoostSourcePremium with the discriminator field "source" forced to "premium". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
-
-<a name="ChatBoostSourcePremiumSource"></a>
-## type [ChatBoostSourcePremiumSource](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L61>)
-
-
-
-```go
-type ChatBoostSourcePremiumSource string
-```
-
-<a name="ChatBoostSourcePremiumSourcePremium"></a>
-
-```go
-const (
-    ChatBoostSourcePremiumSourcePremium ChatBoostSourcePremiumSource = "premium"
-)
-```
 
 <a name="ChatBoostUpdated"></a>
 ## type [ChatBoostUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4536-L4541>)
@@ -3947,7 +3804,7 @@ Represents a chat member that has some additional privileges.
 ```go
 type ChatMemberAdministrator struct {
     // The member's status in the chat, always “administrator”
-    Status ChatMemberAdministratorStatus `json:"status"`
+    Status ChatMemberStatus `json:"status"`
     // Information about the user
     User User `json:"user"`
     // True, if the bot is allowed to edit administrator privileges of that user
@@ -4000,23 +3857,6 @@ func (v *ChatMemberAdministrator) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes ChatMemberAdministrator with the discriminator field "status" forced to "administrator". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="ChatMemberAdministratorStatus"></a>
-## type [ChatMemberAdministratorStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L67>)
-
-
-
-```go
-type ChatMemberAdministratorStatus string
-```
-
-<a name="ChatMemberAdministratorStatusAdministrator"></a>
-
-```go
-const (
-    ChatMemberAdministratorStatusAdministrator ChatMemberAdministratorStatus = "administrator"
-)
-```
-
 <a name="ChatMemberBanned"></a>
 ## type [ChatMemberBanned](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3013-L3020>)
 
@@ -4025,7 +3865,7 @@ Represents a chat member that was banned in the chat and can't return to the cha
 ```go
 type ChatMemberBanned struct {
     // The member's status in the chat, always “kicked”
-    Status ChatMemberBannedStatus `json:"status"`
+    Status ChatMemberStatus `json:"status"`
     // Information about the user
     User User `json:"user"`
     // Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever
@@ -4042,23 +3882,6 @@ func (v *ChatMemberBanned) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes ChatMemberBanned with the discriminator field "status" forced to "kicked". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="ChatMemberBannedStatus"></a>
-## type [ChatMemberBannedStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L73>)
-
-
-
-```go
-type ChatMemberBannedStatus string
-```
-
-<a name="ChatMemberBannedStatusKicked"></a>
-
-```go
-const (
-    ChatMemberBannedStatusKicked ChatMemberBannedStatus = "kicked"
-)
-```
-
 <a name="ChatMemberLeft"></a>
 ## type [ChatMemberLeft](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2989-L2994>)
 
@@ -4067,7 +3890,7 @@ Represents a chat member that isn't currently a member of the chat, but may join
 ```go
 type ChatMemberLeft struct {
     // The member's status in the chat, always “left”
-    Status ChatMemberLeftStatus `json:"status"`
+    Status ChatMemberStatus `json:"status"`
     // Information about the user
     User User `json:"user"`
 }
@@ -4082,23 +3905,6 @@ func (v *ChatMemberLeft) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes ChatMemberLeft with the discriminator field "status" forced to "left". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="ChatMemberLeftStatus"></a>
-## type [ChatMemberLeftStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L79>)
-
-
-
-```go
-type ChatMemberLeftStatus string
-```
-
-<a name="ChatMemberLeftStatusLeft"></a>
-
-```go
-const (
-    ChatMemberLeftStatusLeft ChatMemberLeftStatus = "left"
-)
-```
-
 <a name="ChatMemberMember"></a>
 ## type [ChatMemberMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2899-L2908>)
 
@@ -4107,7 +3913,7 @@ Represents a chat member that has no additional privileges or restrictions.
 ```go
 type ChatMemberMember struct {
     // The member's status in the chat, always “member”
-    Status ChatMemberMemberStatus `json:"status"`
+    Status ChatMemberStatus `json:"status"`
     // Optional. Tag of the member
     Tag string `json:"tag,omitempty"`
     // Information about the user
@@ -4126,23 +3932,6 @@ func (v *ChatMemberMember) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes ChatMemberMember with the discriminator field "status" forced to "member". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="ChatMemberMemberStatus"></a>
-## type [ChatMemberMemberStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L85>)
-
-
-
-```go
-type ChatMemberMemberStatus string
-```
-
-<a name="ChatMemberMemberStatusMember"></a>
-
-```go
-const (
-    ChatMemberMemberStatusMember ChatMemberMemberStatus = "member"
-)
-```
-
 <a name="ChatMemberOwner"></a>
 ## type [ChatMemberOwner](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2809-L2818>)
 
@@ -4151,7 +3940,7 @@ Represents a chat member that owns the chat and has all administrator privileges
 ```go
 type ChatMemberOwner struct {
     // The member's status in the chat, always “creator”
-    Status ChatMemberOwnerStatus `json:"status"`
+    Status ChatMemberStatus `json:"status"`
     // Information about the user
     User User `json:"user"`
     // True, if the user's presence in the chat is hidden
@@ -4170,23 +3959,6 @@ func (v *ChatMemberOwner) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes ChatMemberOwner with the discriminator field "status" forced to "creator". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="ChatMemberOwnerStatus"></a>
-## type [ChatMemberOwnerStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L91>)
-
-
-
-```go
-type ChatMemberOwnerStatus string
-```
-
-<a name="ChatMemberOwnerStatusCreator"></a>
-
-```go
-const (
-    ChatMemberOwnerStatusCreator ChatMemberOwnerStatus = "creator"
-)
-```
-
 <a name="ChatMemberRestricted"></a>
 ## type [ChatMemberRestricted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2927-L2970>)
 
@@ -4195,7 +3967,7 @@ Represents a chat member that is under certain restrictions in the chat. Supergr
 ```go
 type ChatMemberRestricted struct {
     // The member's status in the chat, always “restricted”
-    Status ChatMemberRestrictedStatus `json:"status"`
+    Status ChatMemberStatus `json:"status"`
     // Optional. Tag of the member
     Tag string `json:"tag,omitempty"`
     // Information about the user
@@ -4248,20 +4020,25 @@ func (v *ChatMemberRestricted) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes ChatMemberRestricted with the discriminator field "status" forced to "restricted". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="ChatMemberRestrictedStatus"></a>
-## type [ChatMemberRestrictedStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L97>)
+<a name="ChatMemberStatus"></a>
+## type [ChatMemberStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L32>)
 
 
 
 ```go
-type ChatMemberRestrictedStatus string
+type ChatMemberStatus string
 ```
 
-<a name="ChatMemberRestrictedStatusRestricted"></a>
+<a name="ChatMemberStatusCreator"></a>
 
 ```go
 const (
-    ChatMemberRestrictedStatusRestricted ChatMemberRestrictedStatus = "restricted"
+    ChatMemberStatusCreator       ChatMemberStatus = "creator"
+    ChatMemberStatusAdministrator ChatMemberStatus = "administrator"
+    ChatMemberStatusMember        ChatMemberStatus = "member"
+    ChatMemberStatusRestricted    ChatMemberStatus = "restricted"
+    ChatMemberStatusLeft          ChatMemberStatus = "left"
+    ChatMemberStatusKicked        ChatMemberStatus = "kicked"
 )
 ```
 
@@ -4405,7 +4182,7 @@ type ChatShared struct {
 ```
 
 <a name="ChatType"></a>
-## type [ChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L103>)
+## type [ChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L43>)
 
 
 
@@ -5482,7 +5259,7 @@ type EncryptedPassportElement struct {
 ```
 
 <a name="EncryptedPassportElementType"></a>
-## type [EncryptedPassportElementType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L112>)
+## type [EncryptedPassportElementType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L52>)
 
 
 
@@ -6722,7 +6499,7 @@ type InlineQuery struct {
 ```
 
 <a name="InlineQueryChatType"></a>
-## type [InlineQueryChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L130>)
+## type [InlineQueryChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L70>)
 
 
 
@@ -7245,7 +7022,7 @@ func (v *InlineQueryResultDocument) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultDocument with the discriminator field "type" forced to "document". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultDocumentMimeType"></a>
-## type [InlineQueryResultDocumentMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L140>)
+## type [InlineQueryResultDocumentMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L80>)
 
 
 
@@ -7339,7 +7116,7 @@ func (v *InlineQueryResultGif) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultGif with the discriminator field "type" forced to "gif". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultGifThumbnailMimeType"></a>
-## type [InlineQueryResultGifThumbnailMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L147>)
+## type [InlineQueryResultGifThumbnailMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L87>)
 
 
 
@@ -8414,7 +8191,7 @@ type InputSticker struct {
 ```
 
 <a name="InputStickerFormat"></a>
-## type [InputStickerFormat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L155>)
+## type [InputStickerFormat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L95>)
 
 
 
@@ -8679,7 +8456,7 @@ type KeyboardButtonRequestUsers struct {
 ```
 
 <a name="KeyboardButtonStyle"></a>
-## type [KeyboardButtonStyle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L163>)
+## type [KeyboardButtonStyle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L103>)
 
 
 
@@ -8886,7 +8663,7 @@ type MaskPosition struct {
 ```
 
 <a name="MaskPositionPoint"></a>
-## type [MaskPositionPoint](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L171>)
+## type [MaskPositionPoint](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L111>)
 
 
 
@@ -9620,7 +9397,7 @@ type MessageEntity struct {
 ```
 
 <a name="MessageEntityType"></a>
-## type [MessageEntityType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L180>)
+## type [MessageEntityType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L120>)
 
 
 
@@ -9833,7 +9610,7 @@ The message was originally sent to a channel chat.
 ```go
 type MessageOriginChannel struct {
     // Type of the message origin, always “channel”
-    Type MessageOriginChannelType `json:"type"`
+    Type MessageOriginType `json:"type"`
     // Date the message was sent originally in Unix time
     Date int64 `json:"date"`
     // Channel chat to which the message was originally sent
@@ -9854,23 +9631,6 @@ func (v *MessageOriginChannel) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes MessageOriginChannel with the discriminator field "type" forced to "channel". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="MessageOriginChannelType"></a>
-## type [MessageOriginChannelType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L205>)
-
-
-
-```go
-type MessageOriginChannelType string
-```
-
-<a name="MessageOriginChannelTypeChannel"></a>
-
-```go
-const (
-    MessageOriginChannelTypeChannel MessageOriginChannelType = "channel"
-)
-```
-
 <a name="MessageOriginChat"></a>
 ## type [MessageOriginChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L853-L862>)
 
@@ -9879,7 +9639,7 @@ The message was originally sent on behalf of a chat to a group chat.
 ```go
 type MessageOriginChat struct {
     // Type of the message origin, always “chat”
-    Type MessageOriginChatType `json:"type"`
+    Type MessageOriginType `json:"type"`
     // Date the message was sent originally in Unix time
     Date int64 `json:"date"`
     // Chat that sent the message originally
@@ -9898,23 +9658,6 @@ func (v *MessageOriginChat) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes MessageOriginChat with the discriminator field "type" forced to "chat". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="MessageOriginChatType"></a>
-## type [MessageOriginChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L211>)
-
-
-
-```go
-type MessageOriginChatType string
-```
-
-<a name="MessageOriginChatTypeChat"></a>
-
-```go
-const (
-    MessageOriginChatTypeChat MessageOriginChatType = "chat"
-)
-```
-
 <a name="MessageOriginHiddenUser"></a>
 ## type [MessageOriginHiddenUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L827-L834>)
 
@@ -9923,7 +9666,7 @@ The message was originally sent by an unknown user.
 ```go
 type MessageOriginHiddenUser struct {
     // Type of the message origin, always “hidden_user”
-    Type MessageOriginHiddenUserType `json:"type"`
+    Type MessageOriginType `json:"type"`
     // Date the message was sent originally in Unix time
     Date int64 `json:"date"`
     // Name of the user that sent the message originally
@@ -9940,20 +9683,23 @@ func (v *MessageOriginHiddenUser) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes MessageOriginHiddenUser with the discriminator field "type" forced to "hidden\_user". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="MessageOriginHiddenUserType"></a>
-## type [MessageOriginHiddenUserType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L217>)
+<a name="MessageOriginType"></a>
+## type [MessageOriginType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L145>)
 
 
 
 ```go
-type MessageOriginHiddenUserType string
+type MessageOriginType string
 ```
 
-<a name="MessageOriginHiddenUserTypeHiddenUser"></a>
+<a name="MessageOriginTypeUser"></a>
 
 ```go
 const (
-    MessageOriginHiddenUserTypeHiddenUser MessageOriginHiddenUserType = "hidden_user"
+    MessageOriginTypeUser       MessageOriginType = "user"
+    MessageOriginTypeHiddenUser MessageOriginType = "hidden_user"
+    MessageOriginTypeChat       MessageOriginType = "chat"
+    MessageOriginTypeChannel    MessageOriginType = "channel"
 )
 ```
 
@@ -9965,7 +9711,7 @@ The message was originally sent by a known user.
 ```go
 type MessageOriginUser struct {
     // Type of the message origin, always “user”
-    Type MessageOriginUserType `json:"type"`
+    Type MessageOriginType `json:"type"`
     // Date the message was sent originally in Unix time
     Date int64 `json:"date"`
     // User that sent the message originally
@@ -9981,23 +9727,6 @@ func (v *MessageOriginUser) MarshalJSON() ([]byte, error)
 ```
 
 MarshalJSON encodes MessageOriginUser with the discriminator field "type" forced to "user". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
-
-<a name="MessageOriginUserType"></a>
-## type [MessageOriginUserType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L223>)
-
-
-
-```go
-type MessageOriginUserType string
-```
-
-<a name="MessageOriginUserTypeUser"></a>
-
-```go
-const (
-    MessageOriginUserTypeUser MessageOriginUserType = "user"
-)
-```
 
 <a name="MessageReactionCountUpdated"></a>
 ## type [MessageReactionCountUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3641-L3650>)
@@ -10110,7 +9839,7 @@ Describes a regular gift owned by a user or a chat.
 ```go
 type OwnedGiftRegular struct {
     // Type of the gift, always “regular”
-    Type OwnedGiftRegularType `json:"type"`
+    Type OwnedGiftType `json:"type"`
     // Information about the regular gift
     Gift Gift `json:"gift"`
     // Optional. Unique identifier of the gift for the bot; for gifts received on behalf of business accounts only
@@ -10151,20 +9880,21 @@ func (v *OwnedGiftRegular) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes OwnedGiftRegular with the discriminator field "type" forced to "regular". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="OwnedGiftRegularType"></a>
-## type [OwnedGiftRegularType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L229>)
+<a name="OwnedGiftType"></a>
+## type [OwnedGiftType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L154>)
 
 
 
 ```go
-type OwnedGiftRegularType string
+type OwnedGiftType string
 ```
 
-<a name="OwnedGiftRegularTypeRegular"></a>
+<a name="OwnedGiftTypeRegular"></a>
 
 ```go
 const (
-    OwnedGiftRegularTypeRegular OwnedGiftRegularType = "regular"
+    OwnedGiftTypeRegular OwnedGiftType = "regular"
+    OwnedGiftTypeUnique  OwnedGiftType = "unique"
 )
 ```
 
@@ -10176,7 +9906,7 @@ Describes a unique gift received and owned by a user or a chat.
 ```go
 type OwnedGiftUnique struct {
     // Type of the gift, always “unique”
-    Type OwnedGiftUniqueType `json:"type"`
+    Type OwnedGiftType `json:"type"`
     // Information about the unique gift
     Gift UniqueGift `json:"gift"`
     // Optional. Unique identifier of the received gift for the bot; for gifts received on behalf of business accounts only
@@ -10204,23 +9934,6 @@ func (v *OwnedGiftUnique) MarshalJSON() ([]byte, error)
 ```
 
 MarshalJSON encodes OwnedGiftUnique with the discriminator field "type" forced to "unique". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
-
-<a name="OwnedGiftUniqueType"></a>
-## type [OwnedGiftUniqueType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L235>)
-
-
-
-```go
-type OwnedGiftUniqueType string
-```
-
-<a name="OwnedGiftUniqueTypeUnique"></a>
-
-```go
-const (
-    OwnedGiftUniqueTypeUnique OwnedGiftUniqueType = "unique"
-)
-```
 
 <a name="OwnedGifts"></a>
 ## type [OwnedGifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3969-L3976>)
@@ -10338,7 +10051,7 @@ The paid media is a live photo.
 ```go
 type PaidMediaLivePhoto struct {
     // Type of the paid media, always “live_photo”
-    Type PaidMediaLivePhotoType `json:"type"`
+    Type PaidMediaType `json:"type"`
     // The photo
     LivePhoto LivePhoto `json:"live_photo"`
 }
@@ -10353,23 +10066,6 @@ func (v *PaidMediaLivePhoto) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes PaidMediaLivePhoto with the discriminator field "type" forced to "live\_photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="PaidMediaLivePhotoType"></a>
-## type [PaidMediaLivePhotoType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L241>)
-
-
-
-```go
-type PaidMediaLivePhotoType string
-```
-
-<a name="PaidMediaLivePhotoTypeLivePhoto"></a>
-
-```go
-const (
-    PaidMediaLivePhotoTypeLivePhoto PaidMediaLivePhotoType = "live_photo"
-)
-```
-
 <a name="PaidMediaPhoto"></a>
 ## type [PaidMediaPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1199-L1204>)
 
@@ -10378,7 +10074,7 @@ The paid media is a photo.
 ```go
 type PaidMediaPhoto struct {
     // Type of the paid media, always “photo”
-    Type PaidMediaPhotoType `json:"type"`
+    Type PaidMediaType `json:"type"`
     // The photo
     Photo []PhotoSize `json:"photo"`
 }
@@ -10393,23 +10089,6 @@ func (v *PaidMediaPhoto) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes PaidMediaPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="PaidMediaPhotoType"></a>
-## type [PaidMediaPhotoType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L247>)
-
-
-
-```go
-type PaidMediaPhotoType string
-```
-
-<a name="PaidMediaPhotoTypePhoto"></a>
-
-```go
-const (
-    PaidMediaPhotoTypePhoto PaidMediaPhotoType = "photo"
-)
-```
-
 <a name="PaidMediaPreview"></a>
 ## type [PaidMediaPreview](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1223-L1232>)
 
@@ -10418,7 +10097,7 @@ The paid media isn't available before the payment.
 ```go
 type PaidMediaPreview struct {
     // Type of the paid media, always “preview”
-    Type PaidMediaPreviewType `json:"type"`
+    Type PaidMediaType `json:"type"`
     // Optional. Media width as defined by the sender
     Width *int64 `json:"width,omitempty"`
     // Optional. Media height as defined by the sender
@@ -10437,23 +10116,6 @@ func (v *PaidMediaPreview) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes PaidMediaPreview with the discriminator field "type" forced to "preview". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="PaidMediaPreviewType"></a>
-## type [PaidMediaPreviewType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L253>)
-
-
-
-```go
-type PaidMediaPreviewType string
-```
-
-<a name="PaidMediaPreviewTypePreview"></a>
-
-```go
-const (
-    PaidMediaPreviewTypePreview PaidMediaPreviewType = "preview"
-)
-```
-
 <a name="PaidMediaPurchased"></a>
 ## type [PaidMediaPurchased](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6581-L6586>)
 
@@ -10468,6 +10130,26 @@ type PaidMediaPurchased struct {
 }
 ```
 
+<a name="PaidMediaType"></a>
+## type [PaidMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L161>)
+
+
+
+```go
+type PaidMediaType string
+```
+
+<a name="PaidMediaTypeLivePhoto"></a>
+
+```go
+const (
+    PaidMediaTypeLivePhoto PaidMediaType = "live_photo"
+    PaidMediaTypePhoto     PaidMediaType = "photo"
+    PaidMediaTypePreview   PaidMediaType = "preview"
+    PaidMediaTypeVideo     PaidMediaType = "video"
+)
+```
+
 <a name="PaidMediaVideo"></a>
 ## type [PaidMediaVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1251-L1256>)
 
@@ -10476,7 +10158,7 @@ The paid media is a video.
 ```go
 type PaidMediaVideo struct {
     // Type of the paid media, always “video”
-    Type PaidMediaVideoType `json:"type"`
+    Type PaidMediaType `json:"type"`
     // The video
     Video Video `json:"video"`
 }
@@ -10491,23 +10173,6 @@ func (v *PaidMediaVideo) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes PaidMediaVideo with the discriminator field "type" forced to "video". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="PaidMediaVideoType"></a>
-## type [PaidMediaVideoType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L259>)
-
-
-
-```go
-type PaidMediaVideoType string
-```
-
-<a name="PaidMediaVideoTypeVideo"></a>
-
-```go
-const (
-    PaidMediaVideoTypeVideo PaidMediaVideoType = "video"
-)
-```
-
 <a name="PaidMessagePriceChanged"></a>
 ## type [PaidMessagePriceChanged](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2173-L2176>)
 
@@ -10521,7 +10186,7 @@ type PaidMessagePriceChanged struct {
 ```
 
 <a name="ParseMode"></a>
-## type [ParseMode](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L265>)
+## type [ParseMode](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L170>)
 
 
 
@@ -10606,7 +10271,7 @@ func (v *PassportElementErrorDataField) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorDataField with the discriminator field "source" forced to "data". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorDataFieldType"></a>
-## type [PassportElementErrorDataFieldType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L273>)
+## type [PassportElementErrorDataFieldType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L178>)
 
 
 
@@ -10655,7 +10320,7 @@ func (v *PassportElementErrorFile) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorFile with the discriminator field "source" forced to "file". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorFileType"></a>
-## type [PassportElementErrorFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L284>)
+## type [PassportElementErrorFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L189>)
 
 
 
@@ -10757,7 +10422,7 @@ func (v *PassportElementErrorReverseSide) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorReverseSide with the discriminator field "source" forced to "reverse\_side". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorReverseSideType"></a>
-## type [PassportElementErrorReverseSideType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L294>)
+## type [PassportElementErrorReverseSideType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L199>)
 
 
 
@@ -10802,7 +10467,7 @@ func (v *PassportElementErrorSelfie) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorSelfie with the discriminator field "source" forced to "selfie". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorSelfieType"></a>
-## type [PassportElementErrorSelfieType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L301>)
+## type [PassportElementErrorSelfieType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L206>)
 
 
 
@@ -10849,7 +10514,7 @@ func (v *PassportElementErrorTranslationFile) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorTranslationFile with the discriminator field "source" forced to "translation\_file". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorTranslationFileType"></a>
-## type [PassportElementErrorTranslationFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L310>)
+## type [PassportElementErrorTranslationFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L215>)
 
 
 
@@ -11186,7 +10851,7 @@ func (m *PollOptionDeleted) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes PollOptionDeleted by dispatching union\-typed fields \(PollMessage\) through their concrete UnmarshalXxx helpers.
 
 <a name="PollType"></a>
-## type [PollType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L324>)
+## type [PollType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L229>)
 
 
 
@@ -11428,7 +11093,7 @@ The reaction is based on a custom emoji.
 ```go
 type ReactionTypeCustomEmoji struct {
     // Type of the reaction, always “custom_emoji”
-    Type ReactionTypeCustomEmojiType `json:"type"`
+    Type ReactionTypeKind `json:"type"`
     // Custom emoji identifier
     CustomEmojiID string `json:"custom_emoji_id"`
 }
@@ -11443,23 +11108,6 @@ func (v *ReactionTypeCustomEmoji) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes ReactionTypeCustomEmoji with the discriminator field "type" forced to "custom\_emoji". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="ReactionTypeCustomEmojiType"></a>
-## type [ReactionTypeCustomEmojiType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L331>)
-
-
-
-```go
-type ReactionTypeCustomEmojiType string
-```
-
-<a name="ReactionTypeCustomEmojiTypeCustomEmoji"></a>
-
-```go
-const (
-    ReactionTypeCustomEmojiTypeCustomEmoji ReactionTypeCustomEmojiType = "custom_emoji"
-)
-```
-
 <a name="ReactionTypeEmoji"></a>
 ## type [ReactionTypeEmoji](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3471-L3476>)
 
@@ -11468,7 +11116,7 @@ The reaction is based on an emoji.
 ```go
 type ReactionTypeEmoji struct {
     // Type of the reaction, always “emoji”
-    Type ReactionTypeEmojiType `json:"type"`
+    Type ReactionTypeKind `json:"type"`
     // Reaction emoji. Currently, it can be one of "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
     Emoji string `json:"emoji"`
 }
@@ -11483,20 +11131,22 @@ func (v *ReactionTypeEmoji) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes ReactionTypeEmoji with the discriminator field "type" forced to "emoji". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="ReactionTypeEmojiType"></a>
-## type [ReactionTypeEmojiType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L337>)
+<a name="ReactionTypeKind"></a>
+## type [ReactionTypeKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L236>)
 
 
 
 ```go
-type ReactionTypeEmojiType string
+type ReactionTypeKind string
 ```
 
-<a name="ReactionTypeEmojiTypeEmoji"></a>
+<a name="ReactionTypeKindEmoji"></a>
 
 ```go
 const (
-    ReactionTypeEmojiTypeEmoji ReactionTypeEmojiType = "emoji"
+    ReactionTypeKindEmoji       ReactionTypeKind = "emoji"
+    ReactionTypeKindCustomEmoji ReactionTypeKind = "custom_emoji"
+    ReactionTypeKindPaid        ReactionTypeKind = "paid"
 )
 ```
 
@@ -11508,7 +11158,7 @@ The reaction is paid.
 ```go
 type ReactionTypePaid struct {
     // Type of the reaction, always “paid”
-    Type ReactionTypePaidType `json:"type"`
+    Type ReactionTypeKind `json:"type"`
 }
 ```
 
@@ -11520,23 +11170,6 @@ func (v *ReactionTypePaid) MarshalJSON() ([]byte, error)
 ```
 
 MarshalJSON encodes ReactionTypePaid with the discriminator field "type" forced to "paid". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
-
-<a name="ReactionTypePaidType"></a>
-## type [ReactionTypePaidType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L343>)
-
-
-
-```go
-type ReactionTypePaidType string
-```
-
-<a name="ReactionTypePaidTypePaid"></a>
-
-```go
-const (
-    ReactionTypePaidTypePaid ReactionTypePaidType = "paid"
-)
-```
 
 <a name="ReadBusinessMessageParams"></a>
 ## type [ReadBusinessMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3513-L3520>)
@@ -11593,7 +11226,7 @@ type RefundedPayment struct {
 ```
 
 <a name="RefundedPaymentCurrency"></a>
-## type [RefundedPaymentCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L349>)
+## type [RefundedPaymentCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L244>)
 
 
 
@@ -11887,7 +11520,7 @@ The withdrawal failed and the transaction was refunded.
 ```go
 type RevenueWithdrawalStateFailed struct {
     // Type of the state, always “failed”
-    Type RevenueWithdrawalStateFailedType `json:"type"`
+    Type RevenueWithdrawalStateKind `json:"type"`
 }
 ```
 
@@ -11900,20 +11533,22 @@ func (v *RevenueWithdrawalStateFailed) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes RevenueWithdrawalStateFailed with the discriminator field "type" forced to "failed". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="RevenueWithdrawalStateFailedType"></a>
-## type [RevenueWithdrawalStateFailedType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L355>)
+<a name="RevenueWithdrawalStateKind"></a>
+## type [RevenueWithdrawalStateKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L250>)
 
 
 
 ```go
-type RevenueWithdrawalStateFailedType string
+type RevenueWithdrawalStateKind string
 ```
 
-<a name="RevenueWithdrawalStateFailedTypeFailed"></a>
+<a name="RevenueWithdrawalStateKindPending"></a>
 
 ```go
 const (
-    RevenueWithdrawalStateFailedTypeFailed RevenueWithdrawalStateFailedType = "failed"
+    RevenueWithdrawalStateKindPending   RevenueWithdrawalStateKind = "pending"
+    RevenueWithdrawalStateKindSucceeded RevenueWithdrawalStateKind = "succeeded"
+    RevenueWithdrawalStateKindFailed    RevenueWithdrawalStateKind = "failed"
 )
 ```
 
@@ -11925,7 +11560,7 @@ The withdrawal is in progress.
 ```go
 type RevenueWithdrawalStatePending struct {
     // Type of the state, always “pending”
-    Type RevenueWithdrawalStatePendingType `json:"type"`
+    Type RevenueWithdrawalStateKind `json:"type"`
 }
 ```
 
@@ -11938,23 +11573,6 @@ func (v *RevenueWithdrawalStatePending) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes RevenueWithdrawalStatePending with the discriminator field "type" forced to "pending". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="RevenueWithdrawalStatePendingType"></a>
-## type [RevenueWithdrawalStatePendingType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L361>)
-
-
-
-```go
-type RevenueWithdrawalStatePendingType string
-```
-
-<a name="RevenueWithdrawalStatePendingTypePending"></a>
-
-```go
-const (
-    RevenueWithdrawalStatePendingTypePending RevenueWithdrawalStatePendingType = "pending"
-)
-```
-
 <a name="RevenueWithdrawalStateSucceeded"></a>
 ## type [RevenueWithdrawalStateSucceeded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6655-L6662>)
 
@@ -11963,7 +11581,7 @@ The withdrawal succeeded.
 ```go
 type RevenueWithdrawalStateSucceeded struct {
     // Type of the state, always “succeeded”
-    Type RevenueWithdrawalStateSucceededType `json:"type"`
+    Type RevenueWithdrawalStateKind `json:"type"`
     // Date the withdrawal was completed in Unix time
     Date int64 `json:"date"`
     // An HTTPS URL that can be used to see transaction details
@@ -11979,23 +11597,6 @@ func (v *RevenueWithdrawalStateSucceeded) MarshalJSON() ([]byte, error)
 ```
 
 MarshalJSON encodes RevenueWithdrawalStateSucceeded with the discriminator field "type" forced to "succeeded". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
-
-<a name="RevenueWithdrawalStateSucceededType"></a>
-## type [RevenueWithdrawalStateSucceededType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L367>)
-
-
-
-```go
-type RevenueWithdrawalStateSucceededType string
-```
-
-<a name="RevenueWithdrawalStateSucceededTypeSucceeded"></a>
-
-```go
-const (
-    RevenueWithdrawalStateSucceededTypeSucceeded RevenueWithdrawalStateSucceededType = "succeeded"
-)
-```
 
 <a name="RevokeChatInviteLinkParams"></a>
 ## type [RevokeChatInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2438-L2443>)
@@ -14351,7 +13952,7 @@ GetStickerSet calls the getStickerSet Telegram Bot API method.
 Use this method to get a sticker set. On success, a StickerSet object is returned.
 
 <a name="StickerType"></a>
-## type [StickerType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L373>)
+## type [StickerType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L258>)
 
 
 
@@ -14531,6 +14132,27 @@ func UnmarshalStoryAreaType(data []byte) (StoryAreaType, error)
 
 UnmarshalStoryAreaType decodes a StoryAreaType from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
+<a name="StoryAreaTypeKind"></a>
+## type [StoryAreaTypeKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L266>)
+
+
+
+```go
+type StoryAreaTypeKind string
+```
+
+<a name="StoryAreaTypeKindLocation"></a>
+
+```go
+const (
+    StoryAreaTypeKindLocation          StoryAreaTypeKind = "location"
+    StoryAreaTypeKindSuggestedReaction StoryAreaTypeKind = "suggested_reaction"
+    StoryAreaTypeKindLink              StoryAreaTypeKind = "link"
+    StoryAreaTypeKindWeather           StoryAreaTypeKind = "weather"
+    StoryAreaTypeKindUniqueGift        StoryAreaTypeKind = "unique_gift"
+)
+```
+
 <a name="StoryAreaTypeLink"></a>
 ## type [StoryAreaTypeLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3311-L3316>)
 
@@ -14539,7 +14161,7 @@ Describes a story area pointing to an HTTP or tg:// link. Currently, a story can
 ```go
 type StoryAreaTypeLink struct {
     // Type of the area, always “link”
-    Type StoryAreaTypeLinkType `json:"type"`
+    Type StoryAreaTypeKind `json:"type"`
     // HTTP or tg:// URL to be opened when the area is clicked
     URL string `json:"url"`
 }
@@ -14554,23 +14176,6 @@ func (v *StoryAreaTypeLink) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes StoryAreaTypeLink with the discriminator field "type" forced to "link". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="StoryAreaTypeLinkType"></a>
-## type [StoryAreaTypeLinkType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L381>)
-
-
-
-```go
-type StoryAreaTypeLinkType string
-```
-
-<a name="StoryAreaTypeLinkTypeLink"></a>
-
-```go
-const (
-    StoryAreaTypeLinkTypeLink StoryAreaTypeLinkType = "link"
-)
-```
-
 <a name="StoryAreaTypeLocation"></a>
 ## type [StoryAreaTypeLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3231-L3240>)
 
@@ -14579,7 +14184,7 @@ Describes a story area pointing to a location. Currently, a story can have up to
 ```go
 type StoryAreaTypeLocation struct {
     // Type of the area, always “location”
-    Type StoryAreaTypeLocationType `json:"type"`
+    Type StoryAreaTypeKind `json:"type"`
     // Location latitude in degrees
     Latitude float64 `json:"latitude"`
     // Location longitude in degrees
@@ -14598,23 +14203,6 @@ func (v *StoryAreaTypeLocation) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes StoryAreaTypeLocation with the discriminator field "type" forced to "location". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="StoryAreaTypeLocationType"></a>
-## type [StoryAreaTypeLocationType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L387>)
-
-
-
-```go
-type StoryAreaTypeLocationType string
-```
-
-<a name="StoryAreaTypeLocationTypeLocation"></a>
-
-```go
-const (
-    StoryAreaTypeLocationTypeLocation StoryAreaTypeLocationType = "location"
-)
-```
-
 <a name="StoryAreaTypeSuggestedReaction"></a>
 ## type [StoryAreaTypeSuggestedReaction](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3259-L3268>)
 
@@ -14623,7 +14211,7 @@ Describes a story area pointing to a suggested reaction. Currently, a story can 
 ```go
 type StoryAreaTypeSuggestedReaction struct {
     // Type of the area, always “suggested_reaction”
-    Type StoryAreaTypeSuggestedReactionType `json:"type"`
+    Type StoryAreaTypeKind `json:"type"`
     // Type of the reaction
     ReactionType ReactionType `json:"reaction_type"`
     // Optional. Pass True if the reaction area has a dark background
@@ -14651,23 +14239,6 @@ func (m *StoryAreaTypeSuggestedReaction) UnmarshalJSON(data []byte) error
 
 UnmarshalJSON decodes StoryAreaTypeSuggestedReaction by dispatching union\-typed fields \(ReactionType\) through their concrete UnmarshalXxx helpers.
 
-<a name="StoryAreaTypeSuggestedReactionType"></a>
-## type [StoryAreaTypeSuggestedReactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L393>)
-
-
-
-```go
-type StoryAreaTypeSuggestedReactionType string
-```
-
-<a name="StoryAreaTypeSuggestedReactionTypeSuggestedReaction"></a>
-
-```go
-const (
-    StoryAreaTypeSuggestedReactionTypeSuggestedReaction StoryAreaTypeSuggestedReactionType = "suggested_reaction"
-)
-```
-
 <a name="StoryAreaTypeUniqueGift"></a>
 ## type [StoryAreaTypeUniqueGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3363-L3368>)
 
@@ -14676,7 +14247,7 @@ Describes a story area pointing to a unique gift. Currently, a story can have at
 ```go
 type StoryAreaTypeUniqueGift struct {
     // Type of the area, always “unique_gift”
-    Type StoryAreaTypeUniqueGiftType `json:"type"`
+    Type StoryAreaTypeKind `json:"type"`
     // Unique name of the gift
     Name string `json:"name"`
 }
@@ -14691,23 +14262,6 @@ func (v *StoryAreaTypeUniqueGift) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes StoryAreaTypeUniqueGift with the discriminator field "type" forced to "unique\_gift". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="StoryAreaTypeUniqueGiftType"></a>
-## type [StoryAreaTypeUniqueGiftType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L399>)
-
-
-
-```go
-type StoryAreaTypeUniqueGiftType string
-```
-
-<a name="StoryAreaTypeUniqueGiftTypeUniqueGift"></a>
-
-```go
-const (
-    StoryAreaTypeUniqueGiftTypeUniqueGift StoryAreaTypeUniqueGiftType = "unique_gift"
-)
-```
-
 <a name="StoryAreaTypeWeather"></a>
 ## type [StoryAreaTypeWeather](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3335-L3344>)
 
@@ -14716,7 +14270,7 @@ Describes a story area containing weather information. Currently, a story can ha
 ```go
 type StoryAreaTypeWeather struct {
     // Type of the area, always “weather”
-    Type StoryAreaTypeWeatherType `json:"type"`
+    Type StoryAreaTypeKind `json:"type"`
     // Temperature, in degree Celsius
     Temperature float64 `json:"temperature"`
     // Emoji representing the weather
@@ -14734,23 +14288,6 @@ func (v *StoryAreaTypeWeather) MarshalJSON() ([]byte, error)
 ```
 
 MarshalJSON encodes StoryAreaTypeWeather with the discriminator field "type" forced to "weather". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
-
-<a name="StoryAreaTypeWeatherType"></a>
-## type [StoryAreaTypeWeatherType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L405>)
-
-
-
-```go
-type StoryAreaTypeWeatherType string
-```
-
-<a name="StoryAreaTypeWeatherTypeWeather"></a>
-
-```go
-const (
-    StoryAreaTypeWeatherTypeWeather StoryAreaTypeWeatherType = "weather"
-)
-```
 
 <a name="SuccessfulPayment"></a>
 ## type [SuccessfulPayment](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6513-L6534>)
@@ -14843,7 +14380,7 @@ type SuggestedPostInfo struct {
 ```
 
 <a name="SuggestedPostInfoState"></a>
-## type [SuggestedPostInfoState](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L411>)
+## type [SuggestedPostInfoState](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L276>)
 
 
 
@@ -14880,7 +14417,7 @@ type SuggestedPostPaid struct {
 ```
 
 <a name="SuggestedPostPaidCurrency"></a>
-## type [SuggestedPostPaidCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L419>)
+## type [SuggestedPostPaidCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L284>)
 
 
 
@@ -14940,7 +14477,7 @@ type SuggestedPostRefunded struct {
 ```
 
 <a name="SuggestedPostRefundedReason"></a>
-## type [SuggestedPostRefundedReason](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L426>)
+## type [SuggestedPostRefundedReason](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L291>)
 
 
 
@@ -15033,7 +14570,7 @@ Describes the affiliate program that issued the affiliate commission received vi
 ```go
 type TransactionPartnerAffiliateProgram struct {
     // Type of the transaction partner, always “affiliate_program”
-    Type TransactionPartnerAffiliateProgramType `json:"type"`
+    Type TransactionPartnerType `json:"type"`
     // Optional. Information about the bot that sponsored the affiliate program
     SponsorUser *User `json:"sponsor_user,omitempty"`
     // The number of Telegram Stars received by the bot for each 1000 Telegram Stars received by the affiliate program sponsor from referred users
@@ -15050,23 +14587,6 @@ func (v *TransactionPartnerAffiliateProgram) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes TransactionPartnerAffiliateProgram with the discriminator field "type" forced to "affiliate\_program". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="TransactionPartnerAffiliateProgramType"></a>
-## type [TransactionPartnerAffiliateProgramType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L433>)
-
-
-
-```go
-type TransactionPartnerAffiliateProgramType string
-```
-
-<a name="TransactionPartnerAffiliateProgramTypeAffiliateProgram"></a>
-
-```go
-const (
-    TransactionPartnerAffiliateProgramTypeAffiliateProgram TransactionPartnerAffiliateProgramType = "affiliate_program"
-)
-```
-
 <a name="TransactionPartnerChat"></a>
 ## type [TransactionPartnerChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6853-L6860>)
 
@@ -15075,7 +14595,7 @@ Describes a transaction with a chat.
 ```go
 type TransactionPartnerChat struct {
     // Type of the transaction partner, always “chat”
-    Type MessageOriginChatType `json:"type"`
+    Type TransactionPartnerType `json:"type"`
     // Information about the chat
     Chat Chat `json:"chat"`
     // Optional. The gift sent to the chat by the bot
@@ -15100,7 +14620,7 @@ Describes a withdrawal transaction with Fragment.
 ```go
 type TransactionPartnerFragment struct {
     // Type of the transaction partner, always “fragment”
-    Type TransactionPartnerFragmentType `json:"type"`
+    Type TransactionPartnerType `json:"type"`
     // Optional. State of the transaction if the transaction is outgoing
     WithdrawalState RevenueWithdrawalState `json:"withdrawal_state,omitempty"`
 }
@@ -15124,23 +14644,6 @@ func (m *TransactionPartnerFragment) UnmarshalJSON(data []byte) error
 
 UnmarshalJSON decodes TransactionPartnerFragment by dispatching union\-typed fields \(WithdrawalState\) through their concrete UnmarshalXxx helpers.
 
-<a name="TransactionPartnerFragmentType"></a>
-## type [TransactionPartnerFragmentType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L439>)
-
-
-
-```go
-type TransactionPartnerFragmentType string
-```
-
-<a name="TransactionPartnerFragmentTypeFragment"></a>
-
-```go
-const (
-    TransactionPartnerFragmentTypeFragment TransactionPartnerFragmentType = "fragment"
-)
-```
-
 <a name="TransactionPartnerOther"></a>
 ## type [TransactionPartnerOther](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6999-L7002>)
 
@@ -15149,7 +14652,7 @@ Describes a transaction with an unknown source or recipient.
 ```go
 type TransactionPartnerOther struct {
     // Type of the transaction partner, always “other”
-    Type TransactionPartnerOtherType `json:"type"`
+    Type TransactionPartnerType `json:"type"`
 }
 ```
 
@@ -15162,23 +14665,6 @@ func (v *TransactionPartnerOther) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes TransactionPartnerOther with the discriminator field "type" forced to "other". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="TransactionPartnerOtherType"></a>
-## type [TransactionPartnerOtherType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L445>)
-
-
-
-```go
-type TransactionPartnerOtherType string
-```
-
-<a name="TransactionPartnerOtherTypeOther"></a>
-
-```go
-const (
-    TransactionPartnerOtherTypeOther TransactionPartnerOtherType = "other"
-)
-```
-
 <a name="TransactionPartnerTelegramAds"></a>
 ## type [TransactionPartnerTelegramAds](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6953-L6956>)
 
@@ -15187,7 +14673,7 @@ Describes a withdrawal transaction to the Telegram Ads platform.
 ```go
 type TransactionPartnerTelegramAds struct {
     // Type of the transaction partner, always “telegram_ads”
-    Type TransactionPartnerTelegramAdsType `json:"type"`
+    Type TransactionPartnerType `json:"type"`
 }
 ```
 
@@ -15200,23 +14686,6 @@ func (v *TransactionPartnerTelegramAds) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes TransactionPartnerTelegramAds with the discriminator field "type" forced to "telegram\_ads". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="TransactionPartnerTelegramAdsType"></a>
-## type [TransactionPartnerTelegramAdsType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L451>)
-
-
-
-```go
-type TransactionPartnerTelegramAdsType string
-```
-
-<a name="TransactionPartnerTelegramAdsTypeTelegramAds"></a>
-
-```go
-const (
-    TransactionPartnerTelegramAdsTypeTelegramAds TransactionPartnerTelegramAdsType = "telegram_ads"
-)
-```
-
 <a name="TransactionPartnerTelegramApi"></a>
 ## type [TransactionPartnerTelegramApi](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6975-L6980>)
 
@@ -15225,7 +14694,7 @@ Describes a transaction with payment for paid broadcasting.
 ```go
 type TransactionPartnerTelegramApi struct {
     // Type of the transaction partner, always “telegram_api”
-    Type TransactionPartnerTelegramApiType `json:"type"`
+    Type TransactionPartnerType `json:"type"`
     // The number of successful requests that exceeded regular limits and were therefore billed
     RequestCount int64 `json:"request_count"`
 }
@@ -15240,20 +14709,26 @@ func (v *TransactionPartnerTelegramApi) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes TransactionPartnerTelegramApi with the discriminator field "type" forced to "telegram\_api". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
-<a name="TransactionPartnerTelegramApiType"></a>
-## type [TransactionPartnerTelegramApiType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L457>)
+<a name="TransactionPartnerType"></a>
+## type [TransactionPartnerType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L298>)
 
 
 
 ```go
-type TransactionPartnerTelegramApiType string
+type TransactionPartnerType string
 ```
 
-<a name="TransactionPartnerTelegramApiTypeTelegramApi"></a>
+<a name="TransactionPartnerTypeUser"></a>
 
 ```go
 const (
-    TransactionPartnerTelegramApiTypeTelegramApi TransactionPartnerTelegramApiType = "telegram_api"
+    TransactionPartnerTypeUser             TransactionPartnerType = "user"
+    TransactionPartnerTypeChat             TransactionPartnerType = "chat"
+    TransactionPartnerTypeAffiliateProgram TransactionPartnerType = "affiliate_program"
+    TransactionPartnerTypeFragment         TransactionPartnerType = "fragment"
+    TransactionPartnerTypeTelegramAds      TransactionPartnerType = "telegram_ads"
+    TransactionPartnerTypeTelegramApi      TransactionPartnerType = "telegram_api"
+    TransactionPartnerTypeOther            TransactionPartnerType = "other"
 )
 ```
 
@@ -15265,7 +14740,7 @@ Describes a transaction with a user.
 ```go
 type TransactionPartnerUser struct {
     // Type of the transaction partner, always “user”
-    Type MessageOriginUserType `json:"type"`
+    Type TransactionPartnerType `json:"type"`
     // Type of the transaction, currently one of “invoice_payment” for payments via invoices, “paid_media_payment” for payments for paid media, “gift_purchase” for gifts sent by the bot, “premium_purchase” for Telegram Premium subscriptions gifted by the bot, “business_account_transfer” for direct transfers from managed business accounts
     TransactionType TransactionPartnerUserTransactionType `json:"transaction_type"`
     // Information about the user
@@ -15306,7 +14781,7 @@ func (m *TransactionPartnerUser) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes TransactionPartnerUser by dispatching union\-typed fields \(PaidMedia\) through their concrete UnmarshalXxx helpers.
 
 <a name="TransactionPartnerUserTransactionType"></a>
-## type [TransactionPartnerUserTransactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L463>)
+## type [TransactionPartnerUserTransactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L310>)
 
 
 
@@ -15525,7 +15000,7 @@ type UniqueGiftInfo struct {
 ```
 
 <a name="UniqueGiftInfoOrigin"></a>
-## type [UniqueGiftInfoOrigin](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L473>)
+## type [UniqueGiftInfoOrigin](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L320>)
 
 
 
@@ -15564,7 +15039,7 @@ type UniqueGiftModel struct {
 ```
 
 <a name="UniqueGiftModelRarity"></a>
-## type [UniqueGiftModelRarity](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L483>)
+## type [UniqueGiftModelRarity](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L330>)
 
 
 

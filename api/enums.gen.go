@@ -4,100 +4,40 @@
 
 package api
 
-type BackgroundFillFreeformGradientType string
+type BackgroundFillType string
 
 const (
-	BackgroundFillFreeformGradientTypeFreeformGradient BackgroundFillFreeformGradientType = "freeform_gradient"
+	BackgroundFillTypeSolid            BackgroundFillType = "solid"
+	BackgroundFillTypeGradient         BackgroundFillType = "gradient"
+	BackgroundFillTypeFreeformGradient BackgroundFillType = "freeform_gradient"
 )
 
-type BackgroundFillGradientType string
+type BackgroundTypeKind string
 
 const (
-	BackgroundFillGradientTypeGradient BackgroundFillGradientType = "gradient"
+	BackgroundTypeKindFill      BackgroundTypeKind = "fill"
+	BackgroundTypeKindWallpaper BackgroundTypeKind = "wallpaper"
+	BackgroundTypeKindPattern   BackgroundTypeKind = "pattern"
+	BackgroundTypeKindChatTheme BackgroundTypeKind = "chat_theme"
 )
 
-type BackgroundFillSolidType string
+type ChatBoostSourceKind string
 
 const (
-	BackgroundFillSolidTypeSolid BackgroundFillSolidType = "solid"
+	ChatBoostSourceKindPremium  ChatBoostSourceKind = "premium"
+	ChatBoostSourceKindGiftCode ChatBoostSourceKind = "gift_code"
+	ChatBoostSourceKindGiveaway ChatBoostSourceKind = "giveaway"
 )
 
-type BackgroundTypeChatThemeType string
+type ChatMemberStatus string
 
 const (
-	BackgroundTypeChatThemeTypeChatTheme BackgroundTypeChatThemeType = "chat_theme"
-)
-
-type BackgroundTypeFillType string
-
-const (
-	BackgroundTypeFillTypeFill BackgroundTypeFillType = "fill"
-)
-
-type BackgroundTypePatternType string
-
-const (
-	BackgroundTypePatternTypePattern BackgroundTypePatternType = "pattern"
-)
-
-type BackgroundTypeWallpaperType string
-
-const (
-	BackgroundTypeWallpaperTypeWallpaper BackgroundTypeWallpaperType = "wallpaper"
-)
-
-type ChatBoostSourceGiftCodeSource string
-
-const (
-	ChatBoostSourceGiftCodeSourceGiftCode ChatBoostSourceGiftCodeSource = "gift_code"
-)
-
-type ChatBoostSourceGiveawaySource string
-
-const (
-	ChatBoostSourceGiveawaySourceGiveaway ChatBoostSourceGiveawaySource = "giveaway"
-)
-
-type ChatBoostSourcePremiumSource string
-
-const (
-	ChatBoostSourcePremiumSourcePremium ChatBoostSourcePremiumSource = "premium"
-)
-
-type ChatMemberAdministratorStatus string
-
-const (
-	ChatMemberAdministratorStatusAdministrator ChatMemberAdministratorStatus = "administrator"
-)
-
-type ChatMemberBannedStatus string
-
-const (
-	ChatMemberBannedStatusKicked ChatMemberBannedStatus = "kicked"
-)
-
-type ChatMemberLeftStatus string
-
-const (
-	ChatMemberLeftStatusLeft ChatMemberLeftStatus = "left"
-)
-
-type ChatMemberMemberStatus string
-
-const (
-	ChatMemberMemberStatusMember ChatMemberMemberStatus = "member"
-)
-
-type ChatMemberOwnerStatus string
-
-const (
-	ChatMemberOwnerStatusCreator ChatMemberOwnerStatus = "creator"
-)
-
-type ChatMemberRestrictedStatus string
-
-const (
-	ChatMemberRestrictedStatusRestricted ChatMemberRestrictedStatus = "restricted"
+	ChatMemberStatusCreator       ChatMemberStatus = "creator"
+	ChatMemberStatusAdministrator ChatMemberStatus = "administrator"
+	ChatMemberStatusMember        ChatMemberStatus = "member"
+	ChatMemberStatusRestricted    ChatMemberStatus = "restricted"
+	ChatMemberStatusLeft          ChatMemberStatus = "left"
+	ChatMemberStatusKicked        ChatMemberStatus = "kicked"
 )
 
 type ChatType string
@@ -202,64 +142,29 @@ const (
 	MessageEntityTypeDateTime             MessageEntityType = "date_time"
 )
 
-type MessageOriginChannelType string
+type MessageOriginType string
 
 const (
-	MessageOriginChannelTypeChannel MessageOriginChannelType = "channel"
+	MessageOriginTypeUser       MessageOriginType = "user"
+	MessageOriginTypeHiddenUser MessageOriginType = "hidden_user"
+	MessageOriginTypeChat       MessageOriginType = "chat"
+	MessageOriginTypeChannel    MessageOriginType = "channel"
 )
 
-type MessageOriginChatType string
+type OwnedGiftType string
 
 const (
-	MessageOriginChatTypeChat MessageOriginChatType = "chat"
+	OwnedGiftTypeRegular OwnedGiftType = "regular"
+	OwnedGiftTypeUnique  OwnedGiftType = "unique"
 )
 
-type MessageOriginHiddenUserType string
+type PaidMediaType string
 
 const (
-	MessageOriginHiddenUserTypeHiddenUser MessageOriginHiddenUserType = "hidden_user"
-)
-
-type MessageOriginUserType string
-
-const (
-	MessageOriginUserTypeUser MessageOriginUserType = "user"
-)
-
-type OwnedGiftRegularType string
-
-const (
-	OwnedGiftRegularTypeRegular OwnedGiftRegularType = "regular"
-)
-
-type OwnedGiftUniqueType string
-
-const (
-	OwnedGiftUniqueTypeUnique OwnedGiftUniqueType = "unique"
-)
-
-type PaidMediaLivePhotoType string
-
-const (
-	PaidMediaLivePhotoTypeLivePhoto PaidMediaLivePhotoType = "live_photo"
-)
-
-type PaidMediaPhotoType string
-
-const (
-	PaidMediaPhotoTypePhoto PaidMediaPhotoType = "photo"
-)
-
-type PaidMediaPreviewType string
-
-const (
-	PaidMediaPreviewTypePreview PaidMediaPreviewType = "preview"
-)
-
-type PaidMediaVideoType string
-
-const (
-	PaidMediaVideoTypeVideo PaidMediaVideoType = "video"
+	PaidMediaTypeLivePhoto PaidMediaType = "live_photo"
+	PaidMediaTypePhoto     PaidMediaType = "photo"
+	PaidMediaTypePreview   PaidMediaType = "preview"
+	PaidMediaTypeVideo     PaidMediaType = "video"
 )
 
 type ParseMode string
@@ -328,22 +233,12 @@ const (
 	PollTypeQuiz    PollType = "quiz"
 )
 
-type ReactionTypeCustomEmojiType string
+type ReactionTypeKind string
 
 const (
-	ReactionTypeCustomEmojiTypeCustomEmoji ReactionTypeCustomEmojiType = "custom_emoji"
-)
-
-type ReactionTypeEmojiType string
-
-const (
-	ReactionTypeEmojiTypeEmoji ReactionTypeEmojiType = "emoji"
-)
-
-type ReactionTypePaidType string
-
-const (
-	ReactionTypePaidTypePaid ReactionTypePaidType = "paid"
+	ReactionTypeKindEmoji       ReactionTypeKind = "emoji"
+	ReactionTypeKindCustomEmoji ReactionTypeKind = "custom_emoji"
+	ReactionTypeKindPaid        ReactionTypeKind = "paid"
 )
 
 type RefundedPaymentCurrency string
@@ -352,22 +247,12 @@ const (
 	RefundedPaymentCurrencyXTR RefundedPaymentCurrency = "XTR"
 )
 
-type RevenueWithdrawalStateFailedType string
+type RevenueWithdrawalStateKind string
 
 const (
-	RevenueWithdrawalStateFailedTypeFailed RevenueWithdrawalStateFailedType = "failed"
-)
-
-type RevenueWithdrawalStatePendingType string
-
-const (
-	RevenueWithdrawalStatePendingTypePending RevenueWithdrawalStatePendingType = "pending"
-)
-
-type RevenueWithdrawalStateSucceededType string
-
-const (
-	RevenueWithdrawalStateSucceededTypeSucceeded RevenueWithdrawalStateSucceededType = "succeeded"
+	RevenueWithdrawalStateKindPending   RevenueWithdrawalStateKind = "pending"
+	RevenueWithdrawalStateKindSucceeded RevenueWithdrawalStateKind = "succeeded"
+	RevenueWithdrawalStateKindFailed    RevenueWithdrawalStateKind = "failed"
 )
 
 type StickerType string
@@ -378,34 +263,14 @@ const (
 	StickerTypeCustomEmoji StickerType = "custom_emoji"
 )
 
-type StoryAreaTypeLinkType string
+type StoryAreaTypeKind string
 
 const (
-	StoryAreaTypeLinkTypeLink StoryAreaTypeLinkType = "link"
-)
-
-type StoryAreaTypeLocationType string
-
-const (
-	StoryAreaTypeLocationTypeLocation StoryAreaTypeLocationType = "location"
-)
-
-type StoryAreaTypeSuggestedReactionType string
-
-const (
-	StoryAreaTypeSuggestedReactionTypeSuggestedReaction StoryAreaTypeSuggestedReactionType = "suggested_reaction"
-)
-
-type StoryAreaTypeUniqueGiftType string
-
-const (
-	StoryAreaTypeUniqueGiftTypeUniqueGift StoryAreaTypeUniqueGiftType = "unique_gift"
-)
-
-type StoryAreaTypeWeatherType string
-
-const (
-	StoryAreaTypeWeatherTypeWeather StoryAreaTypeWeatherType = "weather"
+	StoryAreaTypeKindLocation          StoryAreaTypeKind = "location"
+	StoryAreaTypeKindSuggestedReaction StoryAreaTypeKind = "suggested_reaction"
+	StoryAreaTypeKindLink              StoryAreaTypeKind = "link"
+	StoryAreaTypeKindWeather           StoryAreaTypeKind = "weather"
+	StoryAreaTypeKindUniqueGift        StoryAreaTypeKind = "unique_gift"
 )
 
 type SuggestedPostInfoState string
@@ -430,34 +295,16 @@ const (
 	SuggestedPostRefundedReasonPaymentRefunded SuggestedPostRefundedReason = "payment_refunded"
 )
 
-type TransactionPartnerAffiliateProgramType string
+type TransactionPartnerType string
 
 const (
-	TransactionPartnerAffiliateProgramTypeAffiliateProgram TransactionPartnerAffiliateProgramType = "affiliate_program"
-)
-
-type TransactionPartnerFragmentType string
-
-const (
-	TransactionPartnerFragmentTypeFragment TransactionPartnerFragmentType = "fragment"
-)
-
-type TransactionPartnerOtherType string
-
-const (
-	TransactionPartnerOtherTypeOther TransactionPartnerOtherType = "other"
-)
-
-type TransactionPartnerTelegramAdsType string
-
-const (
-	TransactionPartnerTelegramAdsTypeTelegramAds TransactionPartnerTelegramAdsType = "telegram_ads"
-)
-
-type TransactionPartnerTelegramApiType string
-
-const (
-	TransactionPartnerTelegramApiTypeTelegramApi TransactionPartnerTelegramApiType = "telegram_api"
+	TransactionPartnerTypeUser             TransactionPartnerType = "user"
+	TransactionPartnerTypeChat             TransactionPartnerType = "chat"
+	TransactionPartnerTypeAffiliateProgram TransactionPartnerType = "affiliate_program"
+	TransactionPartnerTypeFragment         TransactionPartnerType = "fragment"
+	TransactionPartnerTypeTelegramAds      TransactionPartnerType = "telegram_ads"
+	TransactionPartnerTypeTelegramApi      TransactionPartnerType = "telegram_api"
+	TransactionPartnerTypeOther            TransactionPartnerType = "other"
 )
 
 type TransactionPartnerUserTransactionType string

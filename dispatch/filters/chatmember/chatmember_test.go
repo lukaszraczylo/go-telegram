@@ -12,15 +12,15 @@ func memberUpdate(status string, fromID int64) *api.ChatMemberUpdated {
 	var newMember api.ChatMember
 	switch status {
 	case "member":
-		newMember = &api.ChatMemberMember{Status: api.ChatMemberMemberStatusMember}
+		newMember = &api.ChatMemberMember{Status: api.ChatMemberStatusMember}
 	case "administrator":
-		newMember = &api.ChatMemberAdministrator{Status: api.ChatMemberAdministratorStatusAdministrator}
+		newMember = &api.ChatMemberAdministrator{Status: api.ChatMemberStatusAdministrator}
 	case "kicked":
-		newMember = &api.ChatMemberBanned{Status: api.ChatMemberBannedStatusKicked}
+		newMember = &api.ChatMemberBanned{Status: api.ChatMemberStatusKicked}
 	case "left":
-		newMember = &api.ChatMemberLeft{Status: api.ChatMemberLeftStatusLeft}
+		newMember = &api.ChatMemberLeft{Status: api.ChatMemberStatusLeft}
 	default:
-		newMember = &api.ChatMemberMember{Status: api.ChatMemberMemberStatusMember}
+		newMember = &api.ChatMemberMember{Status: api.ChatMemberStatusMember}
 	}
 	return &api.ChatMemberUpdated{
 		From:          api.User{ID: fromID},
@@ -70,7 +70,7 @@ func TestComposedFilters(t *testing.T) {
 func TestNewStatus_Owner(t *testing.T) {
 	u := &api.ChatMemberUpdated{
 		From:          api.User{ID: 1},
-		NewChatMember: &api.ChatMemberOwner{Status: api.ChatMemberOwnerStatusCreator},
+		NewChatMember: &api.ChatMemberOwner{Status: api.ChatMemberStatusCreator},
 	}
 	require.True(t, cmfilter.NewStatus("creator")(u))
 	require.False(t, cmfilter.NewStatus("member")(u))
@@ -79,7 +79,7 @@ func TestNewStatus_Owner(t *testing.T) {
 func TestNewStatus_Restricted(t *testing.T) {
 	u := &api.ChatMemberUpdated{
 		From:          api.User{ID: 1},
-		NewChatMember: &api.ChatMemberRestricted{Status: api.ChatMemberRestrictedStatusRestricted},
+		NewChatMember: &api.ChatMemberRestricted{Status: api.ChatMemberStatusRestricted},
 	}
 	require.True(t, cmfilter.NewStatus("restricted")(u))
 	require.False(t, cmfilter.NewStatus("member")(u))

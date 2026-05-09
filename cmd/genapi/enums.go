@@ -41,10 +41,23 @@ func planEnums(api *spec.API) *enumPlan {
 		valueKey  string // canonical key for value-set dedup
 	}
 
+	// Unification pass: for each sealed-interface union, fold per-variant
+	// single-value enum fields that share a discriminator name into ONE
+	// unified enum at union level. Claimed (parent,fieldName) tuples are
+	// excluded from the per-field grouping below.
+	unifiedDecls, unifiedByField := planUnifiedUnionEnums(api)
+	claimed := func(parent, fieldName string) bool {
+		_, ok := unifiedByField[enumKey(parent, fieldName)]
+		return ok
+	}
+
 	var refs []ref
 	collect := func(parent string, fields []spec.Field) {
 		for _, f := range fields {
 			if len(f.EnumValues) == 0 {
+				continue
+			}
+			if claimed(parent, f.Name) {
 				continue
 			}
 			refs = append(refs, ref{
@@ -190,7 +203,170 @@ func planEnums(api *spec.API) *enumPlan {
 		plan.decls[g.name] = enumDecl{Name: g.name, Values: g.values}
 		_ = vk
 	}
+	// Merge unified union enums (already named with stutter handling and
+	// keyed per-variant in unifiedByField).
+	for k, name := range unifiedByField {
+		plan.byField[k] = name
+	}
+	for name, d := range unifiedDecls {
+		plan.decls[name] = d
+	}
 	return plan
+}
+
+// planUnifiedUnionEnums detects sealed-interface unions whose variants
+// share a single discriminator field with one enum value each, and emits
+// ONE unified enum per union covering all variant values. Returns the
+// declarations to emit and the per-(variant,fieldName) map to point each
+// variant's field at the unified enum.
+//
+// A union qualifies when EVERY variant in t.OneOf:
+//  1. defines a field with the same Go-name (e.g. "Status", "Type", "Source");
+//  2. that field is a required string with len(EnumValues)==1.
+//
+// The picked Go-name is the first one tried in this priority order:
+//   - knownDiscriminators[union].Field's Go-name (resolved via JSONName match);
+//   - "Type", "Status", "Source" (the three discriminators Telegram uses).
+//
+// First match wins; if none qualify, the union is skipped (variants keep
+// their existing per-field treatment, which still single-emits via the
+// regular grouping pass).
+func planUnifiedUnionEnums(api *spec.API) (map[string]enumDecl, map[string]string) {
+	decls := map[string]enumDecl{}
+	byField := map[string]string{}
+
+	typeByName := make(map[string]*spec.TypeDecl, len(api.Types))
+	for i := range api.Types {
+		typeByName[api.Types[i].Name] = &api.Types[i]
+	}
+
+	// Iterate unions in deterministic (declaration) order.
+	for ui := range api.Types {
+		u := &api.Types[ui]
+		if len(u.OneOf) == 0 {
+			continue
+		}
+
+		// Resolve the variants. Skip unions where any variant is missing
+		// (defensive — shouldn't happen in a well-formed IR).
+		variants := make([]*spec.TypeDecl, 0, len(u.OneOf))
+		for _, vName := range u.OneOf {
+			v, ok := typeByName[vName]
+			if !ok {
+				variants = nil
+				break
+			}
+			variants = append(variants, v)
+		}
+		if len(variants) == 0 {
+			continue
+		}
+
+		// Build the candidate Go-name list. Priority order:
+		//  1. discriminator GoField from knownDiscriminators (resolved via JSONName);
+		//  2. "Type", "Status", "Source".
+		var candidateNames []string
+		seen := map[string]bool{}
+		add := func(name string) {
+			if name == "" || seen[name] {
+				return
+			}
+			seen[name] = true
+			candidateNames = append(candidateNames, name)
+		}
+		if ds, ok := knownDiscriminators[u.Name]; ok && ds.Field != "" {
+			// Resolve Go-name from the first variant whose field matches the JSON name.
+			for _, v := range variants {
+				for _, f := range v.Fields {
+					if f.JSONName == ds.Field {
+						add(f.Name)
+						break
+					}
+				}
+			}
+		}
+		for _, n := range []string{"Type", "Status", "Source"} {
+			add(n)
+		}
+
+		// Find the first candidate Go-name where every variant has a
+		// matching single-value string-enum field.
+		var (
+			pickedName string
+			pickedDocs map[string]spec.Field // variant name -> field
+		)
+		for _, name := range candidateNames {
+			matches := map[string]spec.Field{}
+			ok := true
+			for _, v := range variants {
+				var hit *spec.Field
+				for fi := range v.Fields {
+					if v.Fields[fi].Name == name {
+						hit = &v.Fields[fi]
+						break
+					}
+				}
+				if hit == nil ||
+					hit.Type.Kind != spec.KindPrimitive ||
+					hit.Type.Name != "string" ||
+					len(hit.EnumValues) != 1 {
+					ok = false
+					break
+				}
+				matches[v.Name] = *hit
+			}
+			if ok {
+				pickedName = name
+				pickedDocs = matches
+				break
+			}
+		}
+		if pickedName == "" {
+			continue
+		}
+
+		// Build the unified enum name with stutter handling.
+		enumName := unifiedEnumName(u.Name, pickedName)
+
+		// Collect values across variants in deterministic order, deduping.
+		valueOrder := make([]string, 0, len(variants))
+		valueSeen := map[string]bool{}
+		for _, v := range u.OneOf {
+			f := pickedDocs[v]
+			val := f.EnumValues[0]
+			if valueSeen[val] {
+				continue
+			}
+			valueSeen[val] = true
+			valueOrder = append(valueOrder, val)
+		}
+
+		decls[enumName] = enumDecl{Name: enumName, Values: valueOrder}
+		for _, v := range variants {
+			byField[enumKey(v.Name, pickedName)] = enumName
+		}
+	}
+
+	return decls, byField
+}
+
+// unifiedEnumName builds the union-level enum name. Falls back to a
+// "Kind" suffix when the naive concatenation reads as a stutter:
+//
+//   - union name ends in the field name verbatim (e.g. BackgroundType+Type);
+//   - union name ends in any "concept noun" — Type/Status/Source/State —
+//     so appending another such noun would duplicate the suffix
+//     (e.g. ChatBoostSource+Source, RevenueWithdrawalState+Type).
+//
+// Otherwise the natural concatenation wins (ChatMember+Status →
+// ChatMemberStatus, MessageOrigin+Type → MessageOriginType).
+func unifiedEnumName(unionName, fieldName string) string {
+	for _, suf := range []string{"Type", "Status", "Source", "State"} {
+		if strings.HasSuffix(unionName, suf) {
+			return unionName + "Kind"
+		}
+	}
+	return unionName + fieldName
 }
 
 // All returns the enum declarations sorted by name for deterministic emit.

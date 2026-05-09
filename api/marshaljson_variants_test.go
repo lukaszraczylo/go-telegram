@@ -65,7 +65,7 @@ func TestMarshalJSON_RoundTrip(t *testing.T) {
 
 	round, ok := out.(*ChatMemberLeft)
 	require.True(t, ok, "expected *ChatMemberLeft, got %T", out)
-	require.Equal(t, ChatMemberLeftStatusLeft, round.Status)
+	require.Equal(t, ChatMemberStatusLeft, round.Status)
 	require.Equal(t, orig.User.ID, round.User.ID)
 	require.Equal(t, orig.User.FirstName, round.User.FirstName)
 }

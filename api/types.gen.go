@@ -800,7 +800,7 @@ func UnmarshalMessageOrigin(data []byte) (MessageOrigin, error) {
 // The message was originally sent by a known user.
 type MessageOriginUser struct {
 	// Type of the message origin, always “user”
-	Type MessageOriginUserType `json:"type"`
+	Type MessageOriginType `json:"type"`
 	// Date the message was sent originally in Unix time
 	Date int64 `json:"date"`
 	// User that sent the message originally
@@ -826,7 +826,7 @@ func (v *MessageOriginUser) MarshalJSON() ([]byte, error) {
 // The message was originally sent by an unknown user.
 type MessageOriginHiddenUser struct {
 	// Type of the message origin, always “hidden_user”
-	Type MessageOriginHiddenUserType `json:"type"`
+	Type MessageOriginType `json:"type"`
 	// Date the message was sent originally in Unix time
 	Date int64 `json:"date"`
 	// Name of the user that sent the message originally
@@ -852,7 +852,7 @@ func (v *MessageOriginHiddenUser) MarshalJSON() ([]byte, error) {
 // The message was originally sent on behalf of a chat to a group chat.
 type MessageOriginChat struct {
 	// Type of the message origin, always “chat”
-	Type MessageOriginChatType `json:"type"`
+	Type MessageOriginType `json:"type"`
 	// Date the message was sent originally in Unix time
 	Date int64 `json:"date"`
 	// Chat that sent the message originally
@@ -880,7 +880,7 @@ func (v *MessageOriginChat) MarshalJSON() ([]byte, error) {
 // The message was originally sent to a channel chat.
 type MessageOriginChannel struct {
 	// Type of the message origin, always “channel”
-	Type MessageOriginChannelType `json:"type"`
+	Type MessageOriginType `json:"type"`
 	// Date the message was sent originally in Unix time
 	Date int64 `json:"date"`
 	// Channel chat to which the message was originally sent
@@ -1174,7 +1174,7 @@ func UnmarshalPaidMedia(data []byte) (PaidMedia, error) {
 // The paid media is a live photo.
 type PaidMediaLivePhoto struct {
 	// Type of the paid media, always “live_photo”
-	Type PaidMediaLivePhotoType `json:"type"`
+	Type PaidMediaType `json:"type"`
 	// The photo
 	LivePhoto LivePhoto `json:"live_photo"`
 }
@@ -1198,7 +1198,7 @@ func (v *PaidMediaLivePhoto) MarshalJSON() ([]byte, error) {
 // The paid media is a photo.
 type PaidMediaPhoto struct {
 	// Type of the paid media, always “photo”
-	Type PaidMediaPhotoType `json:"type"`
+	Type PaidMediaType `json:"type"`
 	// The photo
 	Photo []PhotoSize `json:"photo"`
 }
@@ -1222,7 +1222,7 @@ func (v *PaidMediaPhoto) MarshalJSON() ([]byte, error) {
 // The paid media isn't available before the payment.
 type PaidMediaPreview struct {
 	// Type of the paid media, always “preview”
-	Type PaidMediaPreviewType `json:"type"`
+	Type PaidMediaType `json:"type"`
 	// Optional. Media width as defined by the sender
 	Width *int64 `json:"width,omitempty"`
 	// Optional. Media height as defined by the sender
@@ -1250,7 +1250,7 @@ func (v *PaidMediaPreview) MarshalJSON() ([]byte, error) {
 // The paid media is a video.
 type PaidMediaVideo struct {
 	// Type of the paid media, always “video”
-	Type PaidMediaVideoType `json:"type"`
+	Type PaidMediaType `json:"type"`
 	// The video
 	Video Video `json:"video"`
 }
@@ -1752,7 +1752,7 @@ func UnmarshalBackgroundFill(data []byte) (BackgroundFill, error) {
 // The background is filled using the selected color.
 type BackgroundFillSolid struct {
 	// Type of the background fill, always “solid”
-	Type BackgroundFillSolidType `json:"type"`
+	Type BackgroundFillType `json:"type"`
 	// The color of the background fill in the RGB24 format
 	Color int64 `json:"color"`
 }
@@ -1776,7 +1776,7 @@ func (v *BackgroundFillSolid) MarshalJSON() ([]byte, error) {
 // The background is a gradient fill.
 type BackgroundFillGradient struct {
 	// Type of the background fill, always “gradient”
-	Type BackgroundFillGradientType `json:"type"`
+	Type BackgroundFillType `json:"type"`
 	// Top color of the gradient in the RGB24 format
 	TopColor int64 `json:"top_color"`
 	// Bottom color of the gradient in the RGB24 format
@@ -1804,7 +1804,7 @@ func (v *BackgroundFillGradient) MarshalJSON() ([]byte, error) {
 // The background is a freeform gradient that rotates after every message in the chat.
 type BackgroundFillFreeformGradient struct {
 	// Type of the background fill, always “freeform_gradient”
-	Type BackgroundFillFreeformGradientType `json:"type"`
+	Type BackgroundFillType `json:"type"`
 	// A list of the 3 or 4 base colors that are used to generate the freeform gradient in the RGB24 format
 	Colors []int64 `json:"colors"`
 }
@@ -1878,7 +1878,7 @@ func UnmarshalBackgroundType(data []byte) (BackgroundType, error) {
 // The background is automatically filled based on the selected colors.
 type BackgroundTypeFill struct {
 	// Type of the background, always “fill”
-	Type BackgroundTypeFillType `json:"type"`
+	Type BackgroundTypeKind `json:"type"`
 	// The background fill
 	Fill BackgroundFill `json:"fill"`
 	// Dimming of the background in dark themes, as a percentage; 0-100
@@ -1928,7 +1928,7 @@ func (m *BackgroundTypeFill) UnmarshalJSON(data []byte) error {
 // The background is a wallpaper in the JPEG format.
 type BackgroundTypeWallpaper struct {
 	// Type of the background, always “wallpaper”
-	Type BackgroundTypeWallpaperType `json:"type"`
+	Type BackgroundTypeKind `json:"type"`
 	// Document with the wallpaper
 	Document Document `json:"document"`
 	// Dimming of the background in dark themes, as a percentage; 0-100
@@ -1958,7 +1958,7 @@ func (v *BackgroundTypeWallpaper) MarshalJSON() ([]byte, error) {
 // The background is a .PNG or .TGV (gzipped subset of SVG with MIME type “application/x-tgwallpattern”) pattern to be combined with the background fill chosen by the user.
 type BackgroundTypePattern struct {
 	// Type of the background, always “pattern”
-	Type BackgroundTypePatternType `json:"type"`
+	Type BackgroundTypeKind `json:"type"`
 	// Document with the pattern
 	Document Document `json:"document"`
 	// The background fill that is combined with the pattern
@@ -2014,7 +2014,7 @@ func (m *BackgroundTypePattern) UnmarshalJSON(data []byte) error {
 // The background is taken directly from a built-in chat theme.
 type BackgroundTypeChatTheme struct {
 	// Type of the background, always “chat_theme”
-	Type BackgroundTypeChatThemeType `json:"type"`
+	Type BackgroundTypeKind `json:"type"`
 	// Name of the chat theme, which is usually an emoji
 	ThemeName string `json:"theme_name"`
 }
@@ -2808,7 +2808,7 @@ func UnmarshalChatMember(data []byte) (ChatMember, error) {
 // Represents a chat member that owns the chat and has all administrator privileges.
 type ChatMemberOwner struct {
 	// The member's status in the chat, always “creator”
-	Status ChatMemberOwnerStatus `json:"status"`
+	Status ChatMemberStatus `json:"status"`
 	// Information about the user
 	User User `json:"user"`
 	// True, if the user's presence in the chat is hidden
@@ -2836,7 +2836,7 @@ func (v *ChatMemberOwner) MarshalJSON() ([]byte, error) {
 // Represents a chat member that has some additional privileges.
 type ChatMemberAdministrator struct {
 	// The member's status in the chat, always “administrator”
-	Status ChatMemberAdministratorStatus `json:"status"`
+	Status ChatMemberStatus `json:"status"`
 	// Information about the user
 	User User `json:"user"`
 	// True, if the bot is allowed to edit administrator privileges of that user
@@ -2898,7 +2898,7 @@ func (v *ChatMemberAdministrator) MarshalJSON() ([]byte, error) {
 // Represents a chat member that has no additional privileges or restrictions.
 type ChatMemberMember struct {
 	// The member's status in the chat, always “member”
-	Status ChatMemberMemberStatus `json:"status"`
+	Status ChatMemberStatus `json:"status"`
 	// Optional. Tag of the member
 	Tag string `json:"tag,omitempty"`
 	// Information about the user
@@ -2926,7 +2926,7 @@ func (v *ChatMemberMember) MarshalJSON() ([]byte, error) {
 // Represents a chat member that is under certain restrictions in the chat. Supergroups only.
 type ChatMemberRestricted struct {
 	// The member's status in the chat, always “restricted”
-	Status ChatMemberRestrictedStatus `json:"status"`
+	Status ChatMemberStatus `json:"status"`
 	// Optional. Tag of the member
 	Tag string `json:"tag,omitempty"`
 	// Information about the user
@@ -2988,7 +2988,7 @@ func (v *ChatMemberRestricted) MarshalJSON() ([]byte, error) {
 // Represents a chat member that isn't currently a member of the chat, but may join it themselves.
 type ChatMemberLeft struct {
 	// The member's status in the chat, always “left”
-	Status ChatMemberLeftStatus `json:"status"`
+	Status ChatMemberStatus `json:"status"`
 	// Information about the user
 	User User `json:"user"`
 }
@@ -3012,7 +3012,7 @@ func (v *ChatMemberLeft) MarshalJSON() ([]byte, error) {
 // Represents a chat member that was banned in the chat and can't return to the chat or view chat messages.
 type ChatMemberBanned struct {
 	// The member's status in the chat, always “kicked”
-	Status ChatMemberBannedStatus `json:"status"`
+	Status ChatMemberStatus `json:"status"`
 	// Information about the user
 	User User `json:"user"`
 	// Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever
@@ -3230,7 +3230,7 @@ func UnmarshalStoryAreaType(data []byte) (StoryAreaType, error) {
 // Describes a story area pointing to a location. Currently, a story can have up to 10 location areas.
 type StoryAreaTypeLocation struct {
 	// Type of the area, always “location”
-	Type StoryAreaTypeLocationType `json:"type"`
+	Type StoryAreaTypeKind `json:"type"`
 	// Location latitude in degrees
 	Latitude float64 `json:"latitude"`
 	// Location longitude in degrees
@@ -3258,7 +3258,7 @@ func (v *StoryAreaTypeLocation) MarshalJSON() ([]byte, error) {
 // Describes a story area pointing to a suggested reaction. Currently, a story can have up to 5 suggested reaction areas.
 type StoryAreaTypeSuggestedReaction struct {
 	// Type of the area, always “suggested_reaction”
-	Type StoryAreaTypeSuggestedReactionType `json:"type"`
+	Type StoryAreaTypeKind `json:"type"`
 	// Type of the reaction
 	ReactionType ReactionType `json:"reaction_type"`
 	// Optional. Pass True if the reaction area has a dark background
@@ -3310,7 +3310,7 @@ func (m *StoryAreaTypeSuggestedReaction) UnmarshalJSON(data []byte) error {
 // Describes a story area pointing to an HTTP or tg:// link. Currently, a story can have up to 3 link areas.
 type StoryAreaTypeLink struct {
 	// Type of the area, always “link”
-	Type StoryAreaTypeLinkType `json:"type"`
+	Type StoryAreaTypeKind `json:"type"`
 	// HTTP or tg:// URL to be opened when the area is clicked
 	URL string `json:"url"`
 }
@@ -3334,7 +3334,7 @@ func (v *StoryAreaTypeLink) MarshalJSON() ([]byte, error) {
 // Describes a story area containing weather information. Currently, a story can have up to 3 weather areas.
 type StoryAreaTypeWeather struct {
 	// Type of the area, always “weather”
-	Type StoryAreaTypeWeatherType `json:"type"`
+	Type StoryAreaTypeKind `json:"type"`
 	// Temperature, in degree Celsius
 	Temperature float64 `json:"temperature"`
 	// Emoji representing the weather
@@ -3362,7 +3362,7 @@ func (v *StoryAreaTypeWeather) MarshalJSON() ([]byte, error) {
 // Describes a story area pointing to a unique gift. Currently, a story can have at most 1 unique gift area.
 type StoryAreaTypeUniqueGift struct {
 	// Type of the area, always “unique_gift”
-	Type StoryAreaTypeUniqueGiftType `json:"type"`
+	Type StoryAreaTypeKind `json:"type"`
 	// Unique name of the gift
 	Name string `json:"name"`
 }
@@ -3470,7 +3470,7 @@ func UnmarshalReactionType(data []byte) (ReactionType, error) {
 // The reaction is based on an emoji.
 type ReactionTypeEmoji struct {
 	// Type of the reaction, always “emoji”
-	Type ReactionTypeEmojiType `json:"type"`
+	Type ReactionTypeKind `json:"type"`
 	// Reaction emoji. Currently, it can be one of "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
 	Emoji string `json:"emoji"`
 }
@@ -3494,7 +3494,7 @@ func (v *ReactionTypeEmoji) MarshalJSON() ([]byte, error) {
 // The reaction is based on a custom emoji.
 type ReactionTypeCustomEmoji struct {
 	// Type of the reaction, always “custom_emoji”
-	Type ReactionTypeCustomEmojiType `json:"type"`
+	Type ReactionTypeKind `json:"type"`
 	// Custom emoji identifier
 	CustomEmojiID string `json:"custom_emoji_id"`
 }
@@ -3518,7 +3518,7 @@ func (v *ReactionTypeCustomEmoji) MarshalJSON() ([]byte, error) {
 // The reaction is paid.
 type ReactionTypePaid struct {
 	// Type of the reaction, always “paid”
-	Type ReactionTypePaidType `json:"type"`
+	Type ReactionTypeKind `json:"type"`
 }
 
 // MarshalJSON encodes ReactionTypePaid with the discriminator field
@@ -3880,7 +3880,7 @@ func UnmarshalOwnedGift(data []byte) (OwnedGift, error) {
 // Describes a regular gift owned by a user or a chat.
 type OwnedGiftRegular struct {
 	// Type of the gift, always “regular”
-	Type OwnedGiftRegularType `json:"type"`
+	Type OwnedGiftType `json:"type"`
 	// Information about the regular gift
 	Gift Gift `json:"gift"`
 	// Optional. Unique identifier of the gift for the bot; for gifts received on behalf of business accounts only
@@ -3930,7 +3930,7 @@ func (v *OwnedGiftRegular) MarshalJSON() ([]byte, error) {
 // Describes a unique gift received and owned by a user or a chat.
 type OwnedGiftUnique struct {
 	// Type of the gift, always “unique”
-	Type OwnedGiftUniqueType `json:"type"`
+	Type OwnedGiftType `json:"type"`
 	// Information about the unique gift
 	Gift UniqueGift `json:"gift"`
 	// Optional. Unique identifier of the received gift for the bot; for gifts received on behalf of business accounts only
@@ -4421,7 +4421,7 @@ func UnmarshalChatBoostSource(data []byte) (ChatBoostSource, error) {
 // The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium subscription to another user.
 type ChatBoostSourcePremium struct {
 	// Source of the boost, always “premium”
-	Source ChatBoostSourcePremiumSource `json:"source"`
+	Source ChatBoostSourceKind `json:"source"`
 	// User that boosted the chat
 	User User `json:"user"`
 }
@@ -4445,7 +4445,7 @@ func (v *ChatBoostSourcePremium) MarshalJSON() ([]byte, error) {
 // The boost was obtained by the creation of Telegram Premium gift codes to boost a chat. Each such code boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
 type ChatBoostSourceGiftCode struct {
 	// Source of the boost, always “gift_code”
-	Source ChatBoostSourceGiftCodeSource `json:"source"`
+	Source ChatBoostSourceKind `json:"source"`
 	// User for which the gift code was created
 	User User `json:"user"`
 }
@@ -4469,7 +4469,7 @@ func (v *ChatBoostSourceGiftCode) MarshalJSON() ([]byte, error) {
 // The boost was obtained by the creation of a Telegram Premium or a Telegram Star giveaway. This boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription for Telegram Premium giveaways and prize_star_count / 500 times for one year for Telegram Star giveaways.
 type ChatBoostSourceGiveaway struct {
 	// Source of the boost, always “giveaway”
-	Source ChatBoostSourceGiveawaySource `json:"source"`
+	Source ChatBoostSourceKind `json:"source"`
 	// Identifier of a message in the chat with the giveaway; the message could have been deleted already. May be 0 if the message isn't sent yet.
 	GiveawayMessageID int64 `json:"giveaway_message_id"`
 	// Optional. User that won the prize in the giveaway if any; for Telegram Premium giveaways only
@@ -6632,7 +6632,7 @@ func UnmarshalRevenueWithdrawalState(data []byte) (RevenueWithdrawalState, error
 // The withdrawal is in progress.
 type RevenueWithdrawalStatePending struct {
 	// Type of the state, always “pending”
-	Type RevenueWithdrawalStatePendingType `json:"type"`
+	Type RevenueWithdrawalStateKind `json:"type"`
 }
 
 // MarshalJSON encodes RevenueWithdrawalStatePending with the discriminator field
@@ -6654,7 +6654,7 @@ func (v *RevenueWithdrawalStatePending) MarshalJSON() ([]byte, error) {
 // The withdrawal succeeded.
 type RevenueWithdrawalStateSucceeded struct {
 	// Type of the state, always “succeeded”
-	Type RevenueWithdrawalStateSucceededType `json:"type"`
+	Type RevenueWithdrawalStateKind `json:"type"`
 	// Date the withdrawal was completed in Unix time
 	Date int64 `json:"date"`
 	// An HTTPS URL that can be used to see transaction details
@@ -6680,7 +6680,7 @@ func (v *RevenueWithdrawalStateSucceeded) MarshalJSON() ([]byte, error) {
 // The withdrawal failed and the transaction was refunded.
 type RevenueWithdrawalStateFailed struct {
 	// Type of the state, always “failed”
-	Type RevenueWithdrawalStateFailedType `json:"type"`
+	Type RevenueWithdrawalStateKind `json:"type"`
 }
 
 // MarshalJSON encodes RevenueWithdrawalStateFailed with the discriminator field
@@ -6780,7 +6780,7 @@ func UnmarshalTransactionPartner(data []byte) (TransactionPartner, error) {
 // Describes a transaction with a user.
 type TransactionPartnerUser struct {
 	// Type of the transaction partner, always “user”
-	Type MessageOriginUserType `json:"type"`
+	Type TransactionPartnerType `json:"type"`
 	// Type of the transaction, currently one of “invoice_payment” for payments via invoices, “paid_media_payment” for payments for paid media, “gift_purchase” for gifts sent by the bot, “premium_purchase” for Telegram Premium subscriptions gifted by the bot, “business_account_transfer” for direct transfers from managed business accounts
 	TransactionType TransactionPartnerUserTransactionType `json:"transaction_type"`
 	// Information about the user
@@ -6852,7 +6852,7 @@ func (m *TransactionPartnerUser) UnmarshalJSON(data []byte) error {
 // Describes a transaction with a chat.
 type TransactionPartnerChat struct {
 	// Type of the transaction partner, always “chat”
-	Type MessageOriginChatType `json:"type"`
+	Type TransactionPartnerType `json:"type"`
 	// Information about the chat
 	Chat Chat `json:"chat"`
 	// Optional. The gift sent to the chat by the bot
@@ -6878,7 +6878,7 @@ func (v *TransactionPartnerChat) MarshalJSON() ([]byte, error) {
 // Describes the affiliate program that issued the affiliate commission received via this transaction.
 type TransactionPartnerAffiliateProgram struct {
 	// Type of the transaction partner, always “affiliate_program”
-	Type TransactionPartnerAffiliateProgramType `json:"type"`
+	Type TransactionPartnerType `json:"type"`
 	// Optional. Information about the bot that sponsored the affiliate program
 	SponsorUser *User `json:"sponsor_user,omitempty"`
 	// The number of Telegram Stars received by the bot for each 1000 Telegram Stars received by the affiliate program sponsor from referred users
@@ -6904,7 +6904,7 @@ func (v *TransactionPartnerAffiliateProgram) MarshalJSON() ([]byte, error) {
 // Describes a withdrawal transaction with Fragment.
 type TransactionPartnerFragment struct {
 	// Type of the transaction partner, always “fragment”
-	Type TransactionPartnerFragmentType `json:"type"`
+	Type TransactionPartnerType `json:"type"`
 	// Optional. State of the transaction if the transaction is outgoing
 	WithdrawalState RevenueWithdrawalState `json:"withdrawal_state,omitempty"`
 }
@@ -6952,7 +6952,7 @@ func (m *TransactionPartnerFragment) UnmarshalJSON(data []byte) error {
 // Describes a withdrawal transaction to the Telegram Ads platform.
 type TransactionPartnerTelegramAds struct {
 	// Type of the transaction partner, always “telegram_ads”
-	Type TransactionPartnerTelegramAdsType `json:"type"`
+	Type TransactionPartnerType `json:"type"`
 }
 
 // MarshalJSON encodes TransactionPartnerTelegramAds with the discriminator field
@@ -6974,7 +6974,7 @@ func (v *TransactionPartnerTelegramAds) MarshalJSON() ([]byte, error) {
 // Describes a transaction with payment for paid broadcasting.
 type TransactionPartnerTelegramApi struct {
 	// Type of the transaction partner, always “telegram_api”
-	Type TransactionPartnerTelegramApiType `json:"type"`
+	Type TransactionPartnerType `json:"type"`
 	// The number of successful requests that exceeded regular limits and were therefore billed
 	RequestCount int64 `json:"request_count"`
 }
@@ -6998,7 +6998,7 @@ func (v *TransactionPartnerTelegramApi) MarshalJSON() ([]byte, error) {
 // Describes a transaction with an unknown source or recipient.
 type TransactionPartnerOther struct {
 	// Type of the transaction partner, always “other”
-	Type TransactionPartnerOtherType `json:"type"`
+	Type TransactionPartnerType `json:"type"`
 }
 
 // MarshalJSON encodes TransactionPartnerOther with the discriminator field
