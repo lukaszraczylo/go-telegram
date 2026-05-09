@@ -39,5 +39,8 @@ wording:
   minor:
     - "feat"
   major:
-    - "breaking"
+    # Match only the canonical Conventional Commits trailer. The bare
+    # word "breaking" is too greedy under semver-generator's fuzzy match —
+    # it triggers on substrings like "breaking-value drift" inside a
+    # commit body and wrongly produces a major bump.
     - "BREAKING CHANGE"
