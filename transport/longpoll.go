@@ -72,11 +72,7 @@ func (p *LongPoller) Run(ctx context.Context) error {
 			params.Timeout = &to
 		}
 		if len(p.AllowedTypes) > 0 {
-			allowed := make([]string, len(p.AllowedTypes))
-			for i, t := range p.AllowedTypes {
-				allowed[i] = string(t)
-			}
-			params.AllowedUpdates = allowed
+			params.AllowedUpdates = p.AllowedTypes
 		}
 		ups, err := api.GetUpdates(ctx, p.Bot, params)
 		if err != nil {
