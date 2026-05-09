@@ -1,0 +1,948 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>go-telegram — Strongly-typed Go client for the Telegram Bot API</title>
+        <meta
+            name="description"
+            content="A fully-generated, strongly-typed Go client for the Telegram Bot API. 176 methods, 1408 generated tests, zero any in the public surface."
+        />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                darkMode: 'class'
+            }
+        </script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            body { font-family: "Inter", sans-serif; }
+            code, pre { font-family: "JetBrains Mono", monospace; }
+            .theme-transition {
+                transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            }
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+            }
+            .animate-fade-in-up { animation: fadeInUp 0.6s ease-out; }
+            .animate-float { animation: float 3s ease-in-out infinite; }
+            .glass {
+                background: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            .dark .glass {
+                background: rgba(17, 24, 39, 0.7);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .gradient-text {
+                background: linear-gradient(135deg, #29B6F6 0%, #0288D1 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            .dark .gradient-text {
+                background: linear-gradient(135deg, #4FC3F7 0%, #81D4FA 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            .shadow-modern { box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1); }
+            .dark .shadow-modern { box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.4); }
+            html { scroll-behavior: smooth; }
+            /* Syntax highlight tokens */
+            .tok-kw   { color: #c792ea; }
+            .tok-fn   { color: #82aaff; }
+            .tok-str  { color: #c3e88d; }
+            .tok-cmt  { color: #546e7a; font-style: italic; }
+            .tok-pkg  { color: #ffcb6b; }
+            .tok-num  { color: #f78c6c; }
+            .tok-type { color: #4FC3F7; }
+        </style>
+        <script>
+            if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+                document.documentElement.classList.add("dark");
+            } else {
+                document.documentElement.classList.remove("dark");
+            }
+        </script>
+    </head>
+    <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 theme-transition">
+
+        <!-- Navigation -->
+        <nav class="fixed w-full glass shadow-modern z-50 theme-transition">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="flex justify-between h-16 items-center">
+                    <a href="#" class="flex items-center hover:opacity-80 transition-opacity duration-300">
+                        <img src="logo-light.svg" alt="go-telegram logo" class="h-10 w-auto dark:hidden" />
+                        <img src="logo-dark.svg" alt="go-telegram logo" class="h-10 w-auto hidden dark:block" />
+                    </a>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="#features" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 font-medium">Features</a>
+                        <a href="#comparison" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 font-medium">Comparison</a>
+                        <a href="#install" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 font-medium">Install</a>
+                        <a href="#usage" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 font-medium">Usage</a>
+                        <a href="#examples" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 font-medium">Examples</a>
+                        <a href="#advanced" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 font-medium">Advanced</a>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="Toggle theme">
+                            <i class="fas fa-moon dark:hidden text-xl"></i>
+                            <i class="fas fa-sun hidden dark:inline text-xl"></i>
+                        </button>
+                        <a href="https://github.com/lukaszraczylo/go-telegram" target="_blank" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="View on GitHub">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <button id="mobile-menu-toggle" class="md:hidden text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="Toggle menu">
+                            <i class="fas fa-bars text-xl" id="menu-open-icon"></i>
+                            <i class="fas fa-times text-xl hidden" id="menu-close-icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-700">
+                <div class="px-4 py-3 space-y-1 bg-white dark:bg-gray-800">
+                    <a href="#features" class="block px-3 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 rounded font-medium">Features</a>
+                    <a href="#comparison" class="block px-3 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 rounded font-medium">Comparison</a>
+                    <a href="#install" class="block px-3 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 rounded font-medium">Install</a>
+                    <a href="#usage" class="block px-3 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 rounded font-medium">Usage</a>
+                    <a href="#examples" class="block px-3 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 rounded font-medium">Examples</a>
+                    <a href="#advanced" class="block px-3 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 rounded font-medium">Advanced</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="relative pt-24 sm:pt-32 pb-12 sm:pb-20 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-gray-900 dark:via-sky-900/20 dark:to-cyan-900/20 theme-transition"></div>
+            <div class="absolute top-0 -left-4 w-72 h-72 bg-cyan-300 dark:bg-cyan-500 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-20 animate-float"></div>
+            <div class="absolute top-0 -right-4 w-72 h-72 bg-sky-300 dark:bg-sky-500 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-20 animate-float" style="animation-delay: 1s;"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-blue-300 dark:bg-blue-500 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
+
+            <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="text-center">
+                    <div class="mb-6 sm:mb-8 flex justify-center animate-fade-in-up">
+                        <img src="logo-light.svg" alt="go-telegram logo" class="h-20 sm:h-24 md:h-32 w-auto dark:hidden" />
+                        <img src="logo-dark.svg" alt="go-telegram logo" class="h-20 sm:h-24 md:h-32 w-auto hidden dark:block" />
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-gray-100 mb-4 sm:mb-6 leading-tight animate-fade-in-up" style="animation-delay: 0.1s;">
+                        A fully-generated,<br /><span class="gradient-text">strongly-typed</span> Go client<br />for the Telegram Bot API
+                    </h1>
+                    <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed px-4 animate-fade-in-up" style="animation-delay: 0.2s;">
+                        176 methods. 1408 generated tests. Zero <code class="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm">any</code> in the public surface.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-10 px-4 animate-fade-in-up" style="animation-delay: 0.3s;">
+                        <a href="#install" class="group relative bg-gradient-to-r from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 min-h-[48px] flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-105">
+                            <i class="fas fa-rocket mr-2"></i><span class="relative z-10">Get started</span>
+                        </a>
+                        <a href="https://github.com/lukaszraczylo/go-telegram" target="_blank" class="group glass hover:shadow-lg text-gray-900 dark:text-gray-100 px-8 py-3 rounded-lg font-medium transition-all duration-300 min-h-[48px] flex items-center justify-center hover:scale-105">
+                            <i class="fab fa-github mr-2"></i>View on GitHub
+                        </a>
+                    </div>
+
+                    <!-- Stats row -->
+                    <div class="flex flex-wrap justify-center gap-x-3 gap-y-1 text-sm font-mono text-gray-500 dark:text-gray-400 mb-12 sm:mb-16 px-4 animate-fade-in-up" style="animation-delay: 0.35s;">
+                        <span>176 methods</span>
+                        <span class="text-gray-300 dark:text-gray-600">&middot;</span>
+                        <span>301 types</span>
+                        <span class="text-gray-300 dark:text-gray-600">&middot;</span>
+                        <span>1,408 tests</span>
+                        <span class="text-gray-300 dark:text-gray-600">&middot;</span>
+                        <span>MIT licensed</span>
+                    </div>
+
+                    <!-- Code preview card -->
+                    <div class="mt-4 max-w-2xl mx-auto px-4 animate-fade-in-up animate-float" style="animation-delay: 0.4s; animation-duration: 4s;">
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-sky-500 to-cyan-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
+                            <div class="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-5 text-left border border-gray-700">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                                    <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                                    <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                                    <span class="ml-2 text-xs text-gray-500 font-mono">echo_bot.go</span>
+                                </div>
+                                <pre class="text-sm text-gray-100 overflow-x-auto"><code class="font-mono"><span class="tok-kw">package</span> <span class="tok-pkg">main</span>
+
+<span class="tok-kw">import</span> (
+    <span class="tok-str">"context"</span>
+    <span class="tok-str">"log"</span>
+    <span class="tok-str">"os"</span>
+
+    <span class="tok-str">"github.com/lukaszraczylo/go-telegram/api"</span>
+    <span class="tok-str">"github.com/lukaszraczylo/go-telegram/client"</span>
+    <span class="tok-str">"github.com/lukaszraczylo/go-telegram/dispatch"</span>
+)
+
+<span class="tok-kw">func</span> <span class="tok-fn">main</span>() {
+    bot, _ := <span class="tok-pkg">client</span>.<span class="tok-fn">NewRetryDoer</span>(os.<span class="tok-fn">Getenv</span>(<span class="tok-str">"BOT_TOKEN"</span>), <span class="tok-kw">nil</span>)
+    d := <span class="tok-pkg">dispatch</span>.<span class="tok-fn">New</span>(bot)
+
+    d.<span class="tok-fn">OnMessage</span>(<span class="tok-kw">func</span>(ctx <span class="tok-type">context.Context</span>, msg *<span class="tok-type">api.Message</span>) {
+        bot.<span class="tok-fn">SendMessage</span>(ctx, &amp;<span class="tok-type">api.SendMessageParams</span>{
+            ChatID: <span class="tok-pkg">api</span>.<span class="tok-fn">ChatIDFromInt</span>(msg.Chat.ID),
+            Text:   msg.Text,
+        })
+    })
+
+    <span class="tok-kw">if</span> err := d.<span class="tok-fn">Run</span>(<span class="tok-pkg">context</span>.<span class="tok-fn">Background</span>()); err != <span class="tok-kw">nil</span> {
+        <span class="tok-pkg">log</span>.<span class="tok-fn">Fatal</span>(err)
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-12 sm:py-16 md:py-20 bg-white dark:bg-gray-900 theme-transition">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-8 sm:mb-12">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">Features</h2>
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 px-4">Built for correctness, composability, and production reliability</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="glass p-5 rounded-xl group hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-code-branch text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Generated from the live docs</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">IR + emitter pipeline runs weekly; a PR opens automatically for any Telegram-side change.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass p-5 rounded-xl group hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-shield-halved text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">No <code class="text-xs bg-emerald-100 dark:bg-emerald-900 px-1 rounded">any</code> in the public API</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Typed unions — <code class="text-xs">ChatID</code>, <code class="text-xs">MessageOrBool</code> — sealed interfaces with marker methods and auto-decode.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass p-5 rounded-xl group hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-plug text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Pluggable transport + codec</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Drop in fasthttp, sonic, or goccy/go-json with a one-line swap.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass p-5 rounded-xl group hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-bolt text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Production-ready out of the box</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Retry middleware honouring <code class="text-xs">retry_after</code>, panic recovery, structured errors with sentinels.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass p-5 rounded-xl group hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-500 to-rose-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-route text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Typed dispatcher</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Generic <code class="text-xs">Handler[T]</code>, composable filters, conversation handler with pluggable storage, per-update goroutine pool.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass p-5 rounded-xl group hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-circle-check text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Self-verifying codegen</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Every regen runs scrape → audit → emit → 1408 generated tests. Nothing ships without passing.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Section -->
+        <section id="comparison" class="py-12 sm:py-16 md:py-20 bg-gray-50 dark:bg-gray-800 theme-transition">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-8 sm:mb-12">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">Comparison</h2>
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 px-4">How go-telegram compares to other Go Telegram bot libraries</p>
+                </div>
+
+                <!-- Mobile cards -->
+                <div class="block md:hidden space-y-4 mb-8">
+                    <div class="glass rounded-xl p-5 shadow-modern">
+                        <div class="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200 dark:border-gray-700">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-sky-500 to-cyan-600 flex items-center justify-center">
+                                <i class="fas fa-paper-plane text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100">go-telegram</h4>
+                                <p class="text-xs text-gray-500">HTML scraper · this library</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-2 text-sm">
+                            <div class="flex items-center gap-2"><span class="text-green-500 font-bold">✓</span><span class="text-gray-600 dark:text-gray-400">Generated from spec (HTML)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-green-500 font-bold">✓</span><span class="text-gray-600 dark:text-gray-400">Typed unions, no any</span></div>
+                            <div class="flex items-center gap-2"><span class="text-green-500 font-bold">✓</span><span class="text-gray-600 dark:text-gray-400">1,408 auto-generated tests</span></div>
+                            <div class="flex items-center gap-2"><span class="text-green-500 font-bold">✓</span><span class="text-gray-600 dark:text-gray-400">Conversation handler</span></div>
+                            <div class="flex items-center gap-2"><span class="text-green-500 font-bold">✓</span><span class="text-gray-600 dark:text-gray-400">Retry middleware (retry_after)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-green-500 font-bold">✓</span><span class="text-gray-600 dark:text-gray-400">Pluggable JSON codec</span></div>
+                        </div>
+                    </div>
+                    <div class="glass rounded-xl p-5 shadow-modern">
+                        <div class="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200 dark:border-gray-700">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center">
+                                <span class="text-white font-bold text-xs">gtb</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100">gotgbot/v2</h4>
+                                <p class="text-xs text-gray-500">JSON spec · popular library</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-2 text-sm">
+                            <div class="flex items-center gap-2"><span class="text-green-500 font-bold">✓</span><span class="text-gray-600 dark:text-gray-400">Generated from spec (JSON)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-yellow-500 font-bold">△</span><span class="text-gray-600 dark:text-gray-400">Partial typed unions</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-500 font-bold">✗</span><span class="text-gray-400">Auto-generated tests</span></div>
+                            <div class="flex items-center gap-2"><span class="text-green-500 font-bold">✓</span><span class="text-gray-600 dark:text-gray-400">Conversation handler</span></div>
+                            <div class="flex items-center gap-2"><span class="text-yellow-500 font-bold">△</span><span class="text-gray-600 dark:text-gray-400">User-implemented retry</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-500 font-bold">✗</span><span class="text-gray-400">Pluggable JSON codec</span></div>
+                        </div>
+                    </div>
+                    <div class="glass rounded-xl p-5 shadow-modern">
+                        <div class="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200 dark:border-gray-700">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center">
+                                <span class="text-white font-bold text-xs">tba</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100">telegram-bot-api/v5</h4>
+                                <p class="text-xs text-gray-500">Hand-coded</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-2 text-sm">
+                            <div class="flex items-center gap-2"><span class="text-red-500 font-bold">✗</span><span class="text-gray-400">Generated from spec</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-500 font-bold">✗</span><span class="text-gray-400">Typed unions</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-500 font-bold">✗</span><span class="text-gray-400">Auto-generated tests</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-500 font-bold">✗</span><span class="text-gray-400">Conversation handler</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-500 font-bold">✗</span><span class="text-gray-400">Retry middleware</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-500 font-bold">✗</span><span class="text-gray-400">Pluggable JSON codec</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop table -->
+                <div class="hidden md:block glass rounded-xl overflow-hidden shadow-modern">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gradient-to-r from-sky-500 to-cyan-600 text-white">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">Feature</th>
+                                    <th class="px-4 py-3 text-center font-semibold">go-telegram</th>
+                                    <th class="px-4 py-3 text-center font-semibold"><a href="https://github.com/PaulSonOfLars/gotgbot" class="hover:underline" target="_blank">gotgbot/v2</a></th>
+                                    <th class="px-4 py-3 text-center font-semibold"><a href="https://github.com/go-telegram-bot-api/telegram-bot-api" class="hover:underline" target="_blank">telegram-bot-api/v5</a></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                    <td class="px-4 py-3 text-gray-700 dark:text-gray-300 font-medium">Generated from spec</td>
+                                    <td class="px-4 py-3 text-center"><span class="text-green-500 font-bold">✓</span> <span class="text-xs text-gray-500">HTML scraper</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-green-500 font-bold">✓</span> <span class="text-xs text-gray-500">JSON spec</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-red-500 font-bold">✗</span> <span class="text-xs text-gray-500">hand-coded</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                    <td class="px-4 py-3 text-gray-700 dark:text-gray-300 font-medium">Typed unions (no <code class="text-xs">any</code>)</td>
+                                    <td class="px-4 py-3 text-center"><span class="text-green-500 font-bold">✓</span> <span class="text-xs text-gray-500">ChatID, MessageOrBool, sealed interfaces</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-yellow-500 font-bold">△</span> <span class="text-xs text-gray-500">partial</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-red-500 font-bold">✗</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                    <td class="px-4 py-3 text-gray-700 dark:text-gray-300 font-medium">Auto-generated tests</td>
+                                    <td class="px-4 py-3 text-center"><span class="text-green-500 font-bold">✓</span> <span class="text-xs text-gray-500">1,408 (8 scenarios/method)</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-red-500 font-bold">✗</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-red-500 font-bold">✗</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                    <td class="px-4 py-3 text-gray-700 dark:text-gray-300 font-medium">Conversation handler</td>
+                                    <td class="px-4 py-3 text-center"><span class="text-green-500 font-bold">✓</span> <span class="text-xs text-gray-500">pluggable storage</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-green-500 font-bold">✓</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-red-500 font-bold">✗</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                    <td class="px-4 py-3 text-gray-700 dark:text-gray-300 font-medium">Retry middleware</td>
+                                    <td class="px-4 py-3 text-center"><span class="text-green-500 font-bold">✓</span> <span class="text-xs text-gray-500">honours retry_after</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-yellow-500 font-bold">△</span> <span class="text-xs text-gray-500">user-implemented</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-red-500 font-bold">✗</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                    <td class="px-4 py-3 text-gray-700 dark:text-gray-300 font-medium">Pluggable JSON codec</td>
+                                    <td class="px-4 py-3 text-center"><span class="text-green-500 font-bold">✓</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-red-500 font-bold">✗</span></td>
+                                    <td class="px-4 py-3 text-center"><span class="text-red-500 font-bold">✗</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Installation Section -->
+        <section id="install" class="py-12 sm:py-16 md:py-20 bg-white dark:bg-gray-900 theme-transition">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-10 sm:mb-12">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">Installation</h2>
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 px-4">One command. No CGO, no system deps.</p>
+                </div>
+                <div class="space-y-4 sm:space-y-6">
+                    <div class="glass p-6 sm:p-8 rounded-xl shadow-modern hover:shadow-xl transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-cubes text-sky-500 dark:text-sky-400 text-2xl mr-3"></i>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">go get</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm">Requires Go 1.21+</p>
+                            </div>
+                        </div>
+                        <div onclick="copyToClipboard('go get github.com/lukaszraczylo/go-telegram', this)" class="relative bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-950 dark:to-black text-gray-100 p-4 rounded-lg text-sm cursor-pointer group overflow-x-auto border border-gray-700 hover:border-sky-500 transition-all duration-300">
+                            <code class="block whitespace-nowrap font-mono">go get github.com/lukaszraczylo/go-telegram</code>
+                            <div class="absolute top-3 right-3"><i class="fas fa-copy text-gray-500 group-hover:text-sky-400 transition-colors duration-300"></i></div>
+                        </div>
+                    </div>
+                    <div class="glass p-6 sm:p-8 rounded-xl shadow-modern hover:shadow-xl transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-book text-cyan-500 dark:text-cyan-400 text-2xl mr-3"></i>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">pkg.go.dev</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm">Full API reference</p>
+                            </div>
+                        </div>
+                        <a href="https://pkg.go.dev/github.com/lukaszraczylo/go-telegram" target="_blank" class="block text-center bg-gradient-to-r from-cyan-600 to-sky-700 hover:from-cyan-700 hover:to-sky-800 text-white px-4 py-3 rounded-lg text-sm font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                            <i class="fas fa-external-link-alt mr-2"></i>View on pkg.go.dev
+                        </a>
+                    </div>
+                    <div class="glass p-6 sm:p-8 rounded-xl shadow-modern hover:shadow-xl transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-file-alt text-blue-500 dark:text-blue-400 text-2xl mr-3"></i>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Telegram Bot API reference</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm">Upstream spec this library tracks</p>
+                            </div>
+                        </div>
+                        <a href="https://core.telegram.org/bots/api" target="_blank" class="block text-center bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-4 py-3 rounded-lg text-sm font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                            <i class="fas fa-external-link-alt mr-2"></i>core.telegram.org/bots/api
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Usage Section -->
+        <section id="usage" class="py-12 sm:py-16 md:py-20 bg-gray-50 dark:bg-gray-800 theme-transition">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-10 sm:mb-12">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">Usage</h2>
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 px-4">Echo bot — the minimal working example</p>
+                </div>
+
+                <div class="relative group mb-10">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-sky-500 to-cyan-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
+                    <div class="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-4 sm:p-6 overflow-x-auto border border-gray-700">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-file-code text-sky-400 mr-2"></i>
+                                <span class="text-sky-400 text-sm font-mono font-semibold">echo_bot.go</span>
+                            </div>
+                            <button onclick="copyToClipboard(document.getElementById('echo-bot-code').textContent, this)" class="text-gray-400 hover:text-sky-400 transition-colors duration-300" aria-label="Copy code">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <pre class="text-xs sm:text-sm text-gray-100 overflow-x-auto"><code id="echo-bot-code" class="font-mono">package main
+
+import (
+    "context"
+    "log"
+    "os"
+
+    "github.com/lukaszraczylo/go-telegram/api"
+    "github.com/lukaszraczylo/go-telegram/client"
+    "github.com/lukaszraczylo/go-telegram/dispatch"
+)
+
+func main() {
+    // NewRetryDoer wraps the default transport with retry middleware
+    // that honours Telegram's retry_after field automatically.
+    bot, err := client.NewRetryDoer(os.Getenv("BOT_TOKEN"), nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    d := dispatch.New(bot)
+
+    // Handler[T] is generic — the type parameter is the concrete update type.
+    d.OnMessage(func(ctx context.Context, msg *api.Message) {
+        _, err := bot.SendMessage(ctx, &amp;api.SendMessageParams{
+            // ChatIDFromInt returns a typed ChatID — no interface{} here.
+            ChatID: api.ChatIDFromInt(msg.Chat.ID),
+            Text:   msg.Text,
+        })
+        if err != nil {
+            log.Printf("send error: %v", err)
+        }
+    })
+
+    if err := d.Run(context.Background()); err != nil {
+        log.Fatal(err)
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Codegen pipeline -->
+                <div id="codegen" class="glass p-6 sm:p-8 rounded-xl shadow-modern">
+                    <h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2"><i class="fas fa-cogs text-sky-500 mr-2"></i>Codegen pipeline</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">The emitter scrapes the live Telegram Bot API docs (HTML), builds an intermediate representation (<code class="text-xs">api.json</code>), then generates Go code and tests. An audit step validates every method signature against the IR before emission.</p>
+
+                    <!-- Flow diagram -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-6 text-sm font-mono">
+                        <div class="px-3 py-2 bg-sky-100 dark:bg-sky-900/40 text-sky-800 dark:text-sky-300 rounded-lg border border-sky-200 dark:border-sky-700 flex items-center gap-2">
+                            <i class="fas fa-globe text-sky-500"></i> HTML docs
+                        </div>
+                        <span class="text-gray-400 font-sans">→</span>
+                        <div class="px-3 py-2 bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300 rounded-lg border border-purple-200 dark:border-purple-700 flex items-center gap-2">
+                            <i class="fas fa-database text-purple-500"></i> IR (api.json)
+                        </div>
+                        <span class="text-gray-400 font-sans">→</span>
+                        <div class="px-3 py-2 bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 rounded-lg border border-amber-200 dark:border-amber-700 flex items-center gap-2">
+                            <i class="fas fa-search text-amber-500"></i> audit
+                        </div>
+                        <span class="text-gray-400 font-sans">→</span>
+                        <div class="px-3 py-2 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 rounded-lg border border-emerald-200 dark:border-emerald-700 flex items-center gap-2">
+                            <i class="fas fa-code text-emerald-500"></i> Go code + tests
+                        </div>
+                    </div>
+
+                    <div onclick="copyToClipboard('make snapshot && make regen', this)" class="relative bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 p-4 rounded-lg text-sm cursor-pointer group overflow-x-auto border border-gray-700 hover:border-sky-500 transition-all duration-300">
+                        <code class="block whitespace-nowrap font-mono">make snapshot &amp;&amp; make regen</code>
+                        <div class="absolute top-3 right-3"><i class="fas fa-copy text-gray-500 group-hover:text-sky-400 transition-colors duration-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Examples Section -->
+        <section id="examples" class="py-12 sm:py-16 md:py-20 bg-white dark:bg-gray-900 theme-transition">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-8 sm:mb-12">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">Examples</h2>
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 px-4">14 runnable bots covering the most common patterns</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Echo -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/echo" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-reply text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">echo</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Minimal echo bot — get up and running in 30 lines.</p>
+                        </div>
+                    </a>
+                    <!-- Callback -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/callback" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-hand-pointer text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">callback</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Inline keyboard buttons and callback query handling.</p>
+                        </div>
+                    </a>
+                    <!-- Inline -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/inline" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-search text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">inline</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Inline mode queries and result sets.</p>
+                        </div>
+                    </a>
+                    <!-- Conversation -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/conversation" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-comments text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">conversation</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Multi-step conversation flows with pluggable state storage.</p>
+                        </div>
+                    </a>
+                    <!-- Stateful -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/stateful" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-memory text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">stateful</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Per-user state machine pattern.</p>
+                        </div>
+                    </a>
+                    <!-- Admin -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/admin" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-rose-500 to-rose-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-user-shield text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">admin</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Admin commands — ban, kick, restrict members.</p>
+                        </div>
+                    </a>
+                    <!-- Middleware -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/middleware" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-layer-group text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">middleware</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Composable middleware chain — logging, auth, rate limiting.</p>
+                        </div>
+                    </a>
+                    <!-- Files -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/files" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-paperclip text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">files</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Upload and download photos, documents, audio.</p>
+                        </div>
+                    </a>
+                    <!-- Webhook -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/webhook" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-lime-500 to-lime-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-network-wired text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">webhook</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Webhook server instead of long-polling.</p>
+                        </div>
+                    </a>
+                    <!-- Polls -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/polls" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-fuchsia-500 to-fuchsia-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-poll text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">polls</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Send polls and handle poll-answer updates.</p>
+                        </div>
+                    </a>
+                    <!-- Payments -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/payments" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-credit-card text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">payments</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Telegram Payments — invoices, pre-checkout, successful payment.</p>
+                        </div>
+                    </a>
+                    <!-- Pagination -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/pagination" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-slate-500 to-slate-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-chevron-right text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">pagination</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Paginated inline keyboards for long result sets.</p>
+                        </div>
+                    </a>
+                    <!-- Welcome -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/welcome" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-door-open text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">welcome</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Greet new members joining a group or channel.</p>
+                        </div>
+                    </a>
+                    <!-- Moderation -->
+                    <a href="https://github.com/lukaszraczylo/go-telegram/tree/main/examples/moderation" target="_blank" class="glass p-4 rounded-xl group hover:shadow-lg transition-all duration-300 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-gavel text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">moderation</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Automated content moderation with filter chains.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Advanced Section -->
+        <section id="advanced" class="py-12 sm:py-16 md:py-20 bg-gray-50 dark:bg-gray-800 theme-transition">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-10 sm:mb-12">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">Advanced</h2>
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 px-4">Power-user patterns — expand to read</p>
+                </div>
+
+                <div class="space-y-3">
+                    <!-- Conversation flows -->
+                    <details class="glass rounded-xl overflow-hidden group">
+                        <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-comments text-white text-sm"></i>
+                                </div>
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-100">Conversation flows</h3>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300 group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 border-t border-gray-200 dark:border-gray-700">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-4 mb-4">
+                                The conversation handler chains multiple message steps and stores state between them. Any storage backend implementing the
+                                <code class="text-xs bg-gray-100 dark:bg-gray-800 px-1 rounded">StateStorage</code> interface works — in-memory, Redis, Postgres.
+                            </p>
+                            <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-4 text-sm text-gray-100 overflow-x-auto border border-gray-700">
+                                <pre class="font-mono"><code>conv := conversation.New(storage)
+
+conv.AddState("ask_name", func(ctx context.Context, msg *api.Message) (string, error) {
+    bot.SendMessage(ctx, &amp;api.SendMessageParams{
+        ChatID: api.ChatIDFromInt(msg.Chat.ID),
+        Text:   "What's your name?",
+    })
+    return "ask_age", nil
+})
+
+conv.AddState("ask_age", func(ctx context.Context, msg *api.Message) (string, error) {
+    name := conv.GetData(ctx, "name")
+    // ... handle age input
+    return conversation.Done, nil
+})
+
+d.OnMessage(conv.Handler("start"))</code></pre>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Custom filters -->
+                    <details class="glass rounded-xl overflow-hidden group">
+                        <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-filter text-white text-sm"></i>
+                                </div>
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-100">Custom filters</h3>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300 group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 border-t border-gray-200 dark:border-gray-700">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-4 mb-4">
+                                Filters compose with <code class="text-xs bg-gray-100 dark:bg-gray-800 px-1 rounded">And</code>, <code class="text-xs bg-gray-100 dark:bg-gray-800 px-1 rounded">Or</code>, <code class="text-xs bg-gray-100 dark:bg-gray-800 px-1 rounded">Not</code>.
+                                A filter is just a function <code class="text-xs bg-gray-100 dark:bg-gray-800 px-1 rounded">func(*api.Update) bool</code>.
+                            </p>
+                            <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-4 text-sm text-gray-100 overflow-x-auto border border-gray-700">
+                                <pre class="font-mono"><code>// Only handle private messages from admins
+adminOnly := filters.And(
+    filters.IsPrivate,
+    filters.UserIDIn(adminIDs...),
+)
+
+d.OnMessage(func(ctx context.Context, msg *api.Message) {
+    // handler body
+}, adminOnly)
+
+// Custom filter — any function works
+isLong := func(u *api.Update) bool {
+    return u.Message != nil &amp;&amp; len(u.Message.Text) > 200
+}
+d.OnMessage(handleLongMsg, isLong)</code></pre>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Custom HTTP/JSON -->
+                    <details class="glass rounded-xl overflow-hidden group">
+                        <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-plug text-white text-sm"></i>
+                                </div>
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-100">Custom HTTP / JSON codec</h3>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300 group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 border-t border-gray-200 dark:border-gray-700">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-4 mb-4">
+                                Pass a <code class="text-xs bg-gray-100 dark:bg-gray-800 px-1 rounded">transport.Options</code> to swap the HTTP client or JSON codec.
+                                Useful for squeezing throughput on high-volume bots.
+                            </p>
+                            <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-4 text-sm text-gray-100 overflow-x-auto border border-gray-700">
+                                <pre class="font-mono"><code>import (
+    "github.com/lukaszraczylo/go-telegram/client"
+    "github.com/lukaszraczylo/go-telegram/transport"
+    jsoniter "github.com/json-iterator/go"
+)
+
+opts := &amp;client.Options{
+    Transport: transport.NewFasthttpTransport(nil),
+    Codec:     transport.JSONCodec(jsoniter.ConfigCompatibleWithStandardLibrary),
+}
+
+bot, err := client.NewRetryDoer(token, opts)</code></pre>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 dark:bg-black text-gray-400 py-8 sm:py-10 theme-transition">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+                    <div class="col-span-2 sm:col-span-1">
+                        <img src="logo-dark.svg" alt="go-telegram logo" class="h-10 sm:h-12 w-auto mb-3 sm:mb-4" />
+                        <p class="text-xs sm:text-sm">Fully-generated, strongly-typed Go client for the Telegram Bot API.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Links</h3>
+                        <ul class="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
+                            <li><a href="https://github.com/lukaszraczylo/go-telegram" target="_blank" class="hover:text-white transition"><i class="fab fa-github mr-2"></i>GitHub</a></li>
+                            <li><a href="https://github.com/lukaszraczylo/go-telegram/issues" target="_blank" class="hover:text-white transition"><i class="fas fa-bug mr-2"></i>Issues</a></li>
+                            <li><a href="https://github.com/lukaszraczylo/go-telegram/releases" target="_blank" class="hover:text-white transition"><i class="fas fa-tag mr-2"></i>Releases</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Docs</h3>
+                        <ul class="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
+                            <li><a href="https://pkg.go.dev/github.com/lukaszraczylo/go-telegram" target="_blank" class="hover:text-white transition"><i class="fas fa-book mr-1"></i> pkg.go.dev</a></li>
+                            <li><a href="https://core.telegram.org/bots/api" target="_blank" class="hover:text-white transition">Telegram Bot API</a></li>
+                            <li><a href="https://github.com/lukaszraczylo/go-telegram#readme" target="_blank" class="hover:text-white transition">README</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1">
+                        <h3 class="text-white font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Sibling projects</h3>
+                        <ul class="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
+                            <li><a href="https://kportal.raczylo.com" target="_blank" class="hover:text-white transition"><i class="fas fa-dharmachakra mr-2"></i>kportal</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-800 text-center text-xs sm:text-sm">
+                    <p>Made by <a href="https://github.com/lukaszraczylo" class="text-sky-400 hover:text-sky-300 transition">Lukasz Raczylo</a></p>
+                    <p class="mt-1.5 sm:mt-2">MIT License</p>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+            const mobileMenu = document.getElementById("mobile-menu");
+            const menuOpenIcon = document.getElementById("menu-open-icon");
+            const menuCloseIcon = document.getElementById("menu-close-icon");
+
+            mobileMenuToggle.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+                menuOpenIcon.classList.toggle("hidden");
+                menuCloseIcon.classList.toggle("hidden");
+            });
+
+            const mobileMenuLinks = mobileMenu.querySelectorAll("a");
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                    mobileMenu.classList.add("hidden");
+                    menuOpenIcon.classList.remove("hidden");
+                    menuCloseIcon.classList.add("hidden");
+                });
+            });
+
+            // Theme toggle
+            const themeToggle = document.getElementById("theme-toggle");
+            themeToggle.addEventListener("click", () => {
+                if (document.documentElement.classList.contains("dark")) {
+                    document.documentElement.classList.remove("dark");
+                    localStorage.theme = "light";
+                } else {
+                    document.documentElement.classList.add("dark");
+                    localStorage.theme = "dark";
+                }
+            });
+
+            // Copy to clipboard
+            function copyToClipboard(text, button) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => showCopySuccess(button)).catch(() => fallbackCopy(text, button));
+                } else {
+                    fallbackCopy(text, button);
+                }
+            }
+
+            function fallbackCopy(text, button) {
+                const textarea = document.createElement("textarea");
+                textarea.value = text;
+                textarea.style.position = "fixed";
+                textarea.style.opacity = "0";
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand("copy") ? showCopySuccess(button) : showCopyError(button);
+                } catch (err) {
+                    showCopyError(button);
+                }
+                document.body.removeChild(textarea);
+            }
+
+            function showCopySuccess(button) {
+                const original = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check text-green-500"></i>';
+                setTimeout(() => button.innerHTML = original, 2000);
+            }
+
+            function showCopyError(button) {
+                const original = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-times text-red-500"></i>';
+                setTimeout(() => button.innerHTML = original, 2000);
+            }
+
+            // Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute("href"));
+                    if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 56" fill="none">
+  <!-- Paper plane glyph in Telegram blue gradient -->
+  <defs>
+    <linearGradient id="planeGradL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#29B6F6"/>
+      <stop offset="100%" stop-color="#0288D1"/>
+    </linearGradient>
+  </defs>
+  <!-- Plane body -->
+  <polygon points="4,28 44,12 36,44" fill="url(#planeGradL)" opacity="0.15"/>
+  <polygon points="4,28 44,12 36,44" stroke="url(#planeGradL)" stroke-width="1.5" fill="none"/>
+  <!-- Plane wings / send arrow -->
+  <path d="M4 28 L44 12 L30 30 Z" fill="url(#planeGradL)"/>
+  <path d="M30 30 L36 44 L24 34 Z" fill="url(#planeGradL)" opacity="0.7"/>
+  <!-- Fold line -->
+  <line x1="30" y1="30" x2="24" y2="34" stroke="white" stroke-width="1" opacity="0.8"/>
+  <!-- Wordmark -->
+  <text x="56" y="35" font-family="Inter, sans-serif" font-weight="700" font-size="20" fill="#1f2937" letter-spacing="-0.5">go-telegram</text>
+</svg>
