@@ -90,7 +90,7 @@ var ErrEndGroups = errors.New("dispatch: end groups")
 ```
 
 <a name="Context"></a>
-## type Context
+## type [Context](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/context.go#L29-L34>)
 
 Context bundles the per\-update state every handler receives.
 
@@ -118,7 +118,7 @@ type Context struct {
 ```
 
 <a name="NewContext"></a>
-### func NewContext
+### func [NewContext](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/context.go#L38>)
 
 ```go
 func NewContext(ctx context.Context, b *client.Bot, u *api.Update) *Context
@@ -127,7 +127,7 @@ func NewContext(ctx context.Context, b *client.Bot, u *api.Update) *Context
 NewContext constructs a Context. Used by Router internally; exposed for custom test harnesses.
 
 <a name="Filter"></a>
-## type Filter
+## type [Filter](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filter.go#L9>)
 
 Filter is a predicate over a typed payload \(e.g. \*api.Message\). Filters compose via And/Or/Not for multi\-condition matching.
 
@@ -142,7 +142,7 @@ type Filter[T any] func(payload T) bool
 ```
 
 <a name="All"></a>
-### func All
+### func [All](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filter.go#L48>)
 
 ```go
 func All[T any](filters ...Filter[T]) Filter[T]
@@ -151,7 +151,7 @@ func All[T any](filters ...Filter[T]) Filter[T]
 All combines filters with AND. Returns a Filter that matches when all match. Returns a filter that always matches when filters is empty.
 
 <a name="Any"></a>
-### func Any
+### func [Any](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filter.go#L61>)
 
 ```go
 func Any[T any](filters ...Filter[T]) Filter[T]
@@ -160,7 +160,7 @@ func Any[T any](filters ...Filter[T]) Filter[T]
 Any combines filters with OR. Returns a Filter that matches when at least one matches. Returns a filter that never matches when filters is empty.
 
 <a name="Filter[T].And"></a>
-### func \(Filter\[T\]\) And
+### func \(Filter\[T\]\) [And](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filter.go#L12>)
 
 ```go
 func (f Filter[T]) And(others ...Filter[T]) Filter[T]
@@ -169,7 +169,7 @@ func (f Filter[T]) And(others ...Filter[T]) Filter[T]
 And returns a Filter that matches iff f and every one of others matches.
 
 <a name="Filter[T].Not"></a>
-### func \(Filter\[T\]\) Not
+### func \(Filter\[T\]\) [Not](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filter.go#L42>)
 
 ```go
 func (f Filter[T]) Not() Filter[T]
@@ -178,7 +178,7 @@ func (f Filter[T]) Not() Filter[T]
 Not returns a Filter that inverts f.
 
 <a name="Filter[T].Or"></a>
-### func \(Filter\[T\]\) Or
+### func \(Filter\[T\]\) [Or](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filter.go#L27>)
 
 ```go
 func (f Filter[T]) Or(others ...Filter[T]) Filter[T]
@@ -187,7 +187,7 @@ func (f Filter[T]) Or(others ...Filter[T]) Filter[T]
 Or returns a Filter that matches iff f matches OR any of others matches.
 
 <a name="Handler"></a>
-## type Handler
+## type [Handler](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/handler.go#L6>)
 
 Handler is a generic handler over update payload type T. T is typically \*api.Message, \*api.CallbackQuery, \*api.InlineQuery, or \*api.Update for global middleware.
 
@@ -196,7 +196,7 @@ type Handler[T any] func(ctx *Context, payload T) error
 ```
 
 <a name="Middleware"></a>
-## type Middleware
+## type [Middleware](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/handler.go#L11>)
 
 Middleware wraps a Handler\[T\] with cross\-cutting behaviour \(logging, recovery, auth\). Middleware composition is left\-to\-right: Use\(a,b,c\) runs as a\(b\(c\(handler\)\)\).
 
@@ -205,7 +205,7 @@ type Middleware[T any] func(Handler[T]) Handler[T]
 ```
 
 <a name="Chain"></a>
-### func Chain
+### func [Chain](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/handler.go#L14>)
 
 ```go
 func Chain[T any](mws ...Middleware[T]) Middleware[T]
@@ -214,7 +214,7 @@ func Chain[T any](mws ...Middleware[T]) Middleware[T]
 Chain composes a slice of middleware into a single Middleware\[T\].
 
 <a name="Recovery"></a>
-### func Recovery
+### func [Recovery](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/middleware.go#L13>)
 
 ```go
 func Recovery() Middleware[*api.Update]
@@ -223,7 +223,7 @@ func Recovery() Middleware[*api.Update]
 Recovery returns middleware that recovers from panics in downstream handlers, converting them into a returned error and logging via the bot's configured logger. Registered automatically by NewRouter.
 
 <a name="NamedHandlers"></a>
-## type NamedHandlers
+## type [NamedHandlers](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/named.go#L15-L19>)
 
 NamedHandlers manages handlers by string name, allowing runtime registration, replacement, and removal. This complements the Router's registration methods: each registration via Named\*\(\) also gets a name for later lookup.
 
@@ -236,7 +236,7 @@ type NamedHandlers[T any] struct {
 ```
 
 <a name="NewNamedHandlers"></a>
-### func NewNamedHandlers
+### func [NewNamedHandlers](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/named.go#L22>)
 
 ```go
 func NewNamedHandlers[T any]() *NamedHandlers[T]
@@ -245,7 +245,7 @@ func NewNamedHandlers[T any]() *NamedHandlers[T]
 NewNamedHandlers returns a new, empty NamedHandlers\[T\].
 
 <a name="NamedHandlers[T].Handler"></a>
-### func \(\*NamedHandlers\[T\]\) Handler
+### func \(\*NamedHandlers\[T\]\) [Handler](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/named.go#L81>)
 
 ```go
 func (n *NamedHandlers[T]) Handler() Handler[T]
@@ -263,7 +263,7 @@ router.OnCommand("/admin", names.Handler())
 Subsequent Set/Remove calls take effect on the next dispatch.
 
 <a name="NamedHandlers[T].Has"></a>
-### func \(\*NamedHandlers\[T\]\) Has
+### func \(\*NamedHandlers\[T\]\) [Has](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/named.go#L55>)
 
 ```go
 func (n *NamedHandlers[T]) Has(name string) bool
@@ -272,7 +272,7 @@ func (n *NamedHandlers[T]) Has(name string) bool
 Has reports whether name is registered.
 
 <a name="NamedHandlers[T].Names"></a>
-### func \(\*NamedHandlers\[T\]\) Names
+### func \(\*NamedHandlers\[T\]\) [Names](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/named.go#L63>)
 
 ```go
 func (n *NamedHandlers[T]) Names() []string
@@ -281,7 +281,7 @@ func (n *NamedHandlers[T]) Names() []string
 Names returns the registered names in registration order.
 
 <a name="NamedHandlers[T].Remove"></a>
-### func \(\*NamedHandlers\[T\]\) Remove
+### func \(\*NamedHandlers\[T\]\) [Remove](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/named.go#L38>)
 
 ```go
 func (n *NamedHandlers[T]) Remove(name string) bool
@@ -290,7 +290,7 @@ func (n *NamedHandlers[T]) Remove(name string) bool
 Remove unregisters the handler under name. Returns true if it existed.
 
 <a name="NamedHandlers[T].Set"></a>
-### func \(\*NamedHandlers\[T\]\) Set
+### func \(\*NamedHandlers\[T\]\) [Set](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/named.go#L28>)
 
 ```go
 func (n *NamedHandlers[T]) Set(name string, h Handler[T])
@@ -299,7 +299,7 @@ func (n *NamedHandlers[T]) Set(name string, h Handler[T])
 Set registers or replaces the handler under name. If name is new, it is appended to the end of the registration order.
 
 <a name="Router"></a>
-## type Router
+## type [Router](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L19-L64>)
 
 Router dispatches updates from any Updater to typed handlers.
 
@@ -312,7 +312,7 @@ type Router struct {
 ```
 
 <a name="New"></a>
-### func New
+### func [New](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L128>)
 
 ```go
 func New(b *client.Bot, opts ...RouterOption) *Router
@@ -321,7 +321,7 @@ func New(b *client.Bot, opts ...RouterOption) *Router
 New constructs a Router. Recovery middleware is added by default; users can disable it by passing WithoutRecovery \(not implemented here, but the hook is in place via Use\).
 
 <a name="Router.Group"></a>
-### func \(\*Router\) Group
+### func \(\*Router\) [Group](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/groups.go#L40>)
 
 ```go
 func (r *Router) Group(group int) *RouterScope
@@ -330,7 +330,7 @@ func (r *Router) Group(group int) *RouterScope
 Group returns a RouterScope that registers handlers in the given group. Group 0 \(the default\) runs first, then group 1, etc. Within a group, handlers run in registration order; the first non\-skipped match terminates dispatch unless the handler returns ErrContinueGroups.
 
 <a name="Router.OnBusinessConnection"></a>
-### func \(\*Router\) OnBusinessConnection
+### func \(\*Router\) [OnBusinessConnection](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L285>)
 
 ```go
 func (r *Router) OnBusinessConnection(h Handler[*api.BusinessConnection])
@@ -339,7 +339,7 @@ func (r *Router) OnBusinessConnection(h Handler[*api.BusinessConnection])
 OnBusinessConnection registers a handler for business connection updates.
 
 <a name="Router.OnCallback"></a>
-### func \(\*Router\) OnCallback
+### func \(\*Router\) [OnCallback](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L161>)
 
 ```go
 func (r *Router) OnCallback(pattern string, h Handler[*api.CallbackQuery])
@@ -350,7 +350,7 @@ OnCallback registers a handler for callback queries whose Data matches the regex
 Panics at registration time if pattern is not a valid regular expression.
 
 <a name="Router.OnCallbackFilter"></a>
-### func \(\*Router\) OnCallbackFilter
+### func \(\*Router\) [OnCallbackFilter](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L194>)
 
 ```go
 func (r *Router) OnCallbackFilter(f Filter[*api.CallbackQuery], h Handler[*api.CallbackQuery])
@@ -359,7 +359,7 @@ func (r *Router) OnCallbackFilter(f Filter[*api.CallbackQuery], h Handler[*api.C
 OnCallbackFilter registers a typed callback\-query handler gated by filter f. Filter routes are checked after pattern\-based OnCallback routes; first match wins.
 
 <a name="Router.OnChannelPost"></a>
-### func \(\*Router\) OnChannelPost
+### func \(\*Router\) [OnChannelPost](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L177>)
 
 ```go
 func (r *Router) OnChannelPost(h Handler[*api.Message])
@@ -368,7 +368,7 @@ func (r *Router) OnChannelPost(h Handler[*api.Message])
 OnChannelPost registers a handler for channel post updates.
 
 <a name="Router.OnChatBoost"></a>
-### func \(\*Router\) OnChatBoost
+### func \(\*Router\) [OnChatBoost](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L275>)
 
 ```go
 func (r *Router) OnChatBoost(h Handler[*api.ChatBoostUpdated])
@@ -377,7 +377,7 @@ func (r *Router) OnChatBoost(h Handler[*api.ChatBoostUpdated])
 OnChatBoost registers a handler for chat boost updates.
 
 <a name="Router.OnChatJoinRequest"></a>
-### func \(\*Router\) OnChatJoinRequest
+### func \(\*Router\) [OnChatJoinRequest](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L225>)
 
 ```go
 func (r *Router) OnChatJoinRequest(h Handler[*api.ChatJoinRequest])
@@ -386,7 +386,7 @@ func (r *Router) OnChatJoinRequest(h Handler[*api.ChatJoinRequest])
 OnChatJoinRequest registers a handler for chat join requests.
 
 <a name="Router.OnChatJoinRequestFilter"></a>
-### func \(\*Router\) OnChatJoinRequestFilter
+### func \(\*Router\) [OnChatJoinRequestFilter](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L230>)
 
 ```go
 func (r *Router) OnChatJoinRequestFilter(f Filter[*api.ChatJoinRequest], h Handler[*api.ChatJoinRequest])
@@ -395,7 +395,7 @@ func (r *Router) OnChatJoinRequestFilter(f Filter[*api.ChatJoinRequest], h Handl
 OnChatJoinRequestFilter registers a filtered handler for chat join requests.
 
 <a name="Router.OnChatMember"></a>
-### func \(\*Router\) OnChatMember
+### func \(\*Router\) [OnChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L215>)
 
 ```go
 func (r *Router) OnChatMember(h Handler[*api.ChatMemberUpdated])
@@ -404,7 +404,7 @@ func (r *Router) OnChatMember(h Handler[*api.ChatMemberUpdated])
 OnChatMember registers a handler for chat member status changes.
 
 <a name="Router.OnChatMemberFilter"></a>
-### func \(\*Router\) OnChatMemberFilter
+### func \(\*Router\) [OnChatMemberFilter](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L220>)
 
 ```go
 func (r *Router) OnChatMemberFilter(f Filter[*api.ChatMemberUpdated], h Handler[*api.ChatMemberUpdated])
@@ -413,7 +413,7 @@ func (r *Router) OnChatMemberFilter(f Filter[*api.ChatMemberUpdated], h Handler[
 OnChatMemberFilter registers a filtered handler for chat member status changes.
 
 <a name="Router.OnChosenInlineResult"></a>
-### func \(\*Router\) OnChosenInlineResult
+### func \(\*Router\) [OnChosenInlineResult](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L260>)
 
 ```go
 func (r *Router) OnChosenInlineResult(h Handler[*api.ChosenInlineResult])
@@ -422,7 +422,7 @@ func (r *Router) OnChosenInlineResult(h Handler[*api.ChosenInlineResult])
 OnChosenInlineResult registers a handler for chosen inline results.
 
 <a name="Router.OnCommand"></a>
-### func \(\*Router\) OnCommand
+### func \(\*Router\) [OnCommand](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L146>)
 
 ```go
 func (r *Router) OnCommand(cmd string, h Handler[*api.Message])
@@ -431,7 +431,7 @@ func (r *Router) OnCommand(cmd string, h Handler[*api.Message])
 OnCommand registers a handler for a slash command. The command string includes the leading slash \(e.g. "/start"\). Matching strips an optional "@BotName" suffix.
 
 <a name="Router.OnEditedChannelPost"></a>
-### func \(\*Router\) OnEditedChannelPost
+### func \(\*Router\) [OnEditedChannelPost](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L182>)
 
 ```go
 func (r *Router) OnEditedChannelPost(h Handler[*api.Message])
@@ -440,7 +440,7 @@ func (r *Router) OnEditedChannelPost(h Handler[*api.Message])
 OnEditedChannelPost registers a handler for edited channel post updates.
 
 <a name="Router.OnEditedMessage"></a>
-### func \(\*Router\) OnEditedMessage
+### func \(\*Router\) [OnEditedMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L172>)
 
 ```go
 func (r *Router) OnEditedMessage(h Handler[*api.Message])
@@ -449,7 +449,7 @@ func (r *Router) OnEditedMessage(h Handler[*api.Message])
 OnEditedMessage registers a handler for edited message updates.
 
 <a name="Router.OnInlineQuery"></a>
-### func \(\*Router\) OnInlineQuery
+### func \(\*Router\) [OnInlineQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L167>)
 
 ```go
 func (r *Router) OnInlineQuery(h Handler[*api.InlineQuery])
@@ -458,7 +458,7 @@ func (r *Router) OnInlineQuery(h Handler[*api.InlineQuery])
 OnInlineQuery registers a handler for inline queries \(one matcher only; inline queries are not partitioned by content here\).
 
 <a name="Router.OnInlineQueryFilter"></a>
-### func \(\*Router\) OnInlineQueryFilter
+### func \(\*Router\) [OnInlineQueryFilter](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L200>)
 
 ```go
 func (r *Router) OnInlineQueryFilter(f Filter[*api.InlineQuery], h Handler[*api.InlineQuery])
@@ -467,7 +467,7 @@ func (r *Router) OnInlineQueryFilter(f Filter[*api.InlineQuery], h Handler[*api.
 OnInlineQueryFilter registers an inline\-query handler gated by filter f. Filter routes are checked after bare OnInlineQuery handlers; first match wins.
 
 <a name="Router.OnMessageFilter"></a>
-### func \(\*Router\) OnMessageFilter
+### func \(\*Router\) [OnMessageFilter](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L188>)
 
 ```go
 func (r *Router) OnMessageFilter(f Filter[*api.Message], h Handler[*api.Message])
@@ -476,7 +476,7 @@ func (r *Router) OnMessageFilter(f Filter[*api.Message], h Handler[*api.Message]
 OnMessageFilter registers a typed message handler gated by filter f. Filter routes are checked after command and text routes; first match wins.
 
 <a name="Router.OnMessageReaction"></a>
-### func \(\*Router\) OnMessageReaction
+### func \(\*Router\) [OnMessageReaction](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L265>)
 
 ```go
 func (r *Router) OnMessageReaction(h Handler[*api.MessageReactionUpdated])
@@ -485,7 +485,7 @@ func (r *Router) OnMessageReaction(h Handler[*api.MessageReactionUpdated])
 OnMessageReaction registers a handler for message reaction updates.
 
 <a name="Router.OnMessageReactionCount"></a>
-### func \(\*Router\) OnMessageReactionCount
+### func \(\*Router\) [OnMessageReactionCount](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L270>)
 
 ```go
 func (r *Router) OnMessageReactionCount(h Handler[*api.MessageReactionCountUpdated])
@@ -494,7 +494,7 @@ func (r *Router) OnMessageReactionCount(h Handler[*api.MessageReactionCountUpdat
 OnMessageReactionCount registers a handler for anonymous message reaction count updates.
 
 <a name="Router.OnMyChatMember"></a>
-### func \(\*Router\) OnMyChatMember
+### func \(\*Router\) [OnMyChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L205>)
 
 ```go
 func (r *Router) OnMyChatMember(h Handler[*api.ChatMemberUpdated])
@@ -503,7 +503,7 @@ func (r *Router) OnMyChatMember(h Handler[*api.ChatMemberUpdated])
 OnMyChatMember registers a handler for bot's own chat member status changes.
 
 <a name="Router.OnMyChatMemberFilter"></a>
-### func \(\*Router\) OnMyChatMemberFilter
+### func \(\*Router\) [OnMyChatMemberFilter](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L210>)
 
 ```go
 func (r *Router) OnMyChatMemberFilter(f Filter[*api.ChatMemberUpdated], h Handler[*api.ChatMemberUpdated])
@@ -512,7 +512,7 @@ func (r *Router) OnMyChatMemberFilter(f Filter[*api.ChatMemberUpdated], h Handle
 OnMyChatMemberFilter registers a filtered handler for bot's own chat member status changes.
 
 <a name="Router.OnPoll"></a>
-### func \(\*Router\) OnPoll
+### func \(\*Router\) [OnPoll](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L250>)
 
 ```go
 func (r *Router) OnPoll(h Handler[*api.Poll])
@@ -521,7 +521,7 @@ func (r *Router) OnPoll(h Handler[*api.Poll])
 OnPoll registers a handler for poll state updates.
 
 <a name="Router.OnPollAnswer"></a>
-### func \(\*Router\) OnPollAnswer
+### func \(\*Router\) [OnPollAnswer](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L255>)
 
 ```go
 func (r *Router) OnPollAnswer(h Handler[*api.PollAnswer])
@@ -530,7 +530,7 @@ func (r *Router) OnPollAnswer(h Handler[*api.PollAnswer])
 OnPollAnswer registers a handler for poll answer updates.
 
 <a name="Router.OnPreCheckoutQuery"></a>
-### func \(\*Router\) OnPreCheckoutQuery
+### func \(\*Router\) [OnPreCheckoutQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L235>)
 
 ```go
 func (r *Router) OnPreCheckoutQuery(h Handler[*api.PreCheckoutQuery])
@@ -539,7 +539,7 @@ func (r *Router) OnPreCheckoutQuery(h Handler[*api.PreCheckoutQuery])
 OnPreCheckoutQuery registers a handler for pre\-checkout queries.
 
 <a name="Router.OnPreCheckoutQueryFilter"></a>
-### func \(\*Router\) OnPreCheckoutQueryFilter
+### func \(\*Router\) [OnPreCheckoutQueryFilter](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L240>)
 
 ```go
 func (r *Router) OnPreCheckoutQueryFilter(f Filter[*api.PreCheckoutQuery], h Handler[*api.PreCheckoutQuery])
@@ -548,7 +548,7 @@ func (r *Router) OnPreCheckoutQueryFilter(f Filter[*api.PreCheckoutQuery], h Han
 OnPreCheckoutQueryFilter registers a filtered handler for pre\-checkout queries.
 
 <a name="Router.OnPurchasedPaidMedia"></a>
-### func \(\*Router\) OnPurchasedPaidMedia
+### func \(\*Router\) [OnPurchasedPaidMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L290>)
 
 ```go
 func (r *Router) OnPurchasedPaidMedia(h Handler[*api.PaidMediaPurchased])
@@ -557,7 +557,7 @@ func (r *Router) OnPurchasedPaidMedia(h Handler[*api.PaidMediaPurchased])
 OnPurchasedPaidMedia registers a handler for purchased paid media updates.
 
 <a name="Router.OnRemovedChatBoost"></a>
-### func \(\*Router\) OnRemovedChatBoost
+### func \(\*Router\) [OnRemovedChatBoost](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L280>)
 
 ```go
 func (r *Router) OnRemovedChatBoost(h Handler[*api.ChatBoostRemoved])
@@ -566,7 +566,7 @@ func (r *Router) OnRemovedChatBoost(h Handler[*api.ChatBoostRemoved])
 OnRemovedChatBoost registers a handler for removed chat boost updates.
 
 <a name="Router.OnShippingQuery"></a>
-### func \(\*Router\) OnShippingQuery
+### func \(\*Router\) [OnShippingQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L245>)
 
 ```go
 func (r *Router) OnShippingQuery(h Handler[*api.ShippingQuery])
@@ -575,7 +575,7 @@ func (r *Router) OnShippingQuery(h Handler[*api.ShippingQuery])
 OnShippingQuery registers a handler for shipping queries.
 
 <a name="Router.OnText"></a>
-### func \(\*Router\) OnText
+### func \(\*Router\) [OnText](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L153>)
 
 ```go
 func (r *Router) OnText(pattern string, h Handler[*api.Message])
@@ -586,7 +586,7 @@ OnText registers a handler for messages whose Text matches the regex.
 Panics at registration time if pattern is not a valid regular expression.
 
 <a name="Router.Run"></a>
-### func \(\*Router\) Run
+### func \(\*Router\) [Run](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L303>)
 
 ```go
 func (r *Router) Run(ctx context.Context, u transport.Updater) error
@@ -599,7 +599,7 @@ By default updates are processed concurrently \(up to WithMaxConcurrency\(50\) g
 Run waits for all in\-flight handlers to finish before returning.
 
 <a name="Router.Use"></a>
-### func \(\*Router\) Use
+### func \(\*Router\) [Use](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L141>)
 
 ```go
 func (r *Router) Use(mw Middleware[*api.Update])
@@ -608,7 +608,7 @@ func (r *Router) Use(mw Middleware[*api.Update])
 Use registers a global middleware applied to every Update dispatch.
 
 <a name="RouterOption"></a>
-## type RouterOption
+## type [RouterOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L97>)
 
 RouterOption configures a Router at construction time.
 
@@ -617,7 +617,7 @@ type RouterOption func(*Router)
 ```
 
 <a name="WithMaxConcurrency"></a>
-### func WithMaxConcurrency
+### func [WithMaxConcurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L106>)
 
 ```go
 func WithMaxConcurrency(n int) RouterOption
@@ -628,7 +628,7 @@ WithMaxConcurrency sets the maximum number of updates processed in parallel. Def
 Note: concurrent dispatch means handlers for different updates may run simultaneously. Handlers that mutate shared state must be safe for concurrent access.
 
 <a name="RouterScope"></a>
-## type RouterScope
+## type [RouterScope](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/groups.go#L31-L34>)
 
 RouterScope registers handlers into a specific priority group on its parent Router. Group 0 runs first, then group 1, etc. Within a group, handlers run in registration order; the first non\-skipped match terminates dispatch unless the handler returns ErrContinueGroups.
 
@@ -639,7 +639,7 @@ type RouterScope struct {
 ```
 
 <a name="RouterScope.OnCommand"></a>
-### func \(\*RouterScope\) OnCommand
+### func \(\*RouterScope\) [OnCommand](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/groups.go#L45>)
 
 ```go
 func (s *RouterScope) OnCommand(cmd string, h Handler[*api.Message])
@@ -648,7 +648,7 @@ func (s *RouterScope) OnCommand(cmd string, h Handler[*api.Message])
 OnCommand registers a command handler in this group.
 
 <a name="RouterScope.OnMessageFilter"></a>
-### func \(\*RouterScope\) OnMessageFilter
+### func \(\*RouterScope\) [OnMessageFilter](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/groups.go#L60>)
 
 ```go
 func (s *RouterScope) OnMessageFilter(f Filter[*api.Message], h Handler[*api.Message])
@@ -657,7 +657,7 @@ func (s *RouterScope) OnMessageFilter(f Filter[*api.Message], h Handler[*api.Mes
 OnMessageFilter registers a filter\-based message handler in this group.
 
 <a name="RouterScope.OnText"></a>
-### func \(\*RouterScope\) OnText
+### func \(\*RouterScope\) [OnText](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/groups.go#L53>)
 
 ```go
 func (s *RouterScope) OnText(pattern string, h Handler[*api.Message])

@@ -2676,7 +2676,23 @@ type GetChatAdministratorsParams struct {
 //
 // Use this method to get a list of administrators in a chat. Returns an Array of ChatMember objects.
 func GetChatAdministrators(ctx context.Context, b *client.Bot, p *GetChatAdministratorsParams) ([]ChatMember, error) {
-	return client.Call[*GetChatAdministratorsParams, []ChatMember](ctx, b, "getChatAdministrators", p)
+	raw, err := client.CallRaw[*GetChatAdministratorsParams](ctx, b, "getChatAdministrators", p)
+	if err != nil {
+		return nil, err
+	}
+	var elems []json.RawMessage
+	if err := json.Unmarshal(raw, &elems); err != nil {
+		return nil, err
+	}
+	out := make([]ChatMember, 0, len(elems))
+	for _, e := range elems {
+		v, err := UnmarshalChatMember(e)
+		if err != nil {
+			return nil, err
+		}
+		out = append(out, v)
+	}
+	return out, nil
 }
 
 // GetChatMemberCountParams is the parameter set for GetChatMemberCount.

@@ -15,7 +15,7 @@ Package precheckoutquery provides Filter helpers for \*api.PreCheckoutQuery payl
 
 
 <a name="Currency"></a>
-## func Currency
+## func [Currency](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/precheckoutquery/precheckoutquery.go#L11>)
 
 ```go
 func Currency(c string) dispatch.Filter[*api.PreCheckoutQuery]
@@ -24,7 +24,7 @@ func Currency(c string) dispatch.Filter[*api.PreCheckoutQuery]
 Currency returns a Filter that matches pre\-checkout queries with the given ISO 4217 currency code \(e.g. "USD", "EUR", "XTR"\).
 
 <a name="FromUser"></a>
-## func FromUser
+## func [FromUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/precheckoutquery/precheckoutquery.go#L19>)
 
 ```go
 func FromUser(uid int64) dispatch.Filter[*api.PreCheckoutQuery]

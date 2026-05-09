@@ -15,7 +15,7 @@ Package chatmember provides Filter helpers for \*api.ChatMemberUpdated payloads.
 
 
 <a name="FromUser"></a>
-## func FromUser
+## func [FromUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/chatmember/chatmember.go#L37>)
 
 ```go
 func FromUser(uid int64) dispatch.Filter[*api.ChatMemberUpdated]
@@ -24,7 +24,7 @@ func FromUser(uid int64) dispatch.Filter[*api.ChatMemberUpdated]
 FromUser returns a Filter that matches updates where the acting user \(From.ID\) equals uid.
 
 <a name="NewStatus"></a>
-## func NewStatus
+## func [NewStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/chatmember/chatmember.go#L11>)
 
 ```go
 func NewStatus(s string) dispatch.Filter[*api.ChatMemberUpdated]

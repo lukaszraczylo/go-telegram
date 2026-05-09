@@ -17,7 +17,7 @@ Package callback provides Filter helpers for \*api.CallbackQuery payloads.
 
 
 <a name="Data"></a>
-## func Data
+## func [Data](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/callback/callback.go#L14>)
 
 ```go
 func Data(pattern string) dispatch.Filter[*api.CallbackQuery]
@@ -26,7 +26,7 @@ func Data(pattern string) dispatch.Filter[*api.CallbackQuery]
 Data returns a Filter that matches callback queries whose Data matches pattern \(regex\). Panics at registration time on an invalid pattern.
 
 <a name="DataEquals"></a>
-## func DataEquals
+## func [DataEquals](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/callback/callback.go#L23>)
 
 ```go
 func DataEquals(s string) dispatch.Filter[*api.CallbackQuery]
@@ -35,7 +35,7 @@ func DataEquals(s string) dispatch.Filter[*api.CallbackQuery]
 DataEquals returns a Filter that matches callback queries whose Data equals s exactly.
 
 <a name="DataPrefix"></a>
-## func DataPrefix
+## func [DataPrefix](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/callback/callback.go#L31>)
 
 ```go
 func DataPrefix(prefix string) dispatch.Filter[*api.CallbackQuery]
@@ -44,7 +44,7 @@ func DataPrefix(prefix string) dispatch.Filter[*api.CallbackQuery]
 DataPrefix returns a Filter that matches callback queries whose Data starts with prefix.
 
 <a name="FromUser"></a>
-## func FromUser
+## func [FromUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/callback/callback.go#L39>)
 
 ```go
 func FromUser(userID int64) dispatch.Filter[*api.CallbackQuery]

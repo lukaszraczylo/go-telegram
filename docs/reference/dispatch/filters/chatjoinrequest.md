@@ -15,7 +15,7 @@ Package chatjoinrequest provides Filter helpers for \*api.ChatJoinRequest payloa
 
 
 <a name="FromUser"></a>
-## func FromUser
+## func [FromUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/chatjoinrequest/chatjoinrequest.go#L11>)
 
 ```go
 func FromUser(uid int64) dispatch.Filter[*api.ChatJoinRequest]
@@ -24,7 +24,7 @@ func FromUser(uid int64) dispatch.Filter[*api.ChatJoinRequest]
 FromUser returns a Filter that matches join requests where the requesting user's ID equals uid.
 
 <a name="InChat"></a>
-## func InChat
+## func [InChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/chatjoinrequest/chatjoinrequest.go#L19>)
 
 ```go
 func InChat(cid int64) dispatch.Filter[*api.ChatJoinRequest]

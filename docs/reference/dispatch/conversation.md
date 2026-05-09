@@ -36,7 +36,7 @@ var ErrKeyNotFound = errors.New("conversation: key not found")
 ```
 
 <a name="End"></a>
-## func End
+## func [End](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/handler.go#L34>)
 
 ```go
 func End() error
@@ -45,7 +45,7 @@ func End() error
 End signals the conversation has finished and state should be cleared. Conversation handlers return End\(\) to terminate.
 
 <a name="Next"></a>
-## func Next
+## func [Next](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/handler.go#L28>)
 
 ```go
 func Next(s State) error
@@ -54,7 +54,7 @@ func Next(s State) error
 Next signals the conversation should advance to the given state. Conversation handlers return Next\("state\_name"\) to transition.
 
 <a name="Conversation"></a>
-## type Conversation
+## type [Conversation](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/handler.go#L55-L79>)
 
 Conversation is a stateful handler with entry, per\-state, exit and fallback steps. A conversation is keyed by KeyStrategy \(default KeyByUserAndChat\) and persisted by Storage \(default in\-memory\).
 
@@ -87,7 +87,7 @@ type Conversation struct {
 ```
 
 <a name="Conversation.Dispatch"></a>
-### func \(\*Conversation\) Dispatch
+### func \(\*Conversation\) [Dispatch](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/handler.go#L87>)
 
 ```go
 func (c *Conversation) Dispatch(next dispatch.Handler[*api.Update]) dispatch.Handler[*api.Update]
@@ -98,7 +98,7 @@ Dispatch is a global middleware\-shaped Handler that consumes updates and routes
 If the conversation claims an update, downstream handlers are skipped. If the conversation does not claim it, downstream handlers run as normal.
 
 <a name="Handler"></a>
-## type Handler
+## type [Handler](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/handler.go#L44>)
 
 Handler defines a step in the conversation. Receives the dispatch context and the raw update. Returns:
 
@@ -112,7 +112,7 @@ type Handler func(ctx *dispatch.Context, u *api.Update) error
 ```
 
 <a name="KeyStrategy"></a>
-## type KeyStrategy
+## type [KeyStrategy](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/key.go#L16>)
 
 KeyStrategy derives a persistence key from an update. Strategies determine how conversation scope works — per\-user, per\-chat, or per\-user\-and\-chat. Implementations must return a stable string for the same logical scope across updates.
 
@@ -158,7 +158,7 @@ var KeyByUserAndChat KeyStrategy = func(u *api.Update) string {
 ```
 
 <a name="MemoryStorage"></a>
-## type MemoryStorage
+## type [MemoryStorage](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/in_memory.go#L11-L14>)
 
 MemoryStorage is the default in\-process Storage. It is safe for concurrent use. Conversation state is lost on process restart; use a custom Storage backed by a database for persistent flows.
 
@@ -169,7 +169,7 @@ type MemoryStorage struct {
 ```
 
 <a name="NewMemoryStorage"></a>
-### func NewMemoryStorage
+### func [NewMemoryStorage](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/in_memory.go#L17>)
 
 ```go
 func NewMemoryStorage() *MemoryStorage
@@ -178,7 +178,7 @@ func NewMemoryStorage() *MemoryStorage
 NewMemoryStorage constructs an empty in\-memory storage.
 
 <a name="MemoryStorage.Delete"></a>
-### func \(\*MemoryStorage\) Delete
+### func \(\*MemoryStorage\) [Delete](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/in_memory.go#L38>)
 
 ```go
 func (s *MemoryStorage) Delete(_ context.Context, key string) error
@@ -187,7 +187,7 @@ func (s *MemoryStorage) Delete(_ context.Context, key string) error
 
 
 <a name="MemoryStorage.Get"></a>
-### func \(\*MemoryStorage\) Get
+### func \(\*MemoryStorage\) [Get](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/in_memory.go#L21>)
 
 ```go
 func (s *MemoryStorage) Get(_ context.Context, key string) (State, error)
@@ -196,7 +196,7 @@ func (s *MemoryStorage) Get(_ context.Context, key string) (State, error)
 
 
 <a name="MemoryStorage.Set"></a>
-### func \(\*MemoryStorage\) Set
+### func \(\*MemoryStorage\) [Set](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/in_memory.go#L31>)
 
 ```go
 func (s *MemoryStorage) Set(_ context.Context, key string, state State) error
@@ -205,7 +205,7 @@ func (s *MemoryStorage) Set(_ context.Context, key string, state State) error
 
 
 <a name="State"></a>
-## type State
+## type [State](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/state.go#L9>)
 
 State is a label identifying a node in the conversation graph. The empty string is the implicit "no active conversation" state.
 
@@ -214,7 +214,7 @@ type State string
 ```
 
 <a name="Step"></a>
-## type Step
+## type [Step](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/handler.go#L47-L50>)
 
 Step pairs a filter with a handler for one conversation step.
 
@@ -226,7 +226,7 @@ type Step struct {
 ```
 
 <a name="Storage"></a>
-## type Storage
+## type [Storage](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/conversation/storage.go#L16-L20>)
 
 Storage persists per\-user \(or per\-chat, per\-message — depending on the KeyStrategy in use\) conversation state across update deliveries.
 

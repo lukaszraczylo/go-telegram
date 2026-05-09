@@ -80,7 +80,7 @@ var (
 ```
 
 <a name="Call"></a>
-## func Call
+## func [Call](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/call.go#L25>)
 
 ```go
 func Call[Req any, Resp any](ctx context.Context, b *Bot, method string, req Req) (Resp, error)
@@ -93,7 +93,7 @@ It is generic over both request and response types. Methods with no parameters m
 Call is exported because the api package \(which lives outside this one\) invokes it from generated method wrappers. User code should not normally call it directly — use the typed wrappers in package api instead.
 
 <a name="CallRaw"></a>
-## func CallRaw
+## func [CallRaw](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/call.go#L74>)
 
 ```go
 func CallRaw[Req any](ctx context.Context, b *Bot, method string, req Req) (json.RawMessage, error)
@@ -104,7 +104,7 @@ CallRaw is like Call but returns the raw JSON of the result field instead of dec
 CallRaw still translates non\-OK responses into \*APIError just like Call.
 
 <a name="NewDefaultHTTPDoer"></a>
-## func NewDefaultHTTPDoer
+## func [NewDefaultHTTPDoer](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/httpclient.go#L22>)
 
 ```go
 func NewDefaultHTTPDoer() *http.Client
@@ -117,7 +117,7 @@ NewDefaultHTTPDoer returns an \*http.Client with sensible defaults for Telegram 
 - HTTP/2 enabled \(default in net/http\).
 
 <a name="APIError"></a>
-## type APIError
+## type [APIError](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/errors.go#L13-L21>)
 
 APIError represents a non\-OK Telegram Bot API response. It satisfies error and unwraps to a sentinel \(ErrUnauthorized, etc.\) where the description matches a known prefix, enabling errors.Is checks.
 
@@ -131,7 +131,7 @@ type APIError struct {
 ```
 
 <a name="APIError.Error"></a>
-### func \(\*APIError\) Error
+### func \(\*APIError\) [Error](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/errors.go#L24>)
 
 ```go
 func (e *APIError) Error() string
@@ -140,7 +140,7 @@ func (e *APIError) Error() string
 Error implements error.
 
 <a name="APIError.IsRetryable"></a>
-### func \(\*APIError\) IsRetryable
+### func \(\*APIError\) [IsRetryable](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/errors.go#L32>)
 
 ```go
 func (e *APIError) IsRetryable() bool
@@ -149,7 +149,7 @@ func (e *APIError) IsRetryable() bool
 IsRetryable returns true for transient HTTP statuses \(429, 5xx\).
 
 <a name="APIError.RetryAfter"></a>
-### func \(\*APIError\) RetryAfter
+### func \(\*APIError\) [RetryAfter](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/errors.go#L38>)
 
 ```go
 func (e *APIError) RetryAfter() time.Duration
@@ -158,7 +158,7 @@ func (e *APIError) RetryAfter() time.Duration
 RetryAfter returns the recommended back\-off duration. It honours the Telegram\-supplied retry\_after parameter; if absent, returns 0.
 
 <a name="APIError.Unwrap"></a>
-### func \(\*APIError\) Unwrap
+### func \(\*APIError\) [Unwrap](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/errors.go#L29>)
 
 ```go
 func (e *APIError) Unwrap() error
@@ -167,7 +167,7 @@ func (e *APIError) Unwrap() error
 Unwrap returns the matched sentinel error, if any.
 
 <a name="Bot"></a>
-## type Bot
+## type [Bot](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L7-L13>)
 
 Bot is the Telegram Bot API client. Construct via New. All API methods \(declared in package api\) hang off \*Bot via thin wrappers around call.
 
@@ -178,7 +178,7 @@ type Bot struct {
 ```
 
 <a name="New"></a>
-### func New
+### func [New](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L36>)
 
 ```go
 func New(token string, opts ...Option) *Bot
@@ -187,7 +187,7 @@ func New(token string, opts ...Option) *Bot
 New constructs a Bot with the given token and optional configuration. The default HTTP client is tuned for long\-poll workloads \(see NewDefaultHTTPDoer\); the default codec wraps encoding/json; the default logger discards records.
 
 <a name="Bot.BaseURL"></a>
-### func \(\*Bot\) BaseURL
+### func \(\*Bot\) [BaseURL](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L20>)
 
 ```go
 func (b *Bot) BaseURL() string
@@ -196,7 +196,7 @@ func (b *Bot) BaseURL() string
 BaseURL returns the configured Telegram API base URL.
 
 <a name="Bot.Codec"></a>
-### func \(\*Bot\) Codec
+### func \(\*Bot\) [Codec](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L27>)
 
 ```go
 func (b *Bot) Codec() Codec
@@ -205,7 +205,7 @@ func (b *Bot) Codec() Codec
 Codec returns the configured Codec.
 
 <a name="Bot.HTTP"></a>
-### func \(\*Bot\) HTTP
+### func \(\*Bot\) [HTTP](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L24>)
 
 ```go
 func (b *Bot) HTTP() HTTPDoer
@@ -214,7 +214,7 @@ func (b *Bot) HTTP() HTTPDoer
 HTTP returns the underlying HTTPDoer. Exposed for adapters that need to share connection pools or for diagnostic checks.
 
 <a name="Bot.Logger"></a>
-### func \(\*Bot\) Logger
+### func \(\*Bot\) [Logger](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L30>)
 
 ```go
 func (b *Bot) Logger() Logger
@@ -223,7 +223,7 @@ func (b *Bot) Logger() Logger
 Logger returns the configured Logger.
 
 <a name="Bot.Token"></a>
-### func \(\*Bot\) Token
+### func \(\*Bot\) [Token](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L17>)
 
 ```go
 func (b *Bot) Token() string
@@ -232,7 +232,7 @@ func (b *Bot) Token() string
 Token returns the bot token. Exposed for advanced use cases \(custom transports, manual URL building\); ordinary code does not need it.
 
 <a name="Codec"></a>
-## type Codec
+## type [Codec](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L10-L13>)
 
 Codec encodes/decodes JSON payloads exchanged with the Telegram Bot API. The default implementation wraps goccy/go\-json. Users may plug in bytedance/sonic or any compatible encoder by passing WithCodec to New.
 
@@ -244,7 +244,7 @@ type Codec interface {
 ```
 
 <a name="DefaultCodec"></a>
-## type DefaultCodec
+## type [DefaultCodec](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L16>)
 
 DefaultCodec wraps goccy/go\-json. It is the zero\-value safe default.
 
@@ -253,7 +253,7 @@ type DefaultCodec struct{}
 ```
 
 <a name="DefaultCodec.Marshal"></a>
-### func \(DefaultCodec\) Marshal
+### func \(DefaultCodec\) [Marshal](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L19>)
 
 ```go
 func (DefaultCodec) Marshal(v any) ([]byte, error)
@@ -262,7 +262,7 @@ func (DefaultCodec) Marshal(v any) ([]byte, error)
 Marshal calls json.Marshal.
 
 <a name="DefaultCodec.Unmarshal"></a>
-### func \(DefaultCodec\) Unmarshal
+### func \(DefaultCodec\) [Unmarshal](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L22>)
 
 ```go
 func (DefaultCodec) Unmarshal(data []byte, v any) error
@@ -271,7 +271,7 @@ func (DefaultCodec) Unmarshal(data []byte, v any) error
 Unmarshal calls json.Unmarshal.
 
 <a name="HTTPDoer"></a>
-## type HTTPDoer
+## type [HTTPDoer](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/httpclient.go#L13-L15>)
 
 HTTPDoer abstracts the HTTP transport. The default is a net/http client tuned for Telegram's long\-poll usage. Users may plug in valyala/fasthttp \(via an adapter\), or any custom retry/circuit\-breaker client by passing WithHTTPClient to New.
 
@@ -282,7 +282,7 @@ type HTTPDoer interface {
 ```
 
 <a name="Logger"></a>
-## type Logger
+## type [Logger](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/logger.go#L6-L11>)
 
 Logger is a slog\-shaped logging interface. Users pass any compatible implementation via WithLogger. The default is NoopLogger, which discards everything.
 
@@ -296,7 +296,7 @@ type Logger interface {
 ```
 
 <a name="MultipartFile"></a>
-## type MultipartFile
+## type [MultipartFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/multipart.go#L27-L31>)
 
 MultipartFile describes a single file part in a multipart upload.
 
@@ -309,7 +309,7 @@ type MultipartFile struct {
 ```
 
 <a name="NetworkError"></a>
-## type NetworkError
+## type [NetworkError](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/errors.go#L47>)
 
 NetworkError wraps a transport\-level failure \(DNS, TCP, TLS, timeout short of an HTTP response\).
 
@@ -318,7 +318,7 @@ type NetworkError struct{ Err error }
 ```
 
 <a name="NetworkError.Error"></a>
-### func \(\*NetworkError\) Error
+### func \(\*NetworkError\) [Error](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/errors.go#L49>)
 
 ```go
 func (e *NetworkError) Error() string
@@ -327,7 +327,7 @@ func (e *NetworkError) Error() string
 
 
 <a name="NetworkError.Unwrap"></a>
-### func \(\*NetworkError\) Unwrap
+### func \(\*NetworkError\) [Unwrap](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/errors.go#L51>)
 
 ```go
 func (e *NetworkError) Unwrap() error
@@ -336,7 +336,7 @@ func (e *NetworkError) Unwrap() error
 
 
 <a name="NoopLogger"></a>
-## type NoopLogger
+## type [NoopLogger](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/logger.go#L14>)
 
 NoopLogger discards all log records. It is the zero\-value safe default.
 
@@ -345,7 +345,7 @@ type NoopLogger struct{}
 ```
 
 <a name="NoopLogger.Debug"></a>
-### func \(NoopLogger\) Debug
+### func \(NoopLogger\) [Debug](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/logger.go#L16>)
 
 ```go
 func (NoopLogger) Debug(string, ...any)
@@ -354,7 +354,7 @@ func (NoopLogger) Debug(string, ...any)
 
 
 <a name="NoopLogger.Error"></a>
-### func \(NoopLogger\) Error
+### func \(NoopLogger\) [Error](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/logger.go#L19>)
 
 ```go
 func (NoopLogger) Error(string, ...any)
@@ -363,7 +363,7 @@ func (NoopLogger) Error(string, ...any)
 
 
 <a name="NoopLogger.Info"></a>
-### func \(NoopLogger\) Info
+### func \(NoopLogger\) [Info](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/logger.go#L17>)
 
 ```go
 func (NoopLogger) Info(string, ...any)
@@ -372,7 +372,7 @@ func (NoopLogger) Info(string, ...any)
 
 
 <a name="NoopLogger.Warn"></a>
-### func \(NoopLogger\) Warn
+### func \(NoopLogger\) [Warn](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/logger.go#L18>)
 
 ```go
 func (NoopLogger) Warn(string, ...any)
@@ -381,7 +381,7 @@ func (NoopLogger) Warn(string, ...any)
 
 
 <a name="Option"></a>
-## type Option
+## type [Option](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/options.go#L5>)
 
 Option configures a Bot at construction time. Per\-call configuration is expressed via typed parameter structs \(e.g. SendMessageParams\), not options.
 
@@ -390,7 +390,7 @@ type Option func(*Bot)
 ```
 
 <a name="WithBaseURL"></a>
-### func WithBaseURL
+### func [WithBaseURL](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/options.go#L18>)
 
 ```go
 func WithBaseURL(url string) Option
@@ -399,7 +399,7 @@ func WithBaseURL(url string) Option
 WithBaseURL overrides the API base URL. Useful for testing against a local httptest.Server, or for self\-hosted Bot API servers.
 
 <a name="WithCodec"></a>
-### func WithCodec
+### func [WithCodec](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/options.go#L14>)
 
 ```go
 func WithCodec(c Codec) Option
@@ -408,7 +408,7 @@ func WithCodec(c Codec) Option
 WithCodec overrides the JSON codec. Pass goccy/go\-json, sonic, or any type implementing Codec to swap out encoding/json.
 
 <a name="WithHTTPClient"></a>
-### func WithHTTPClient
+### func [WithHTTPClient](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/options.go#L10>)
 
 ```go
 func WithHTTPClient(c HTTPDoer) Option
@@ -417,7 +417,7 @@ func WithHTTPClient(c HTTPDoer) Option
 WithHTTPClient overrides the HTTP transport. Pass any HTTPDoer implementation \(e.g. an \*http.Client wrapping a custom RoundTripper, or a fasthttp adapter\).
 
 <a name="WithLogger"></a>
-### func WithLogger
+### func [WithLogger](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/options.go#L22>)
 
 ```go
 func WithLogger(l Logger) Option
@@ -426,7 +426,7 @@ func WithLogger(l Logger) Option
 WithLogger sets the logger used for diagnostic events. Passing nil silently disables logging.
 
 <a name="ParseError"></a>
-## type ParseError
+## type [ParseError](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/errors.go#L55-L58>)
 
 ParseError wraps a JSON decode failure on a response body. Body is retained \(truncated to 4 KiB\); Error\(\) displays up to 256 bytes for diagnostics.
 
@@ -438,7 +438,7 @@ type ParseError struct {
 ```
 
 <a name="ParseError.Error"></a>
-### func \(\*ParseError\) Error
+### func \(\*ParseError\) [Error](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/errors.go#L60>)
 
 ```go
 func (e *ParseError) Error() string
@@ -447,7 +447,7 @@ func (e *ParseError) Error() string
 
 
 <a name="ParseError.Unwrap"></a>
-### func \(\*ParseError\) Unwrap
+### func \(\*ParseError\) [Unwrap](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/errors.go#L68>)
 
 ```go
 func (e *ParseError) Unwrap() error
@@ -456,7 +456,7 @@ func (e *ParseError) Unwrap() error
 
 
 <a name="ResponseParameters"></a>
-## type ResponseParameters
+## type [ResponseParameters](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/result.go#L24-L27>)
 
 ResponseParameters is the optional metadata Telegram includes on certain failures. The most common is RetryAfter \(seconds\) on 429 responses.
 
@@ -470,7 +470,7 @@ type ResponseParameters struct {
 ```
 
 <a name="Result"></a>
-## type Result
+## type [Result](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/result.go#L11-L17>)
 
 Result is the universal Telegram API response envelope. Every successful response is shaped \{"ok":true,"result":T,...\}; failure responses set ok to false and populate ErrorCode / Description / Parameters.
 
@@ -487,7 +487,7 @@ type Result[T any] struct {
 ```
 
 <a name="RetryDoer"></a>
-## type RetryDoer
+## type [RetryDoer](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/retry.go#L23-L30>)
 
 RetryDoer is an HTTPDoer that retries transient failures \(429, 5xx, and network errors\) with exponential backoff. It honours the retry\_after value Telegram supplies on rate\-limit responses.
 
@@ -505,7 +505,7 @@ type RetryDoer struct {
 ```
 
 <a name="NewRetryDoer"></a>
-### func NewRetryDoer
+### func [NewRetryDoer](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/retry.go#L63>)
 
 ```go
 func NewRetryDoer(inner HTTPDoer, opts ...RetryOption) *RetryDoer
@@ -514,7 +514,7 @@ func NewRetryDoer(inner HTTPDoer, opts ...RetryOption) *RetryDoer
 NewRetryDoer wraps inner with retry behaviour.
 
 <a name="RetryDoer.Do"></a>
-### func \(\*RetryDoer\) Do
+### func \(\*RetryDoer\) [Do](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/retry.go#L80>)
 
 ```go
 func (d *RetryDoer) Do(req *http.Request) (*http.Response, error)
@@ -523,7 +523,7 @@ func (d *RetryDoer) Do(req *http.Request) (*http.Response, error)
 Do dispatches via the inner HTTPDoer and retries on transient failures. The request body is buffered on first attempt so it can be replayed.
 
 <a name="RetryOption"></a>
-## type RetryOption
+## type [RetryOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/retry.go#L33>)
 
 RetryOption configures a RetryDoer.
 
@@ -532,7 +532,7 @@ type RetryOption func(*RetryDoer)
 ```
 
 <a name="WithBackoffFactor"></a>
-### func WithBackoffFactor
+### func [WithBackoffFactor](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/retry.go#L52>)
 
 ```go
 func WithBackoffFactor(f float64) RetryOption
@@ -541,7 +541,7 @@ func WithBackoffFactor(f float64) RetryOption
 WithBackoffFactor sets the exponential growth factor. Default 2.0.
 
 <a name="WithBaseBackoff"></a>
-### func WithBaseBackoff
+### func [WithBaseBackoff](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/retry.go#L42>)
 
 ```go
 func WithBaseBackoff(d time.Duration) RetryOption
@@ -550,7 +550,7 @@ func WithBaseBackoff(d time.Duration) RetryOption
 WithBaseBackoff sets the initial backoff duration. Default 500ms.
 
 <a name="WithJitter"></a>
-### func WithJitter
+### func [WithJitter](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/retry.go#L58>)
 
 ```go
 func WithJitter(j float64) RetryOption
@@ -559,7 +559,7 @@ func WithJitter(j float64) RetryOption
 WithJitter sets the jitter fraction \(0..1\) applied to each backoff. Default 0.2.
 
 <a name="WithMaxAttempts"></a>
-### func WithMaxAttempts
+### func [WithMaxAttempts](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/retry.go#L37>)
 
 ```go
 func WithMaxAttempts(n int) RetryOption
@@ -568,7 +568,7 @@ func WithMaxAttempts(n int) RetryOption
 WithMaxAttempts sets the maximum number of attempts \(including the initial one\). Default 4 \(one initial \+ three retries\).
 
 <a name="WithMaxBackoff"></a>
-### func WithMaxBackoff
+### func [WithMaxBackoff](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/retry.go#L47>)
 
 ```go
 func WithMaxBackoff(d time.Duration) RetryOption

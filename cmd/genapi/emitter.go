@@ -245,6 +245,19 @@ func funcs(plan *enumPlan) template.FuncMap {
 			s, ok := knownDiscriminators[tr.Name]
 			return ok && len(s.Variants) > 0
 		},
+		"isSealedUnionArrayReturn": func(tr spec.TypeRef) bool {
+			if tr.Kind != spec.KindArray || tr.ElemType == nil || tr.ElemType.Kind != spec.KindNamed {
+				return false
+			}
+			s, ok := knownDiscriminators[tr.ElemType.Name]
+			return ok && len(s.Variants) > 0
+		},
+		"sealedUnionElemName": func(tr spec.TypeRef) string {
+			if tr.Kind == spec.KindArray && tr.ElemType != nil {
+				return tr.ElemType.Name
+			}
+			return ""
+		},
 		"isMaybeInaccessibleMessage": func(name string) bool { return name == "MaybeInaccessibleMessage" },
 		"discriminatorField":         func(name string) string { return knownDiscriminators[name].Field },
 		"discriminatorMap":           func(name string) map[string]string { return knownDiscriminators[name].Variants },

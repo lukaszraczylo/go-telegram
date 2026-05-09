@@ -16,7 +16,7 @@ Package inline provides Filter helpers for \*api.InlineQuery payloads.
 
 
 <a name="Query"></a>
-## func Query
+## func [Query](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/inline/inline.go#L14>)
 
 ```go
 func Query(pattern string) dispatch.Filter[*api.InlineQuery]
@@ -25,7 +25,7 @@ func Query(pattern string) dispatch.Filter[*api.InlineQuery]
 Query returns a Filter that matches inline queries whose Query field matches pattern \(regex\). Panics at registration time on an invalid pattern.
 
 <a name="QueryEquals"></a>
-## func QueryEquals
+## func [QueryEquals](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/inline/inline.go#L23>)
 
 ```go
 func QueryEquals(s string) dispatch.Filter[*api.InlineQuery]
@@ -34,7 +34,7 @@ func QueryEquals(s string) dispatch.Filter[*api.InlineQuery]
 QueryEquals returns a Filter that matches inline queries whose Query equals s exactly.
 
 <a name="QueryPrefix"></a>
-## func QueryPrefix
+## func [QueryPrefix](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/inline/inline.go#L31>)
 
 ```go
 func QueryPrefix(prefix string) dispatch.Filter[*api.InlineQuery]

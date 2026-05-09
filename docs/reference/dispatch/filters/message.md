@@ -27,7 +27,7 @@ Package message provides Filter helpers for \*api.Message payloads.
 
 
 <a name="AnyCommand"></a>
-## func AnyCommand
+## func [AnyCommand](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L69>)
 
 ```go
 func AnyCommand() dispatch.Filter[*api.Message]
@@ -36,7 +36,7 @@ func AnyCommand() dispatch.Filter[*api.Message]
 AnyCommand returns a Filter that matches any message starting with a bot\_command entity at offset 0.
 
 <a name="ChatType"></a>
-## func ChatType
+## func [ChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L124>)
 
 ```go
 func ChatType(t api.ChatType) dispatch.Filter[*api.Message]
@@ -45,7 +45,7 @@ func ChatType(t api.ChatType) dispatch.Filter[*api.Message]
 ChatType returns a Filter that matches messages whose Chat.Type equals t.
 
 <a name="Command"></a>
-## func Command
+## func [Command](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L44>)
 
 ```go
 func Command(name string) dispatch.Filter[*api.Message]
@@ -54,7 +54,7 @@ func Command(name string) dispatch.Filter[*api.Message]
 Command returns a Filter that matches messages whose first entity is a bot\_command equal to "/\<name\>" \(with or without "@BotName" suffix\).
 
 <a name="FromUser"></a>
-## func FromUser
+## func [FromUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L131>)
 
 ```go
 func FromUser(userID int64) dispatch.Filter[*api.Message]
@@ -63,7 +63,7 @@ func FromUser(userID int64) dispatch.Filter[*api.Message]
 FromUser returns a Filter that matches messages whose From.ID equals userID.
 
 <a name="HasDocument"></a>
-## func HasDocument
+## func [HasDocument](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L101>)
 
 ```go
 func HasDocument() dispatch.Filter[*api.Message]
@@ -72,7 +72,7 @@ func HasDocument() dispatch.Filter[*api.Message]
 HasDocument returns a Filter that matches messages with a Document attachment.
 
 <a name="HasEntity"></a>
-## func HasEntity
+## func [HasEntity](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L109>)
 
 ```go
 func HasEntity(t api.MessageEntityType) dispatch.Filter[*api.Message]
@@ -81,7 +81,7 @@ func HasEntity(t api.MessageEntityType) dispatch.Filter[*api.Message]
 HasEntity returns a Filter that matches messages whose Entities contain at least one entity of type t \(e.g. api.MessageEntityTypeBotCommand\).
 
 <a name="HasPhoto"></a>
-## func HasPhoto
+## func [HasPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L94>)
 
 ```go
 func HasPhoto() dispatch.Filter[*api.Message]
@@ -90,7 +90,7 @@ func HasPhoto() dispatch.Filter[*api.Message]
 HasPhoto returns a Filter that matches messages with a Photo attachment.
 
 <a name="InChat"></a>
-## func InChat
+## func [InChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L138>)
 
 ```go
 func InChat(chatID int64) dispatch.Filter[*api.Message]
@@ -99,7 +99,7 @@ func InChat(chatID int64) dispatch.Filter[*api.Message]
 InChat returns a Filter that matches messages whose Chat.ID equals chatID.
 
 <a name="IsForward"></a>
-## func IsForward
+## func [IsForward](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L87>)
 
 ```go
 func IsForward() dispatch.Filter[*api.Message]
@@ -108,7 +108,7 @@ func IsForward() dispatch.Filter[*api.Message]
 IsForward returns a Filter that matches messages that have ForwardOrigin set.
 
 <a name="IsReply"></a>
-## func IsReply
+## func [IsReply](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L80>)
 
 ```go
 func IsReply() dispatch.Filter[*api.Message]
@@ -117,7 +117,7 @@ func IsReply() dispatch.Filter[*api.Message]
 IsReply returns a Filter that matches messages that have ReplyToMessage set.
 
 <a name="Text"></a>
-## func Text
+## func [Text](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L14>)
 
 ```go
 func Text(pattern string) dispatch.Filter[*api.Message]
@@ -126,7 +126,7 @@ func Text(pattern string) dispatch.Filter[*api.Message]
 Text returns a Filter that matches messages whose Text matches pattern \(regex\). Panics at registration time on an invalid pattern.
 
 <a name="TextContains"></a>
-## func TextContains
+## func [TextContains](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L36>)
 
 ```go
 func TextContains(sub string) dispatch.Filter[*api.Message]
@@ -135,7 +135,7 @@ func TextContains(sub string) dispatch.Filter[*api.Message]
 TextContains returns a Filter that matches messages whose Text contains sub.
 
 <a name="TextEquals"></a>
-## func TextEquals
+## func [TextEquals](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L22>)
 
 ```go
 func TextEquals(s string) dispatch.Filter[*api.Message]
@@ -144,7 +144,7 @@ func TextEquals(s string) dispatch.Filter[*api.Message]
 TextEquals returns a Filter that matches messages whose Text equals s exactly.
 
 <a name="TextPrefix"></a>
-## func TextPrefix
+## func [TextPrefix](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filters/message/message.go#L29>)
 
 ```go
 func TextPrefix(prefix string) dispatch.Filter[*api.Message]

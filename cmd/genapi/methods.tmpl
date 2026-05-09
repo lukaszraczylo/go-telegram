@@ -51,6 +51,24 @@ func {{title .Name}}(ctx context.Context, b *client.Bot, p *{{title .Name}}Param
 		return nil, err
 	}
 	return Unmarshal{{.Returns.Name}}(raw)
+{{else if isSealedUnionArrayReturn .Returns -}}
+	raw, err := client.CallRaw[*{{title .Name}}Params](ctx, b, "{{.Name}}", p)
+	if err != nil {
+		return nil, err
+	}
+	var elems []json.RawMessage
+	if err := json.Unmarshal(raw, &elems); err != nil {
+		return nil, err
+	}
+	out := make([]{{sealedUnionElemName .Returns}}, 0, len(elems))
+	for _, e := range elems {
+		v, err := Unmarshal{{sealedUnionElemName .Returns}}(e)
+		if err != nil {
+			return nil, err
+		}
+		out = append(out, v)
+	}
+	return out, nil
 {{else -}}
 	return client.Call[*{{title .Name}}Params, {{returnGoType .Returns}}](ctx, b, "{{.Name}}", p)
 {{end -}}

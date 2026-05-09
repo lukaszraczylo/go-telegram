@@ -34,7 +34,7 @@ All implementations satisfy the Updater interface so user code can swap one for 
 
 
 <a name="BackoffStrategy"></a>
-## type BackoffStrategy
+## type [BackoffStrategy](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/backoff.go#L12-L14>)
 
 BackoffStrategy returns the duration to wait before the next attempt after \`attempt\` consecutive failures \(1\-based\). Implementations must be safe to call from a single goroutine.
 
@@ -45,7 +45,7 @@ type BackoffStrategy interface {
 ```
 
 <a name="ExponentialBackoff"></a>
-## type ExponentialBackoff
+## type [ExponentialBackoff](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/backoff.go#L18-L23>)
 
 ExponentialBackoff implements capped exponential back\-off with jitter. Defaults: Base=500ms, Max=30s, Factor=2.0, Jitter=0.2.
 
@@ -59,7 +59,7 @@ type ExponentialBackoff struct {
 ```
 
 <a name="DefaultBackoff"></a>
-### func DefaultBackoff
+### func [DefaultBackoff](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/backoff.go#L26>)
 
 ```go
 func DefaultBackoff() *ExponentialBackoff
@@ -68,7 +68,7 @@ func DefaultBackoff() *ExponentialBackoff
 DefaultBackoff returns an ExponentialBackoff with library defaults.
 
 <a name="ExponentialBackoff.NextDelay"></a>
-### func \(\*ExponentialBackoff\) NextDelay
+### func \(\*ExponentialBackoff\) [NextDelay](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/backoff.go#L36>)
 
 ```go
 func (b *ExponentialBackoff) NextDelay(attempt int) time.Duration
@@ -77,7 +77,7 @@ func (b *ExponentialBackoff) NextDelay(attempt int) time.Duration
 NextDelay implements BackoffStrategy.
 
 <a name="LongPoller"></a>
-## type LongPoller
+## type [LongPoller](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/longpoll.go#L21-L31>)
 
 LongPoller pulls updates via Bot.GetUpdates in a loop, advancing the offset cursor after each batch. It applies BackoffStrategy on transient errors \(network failures, 5xx, 429\).
 
@@ -95,7 +95,7 @@ type LongPoller struct {
 ```
 
 <a name="NewLongPoller"></a>
-### func NewLongPoller
+### func [NewLongPoller](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/longpoll.go#L34>)
 
 ```go
 func NewLongPoller(b *client.Bot) *LongPoller
@@ -104,7 +104,7 @@ func NewLongPoller(b *client.Bot) *LongPoller
 NewLongPoller constructs a LongPoller with sensible defaults.
 
 <a name="LongPoller.Run"></a>
-### func \(\*LongPoller\) Run
+### func \(\*LongPoller\) [Run](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/longpoll.go#L51>)
 
 ```go
 func (p *LongPoller) Run(ctx context.Context) error
@@ -113,7 +113,7 @@ func (p *LongPoller) Run(ctx context.Context) error
 Run implements Updater. It blocks until ctx is cancelled, Stop is called, or a fatal error occurs \(e.g. unauthorized\). See LongPoller for at\-least\-once delivery semantics on shutdown.
 
 <a name="LongPoller.Stop"></a>
-### func \(\*LongPoller\) Stop
+### func \(\*LongPoller\) [Stop](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/longpoll.go#L126>)
 
 ```go
 func (p *LongPoller) Stop(ctx context.Context) error
@@ -122,7 +122,7 @@ func (p *LongPoller) Stop(ctx context.Context) error
 Stop implements Updater.
 
 <a name="LongPoller.Updates"></a>
-### func \(\*LongPoller\) Updates
+### func \(\*LongPoller\) [Updates](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/longpoll.go#L46>)
 
 ```go
 func (p *LongPoller) Updates() <-chan api.Update
@@ -131,7 +131,7 @@ func (p *LongPoller) Updates() <-chan api.Update
 Updates implements Updater.
 
 <a name="Updater"></a>
-## type Updater
+## type [Updater](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/updater.go#L13-L23>)
 
 Updater is the abstraction over update sources. Implementations must:
 
@@ -154,7 +154,7 @@ type Updater interface {
 ```
 
 <a name="WebhookOption"></a>
-## type WebhookOption
+## type [WebhookOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L38>)
 
 WebhookOption configures a WebhookServer at construction time.
 
@@ -163,7 +163,7 @@ type WebhookOption func(*webhookOptions)
 ```
 
 <a name="WithBufferSize"></a>
-### func WithBufferSize
+### func [WithBufferSize](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L46>)
 
 ```go
 func WithBufferSize(n int) WebhookOption
@@ -172,7 +172,7 @@ func WithBufferSize(n int) WebhookOption
 WithBufferSize sets the size of the updates channel buffer. Default is 64.
 
 <a name="WebhookServer"></a>
-## type WebhookServer
+## type [WebhookServer](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L24-L35>)
 
 WebhookServer implements Updater by exposing an http.Handler that receives updates from Telegram. It can be mounted on the user's own HTTP server \(via ServeHTTP\) or run standalone \(via ListenAndServe\).
 
@@ -185,7 +185,7 @@ type WebhookServer struct {
 ```
 
 <a name="NewWebhookServer"></a>
-### func NewWebhookServer
+### func [NewWebhookServer](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L52>)
 
 ```go
 func NewWebhookServer(b *client.Bot, opts ...WebhookOption) *WebhookServer
@@ -194,7 +194,7 @@ func NewWebhookServer(b *client.Bot, opts ...WebhookOption) *WebhookServer
 NewWebhookServer constructs a WebhookServer with default buffer size \(64\). Use WithBufferSize to override.
 
 <a name="WebhookServer.ListenAndServe"></a>
-### func \(\*WebhookServer\) ListenAndServe
+### func \(\*WebhookServer\) [ListenAndServe](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L150>)
 
 ```go
 func (w *WebhookServer) ListenAndServe(ctx context.Context, addr string) error
@@ -203,7 +203,7 @@ func (w *WebhookServer) ListenAndServe(ctx context.Context, addr string) error
 ListenAndServe starts an HTTP server on addr and blocks until Stop is called \(which triggers Shutdown with the caller's context\) or the server returns an error other than http.ErrServerClosed. Callers must invoke Stop\(ctx\) to cleanly shut down the server; the ctx passed here is only used as the server's base context for incoming requests.
 
 <a name="WebhookServer.Run"></a>
-### func \(\*WebhookServer\) Run
+### func \(\*WebhookServer\) [Run](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L71>)
 
 ```go
 func (w *WebhookServer) Run(ctx context.Context) error
@@ -212,7 +212,7 @@ func (w *WebhookServer) Run(ctx context.Context) error
 Run implements Updater. It blocks until Stop is called or ctx is cancelled. If the server has not been started via ListenAndServe, Run only watches for shutdown — the user is expected to mount ServeHTTP on their own router.
 
 <a name="WebhookServer.ServeHTTP"></a>
-### func \(\*WebhookServer\) ServeHTTP
+### func \(\*WebhookServer\) [ServeHTTP](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L97>)
 
 ```go
 func (w *WebhookServer) ServeHTTP(rw http.ResponseWriter, r *http.Request)
@@ -221,7 +221,7 @@ func (w *WebhookServer) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 ServeHTTP implements http.Handler. Telegram POSTs each update as JSON to this endpoint. Non\-POST requests get 405; bad bodies get 400; secret token mismatches get 401.
 
 <a name="WebhookServer.Stop"></a>
-### func \(\*WebhookServer\) Stop
+### func \(\*WebhookServer\) [Stop](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L83>)
 
 ```go
 func (w *WebhookServer) Stop(ctx context.Context) error
@@ -230,7 +230,7 @@ func (w *WebhookServer) Stop(ctx context.Context) error
 Stop implements Updater.
 
 <a name="WebhookServer.Updates"></a>
-### func \(\*WebhookServer\) Updates
+### func \(\*WebhookServer\) [Updates](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L65>)
 
 ```go
 func (w *WebhookServer) Updates() <-chan api.Update
