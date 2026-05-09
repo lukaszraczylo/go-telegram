@@ -807,6 +807,22 @@ type MessageOriginUser struct {
 	SenderUser User `json:"sender_user"`
 }
 
+// MarshalJSON encodes MessageOriginUser with the discriminator field
+// "type" forced to "user".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *MessageOriginUser) MarshalJSON() ([]byte, error) {
+	type alias MessageOriginUser
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "user",
+		alias: (*alias)(v),
+	})
+}
+
 // The message was originally sent by an unknown user.
 type MessageOriginHiddenUser struct {
 	// Type of the message origin, always “hidden_user”
@@ -815,6 +831,22 @@ type MessageOriginHiddenUser struct {
 	Date int64 `json:"date"`
 	// Name of the user that sent the message originally
 	SenderUserName string `json:"sender_user_name"`
+}
+
+// MarshalJSON encodes MessageOriginHiddenUser with the discriminator field
+// "type" forced to "hidden_user".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *MessageOriginHiddenUser) MarshalJSON() ([]byte, error) {
+	type alias MessageOriginHiddenUser
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "hidden_user",
+		alias: (*alias)(v),
+	})
 }
 
 // The message was originally sent on behalf of a chat to a group chat.
@@ -829,6 +861,22 @@ type MessageOriginChat struct {
 	AuthorSignature string `json:"author_signature,omitempty"`
 }
 
+// MarshalJSON encodes MessageOriginChat with the discriminator field
+// "type" forced to "chat".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *MessageOriginChat) MarshalJSON() ([]byte, error) {
+	type alias MessageOriginChat
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "chat",
+		alias: (*alias)(v),
+	})
+}
+
 // The message was originally sent to a channel chat.
 type MessageOriginChannel struct {
 	// Type of the message origin, always “channel”
@@ -841,6 +889,22 @@ type MessageOriginChannel struct {
 	MessageID int64 `json:"message_id"`
 	// Optional. Signature of the original post author
 	AuthorSignature string `json:"author_signature,omitempty"`
+}
+
+// MarshalJSON encodes MessageOriginChannel with the discriminator field
+// "type" forced to "channel".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *MessageOriginChannel) MarshalJSON() ([]byte, error) {
+	type alias MessageOriginChannel
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "channel",
+		alias: (*alias)(v),
+	})
 }
 
 // This object represents one size of a photo or a file / sticker thumbnail.
@@ -1115,12 +1179,44 @@ type PaidMediaLivePhoto struct {
 	LivePhoto LivePhoto `json:"live_photo"`
 }
 
+// MarshalJSON encodes PaidMediaLivePhoto with the discriminator field
+// "type" forced to "live_photo".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PaidMediaLivePhoto) MarshalJSON() ([]byte, error) {
+	type alias PaidMediaLivePhoto
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "live_photo",
+		alias: (*alias)(v),
+	})
+}
+
 // The paid media is a photo.
 type PaidMediaPhoto struct {
 	// Type of the paid media, always “photo”
 	Type PaidMediaPhotoType `json:"type"`
 	// The photo
 	Photo []PhotoSize `json:"photo"`
+}
+
+// MarshalJSON encodes PaidMediaPhoto with the discriminator field
+// "type" forced to "photo".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PaidMediaPhoto) MarshalJSON() ([]byte, error) {
+	type alias PaidMediaPhoto
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "photo",
+		alias: (*alias)(v),
+	})
 }
 
 // The paid media isn't available before the payment.
@@ -1135,12 +1231,44 @@ type PaidMediaPreview struct {
 	Duration *int64 `json:"duration,omitempty"`
 }
 
+// MarshalJSON encodes PaidMediaPreview with the discriminator field
+// "type" forced to "preview".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PaidMediaPreview) MarshalJSON() ([]byte, error) {
+	type alias PaidMediaPreview
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "preview",
+		alias: (*alias)(v),
+	})
+}
+
 // The paid media is a video.
 type PaidMediaVideo struct {
 	// Type of the paid media, always “video”
 	Type PaidMediaVideoType `json:"type"`
 	// The video
 	Video Video `json:"video"`
+}
+
+// MarshalJSON encodes PaidMediaVideo with the discriminator field
+// "type" forced to "video".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PaidMediaVideo) MarshalJSON() ([]byte, error) {
+	type alias PaidMediaVideo
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "video",
+		alias: (*alias)(v),
+	})
 }
 
 // This object represents a phone contact.
@@ -1629,6 +1757,22 @@ type BackgroundFillSolid struct {
 	Color int64 `json:"color"`
 }
 
+// MarshalJSON encodes BackgroundFillSolid with the discriminator field
+// "type" forced to "solid".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BackgroundFillSolid) MarshalJSON() ([]byte, error) {
+	type alias BackgroundFillSolid
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "solid",
+		alias: (*alias)(v),
+	})
+}
+
 // The background is a gradient fill.
 type BackgroundFillGradient struct {
 	// Type of the background fill, always “gradient”
@@ -1641,12 +1785,44 @@ type BackgroundFillGradient struct {
 	RotationAngle int64 `json:"rotation_angle"`
 }
 
+// MarshalJSON encodes BackgroundFillGradient with the discriminator field
+// "type" forced to "gradient".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BackgroundFillGradient) MarshalJSON() ([]byte, error) {
+	type alias BackgroundFillGradient
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "gradient",
+		alias: (*alias)(v),
+	})
+}
+
 // The background is a freeform gradient that rotates after every message in the chat.
 type BackgroundFillFreeformGradient struct {
 	// Type of the background fill, always “freeform_gradient”
 	Type BackgroundFillFreeformGradientType `json:"type"`
 	// A list of the 3 or 4 base colors that are used to generate the freeform gradient in the RGB24 format
 	Colors []int64 `json:"colors"`
+}
+
+// MarshalJSON encodes BackgroundFillFreeformGradient with the discriminator field
+// "type" forced to "freeform_gradient".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BackgroundFillFreeformGradient) MarshalJSON() ([]byte, error) {
+	type alias BackgroundFillFreeformGradient
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "freeform_gradient",
+		alias: (*alias)(v),
+	})
 }
 
 // BackgroundType is a union type. The following concrete variants implement
@@ -1709,6 +1885,22 @@ type BackgroundTypeFill struct {
 	DarkThemeDimming int64 `json:"dark_theme_dimming"`
 }
 
+// MarshalJSON encodes BackgroundTypeFill with the discriminator field
+// "type" forced to "fill".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BackgroundTypeFill) MarshalJSON() ([]byte, error) {
+	type alias BackgroundTypeFill
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "fill",
+		alias: (*alias)(v),
+	})
+}
+
 // UnmarshalJSON decodes BackgroundTypeFill by dispatching union-typed fields
 // (Fill) through their concrete UnmarshalXxx helpers.
 func (m *BackgroundTypeFill) UnmarshalJSON(data []byte) error {
@@ -1747,6 +1939,22 @@ type BackgroundTypeWallpaper struct {
 	IsMoving *bool `json:"is_moving,omitempty"`
 }
 
+// MarshalJSON encodes BackgroundTypeWallpaper with the discriminator field
+// "type" forced to "wallpaper".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BackgroundTypeWallpaper) MarshalJSON() ([]byte, error) {
+	type alias BackgroundTypeWallpaper
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "wallpaper",
+		alias: (*alias)(v),
+	})
+}
+
 // The background is a .PNG or .TGV (gzipped subset of SVG with MIME type “application/x-tgwallpattern”) pattern to be combined with the background fill chosen by the user.
 type BackgroundTypePattern struct {
 	// Type of the background, always “pattern”
@@ -1761,6 +1969,22 @@ type BackgroundTypePattern struct {
 	IsInverted *bool `json:"is_inverted,omitempty"`
 	// Optional. True, if the background moves slightly when the device is tilted
 	IsMoving *bool `json:"is_moving,omitempty"`
+}
+
+// MarshalJSON encodes BackgroundTypePattern with the discriminator field
+// "type" forced to "pattern".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BackgroundTypePattern) MarshalJSON() ([]byte, error) {
+	type alias BackgroundTypePattern
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "pattern",
+		alias: (*alias)(v),
+	})
 }
 
 // UnmarshalJSON decodes BackgroundTypePattern by dispatching union-typed fields
@@ -1793,6 +2017,22 @@ type BackgroundTypeChatTheme struct {
 	Type BackgroundTypeChatThemeType `json:"type"`
 	// Name of the chat theme, which is usually an emoji
 	ThemeName string `json:"theme_name"`
+}
+
+// MarshalJSON encodes BackgroundTypeChatTheme with the discriminator field
+// "type" forced to "chat_theme".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BackgroundTypeChatTheme) MarshalJSON() ([]byte, error) {
+	type alias BackgroundTypeChatTheme
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "chat_theme",
+		alias: (*alias)(v),
+	})
 }
 
 // This object represents a chat background.
@@ -2577,6 +2817,22 @@ type ChatMemberOwner struct {
 	CustomTitle string `json:"custom_title,omitempty"`
 }
 
+// MarshalJSON encodes ChatMemberOwner with the discriminator field
+// "status" forced to "creator".
+// The hardcoded value frees callers from setting Status by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ChatMemberOwner) MarshalJSON() ([]byte, error) {
+	type alias ChatMemberOwner
+	return json.Marshal(&struct {
+		Status string `json:"status"`
+		*alias
+	}{
+		Status: "creator",
+		alias:  (*alias)(v),
+	})
+}
+
 // Represents a chat member that has some additional privileges.
 type ChatMemberAdministrator struct {
 	// The member's status in the chat, always “administrator”
@@ -2623,6 +2879,22 @@ type ChatMemberAdministrator struct {
 	CustomTitle string `json:"custom_title,omitempty"`
 }
 
+// MarshalJSON encodes ChatMemberAdministrator with the discriminator field
+// "status" forced to "administrator".
+// The hardcoded value frees callers from setting Status by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ChatMemberAdministrator) MarshalJSON() ([]byte, error) {
+	type alias ChatMemberAdministrator
+	return json.Marshal(&struct {
+		Status string `json:"status"`
+		*alias
+	}{
+		Status: "administrator",
+		alias:  (*alias)(v),
+	})
+}
+
 // Represents a chat member that has no additional privileges or restrictions.
 type ChatMemberMember struct {
 	// The member's status in the chat, always “member”
@@ -2633,6 +2905,22 @@ type ChatMemberMember struct {
 	User User `json:"user"`
 	// Optional. Date when the user's subscription will expire; Unix time
 	UntilDate *int64 `json:"until_date,omitempty"`
+}
+
+// MarshalJSON encodes ChatMemberMember with the discriminator field
+// "status" forced to "member".
+// The hardcoded value frees callers from setting Status by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ChatMemberMember) MarshalJSON() ([]byte, error) {
+	type alias ChatMemberMember
+	return json.Marshal(&struct {
+		Status string `json:"status"`
+		*alias
+	}{
+		Status: "member",
+		alias:  (*alias)(v),
+	})
 }
 
 // Represents a chat member that is under certain restrictions in the chat. Supergroups only.
@@ -2681,12 +2969,44 @@ type ChatMemberRestricted struct {
 	UntilDate int64 `json:"until_date"`
 }
 
+// MarshalJSON encodes ChatMemberRestricted with the discriminator field
+// "status" forced to "restricted".
+// The hardcoded value frees callers from setting Status by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ChatMemberRestricted) MarshalJSON() ([]byte, error) {
+	type alias ChatMemberRestricted
+	return json.Marshal(&struct {
+		Status string `json:"status"`
+		*alias
+	}{
+		Status: "restricted",
+		alias:  (*alias)(v),
+	})
+}
+
 // Represents a chat member that isn't currently a member of the chat, but may join it themselves.
 type ChatMemberLeft struct {
 	// The member's status in the chat, always “left”
 	Status ChatMemberLeftStatus `json:"status"`
 	// Information about the user
 	User User `json:"user"`
+}
+
+// MarshalJSON encodes ChatMemberLeft with the discriminator field
+// "status" forced to "left".
+// The hardcoded value frees callers from setting Status by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ChatMemberLeft) MarshalJSON() ([]byte, error) {
+	type alias ChatMemberLeft
+	return json.Marshal(&struct {
+		Status string `json:"status"`
+		*alias
+	}{
+		Status: "left",
+		alias:  (*alias)(v),
+	})
 }
 
 // Represents a chat member that was banned in the chat and can't return to the chat or view chat messages.
@@ -2697,6 +3017,22 @@ type ChatMemberBanned struct {
 	User User `json:"user"`
 	// Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever
 	UntilDate int64 `json:"until_date"`
+}
+
+// MarshalJSON encodes ChatMemberBanned with the discriminator field
+// "status" forced to "kicked".
+// The hardcoded value frees callers from setting Status by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ChatMemberBanned) MarshalJSON() ([]byte, error) {
+	type alias ChatMemberBanned
+	return json.Marshal(&struct {
+		Status string `json:"status"`
+		*alias
+	}{
+		Status: "kicked",
+		alias:  (*alias)(v),
+	})
 }
 
 // Represents a join request sent to a chat.
@@ -2903,6 +3239,22 @@ type StoryAreaTypeLocation struct {
 	Address *LocationAddress `json:"address,omitempty"`
 }
 
+// MarshalJSON encodes StoryAreaTypeLocation with the discriminator field
+// "type" forced to "location".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *StoryAreaTypeLocation) MarshalJSON() ([]byte, error) {
+	type alias StoryAreaTypeLocation
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "location",
+		alias: (*alias)(v),
+	})
+}
+
 // Describes a story area pointing to a suggested reaction. Currently, a story can have up to 5 suggested reaction areas.
 type StoryAreaTypeSuggestedReaction struct {
 	// Type of the area, always “suggested_reaction”
@@ -2913,6 +3265,22 @@ type StoryAreaTypeSuggestedReaction struct {
 	IsDark *bool `json:"is_dark,omitempty"`
 	// Optional. Pass True if reaction area corner is flipped
 	IsFlipped *bool `json:"is_flipped,omitempty"`
+}
+
+// MarshalJSON encodes StoryAreaTypeSuggestedReaction with the discriminator field
+// "type" forced to "suggested_reaction".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *StoryAreaTypeSuggestedReaction) MarshalJSON() ([]byte, error) {
+	type alias StoryAreaTypeSuggestedReaction
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "suggested_reaction",
+		alias: (*alias)(v),
+	})
 }
 
 // UnmarshalJSON decodes StoryAreaTypeSuggestedReaction by dispatching union-typed fields
@@ -2947,6 +3315,22 @@ type StoryAreaTypeLink struct {
 	URL string `json:"url"`
 }
 
+// MarshalJSON encodes StoryAreaTypeLink with the discriminator field
+// "type" forced to "link".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *StoryAreaTypeLink) MarshalJSON() ([]byte, error) {
+	type alias StoryAreaTypeLink
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "link",
+		alias: (*alias)(v),
+	})
+}
+
 // Describes a story area containing weather information. Currently, a story can have up to 3 weather areas.
 type StoryAreaTypeWeather struct {
 	// Type of the area, always “weather”
@@ -2959,12 +3343,44 @@ type StoryAreaTypeWeather struct {
 	BackgroundColor int64 `json:"background_color"`
 }
 
+// MarshalJSON encodes StoryAreaTypeWeather with the discriminator field
+// "type" forced to "weather".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *StoryAreaTypeWeather) MarshalJSON() ([]byte, error) {
+	type alias StoryAreaTypeWeather
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "weather",
+		alias: (*alias)(v),
+	})
+}
+
 // Describes a story area pointing to a unique gift. Currently, a story can have at most 1 unique gift area.
 type StoryAreaTypeUniqueGift struct {
 	// Type of the area, always “unique_gift”
 	Type StoryAreaTypeUniqueGiftType `json:"type"`
 	// Unique name of the gift
 	Name string `json:"name"`
+}
+
+// MarshalJSON encodes StoryAreaTypeUniqueGift with the discriminator field
+// "type" forced to "unique_gift".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *StoryAreaTypeUniqueGift) MarshalJSON() ([]byte, error) {
+	type alias StoryAreaTypeUniqueGift
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "unique_gift",
+		alias: (*alias)(v),
+	})
 }
 
 // Describes a clickable area on a story media.
@@ -3059,6 +3475,22 @@ type ReactionTypeEmoji struct {
 	Emoji string `json:"emoji"`
 }
 
+// MarshalJSON encodes ReactionTypeEmoji with the discriminator field
+// "type" forced to "emoji".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ReactionTypeEmoji) MarshalJSON() ([]byte, error) {
+	type alias ReactionTypeEmoji
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "emoji",
+		alias: (*alias)(v),
+	})
+}
+
 // The reaction is based on a custom emoji.
 type ReactionTypeCustomEmoji struct {
 	// Type of the reaction, always “custom_emoji”
@@ -3067,10 +3499,42 @@ type ReactionTypeCustomEmoji struct {
 	CustomEmojiID string `json:"custom_emoji_id"`
 }
 
+// MarshalJSON encodes ReactionTypeCustomEmoji with the discriminator field
+// "type" forced to "custom_emoji".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ReactionTypeCustomEmoji) MarshalJSON() ([]byte, error) {
+	type alias ReactionTypeCustomEmoji
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "custom_emoji",
+		alias: (*alias)(v),
+	})
+}
+
 // The reaction is paid.
 type ReactionTypePaid struct {
 	// Type of the reaction, always “paid”
 	Type ReactionTypePaidType `json:"type"`
+}
+
+// MarshalJSON encodes ReactionTypePaid with the discriminator field
+// "type" forced to "paid".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ReactionTypePaid) MarshalJSON() ([]byte, error) {
+	type alias ReactionTypePaid
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "paid",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a reaction added to a message along with the number of times it was added.
@@ -3447,6 +3911,22 @@ type OwnedGiftRegular struct {
 	UniqueGiftNumber *int64 `json:"unique_gift_number,omitempty"`
 }
 
+// MarshalJSON encodes OwnedGiftRegular with the discriminator field
+// "type" forced to "regular".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *OwnedGiftRegular) MarshalJSON() ([]byte, error) {
+	type alias OwnedGiftRegular
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "regular",
+		alias: (*alias)(v),
+	})
+}
+
 // Describes a unique gift received and owned by a user or a chat.
 type OwnedGiftUnique struct {
 	// Type of the gift, always “unique”
@@ -3467,6 +3947,22 @@ type OwnedGiftUnique struct {
 	TransferStarCount *int64 `json:"transfer_star_count,omitempty"`
 	// Optional. Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift can be transferred now
 	NextTransferDate *int64 `json:"next_transfer_date,omitempty"`
+}
+
+// MarshalJSON encodes OwnedGiftUnique with the discriminator field
+// "type" forced to "unique".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *OwnedGiftUnique) MarshalJSON() ([]byte, error) {
+	type alias OwnedGiftUnique
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "unique",
+		alias: (*alias)(v),
+	})
 }
 
 // Contains the list of gifts received and owned by a user or a chat.
@@ -3589,10 +4085,42 @@ type BotCommandScopeDefault struct {
 	Type string `json:"type"`
 }
 
+// MarshalJSON encodes BotCommandScopeDefault with the discriminator field
+// "type" forced to "default".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BotCommandScopeDefault) MarshalJSON() ([]byte, error) {
+	type alias BotCommandScopeDefault
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "default",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents the scope of bot commands, covering all private chats.
 type BotCommandScopeAllPrivateChats struct {
 	// Scope type, must be all_private_chats
 	Type string `json:"type"`
+}
+
+// MarshalJSON encodes BotCommandScopeAllPrivateChats with the discriminator field
+// "type" forced to "all_private_chats".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BotCommandScopeAllPrivateChats) MarshalJSON() ([]byte, error) {
+	type alias BotCommandScopeAllPrivateChats
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "all_private_chats",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents the scope of bot commands, covering all group and supergroup chats.
@@ -3601,10 +4129,42 @@ type BotCommandScopeAllGroupChats struct {
 	Type string `json:"type"`
 }
 
+// MarshalJSON encodes BotCommandScopeAllGroupChats with the discriminator field
+// "type" forced to "all_group_chats".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BotCommandScopeAllGroupChats) MarshalJSON() ([]byte, error) {
+	type alias BotCommandScopeAllGroupChats
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "all_group_chats",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents the scope of bot commands, covering all group and supergroup chat administrators.
 type BotCommandScopeAllChatAdministrators struct {
 	// Scope type, must be all_chat_administrators
 	Type string `json:"type"`
+}
+
+// MarshalJSON encodes BotCommandScopeAllChatAdministrators with the discriminator field
+// "type" forced to "all_chat_administrators".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BotCommandScopeAllChatAdministrators) MarshalJSON() ([]byte, error) {
+	type alias BotCommandScopeAllChatAdministrators
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "all_chat_administrators",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents the scope of bot commands, covering a specific chat.
@@ -3615,12 +4175,44 @@ type BotCommandScopeChat struct {
 	ChatID ChatID `json:"chat_id"`
 }
 
+// MarshalJSON encodes BotCommandScopeChat with the discriminator field
+// "type" forced to "chat".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BotCommandScopeChat) MarshalJSON() ([]byte, error) {
+	type alias BotCommandScopeChat
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "chat",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents the scope of bot commands, covering all administrators of a specific group or supergroup chat.
 type BotCommandScopeChatAdministrators struct {
 	// Scope type, must be chat_administrators
 	Type string `json:"type"`
 	// Unique identifier for the target chat or username of the target supergroup in the format @username. Channel direct messages chats and channel chats aren't supported.
 	ChatID ChatID `json:"chat_id"`
+}
+
+// MarshalJSON encodes BotCommandScopeChatAdministrators with the discriminator field
+// "type" forced to "chat_administrators".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BotCommandScopeChatAdministrators) MarshalJSON() ([]byte, error) {
+	type alias BotCommandScopeChatAdministrators
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "chat_administrators",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents the scope of bot commands, covering a specific member of a group or supergroup chat.
@@ -3631,6 +4223,22 @@ type BotCommandScopeChatMember struct {
 	ChatID ChatID `json:"chat_id"`
 	// Unique identifier of the target user
 	UserID int64 `json:"user_id"`
+}
+
+// MarshalJSON encodes BotCommandScopeChatMember with the discriminator field
+// "type" forced to "chat_member".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *BotCommandScopeChatMember) MarshalJSON() ([]byte, error) {
+	type alias BotCommandScopeChatMember
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "chat_member",
+		alias: (*alias)(v),
+	})
 }
 
 // This object represents the bot's name.
@@ -3702,6 +4310,22 @@ type MenuButtonCommands struct {
 	Type string `json:"type"`
 }
 
+// MarshalJSON encodes MenuButtonCommands with the discriminator field
+// "type" forced to "commands".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *MenuButtonCommands) MarshalJSON() ([]byte, error) {
+	type alias MenuButtonCommands
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "commands",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a menu button, which launches a Web App.
 type MenuButtonWebApp struct {
 	// Type of the button, must be web_app
@@ -3712,10 +4336,42 @@ type MenuButtonWebApp struct {
 	WebApp WebAppInfo `json:"web_app"`
 }
 
+// MarshalJSON encodes MenuButtonWebApp with the discriminator field
+// "type" forced to "web_app".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *MenuButtonWebApp) MarshalJSON() ([]byte, error) {
+	type alias MenuButtonWebApp
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "web_app",
+		alias: (*alias)(v),
+	})
+}
+
 // Describes that no specific value for the menu button was set.
 type MenuButtonDefault struct {
 	// Type of the button, must be default
 	Type string `json:"type"`
+}
+
+// MarshalJSON encodes MenuButtonDefault with the discriminator field
+// "type" forced to "default".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *MenuButtonDefault) MarshalJSON() ([]byte, error) {
+	type alias MenuButtonDefault
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "default",
+		alias: (*alias)(v),
+	})
 }
 
 // ChatBoostSource is a union type. The following concrete variants implement
@@ -3770,12 +4426,44 @@ type ChatBoostSourcePremium struct {
 	User User `json:"user"`
 }
 
+// MarshalJSON encodes ChatBoostSourcePremium with the discriminator field
+// "source" forced to "premium".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ChatBoostSourcePremium) MarshalJSON() ([]byte, error) {
+	type alias ChatBoostSourcePremium
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "premium",
+		alias:  (*alias)(v),
+	})
+}
+
 // The boost was obtained by the creation of Telegram Premium gift codes to boost a chat. Each such code boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
 type ChatBoostSourceGiftCode struct {
 	// Source of the boost, always “gift_code”
 	Source ChatBoostSourceGiftCodeSource `json:"source"`
 	// User for which the gift code was created
 	User User `json:"user"`
+}
+
+// MarshalJSON encodes ChatBoostSourceGiftCode with the discriminator field
+// "source" forced to "gift_code".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ChatBoostSourceGiftCode) MarshalJSON() ([]byte, error) {
+	type alias ChatBoostSourceGiftCode
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "gift_code",
+		alias:  (*alias)(v),
+	})
 }
 
 // The boost was obtained by the creation of a Telegram Premium or a Telegram Star giveaway. This boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription for Telegram Premium giveaways and prize_star_count / 500 times for one year for Telegram Star giveaways.
@@ -3790,6 +4478,22 @@ type ChatBoostSourceGiveaway struct {
 	PrizeStarCount *int64 `json:"prize_star_count,omitempty"`
 	// Optional. True, if the giveaway was completed, but there was no user to win the prize
 	IsUnclaimed *bool `json:"is_unclaimed,omitempty"`
+}
+
+// MarshalJSON encodes ChatBoostSourceGiveaway with the discriminator field
+// "source" forced to "giveaway".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *ChatBoostSourceGiveaway) MarshalJSON() ([]byte, error) {
+	type alias ChatBoostSourceGiveaway
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "giveaway",
+		alias:  (*alias)(v),
+	})
 }
 
 // This object contains information about a chat boost.
@@ -4030,6 +4734,22 @@ type InputMediaAnimation struct {
 	HasSpoiler *bool `json:"has_spoiler,omitempty"`
 }
 
+// MarshalJSON encodes InputMediaAnimation with the discriminator field
+// "type" forced to "animation".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputMediaAnimation) MarshalJSON() ([]byte, error) {
+	type alias InputMediaAnimation
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "animation",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents an audio file to be treated as music to be sent.
 type InputMediaAudio struct {
 	// Type of the result, must be audio
@@ -4052,6 +4772,22 @@ type InputMediaAudio struct {
 	Title string `json:"title,omitempty"`
 }
 
+// MarshalJSON encodes InputMediaAudio with the discriminator field
+// "type" forced to "audio".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputMediaAudio) MarshalJSON() ([]byte, error) {
+	type alias InputMediaAudio
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "audio",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a general file to be sent.
 type InputMediaDocument struct {
 	// Type of the result, must be document
@@ -4068,6 +4804,22 @@ type InputMediaDocument struct {
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// Optional. Disables automatic server-side content type detection for files uploaded using multipart/form-data. Always True, if the document is sent as part of an album.
 	DisableContentTypeDetection *bool `json:"disable_content_type_detection,omitempty"`
+}
+
+// MarshalJSON encodes InputMediaDocument with the discriminator field
+// "type" forced to "document".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputMediaDocument) MarshalJSON() ([]byte, error) {
+	type alias InputMediaDocument
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "document",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a live photo to be sent.
@@ -4090,6 +4842,22 @@ type InputMediaLivePhoto struct {
 	HasSpoiler *bool `json:"has_spoiler,omitempty"`
 }
 
+// MarshalJSON encodes InputMediaLivePhoto with the discriminator field
+// "type" forced to "live_photo".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputMediaLivePhoto) MarshalJSON() ([]byte, error) {
+	type alias InputMediaLivePhoto
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "live_photo",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a location to be sent.
 type InputMediaLocation struct {
 	// Type of the result, must be location
@@ -4100,6 +4868,22 @@ type InputMediaLocation struct {
 	Longitude float64 `json:"longitude"`
 	// Optional. The radius of uncertainty for the location, measured in meters; 0-1500
 	HorizontalAccuracy *float64 `json:"horizontal_accuracy,omitempty"`
+}
+
+// MarshalJSON encodes InputMediaLocation with the discriminator field
+// "type" forced to "location".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputMediaLocation) MarshalJSON() ([]byte, error) {
+	type alias InputMediaLocation
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "location",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a photo to be sent.
@@ -4120,6 +4904,22 @@ type InputMediaPhoto struct {
 	HasSpoiler *bool `json:"has_spoiler,omitempty"`
 }
 
+// MarshalJSON encodes InputMediaPhoto with the discriminator field
+// "type" forced to "photo".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputMediaPhoto) MarshalJSON() ([]byte, error) {
+	type alias InputMediaPhoto
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "photo",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a sticker file to be sent.
 type InputMediaSticker struct {
 	// Type of the result, must be sticker
@@ -4128,6 +4928,22 @@ type InputMediaSticker struct {
 	Media string `json:"media"`
 	// Optional. Emoji associated with the sticker; only for just uploaded stickers
 	Emoji string `json:"emoji,omitempty"`
+}
+
+// MarshalJSON encodes InputMediaSticker with the discriminator field
+// "type" forced to "sticker".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputMediaSticker) MarshalJSON() ([]byte, error) {
+	type alias InputMediaSticker
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "sticker",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a venue to be sent.
@@ -4150,6 +4966,22 @@ type InputMediaVenue struct {
 	GooglePlaceID string `json:"google_place_id,omitempty"`
 	// Optional. Google Places type of the venue. (See supported types.)
 	GooglePlaceType string `json:"google_place_type,omitempty"`
+}
+
+// MarshalJSON encodes InputMediaVenue with the discriminator field
+// "type" forced to "venue".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputMediaVenue) MarshalJSON() ([]byte, error) {
+	type alias InputMediaVenue
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "venue",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a video to be sent.
@@ -4184,6 +5016,22 @@ type InputMediaVideo struct {
 	HasSpoiler *bool `json:"has_spoiler,omitempty"`
 }
 
+// MarshalJSON encodes InputMediaVideo with the discriminator field
+// "type" forced to "video".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputMediaVideo) MarshalJSON() ([]byte, error) {
+	type alias InputMediaVideo
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "video",
+		alias: (*alias)(v),
+	})
+}
+
 // InputPaidMedia is a union type. The following concrete variants implement
 // it:
 //   - InputPaidMediaLivePhoto
@@ -4212,12 +5060,44 @@ type InputPaidMediaLivePhoto struct {
 	Photo string `json:"photo"`
 }
 
+// MarshalJSON encodes InputPaidMediaLivePhoto with the discriminator field
+// "type" forced to "live_photo".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputPaidMediaLivePhoto) MarshalJSON() ([]byte, error) {
+	type alias InputPaidMediaLivePhoto
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "live_photo",
+		alias: (*alias)(v),
+	})
+}
+
 // The paid media to send is a photo.
 type InputPaidMediaPhoto struct {
 	// Type of the media, must be photo
 	Type string `json:"type"`
 	// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
 	Media string `json:"media"`
+}
+
+// MarshalJSON encodes InputPaidMediaPhoto with the discriminator field
+// "type" forced to "photo".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputPaidMediaPhoto) MarshalJSON() ([]byte, error) {
+	type alias InputPaidMediaPhoto
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "photo",
+		alias: (*alias)(v),
+	})
 }
 
 // The paid media to send is a video.
@@ -4242,6 +5122,22 @@ type InputPaidMediaVideo struct {
 	SupportsStreaming *bool `json:"supports_streaming,omitempty"`
 }
 
+// MarshalJSON encodes InputPaidMediaVideo with the discriminator field
+// "type" forced to "video".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputPaidMediaVideo) MarshalJSON() ([]byte, error) {
+	type alias InputPaidMediaVideo
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "video",
+		alias: (*alias)(v),
+	})
+}
+
 // InputProfilePhoto is a union type. The following concrete variants implement
 // it:
 //   - InputProfilePhotoStatic
@@ -4264,6 +5160,22 @@ type InputProfilePhotoStatic struct {
 	Photo string `json:"photo"`
 }
 
+// MarshalJSON encodes InputProfilePhotoStatic with the discriminator field
+// "type" forced to "static".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputProfilePhotoStatic) MarshalJSON() ([]byte, error) {
+	type alias InputProfilePhotoStatic
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "static",
+		alias: (*alias)(v),
+	})
+}
+
 // An animated profile photo in the MPEG4 format.
 type InputProfilePhotoAnimated struct {
 	// Type of the profile photo, must be animated
@@ -4272,6 +5184,22 @@ type InputProfilePhotoAnimated struct {
 	Animation string `json:"animation"`
 	// Optional. Timestamp in seconds of the frame that will be used as the static profile photo. Defaults to 0.0.
 	MainFrameTimestamp *float64 `json:"main_frame_timestamp,omitempty"`
+}
+
+// MarshalJSON encodes InputProfilePhotoAnimated with the discriminator field
+// "type" forced to "animated".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputProfilePhotoAnimated) MarshalJSON() ([]byte, error) {
+	type alias InputProfilePhotoAnimated
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "animated",
+		alias: (*alias)(v),
+	})
 }
 
 // InputStoryContent is a union type. The following concrete variants implement
@@ -4296,6 +5224,22 @@ type InputStoryContentPhoto struct {
 	Photo string `json:"photo"`
 }
 
+// MarshalJSON encodes InputStoryContentPhoto with the discriminator field
+// "type" forced to "photo".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputStoryContentPhoto) MarshalJSON() ([]byte, error) {
+	type alias InputStoryContentPhoto
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "photo",
+		alias: (*alias)(v),
+	})
+}
+
 // Describes a video to post as a story.
 type InputStoryContentVideo struct {
 	// Type of the content, must be video
@@ -4308,6 +5252,22 @@ type InputStoryContentVideo struct {
 	CoverFrameTimestamp *float64 `json:"cover_frame_timestamp,omitempty"`
 	// Optional. Pass True if the video has no sound
 	IsAnimation *bool `json:"is_animation,omitempty"`
+}
+
+// MarshalJSON encodes InputStoryContentVideo with the discriminator field
+// "type" forced to "video".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputStoryContentVideo) MarshalJSON() ([]byte, error) {
+	type alias InputStoryContentVideo
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "video",
+		alias: (*alias)(v),
+	})
 }
 
 // This object represents a sticker.
@@ -4521,6 +5481,22 @@ type InlineQueryResultArticle struct {
 	ThumbnailHeight *int64 `json:"thumbnail_height,omitempty"`
 }
 
+// MarshalJSON encodes InlineQueryResultArticle with the discriminator field
+// "type" forced to "article".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultArticle) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultArticle
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "article",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
 type InlineQueryResultPhoto struct {
 	// Type of the result, must be photo
@@ -4551,6 +5527,22 @@ type InlineQueryResultPhoto struct {
 	ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
 	// Optional. Content of the message to be sent instead of the photo
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
+}
+
+// MarshalJSON encodes InlineQueryResultPhoto with the discriminator field
+// "type" forced to "photo".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultPhoto) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultPhoto
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "photo",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
@@ -4587,6 +5579,22 @@ type InlineQueryResultGif struct {
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 
+// MarshalJSON encodes InlineQueryResultGif with the discriminator field
+// "type" forced to "gif".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultGif) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultGif
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "gif",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
 type InlineQueryResultMpeg4Gif struct {
 	// Type of the result, must be mpeg4_gif
@@ -4619,6 +5627,22 @@ type InlineQueryResultMpeg4Gif struct {
 	ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
 	// Optional. Content of the message to be sent instead of the video animation
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
+}
+
+// MarshalJSON encodes InlineQueryResultMpeg4Gif with the discriminator field
+// "type" forced to "mpeg4_gif".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultMpeg4Gif) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultMpeg4Gif
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "mpeg4_gif",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
@@ -4658,6 +5682,22 @@ type InlineQueryResultVideo struct {
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 
+// MarshalJSON encodes InlineQueryResultVideo with the discriminator field
+// "type" forced to "video".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultVideo) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultVideo
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "video",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a link to an MP3 audio file. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
 type InlineQueryResultAudio struct {
 	// Type of the result, must be audio
@@ -4684,6 +5724,22 @@ type InlineQueryResultAudio struct {
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 
+// MarshalJSON encodes InlineQueryResultAudio with the discriminator field
+// "type" forced to "audio".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultAudio) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultAudio
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "audio",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the the voice message.
 type InlineQueryResultVoice struct {
 	// Type of the result, must be voice
@@ -4706,6 +5762,22 @@ type InlineQueryResultVoice struct {
 	ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
 	// Optional. Content of the message to be sent instead of the voice recording
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
+}
+
+// MarshalJSON encodes InlineQueryResultVoice with the discriminator field
+// "type" forced to "voice".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultVoice) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultVoice
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "voice",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file. Currently, only .PDF and .ZIP files can be sent using this method.
@@ -4740,6 +5812,22 @@ type InlineQueryResultDocument struct {
 	ThumbnailHeight *int64 `json:"thumbnail_height,omitempty"`
 }
 
+// MarshalJSON encodes InlineQueryResultDocument with the discriminator field
+// "type" forced to "document".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultDocument) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultDocument
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "document",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
 type InlineQueryResultLocation struct {
 	// Type of the result, must be location
@@ -4770,6 +5858,22 @@ type InlineQueryResultLocation struct {
 	ThumbnailWidth *int64 `json:"thumbnail_width,omitempty"`
 	// Optional. Thumbnail height
 	ThumbnailHeight *int64 `json:"thumbnail_height,omitempty"`
+}
+
+// MarshalJSON encodes InlineQueryResultLocation with the discriminator field
+// "type" forced to "location".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultLocation) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultLocation
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "location",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the venue.
@@ -4806,6 +5910,22 @@ type InlineQueryResultVenue struct {
 	ThumbnailHeight *int64 `json:"thumbnail_height,omitempty"`
 }
 
+// MarshalJSON encodes InlineQueryResultVenue with the discriminator field
+// "type" forced to "venue".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultVenue) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultVenue
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "venue",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the contact.
 type InlineQueryResultContact struct {
 	// Type of the result, must be contact
@@ -4832,6 +5952,22 @@ type InlineQueryResultContact struct {
 	ThumbnailHeight *int64 `json:"thumbnail_height,omitempty"`
 }
 
+// MarshalJSON encodes InlineQueryResultContact with the discriminator field
+// "type" forced to "contact".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultContact) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultContact
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "contact",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a Game.
 type InlineQueryResultGame struct {
 	// Type of the result, must be game
@@ -4842,6 +5978,22 @@ type InlineQueryResultGame struct {
 	GameShortName string `json:"game_short_name"`
 	// Optional. Inline keyboard attached to the message
 	ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+}
+
+// MarshalJSON encodes InlineQueryResultGame with the discriminator field
+// "type" forced to "game".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultGame) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultGame
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "game",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a link to a photo stored on the Telegram servers. By default, this photo will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
@@ -4870,6 +6022,22 @@ type InlineQueryResultCachedPhoto struct {
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 
+// MarshalJSON encodes InlineQueryResultCachedPhoto with the discriminator field
+// "type" forced to "photo".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultCachedPhoto) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultCachedPhoto
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "photo",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a link to an animated GIF file stored on the Telegram servers. By default, this animated GIF file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with specified content instead of the animation.
 type InlineQueryResultCachedGif struct {
 	// Type of the result, must be gif
@@ -4892,6 +6060,22 @@ type InlineQueryResultCachedGif struct {
 	ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
 	// Optional. Content of the message to be sent instead of the GIF animation
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
+}
+
+// MarshalJSON encodes InlineQueryResultCachedGif with the discriminator field
+// "type" forced to "gif".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultCachedGif) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultCachedGif
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "gif",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the Telegram servers. By default, this animated MPEG-4 file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
@@ -4918,6 +6102,22 @@ type InlineQueryResultCachedMpeg4Gif struct {
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 
+// MarshalJSON encodes InlineQueryResultCachedMpeg4Gif with the discriminator field
+// "type" forced to "mpeg4_gif".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultCachedMpeg4Gif) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultCachedMpeg4Gif
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "mpeg4_gif",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the sticker.
 type InlineQueryResultCachedSticker struct {
 	// Type of the result, must be sticker
@@ -4930,6 +6130,22 @@ type InlineQueryResultCachedSticker struct {
 	ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
 	// Optional. Content of the message to be sent instead of the sticker
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
+}
+
+// MarshalJSON encodes InlineQueryResultCachedSticker with the discriminator field
+// "type" forced to "sticker".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultCachedSticker) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultCachedSticker
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "sticker",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
@@ -4954,6 +6170,22 @@ type InlineQueryResultCachedDocument struct {
 	ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
 	// Optional. Content of the message to be sent instead of the file
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
+}
+
+// MarshalJSON encodes InlineQueryResultCachedDocument with the discriminator field
+// "type" forced to "document".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultCachedDocument) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultCachedDocument
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "document",
+		alias: (*alias)(v),
+	})
 }
 
 // Represents a link to a video file stored on the Telegram servers. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
@@ -4982,6 +6214,22 @@ type InlineQueryResultCachedVideo struct {
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 
+// MarshalJSON encodes InlineQueryResultCachedVideo with the discriminator field
+// "type" forced to "video".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultCachedVideo) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultCachedVideo
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "video",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the voice message.
 type InlineQueryResultCachedVoice struct {
 	// Type of the result, must be voice
@@ -5004,6 +6252,22 @@ type InlineQueryResultCachedVoice struct {
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 
+// MarshalJSON encodes InlineQueryResultCachedVoice with the discriminator field
+// "type" forced to "voice".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultCachedVoice) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultCachedVoice
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "voice",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
 type InlineQueryResultCachedAudio struct {
 	// Type of the result, must be audio
@@ -5022,6 +6286,22 @@ type InlineQueryResultCachedAudio struct {
 	ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
 	// Optional. Content of the message to be sent instead of the audio
 	InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
+}
+
+// MarshalJSON encodes InlineQueryResultCachedAudio with the discriminator field
+// "type" forced to "audio".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InlineQueryResultCachedAudio) MarshalJSON() ([]byte, error) {
+	type alias InlineQueryResultCachedAudio
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "audio",
+		alias: (*alias)(v),
+	})
 }
 
 // InputMessageContent is a union type. The following concrete variants implement
@@ -5355,6 +6635,22 @@ type RevenueWithdrawalStatePending struct {
 	Type RevenueWithdrawalStatePendingType `json:"type"`
 }
 
+// MarshalJSON encodes RevenueWithdrawalStatePending with the discriminator field
+// "type" forced to "pending".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RevenueWithdrawalStatePending) MarshalJSON() ([]byte, error) {
+	type alias RevenueWithdrawalStatePending
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "pending",
+		alias: (*alias)(v),
+	})
+}
+
 // The withdrawal succeeded.
 type RevenueWithdrawalStateSucceeded struct {
 	// Type of the state, always “succeeded”
@@ -5365,10 +6661,42 @@ type RevenueWithdrawalStateSucceeded struct {
 	URL string `json:"url"`
 }
 
+// MarshalJSON encodes RevenueWithdrawalStateSucceeded with the discriminator field
+// "type" forced to "succeeded".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RevenueWithdrawalStateSucceeded) MarshalJSON() ([]byte, error) {
+	type alias RevenueWithdrawalStateSucceeded
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "succeeded",
+		alias: (*alias)(v),
+	})
+}
+
 // The withdrawal failed and the transaction was refunded.
 type RevenueWithdrawalStateFailed struct {
 	// Type of the state, always “failed”
 	Type RevenueWithdrawalStateFailedType `json:"type"`
+}
+
+// MarshalJSON encodes RevenueWithdrawalStateFailed with the discriminator field
+// "type" forced to "failed".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RevenueWithdrawalStateFailed) MarshalJSON() ([]byte, error) {
+	type alias RevenueWithdrawalStateFailed
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "failed",
+		alias: (*alias)(v),
+	})
 }
 
 // Contains information about the affiliate that received a commission via this transaction.
@@ -5473,6 +6801,22 @@ type TransactionPartnerUser struct {
 	PremiumSubscriptionDuration *int64 `json:"premium_subscription_duration,omitempty"`
 }
 
+// MarshalJSON encodes TransactionPartnerUser with the discriminator field
+// "type" forced to "user".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *TransactionPartnerUser) MarshalJSON() ([]byte, error) {
+	type alias TransactionPartnerUser
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "user",
+		alias: (*alias)(v),
+	})
+}
+
 // UnmarshalJSON decodes TransactionPartnerUser by dispatching union-typed fields
 // (PaidMedia) through their concrete UnmarshalXxx helpers.
 func (m *TransactionPartnerUser) UnmarshalJSON(data []byte) error {
@@ -5515,6 +6859,22 @@ type TransactionPartnerChat struct {
 	Gift *Gift `json:"gift,omitempty"`
 }
 
+// MarshalJSON encodes TransactionPartnerChat with the discriminator field
+// "type" forced to "chat".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *TransactionPartnerChat) MarshalJSON() ([]byte, error) {
+	type alias TransactionPartnerChat
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "chat",
+		alias: (*alias)(v),
+	})
+}
+
 // Describes the affiliate program that issued the affiliate commission received via this transaction.
 type TransactionPartnerAffiliateProgram struct {
 	// Type of the transaction partner, always “affiliate_program”
@@ -5525,12 +6885,44 @@ type TransactionPartnerAffiliateProgram struct {
 	CommissionPerMille int64 `json:"commission_per_mille"`
 }
 
+// MarshalJSON encodes TransactionPartnerAffiliateProgram with the discriminator field
+// "type" forced to "affiliate_program".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *TransactionPartnerAffiliateProgram) MarshalJSON() ([]byte, error) {
+	type alias TransactionPartnerAffiliateProgram
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "affiliate_program",
+		alias: (*alias)(v),
+	})
+}
+
 // Describes a withdrawal transaction with Fragment.
 type TransactionPartnerFragment struct {
 	// Type of the transaction partner, always “fragment”
 	Type TransactionPartnerFragmentType `json:"type"`
 	// Optional. State of the transaction if the transaction is outgoing
 	WithdrawalState RevenueWithdrawalState `json:"withdrawal_state,omitempty"`
+}
+
+// MarshalJSON encodes TransactionPartnerFragment with the discriminator field
+// "type" forced to "fragment".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *TransactionPartnerFragment) MarshalJSON() ([]byte, error) {
+	type alias TransactionPartnerFragment
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "fragment",
+		alias: (*alias)(v),
+	})
 }
 
 // UnmarshalJSON decodes TransactionPartnerFragment by dispatching union-typed fields
@@ -5563,6 +6955,22 @@ type TransactionPartnerTelegramAds struct {
 	Type TransactionPartnerTelegramAdsType `json:"type"`
 }
 
+// MarshalJSON encodes TransactionPartnerTelegramAds with the discriminator field
+// "type" forced to "telegram_ads".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *TransactionPartnerTelegramAds) MarshalJSON() ([]byte, error) {
+	type alias TransactionPartnerTelegramAds
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "telegram_ads",
+		alias: (*alias)(v),
+	})
+}
+
 // Describes a transaction with payment for paid broadcasting.
 type TransactionPartnerTelegramApi struct {
 	// Type of the transaction partner, always “telegram_api”
@@ -5571,10 +6979,42 @@ type TransactionPartnerTelegramApi struct {
 	RequestCount int64 `json:"request_count"`
 }
 
+// MarshalJSON encodes TransactionPartnerTelegramApi with the discriminator field
+// "type" forced to "telegram_api".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *TransactionPartnerTelegramApi) MarshalJSON() ([]byte, error) {
+	type alias TransactionPartnerTelegramApi
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "telegram_api",
+		alias: (*alias)(v),
+	})
+}
+
 // Describes a transaction with an unknown source or recipient.
 type TransactionPartnerOther struct {
 	// Type of the transaction partner, always “other”
 	Type TransactionPartnerOtherType `json:"type"`
+}
+
+// MarshalJSON encodes TransactionPartnerOther with the discriminator field
+// "type" forced to "other".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *TransactionPartnerOther) MarshalJSON() ([]byte, error) {
+	type alias TransactionPartnerOther
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "other",
+		alias: (*alias)(v),
+	})
 }
 
 // Describes a Telegram Star transaction. Note that if the buyer initiates a chargeback with the payment provider from whom they acquired Stars (e.g., Apple, Google) following this transaction, the refunded Stars will be deducted from the bot's balance. This is outside of Telegram's control.
@@ -5743,6 +7183,22 @@ type PassportElementErrorDataField struct {
 	Message string `json:"message"`
 }
 
+// MarshalJSON encodes PassportElementErrorDataField with the discriminator field
+// "source" forced to "data".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PassportElementErrorDataField) MarshalJSON() ([]byte, error) {
+	type alias PassportElementErrorDataField
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "data",
+		alias:  (*alias)(v),
+	})
+}
+
 // Represents an issue with the front side of a document. The error is considered resolved when the file with the front side of the document changes.
 type PassportElementErrorFrontSide struct {
 	// Error source, must be front_side
@@ -5753,6 +7209,22 @@ type PassportElementErrorFrontSide struct {
 	FileHash string `json:"file_hash"`
 	// Error message
 	Message string `json:"message"`
+}
+
+// MarshalJSON encodes PassportElementErrorFrontSide with the discriminator field
+// "source" forced to "front_side".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PassportElementErrorFrontSide) MarshalJSON() ([]byte, error) {
+	type alias PassportElementErrorFrontSide
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "front_side",
+		alias:  (*alias)(v),
+	})
 }
 
 // Represents an issue with the reverse side of a document. The error is considered resolved when the file with reverse side of the document changes.
@@ -5767,6 +7239,22 @@ type PassportElementErrorReverseSide struct {
 	Message string `json:"message"`
 }
 
+// MarshalJSON encodes PassportElementErrorReverseSide with the discriminator field
+// "source" forced to "reverse_side".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PassportElementErrorReverseSide) MarshalJSON() ([]byte, error) {
+	type alias PassportElementErrorReverseSide
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "reverse_side",
+		alias:  (*alias)(v),
+	})
+}
+
 // Represents an issue with the selfie with a document. The error is considered resolved when the file with the selfie changes.
 type PassportElementErrorSelfie struct {
 	// Error source, must be selfie
@@ -5777,6 +7265,22 @@ type PassportElementErrorSelfie struct {
 	FileHash string `json:"file_hash"`
 	// Error message
 	Message string `json:"message"`
+}
+
+// MarshalJSON encodes PassportElementErrorSelfie with the discriminator field
+// "source" forced to "selfie".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PassportElementErrorSelfie) MarshalJSON() ([]byte, error) {
+	type alias PassportElementErrorSelfie
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "selfie",
+		alias:  (*alias)(v),
+	})
 }
 
 // Represents an issue with a document scan. The error is considered resolved when the file with the document scan changes.
@@ -5791,6 +7295,22 @@ type PassportElementErrorFile struct {
 	Message string `json:"message"`
 }
 
+// MarshalJSON encodes PassportElementErrorFile with the discriminator field
+// "source" forced to "file".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PassportElementErrorFile) MarshalJSON() ([]byte, error) {
+	type alias PassportElementErrorFile
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "file",
+		alias:  (*alias)(v),
+	})
+}
+
 // Represents an issue with a list of scans. The error is considered resolved when the list of files containing the scans changes.
 type PassportElementErrorFiles struct {
 	// Error source, must be files
@@ -5801,6 +7321,22 @@ type PassportElementErrorFiles struct {
 	FileHashes []string `json:"file_hashes"`
 	// Error message
 	Message string `json:"message"`
+}
+
+// MarshalJSON encodes PassportElementErrorFiles with the discriminator field
+// "source" forced to "files".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PassportElementErrorFiles) MarshalJSON() ([]byte, error) {
+	type alias PassportElementErrorFiles
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "files",
+		alias:  (*alias)(v),
+	})
 }
 
 // Represents an issue with one of the files that constitute the translation of a document. The error is considered resolved when the file changes.
@@ -5815,6 +7351,22 @@ type PassportElementErrorTranslationFile struct {
 	Message string `json:"message"`
 }
 
+// MarshalJSON encodes PassportElementErrorTranslationFile with the discriminator field
+// "source" forced to "translation_file".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PassportElementErrorTranslationFile) MarshalJSON() ([]byte, error) {
+	type alias PassportElementErrorTranslationFile
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "translation_file",
+		alias:  (*alias)(v),
+	})
+}
+
 // Represents an issue with the translated version of a document. The error is considered resolved when a file with the document translation change.
 type PassportElementErrorTranslationFiles struct {
 	// Error source, must be translation_files
@@ -5827,6 +7379,22 @@ type PassportElementErrorTranslationFiles struct {
 	Message string `json:"message"`
 }
 
+// MarshalJSON encodes PassportElementErrorTranslationFiles with the discriminator field
+// "source" forced to "translation_files".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PassportElementErrorTranslationFiles) MarshalJSON() ([]byte, error) {
+	type alias PassportElementErrorTranslationFiles
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "translation_files",
+		alias:  (*alias)(v),
+	})
+}
+
 // Represents an issue in an unspecified place. The error is considered resolved when new data is added.
 type PassportElementErrorUnspecified struct {
 	// Error source, must be unspecified
@@ -5837,6 +7405,22 @@ type PassportElementErrorUnspecified struct {
 	ElementHash string `json:"element_hash"`
 	// Error message
 	Message string `json:"message"`
+}
+
+// MarshalJSON encodes PassportElementErrorUnspecified with the discriminator field
+// "source" forced to "unspecified".
+// The hardcoded value frees callers from setting Source by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *PassportElementErrorUnspecified) MarshalJSON() ([]byte, error) {
+	type alias PassportElementErrorUnspecified
+	return json.Marshal(&struct {
+		Source string `json:"source"`
+		*alias
+	}{
+		Source: "unspecified",
+		alias:  (*alias)(v),
+	})
 }
 
 // This object represents a game. Use BotFather to create and edit games, their short names will act as unique identifiers.

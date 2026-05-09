@@ -44,7 +44,7 @@ func TestSetMyCommands_BotCommandScope_NoPointerToInterface(t *testing.T) {
 	// is `BotCommandScope` (interface), not `*BotCommandScope`.
 	ok, err := SetMyCommands(context.Background(), bot, &SetMyCommandsParams{
 		Commands: []BotCommand{{Command: "start", Description: "begin"}},
-		Scope:    &BotCommandScopeAllPrivateChats{Type: "all_private_chats"},
+		Scope:    &BotCommandScopeAllPrivateChats{},
 	})
 	require.NoError(t, err)
 	require.True(t, ok)

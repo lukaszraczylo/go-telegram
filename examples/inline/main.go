@@ -35,7 +35,6 @@ func main() {
 		// Echo the query as article results.
 		results := []api.InlineQueryResult{
 			&api.InlineQueryResultArticle{
-				Type:  "article",
 				ID:    "echo",
 				Title: "Echo: " + q.Query,
 				InputMessageContent: &api.InputTextMessageContent{
@@ -43,7 +42,6 @@ func main() {
 				},
 			},
 			&api.InlineQueryResultArticle{
-				Type:  "article",
 				ID:    "upper",
 				Title: "UPPER: " + strings.ToUpper(q.Query),
 				InputMessageContent: &api.InputTextMessageContent{

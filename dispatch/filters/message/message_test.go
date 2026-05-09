@@ -109,7 +109,7 @@ func TestIsForward(t *testing.T) {
 	// ForwardOrigin is a MessageOrigin interface; set via a concrete type.
 	f := msgfilter.IsForward()
 	m := msg("fwd")
-	m.ForwardOrigin = &api.MessageOriginUser{Type: "user"}
+	m.ForwardOrigin = &api.MessageOriginUser{}
 	require.True(t, f(m))
 	require.False(t, f(msg("no fwd")))
 	require.False(t, f(nil))

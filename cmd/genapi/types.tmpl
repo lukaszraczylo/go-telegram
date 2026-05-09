@@ -84,6 +84,23 @@ func UnmarshalMaybeInaccessibleMessage(data []byte) (MaybeInaccessibleMessage, e
 type {{.Name}} struct {
 {{range .Fields}}{{docComment .Doc}}{{goField $td.Name .}}
 {{end}}}
+{{if variantHasDisc .Name}}
+// MarshalJSON encodes {{.Name}} with the discriminator field
+// "{{variantDiscField .Name}}" forced to {{printf "%q" (variantDiscValue .Name)}}.
+// The hardcoded value frees callers from setting {{variantDiscGoField .Name}} by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *{{.Name}}) MarshalJSON() ([]byte, error) {
+	type alias {{.Name}}
+	return json.Marshal(&struct {
+		{{variantDiscGoField .Name}} string `json:"{{variantDiscField .Name}}"`
+		*alias
+	}{
+		{{variantDiscGoField .Name}}: {{printf "%q" (variantDiscValue .Name)}},
+		alias: (*alias)(v),
+	})
+}
+{{end}}
 {{$unionFields := unionFields .}}{{if $unionFields}}
 // UnmarshalJSON decodes {{.Name}} by dispatching union-typed fields
 // ({{range $i, $u := $unionFields}}{{if $i}}, {{end}}{{$u.Field.Name}}{{end}}) through their concrete UnmarshalXxx helpers.
