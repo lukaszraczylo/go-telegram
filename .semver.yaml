@@ -19,11 +19,12 @@ blacklist:
   - "Merge remote-tracking branch"
   - "go mod tidy"
 
-# Strip the auto-generated bot-api-vX.Y tag prefix when scanning existing
-# tags — those are markers that point at library releases, not version
-# sources themselves.
-tag_prefixes:
-  - "bot-api-"
+# NOTE: do not configure tag_prefixes here. The action's behaviour with
+# that option present is to FILTER tags down to those matching the
+# listed prefixes — meaning v0.x.y / v1.x.y tags get ignored and version
+# numbering restarts from zero. The bot-api-vX.Y tag is created by a
+# separate workflow step and does not need to participate in version
+# selection.
 
 wording:
   patch:
