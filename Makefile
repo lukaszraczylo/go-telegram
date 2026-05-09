@@ -1,4 +1,4 @@
-.PHONY: test test-race lint vet integration regen snapshot regen-from-fixture test-update-golden clean clean-generated audit audit-drift help
+.PHONY: test test-race lint vet integration regen snapshot regen-from-fixture test-update-golden clean clean-generated audit audit-drift docs docs-check help
 
 GO ?= go
 
@@ -14,6 +14,8 @@ help:
 	@echo "  test-update-golden   - refresh golden test fixtures (Plan 2)"
 	@echo "  audit                - report any-typed/bool fallbacks in current IR"
 	@echo "  audit-drift          - audit + compare against HEAD's IR for signature changes"
+	@echo "  docs                 - regenerate markdown reference docs into docs/reference/"
+	@echo "  docs-check           - assert docs/reference/ is up to date (CI gate)"
 	@echo "  clean-generated      - delete generated api/*.gen.go and internal/spec/api.json"
 	@echo "  clean                - clean-generated + transient artefacts (binaries, coverage)"
 
@@ -44,12 +46,14 @@ regen: clean-generated
 	$(GO) run ./cmd/audit -ir $(SCRAPE_OUTPUT)
 	$(GO) run ./cmd/genapi -input $(SCRAPE_OUTPUT) -outdir api
 	$(GO) test ./api/...
+	$(MAKE) docs
 
 regen-from-fixture: clean-generated
 	$(GO) run ./cmd/scrape -input $(SCRAPE_INPUT) -output $(SCRAPE_OUTPUT)
 	$(GO) run ./cmd/audit -ir $(SCRAPE_OUTPUT)
 	$(GO) run ./cmd/genapi -input $(SCRAPE_OUTPUT) -outdir api
 	$(GO) test ./api/...
+	$(MAKE) docs
 
 audit:
 	$(GO) run ./cmd/audit -ir $(SCRAPE_OUTPUT)
@@ -60,6 +64,28 @@ audit-drift:
 test-update-golden:
 	$(GO) test -run TestEmit -update ./cmd/genapi/...
 	$(GO) test -run TestScrape -update ./cmd/scrape/...
+
+# Regenerate godoc-style markdown reference docs into docs/reference/.
+# Auto-installs gomarkdoc on first run.
+DOC_PACKAGES := \
+	./client \
+	./transport \
+	./dispatch \
+	./dispatch/conversation \
+	./dispatch/filters/message \
+	./dispatch/filters/callback \
+	./dispatch/filters/inline \
+	./dispatch/filters/chatmember \
+	./dispatch/filters/chatjoinrequest \
+	./dispatch/filters/precheckoutquery \
+	./api
+
+docs:
+	@which gomarkdoc > /dev/null || (echo "installing gomarkdoc..." && $(GO) install github.com/princjef/gomarkdoc/cmd/gomarkdoc@v1.1.0)
+	gomarkdoc -o 'docs/reference/{{.Dir}}.md' $(DOC_PACKAGES)
+
+docs-check: docs
+	@git diff --exit-code docs/reference/ || (echo "docs/reference/ is stale — run 'make docs' and commit" && exit 1)
 
 # clean-generated removes ONLY codegen output. Source code (cmd/scrape,
 # cmd/genapi, runtime helpers) is untouched. Run before regen to avoid

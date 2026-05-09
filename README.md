@@ -1,61 +1,71 @@
-# go-telegram
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/logo-dark.svg">
+    <img alt="go-telegram" src="docs/logo-light.svg" width="320">
+  </picture>
+</p>
 
-> A fully-generated, strongly-typed Go client for the Telegram Bot API — no `any`, no guessing.
+<p align="center">
+  <strong>Build Telegram bots in Go that just work.</strong><br>
+  Type-safe. Batteries included. Always up to date with the latest Bot API.
+</p>
 
-[![CI](https://github.com/lukaszraczylo/go-telegram/actions/workflows/ci.yml/badge.svg)](https://github.com/lukaszraczylo/go-telegram/actions/workflows/ci.yml)
-[![Go Reference](https://pkg.go.dev/badge/github.com/lukaszraczylo/go-telegram.svg)](https://pkg.go.dev/github.com/lukaszraczylo/go-telegram)
-[![Go Version](https://img.shields.io/github/go-mod/go-version/lukaszraczylo/go-telegram)](go.mod)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+<p align="center">
+  <a href="https://github.com/lukaszraczylo/go-telegram/actions/workflows/ci.yml"><img src="https://github.com/lukaszraczylo/go-telegram/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://pkg.go.dev/github.com/lukaszraczylo/go-telegram"><img src="https://pkg.go.dev/badge/github.com/lukaszraczylo/go-telegram.svg" alt="Go Reference"></a>
+  <a href="go.mod"><img src="https://img.shields.io/github/go-mod/go-version/lukaszraczylo/go-telegram" alt="Go Version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+</p>
 
-> Bot API **v10.0** · 176 methods · 301 types · 1428 auto-generated tests
+<p align="center">
+  Bot API <strong>v10.0</strong> · 176 methods · 301 types · 1428 auto-generated tests
+</p>
 
-Most Telegram bot libraries expose Telegram's "Integer or String" fields as `interface{}` or `any`. Every union type in go-telegram is a real Go type with compile-time safety and auto-decoding. The entire API surface is code-generated from a committed HTML snapshot of the live Telegram docs — regenerating picks up new Bot API versions in one command, with a self-verifying pipeline that catches regressions before they ship.
+<p align="center">
+  <a href="https://go-telegram.raczylo.com/">Website</a> ·
+  <a href="docs/reference/">API Reference</a> ·
+  <a href="examples/">Examples</a> ·
+  <a href="https://pkg.go.dev/github.com/lukaszraczylo/go-telegram">pkg.go.dev</a>
+</p>
+
+---
+
+## Hello, Telegram 👋
 
 ```go
-bot := client.New(os.Getenv("TELEGRAM_BOT_TOKEN"),
-    client.WithHTTPClient(client.NewRetryDoer(client.NewDefaultHTTPDoer())),
-)
-
+bot := client.New(os.Getenv("TELEGRAM_BOT_TOKEN"))
 router := dispatch.New(bot)
+
 router.OnCommand("/start", func(c *dispatch.Context, m *api.Message) error {
     _, err := api.SendMessage(c.Ctx, c.Bot, &api.SendMessageParams{
         ChatID: api.ChatIDFromInt(m.Chat.ID),
-        Text:   "Hello! Send me anything to echo.",
-    })
-    return err
-})
-router.OnText(`.+`, func(c *dispatch.Context, m *api.Message) error {
-    _, err := api.SendMessage(c.Ctx, c.Bot, &api.SendMessageParams{
-        ChatID:          api.ChatIDFromInt(m.Chat.ID),
-        Text:            m.Text,
-        ReplyParameters: &api.ReplyParameters{MessageID: m.MessageID},
+        Text:   "Hi " + m.From.FirstName + "! 👋",
     })
     return err
 })
 
-ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
-defer stop()
 router.Run(ctx, transport.NewLongPoller(bot))
 ```
 
-## Why go-telegram
+That's a working bot. No magic strings, no `any`, no guessing what fields exist — your editor autocompletes everything.
 
-| Feature | What it means for you |
-|---|---|
-| **Typed unions** | `ChatID`, `MessageOrBool`, `InputFile`, and 13 discriminated-union interfaces give you `switch v.(type)` instead of runtime panics |
-| **Full Bot API v10.0** | 176 methods and 301 types — all generated, none hand-written, nothing missing |
-| **Self-verifying codegen** | `make snapshot && make regen` regenerates everything and runs 1428 tests; any regression fails the pipeline |
-| **Pluggable transport + codec** | `HTTPDoer` and `Codec` are one-method interfaces — swap in fasthttp, sonic, or your test fake without forking |
-| **Retry middleware** | `RetryDoer` honours Telegram's `retry_after`, backs off on 5xx, replays request bodies |
-| **Composable dispatcher** | Per-update goroutine pool (default 50), filter combinators (`And`/`Or`/`Not`), conversation state machines, named handlers |
+## Why you'll like it
 
-## Quickstart
+- 🎯 **No `any`, anywhere.** Telegram's "Integer or String" and "one of N types" unions are real Go types you can `switch` on.
+- 🔋 **Batteries included.** Long-poll, webhooks, retries on rate limits, conversation state machines, filters, handler groups — out of the box.
+- 🔄 **Always current.** The whole API is generated from Telegram's live docs. New Bot API release? `make regen` and you're done.
+- 🪶 **Pluggable everything.** Swap the HTTP client, JSON codec, or storage backend with a one-method interface. No forks.
+- 🧪 **Already tested.** 1428 generated tests cover every method × every failure mode (success, API errors, network failures, parse errors, timeouts, missing fields, forbidden, server errors).
+
+## Install
 
 ```bash
 go get github.com/lukaszraczylo/go-telegram
 ```
 
-Full echo bot — long-poll, graceful shutdown, retry on 429:
+## A complete echo bot
+
+Long-poll, graceful shutdown, retries on Telegram's `429 retry_after`:
 
 ```go
 package main
@@ -131,7 +141,11 @@ Run any example: `TELEGRAM_BOT_TOKEN=xxx go run ./examples/<name>`
 | | [`polls`](examples/polls) | `sendPoll` and answer tally |
 | | [`payments`](examples/payments) | Invoice → pre-checkout → success |
 
-## Concepts
+## Reference docs
+
+Full API reference is auto-generated from source comments and lives in [`docs/reference/`](docs/reference/README.md) — browse package by package on GitHub, or read it rendered at [go-telegram.raczylo.com](https://go-telegram.raczylo.com/) and [pkg.go.dev](https://pkg.go.dev/github.com/lukaszraczylo/go-telegram).
+
+## How it works
 
 <details>
 <summary>Bot client and pluggable transport</summary>
@@ -284,25 +298,18 @@ r.OnCommand("/cmd", named.Handler())
 
 </details>
 
-## Codegen pipeline
+## Keeping up with Telegram
 
-The full API surface in `api/*.gen.go` is generated from a committed HTML snapshot of `core.telegram.org/bots/api`:
+When Telegram ships a new Bot API version, regenerating the whole library is one command:
 
 ```bash
-make snapshot   # fetch and commit latest HTML from core.telegram.org
-make regen      # scrape → audit → emit Go code → run generated tests
-go test -race ./...
+make snapshot   # grab the latest HTML from core.telegram.org
+make regen      # scrape → audit → emit Go → run tests → regenerate docs
 ```
 
-`make regen` is self-verifying. The audit tool (`cmd/audit`) checks:
+The audit tool checks for `any`-typed escapes, surprise `bool` returns, and signature drift. CI runs it on every PR, and a weekly workflow opens an auto-PR with regenerated code so a new Bot API version never sits longer than a week.
 
-- `any`-typed fields or returns that escaped the union machinery
-- Methods returning `bool` not on the approved list (`internal/spec/overrides.json`)
-- Signature drift vs HEAD's IR (added/removed/changed return types)
-
-Exit codes: 0 clean · 1 fallback · 2 drift · 3 invalid. CI runs the audit on every PR. A weekly `regen.yml` workflow opens a PR with regenerated code and the audit summary in the body.
-
-To track a new Bot API release: run `make snapshot && make regen`, review the audit output, update `internal/spec/overrides.json` for any newly unparseable methods, and submit a PR.
+If something in Telegram's docs trips up the scraper, add an override to `internal/spec/overrides.json`. The audit will tell you what to put there.
 
 ## Testing
 

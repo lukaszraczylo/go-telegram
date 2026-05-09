@@ -134,7 +134,7 @@ jobs:
       - name: Regenerate against pinned snapshot
         run: make regen-from-fixture
       - name: Assert clean diff
-        run: git diff --exit-code internal/spec/api.json api/
+        run: git diff --exit-code internal/spec/api.json api/ docs/reference/
 
   audit:
     runs-on: ubuntu-latest
