@@ -1,0 +1,175 @@
+{
+  "version": "7.10",
+  "types": [
+    {
+      "name": "User",
+      "doc": "This object represents a Telegram user or bot.",
+      "fields": [
+        {
+          "name": "ID",
+          "json_name": "id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Unique identifier."
+        },
+        {
+          "name": "IsBot",
+          "json_name": "is_bot",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "required": true,
+          "doc": "True, if this user is a bot."
+        },
+        {
+          "name": "FirstName",
+          "json_name": "first_name",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "User's or bot's first name."
+        },
+        {
+          "name": "LastName",
+          "json_name": "last_name",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Optional. User's or bot's last name."
+        }
+      ]
+    },
+    {
+      "name": "ChatMember",
+      "doc": "This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported:",
+      "one_of": [
+        "ChatMemberOwner",
+        "ChatMemberAdministrator"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "getMe",
+      "doc": "A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.",
+      "returns": {
+        "kind": "named",
+        "name": "User"
+      }
+    },
+    {
+      "name": "sendMessage",
+      "doc": "Use this method to send text messages. On success, the sent Message is returned.",
+      "params": [
+        {
+          "name": "ChatID",
+          "json_name": "chat_id",
+          "type": {
+            "kind": "oneOf",
+            "variants": [
+              "int64",
+              "string"
+            ]
+          },
+          "required": true,
+          "doc": "Unique identifier for the target chat."
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Text of the message to be sent."
+        },
+        {
+          "name": "ParseMode",
+          "json_name": "parse_mode",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Mode for parsing entities in the message text."
+        }
+      ],
+      "returns": {
+        "kind": "named",
+        "name": "Message"
+      }
+    },
+    {
+      "name": "sendDocument",
+      "doc": "Use this method to send general files. On success, the sent Message is returned.",
+      "params": [
+        {
+          "name": "ChatID",
+          "json_name": "chat_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Unique identifier for the target chat."
+        },
+        {
+          "name": "Document",
+          "json_name": "document",
+          "type": {
+            "kind": "oneOf",
+            "variants": [
+              "InputFile",
+              "string"
+            ]
+          },
+          "required": true,
+          "doc": "File to send."
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Document caption."
+        }
+      ],
+      "returns": {
+        "kind": "named",
+        "name": "Message"
+      },
+      "has_files": true
+    },
+    {
+      "name": "getUpdates",
+      "doc": "Use this method to receive incoming updates using long polling. Returns an Array of Update objects.",
+      "params": [
+        {
+          "name": "Limit",
+          "json_name": "limit",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "Limits the number of updates to be retrieved."
+        }
+      ],
+      "returns": {
+        "kind": "array",
+        "elem_type": {
+          "kind": "named",
+          "name": "Update"
+        }
+      }
+    }
+  ]
+}

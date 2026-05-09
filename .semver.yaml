@@ -1,0 +1,43 @@
+# Configuration for lukaszraczylo/semver-generator.
+# Reference: https://github.com/lukaszraczylo/semver-generator
+#
+# Word matching is fuzzy + case-insensitive. The keywords below mirror
+# Conventional Commits prefixes used in this repo's git history.
+
+version: 1
+
+# Respect existing v* tags as the version baseline. semver-generator finds
+# the highest existing tag and bumps from there.
+force:
+  existing: true
+
+# Skip merge commits and machine-generated traffic that would otherwise
+# spuriously bump the version.
+blacklist:
+  - "Merge branch"
+  - "Merge pull request"
+  - "Merge remote-tracking branch"
+  - "go mod tidy"
+
+# Strip the auto-generated bot-api-vX.Y tag prefix when scanning existing
+# tags — those are markers that point at library releases, not version
+# sources themselves.
+tag_prefixes:
+  - "bot-api-"
+
+wording:
+  patch:
+    - "fix"
+    - "chore"
+    - "docs"
+    - "test"
+    - "style"
+    - "refactor"
+    - "build"
+    - "ci"
+    - "perf"
+  minor:
+    - "feat"
+  major:
+    - "breaking"
+    - "BREAKING CHANGE"
