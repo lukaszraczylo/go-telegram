@@ -247,9 +247,14 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a "$LIB_TAG" -m "Release $LIB_TAG"
-          git push origin "$LIB_TAG"
 
+          # Tag the bot-api marker FIRST, then the library version LAST.
+          # Order matters: semver-generator picks the chronologically most
+          # recent tag as the version base. With bot-api-vX.Y created after
+          # the library tag, semver-generator sees "vX.Y", can't parse it
+          # as full SemVer, and silently restarts numbering from v0.0.x.
+          # Tagging the lib version last keeps it as the most-recent tag
+          # so subsequent runs bump from it correctly.
           if [ -n "$API_TAG" ]; then
             # Force-update the bot-api tag so it always points at the latest
             # release that supports that API version.
@@ -261,6 +266,9 @@ jobs:
               git push origin "$API_TAG"
             fi
           fi
+
+          git tag -a "$LIB_TAG" -m "Release $LIB_TAG"
+          git push origin "$LIB_TAG"
 
       - name: Run GoReleaser
         if: github.event_name != 'workflow_dispatch' || inputs.dry-run-release == false
