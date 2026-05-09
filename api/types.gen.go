@@ -4082,7 +4082,7 @@ func (*BotCommandScopeChatMember) isBotCommandScope() {}
 // Represents the default scope of bot commands. Default commands are used if no commands with a narrower scope are specified for the user.
 type BotCommandScopeDefault struct {
 	// Scope type, must be default
-	Type string `json:"type"`
+	Type BotCommandScopeType `json:"type"`
 }
 
 // MarshalJSON encodes BotCommandScopeDefault with the discriminator field
@@ -4104,7 +4104,7 @@ func (v *BotCommandScopeDefault) MarshalJSON() ([]byte, error) {
 // Represents the scope of bot commands, covering all private chats.
 type BotCommandScopeAllPrivateChats struct {
 	// Scope type, must be all_private_chats
-	Type string `json:"type"`
+	Type BotCommandScopeType `json:"type"`
 }
 
 // MarshalJSON encodes BotCommandScopeAllPrivateChats with the discriminator field
@@ -4126,7 +4126,7 @@ func (v *BotCommandScopeAllPrivateChats) MarshalJSON() ([]byte, error) {
 // Represents the scope of bot commands, covering all group and supergroup chats.
 type BotCommandScopeAllGroupChats struct {
 	// Scope type, must be all_group_chats
-	Type string `json:"type"`
+	Type BotCommandScopeType `json:"type"`
 }
 
 // MarshalJSON encodes BotCommandScopeAllGroupChats with the discriminator field
@@ -4148,7 +4148,7 @@ func (v *BotCommandScopeAllGroupChats) MarshalJSON() ([]byte, error) {
 // Represents the scope of bot commands, covering all group and supergroup chat administrators.
 type BotCommandScopeAllChatAdministrators struct {
 	// Scope type, must be all_chat_administrators
-	Type string `json:"type"`
+	Type BotCommandScopeType `json:"type"`
 }
 
 // MarshalJSON encodes BotCommandScopeAllChatAdministrators with the discriminator field
@@ -4170,7 +4170,7 @@ func (v *BotCommandScopeAllChatAdministrators) MarshalJSON() ([]byte, error) {
 // Represents the scope of bot commands, covering a specific chat.
 type BotCommandScopeChat struct {
 	// Scope type, must be chat
-	Type string `json:"type"`
+	Type BotCommandScopeType `json:"type"`
 	// Unique identifier for the target chat or username of the target supergroup in the format @username. Channel direct messages chats and channel chats aren't supported.
 	ChatID ChatID `json:"chat_id"`
 }
@@ -4194,7 +4194,7 @@ func (v *BotCommandScopeChat) MarshalJSON() ([]byte, error) {
 // Represents the scope of bot commands, covering all administrators of a specific group or supergroup chat.
 type BotCommandScopeChatAdministrators struct {
 	// Scope type, must be chat_administrators
-	Type string `json:"type"`
+	Type BotCommandScopeType `json:"type"`
 	// Unique identifier for the target chat or username of the target supergroup in the format @username. Channel direct messages chats and channel chats aren't supported.
 	ChatID ChatID `json:"chat_id"`
 }
@@ -4218,7 +4218,7 @@ func (v *BotCommandScopeChatAdministrators) MarshalJSON() ([]byte, error) {
 // Represents the scope of bot commands, covering a specific member of a group or supergroup chat.
 type BotCommandScopeChatMember struct {
 	// Scope type, must be chat_member
-	Type string `json:"type"`
+	Type BotCommandScopeType `json:"type"`
 	// Unique identifier for the target chat or username of the target supergroup in the format @username. Channel direct messages chats and channel chats aren't supported.
 	ChatID ChatID `json:"chat_id"`
 	// Unique identifier of the target user
@@ -4307,7 +4307,7 @@ func UnmarshalMenuButton(data []byte) (MenuButton, error) {
 // Represents a menu button, which opens the bot's list of commands.
 type MenuButtonCommands struct {
 	// Type of the button, must be commands
-	Type string `json:"type"`
+	Type MenuButtonType `json:"type"`
 }
 
 // MarshalJSON encodes MenuButtonCommands with the discriminator field
@@ -4329,7 +4329,7 @@ func (v *MenuButtonCommands) MarshalJSON() ([]byte, error) {
 // Represents a menu button, which launches a Web App.
 type MenuButtonWebApp struct {
 	// Type of the button, must be web_app
-	Type string `json:"type"`
+	Type MenuButtonType `json:"type"`
 	// Text on the button
 	Text string `json:"text"`
 	// Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery. Alternatively, a t.me link to a Web App of the bot can be specified in the object instead of the Web App's URL, in which case the Web App will be opened as if the user pressed the link.
@@ -4355,7 +4355,7 @@ func (v *MenuButtonWebApp) MarshalJSON() ([]byte, error) {
 // Describes that no specific value for the menu button was set.
 type MenuButtonDefault struct {
 	// Type of the button, must be default
-	Type string `json:"type"`
+	Type MenuButtonType `json:"type"`
 }
 
 // MarshalJSON encodes MenuButtonDefault with the discriminator field
@@ -4711,7 +4711,7 @@ func (*InputMediaVideo) isInputMedia() {}
 // Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
 type InputMediaAnimation struct {
 	// Type of the result, must be animation
-	Type string `json:"type"`
+	Type InputMediaType `json:"type"`
 	// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
 	Media string `json:"media"`
 	// Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -4753,7 +4753,7 @@ func (v *InputMediaAnimation) MarshalJSON() ([]byte, error) {
 // Represents an audio file to be treated as music to be sent.
 type InputMediaAudio struct {
 	// Type of the result, must be audio
-	Type string `json:"type"`
+	Type InputMediaType `json:"type"`
 	// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
 	Media string `json:"media"`
 	// Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -4791,7 +4791,7 @@ func (v *InputMediaAudio) MarshalJSON() ([]byte, error) {
 // Represents a general file to be sent.
 type InputMediaDocument struct {
 	// Type of the result, must be document
-	Type string `json:"type"`
+	Type InputMediaType `json:"type"`
 	// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
 	Media string `json:"media"`
 	// Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -4825,7 +4825,7 @@ func (v *InputMediaDocument) MarshalJSON() ([]byte, error) {
 // Represents a live photo to be sent.
 type InputMediaLivePhoto struct {
 	// Type of the result, must be live_photo
-	Type string `json:"type"`
+	Type InputMediaType `json:"type"`
 	// Video of the live photo to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
 	Media string `json:"media"`
 	// The static photo to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
@@ -4861,7 +4861,7 @@ func (v *InputMediaLivePhoto) MarshalJSON() ([]byte, error) {
 // Represents a location to be sent.
 type InputMediaLocation struct {
 	// Type of the result, must be location
-	Type string `json:"type"`
+	Type InputPollOptionMediaType `json:"type"`
 	// Latitude of the location
 	Latitude float64 `json:"latitude"`
 	// Longitude of the location
@@ -4889,7 +4889,7 @@ func (v *InputMediaLocation) MarshalJSON() ([]byte, error) {
 // Represents a photo to be sent.
 type InputMediaPhoto struct {
 	// Type of the result, must be photo
-	Type string `json:"type"`
+	Type InputMediaType `json:"type"`
 	// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
 	Media string `json:"media"`
 	// Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
@@ -4923,7 +4923,7 @@ func (v *InputMediaPhoto) MarshalJSON() ([]byte, error) {
 // Represents a sticker file to be sent.
 type InputMediaSticker struct {
 	// Type of the result, must be sticker
-	Type string `json:"type"`
+	Type InputPollOptionMediaType `json:"type"`
 	// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a .WEBP sticker from the Internet, or pass “attach://<file_attach_name>” to upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data under <file_attach_name> name. More information on Sending Files »
 	Media string `json:"media"`
 	// Optional. Emoji associated with the sticker; only for just uploaded stickers
@@ -4949,7 +4949,7 @@ func (v *InputMediaSticker) MarshalJSON() ([]byte, error) {
 // Represents a venue to be sent.
 type InputMediaVenue struct {
 	// Type of the result, must be venue
-	Type string `json:"type"`
+	Type InputPollOptionMediaType `json:"type"`
 	// Latitude of the location
 	Latitude float64 `json:"latitude"`
 	// Longitude of the location
@@ -4987,7 +4987,7 @@ func (v *InputMediaVenue) MarshalJSON() ([]byte, error) {
 // Represents a video to be sent.
 type InputMediaVideo struct {
 	// Type of the result, must be video
-	Type string `json:"type"`
+	Type InputMediaType `json:"type"`
 	// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
 	Media string `json:"media"`
 	// Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -5053,7 +5053,7 @@ func (*InputPaidMediaVideo) isInputPaidMedia() {}
 // The paid media to send is a live photo.
 type InputPaidMediaLivePhoto struct {
 	// Type of the media, must be live_photo
-	Type string `json:"type"`
+	Type InputPaidMediaType `json:"type"`
 	// Video of the live photo to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
 	Media string `json:"media"`
 	// The static photo to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
@@ -5079,7 +5079,7 @@ func (v *InputPaidMediaLivePhoto) MarshalJSON() ([]byte, error) {
 // The paid media to send is a photo.
 type InputPaidMediaPhoto struct {
 	// Type of the media, must be photo
-	Type string `json:"type"`
+	Type InputPaidMediaType `json:"type"`
 	// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
 	Media string `json:"media"`
 }
@@ -5103,7 +5103,7 @@ func (v *InputPaidMediaPhoto) MarshalJSON() ([]byte, error) {
 // The paid media to send is a video.
 type InputPaidMediaVideo struct {
 	// Type of the media, must be video
-	Type string `json:"type"`
+	Type InputPaidMediaType `json:"type"`
 	// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
 	Media string `json:"media"`
 	// Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -5155,7 +5155,7 @@ func (*InputProfilePhotoAnimated) isInputProfilePhoto() {}
 // A static profile photo in the .JPG format.
 type InputProfilePhotoStatic struct {
 	// Type of the profile photo, must be static
-	Type string `json:"type"`
+	Type InputProfilePhotoType `json:"type"`
 	// The static profile photo. Profile photos can't be reused and can only be uploaded as a new file, so you can pass “attach://<file_attach_name>” if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
 	Photo string `json:"photo"`
 }
@@ -5179,7 +5179,7 @@ func (v *InputProfilePhotoStatic) MarshalJSON() ([]byte, error) {
 // An animated profile photo in the MPEG4 format.
 type InputProfilePhotoAnimated struct {
 	// Type of the profile photo, must be animated
-	Type string `json:"type"`
+	Type InputProfilePhotoType `json:"type"`
 	// The animated profile photo. Profile photos can't be reused and can only be uploaded as a new file, so you can pass “attach://<file_attach_name>” if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
 	Animation string `json:"animation"`
 	// Optional. Timestamp in seconds of the frame that will be used as the static profile photo. Defaults to 0.0.
@@ -5219,7 +5219,7 @@ func (*InputStoryContentVideo) isInputStoryContent() {}
 // Describes a photo to post as a story.
 type InputStoryContentPhoto struct {
 	// Type of the content, must be photo
-	Type string `json:"type"`
+	Type InputStoryContentType `json:"type"`
 	// The photo to post as a story. The photo must be of the size 1080x1920 and must not exceed 10 MB. The photo can't be reused and can only be uploaded as a new file, so you can pass “attach://<file_attach_name>” if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
 	Photo string `json:"photo"`
 }
@@ -5243,7 +5243,7 @@ func (v *InputStoryContentPhoto) MarshalJSON() ([]byte, error) {
 // Describes a video to post as a story.
 type InputStoryContentVideo struct {
 	// Type of the content, must be video
-	Type string `json:"type"`
+	Type InputStoryContentType `json:"type"`
 	// The video to post as a story. The video must be of the size 720x1280, streamable, encoded with H.265 codec, with key frames added each second in the MPEG4 format, and must not exceed 30 MB. The video can't be reused and can only be uploaded as a new file, so you can pass “attach://<file_attach_name>” if the video was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
 	Video string `json:"video"`
 	// Optional. Precise duration of the video in seconds; 0-60
@@ -5460,7 +5460,7 @@ func (*InlineQueryResultVoice) isInlineQueryResult() {}
 // Represents a link to an article or web page.
 type InlineQueryResultArticle struct {
 	// Type of the result, must be article
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 Bytes
 	ID string `json:"id"`
 	// Title of the result
@@ -5500,7 +5500,7 @@ func (v *InlineQueryResultArticle) MarshalJSON() ([]byte, error) {
 // Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
 type InlineQueryResultPhoto struct {
 	// Type of the result, must be photo
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB
@@ -5548,7 +5548,7 @@ func (v *InlineQueryResultPhoto) MarshalJSON() ([]byte, error) {
 // Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
 type InlineQueryResultGif struct {
 	// Type of the result, must be gif
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid URL for the GIF file
@@ -5598,7 +5598,7 @@ func (v *InlineQueryResultGif) MarshalJSON() ([]byte, error) {
 // Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
 type InlineQueryResultMpeg4Gif struct {
 	// Type of the result, must be mpeg4_gif
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid URL for the MPEG4 file
@@ -5649,7 +5649,7 @@ func (v *InlineQueryResultMpeg4Gif) MarshalJSON() ([]byte, error) {
 // If an InlineQueryResultVideo message contains an embedded video (e.g., YouTube), you must replace its content using input_message_content.
 type InlineQueryResultVideo struct {
 	// Type of the result, must be video
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid URL for the embedded video player or video file
@@ -5701,7 +5701,7 @@ func (v *InlineQueryResultVideo) MarshalJSON() ([]byte, error) {
 // Represents a link to an MP3 audio file. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
 type InlineQueryResultAudio struct {
 	// Type of the result, must be audio
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid URL for the audio file
@@ -5743,7 +5743,7 @@ func (v *InlineQueryResultAudio) MarshalJSON() ([]byte, error) {
 // Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the the voice message.
 type InlineQueryResultVoice struct {
 	// Type of the result, must be voice
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid URL for the voice recording
@@ -5783,7 +5783,7 @@ func (v *InlineQueryResultVoice) MarshalJSON() ([]byte, error) {
 // Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file. Currently, only .PDF and .ZIP files can be sent using this method.
 type InlineQueryResultDocument struct {
 	// Type of the result, must be document
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// Title for the result
@@ -5831,7 +5831,7 @@ func (v *InlineQueryResultDocument) MarshalJSON() ([]byte, error) {
 // Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
 type InlineQueryResultLocation struct {
 	// Type of the result, must be location
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 Bytes
 	ID string `json:"id"`
 	// Location latitude in degrees
@@ -5879,7 +5879,7 @@ func (v *InlineQueryResultLocation) MarshalJSON() ([]byte, error) {
 // Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the venue.
 type InlineQueryResultVenue struct {
 	// Type of the result, must be venue
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 Bytes
 	ID string `json:"id"`
 	// Latitude of the venue location in degrees
@@ -5929,7 +5929,7 @@ func (v *InlineQueryResultVenue) MarshalJSON() ([]byte, error) {
 // Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the contact.
 type InlineQueryResultContact struct {
 	// Type of the result, must be contact
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 Bytes
 	ID string `json:"id"`
 	// Contact's phone number
@@ -5971,7 +5971,7 @@ func (v *InlineQueryResultContact) MarshalJSON() ([]byte, error) {
 // Represents a Game.
 type InlineQueryResultGame struct {
 	// Type of the result, must be game
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// Short name of the game
@@ -5999,7 +5999,7 @@ func (v *InlineQueryResultGame) MarshalJSON() ([]byte, error) {
 // Represents a link to a photo stored on the Telegram servers. By default, this photo will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
 type InlineQueryResultCachedPhoto struct {
 	// Type of the result, must be photo
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid file identifier of the photo
@@ -6041,7 +6041,7 @@ func (v *InlineQueryResultCachedPhoto) MarshalJSON() ([]byte, error) {
 // Represents a link to an animated GIF file stored on the Telegram servers. By default, this animated GIF file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with specified content instead of the animation.
 type InlineQueryResultCachedGif struct {
 	// Type of the result, must be gif
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid file identifier for the GIF file
@@ -6081,7 +6081,7 @@ func (v *InlineQueryResultCachedGif) MarshalJSON() ([]byte, error) {
 // Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the Telegram servers. By default, this animated MPEG-4 file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
 type InlineQueryResultCachedMpeg4Gif struct {
 	// Type of the result, must be mpeg4_gif
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid file identifier for the MPEG4 file
@@ -6121,7 +6121,7 @@ func (v *InlineQueryResultCachedMpeg4Gif) MarshalJSON() ([]byte, error) {
 // Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the sticker.
 type InlineQueryResultCachedSticker struct {
 	// Type of the result, must be sticker
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid file identifier of the sticker
@@ -6151,7 +6151,7 @@ func (v *InlineQueryResultCachedSticker) MarshalJSON() ([]byte, error) {
 // Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
 type InlineQueryResultCachedDocument struct {
 	// Type of the result, must be document
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// Title for the result
@@ -6191,7 +6191,7 @@ func (v *InlineQueryResultCachedDocument) MarshalJSON() ([]byte, error) {
 // Represents a link to a video file stored on the Telegram servers. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
 type InlineQueryResultCachedVideo struct {
 	// Type of the result, must be video
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid file identifier for the video file
@@ -6233,7 +6233,7 @@ func (v *InlineQueryResultCachedVideo) MarshalJSON() ([]byte, error) {
 // Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the voice message.
 type InlineQueryResultCachedVoice struct {
 	// Type of the result, must be voice
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid file identifier for the voice message
@@ -6271,7 +6271,7 @@ func (v *InlineQueryResultCachedVoice) MarshalJSON() ([]byte, error) {
 // Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
 type InlineQueryResultCachedAudio struct {
 	// Type of the result, must be audio
-	Type string `json:"type"`
+	Type InlineQueryResultType `json:"type"`
 	// Unique identifier for this result, 1-64 bytes
 	ID string `json:"id"`
 	// A valid file identifier for the audio file
@@ -7172,7 +7172,7 @@ func (*PassportElementErrorUnspecified) isPassportElementError() {}
 // Represents an issue in one of the data fields that was provided by the user. The error is considered resolved when the field's value changes.
 type PassportElementErrorDataField struct {
 	// Error source, must be data
-	Source string `json:"source"`
+	Source PassportElementErrorSource `json:"source"`
 	// The section of the user's Telegram Passport which has the error, one of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”
 	Type PassportElementErrorDataFieldType `json:"type"`
 	// Name of the data field which has the error
@@ -7202,7 +7202,7 @@ func (v *PassportElementErrorDataField) MarshalJSON() ([]byte, error) {
 // Represents an issue with the front side of a document. The error is considered resolved when the file with the front side of the document changes.
 type PassportElementErrorFrontSide struct {
 	// Error source, must be front_side
-	Source string `json:"source"`
+	Source PassportElementErrorSource `json:"source"`
 	// The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”
 	Type PassportElementErrorSelfieType `json:"type"`
 	// Base64-encoded hash of the file with the front side of the document
@@ -7230,7 +7230,7 @@ func (v *PassportElementErrorFrontSide) MarshalJSON() ([]byte, error) {
 // Represents an issue with the reverse side of a document. The error is considered resolved when the file with reverse side of the document changes.
 type PassportElementErrorReverseSide struct {
 	// Error source, must be reverse_side
-	Source string `json:"source"`
+	Source PassportElementErrorSource `json:"source"`
 	// The section of the user's Telegram Passport which has the issue, one of “driver_license”, “identity_card”
 	Type PassportElementErrorReverseSideType `json:"type"`
 	// Base64-encoded hash of the file with the reverse side of the document
@@ -7258,7 +7258,7 @@ func (v *PassportElementErrorReverseSide) MarshalJSON() ([]byte, error) {
 // Represents an issue with the selfie with a document. The error is considered resolved when the file with the selfie changes.
 type PassportElementErrorSelfie struct {
 	// Error source, must be selfie
-	Source string `json:"source"`
+	Source PassportElementErrorSource `json:"source"`
 	// The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”
 	Type PassportElementErrorSelfieType `json:"type"`
 	// Base64-encoded hash of the file with the selfie
@@ -7286,7 +7286,7 @@ func (v *PassportElementErrorSelfie) MarshalJSON() ([]byte, error) {
 // Represents an issue with a document scan. The error is considered resolved when the file with the document scan changes.
 type PassportElementErrorFile struct {
 	// Error source, must be file
-	Source string `json:"source"`
+	Source PassportElementErrorSource `json:"source"`
 	// The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
 	Type PassportElementErrorFileType `json:"type"`
 	// Base64-encoded file hash
@@ -7314,7 +7314,7 @@ func (v *PassportElementErrorFile) MarshalJSON() ([]byte, error) {
 // Represents an issue with a list of scans. The error is considered resolved when the list of files containing the scans changes.
 type PassportElementErrorFiles struct {
 	// Error source, must be files
-	Source string `json:"source"`
+	Source PassportElementErrorSource `json:"source"`
 	// The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
 	Type PassportElementErrorFileType `json:"type"`
 	// List of base64-encoded file hashes
@@ -7342,7 +7342,7 @@ func (v *PassportElementErrorFiles) MarshalJSON() ([]byte, error) {
 // Represents an issue with one of the files that constitute the translation of a document. The error is considered resolved when the file changes.
 type PassportElementErrorTranslationFile struct {
 	// Error source, must be translation_file
-	Source string `json:"source"`
+	Source PassportElementErrorSource `json:"source"`
 	// Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
 	Type PassportElementErrorTranslationFileType `json:"type"`
 	// Base64-encoded file hash
@@ -7370,7 +7370,7 @@ func (v *PassportElementErrorTranslationFile) MarshalJSON() ([]byte, error) {
 // Represents an issue with the translated version of a document. The error is considered resolved when a file with the document translation change.
 type PassportElementErrorTranslationFiles struct {
 	// Error source, must be translation_files
-	Source string `json:"source"`
+	Source PassportElementErrorSource `json:"source"`
 	// Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
 	Type PassportElementErrorTranslationFileType `json:"type"`
 	// List of base64-encoded file hashes
@@ -7398,7 +7398,7 @@ func (v *PassportElementErrorTranslationFiles) MarshalJSON() ([]byte, error) {
 // Represents an issue in an unspecified place. The error is considered resolved when new data is added.
 type PassportElementErrorUnspecified struct {
 	// Error source, must be unspecified
-	Source string `json:"source"`
+	Source PassportElementErrorSource `json:"source"`
 	// Type of element of the user's Telegram Passport which has the issue
 	Type string `json:"type"`
 	// Base64-encoded element hash

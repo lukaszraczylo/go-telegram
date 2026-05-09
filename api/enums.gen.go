@@ -21,6 +21,18 @@ const (
 	BackgroundTypeKindChatTheme BackgroundTypeKind = "chat_theme"
 )
 
+type BotCommandScopeType string
+
+const (
+	BotCommandScopeTypeDefault               BotCommandScopeType = "default"
+	BotCommandScopeTypeAllPrivateChats       BotCommandScopeType = "all_private_chats"
+	BotCommandScopeTypeAllGroupChats         BotCommandScopeType = "all_group_chats"
+	BotCommandScopeTypeAllChatAdministrators BotCommandScopeType = "all_chat_administrators"
+	BotCommandScopeTypeChat                  BotCommandScopeType = "chat"
+	BotCommandScopeTypeChatAdministrators    BotCommandScopeType = "chat_administrators"
+	BotCommandScopeTypeChatMember            BotCommandScopeType = "chat_member"
+)
+
 type ChatBoostSourceKind string
 
 const (
@@ -92,12 +104,88 @@ const (
 	InlineQueryResultGifThumbnailMimeTypeVideoOfMp4  InlineQueryResultGifThumbnailMimeType = "video/mp4"
 )
 
+type InlineQueryResultType string
+
+const (
+	InlineQueryResultTypeAudio    InlineQueryResultType = "audio"
+	InlineQueryResultTypeDocument InlineQueryResultType = "document"
+	InlineQueryResultTypeGif      InlineQueryResultType = "gif"
+	InlineQueryResultTypeMpeg4Gif InlineQueryResultType = "mpeg4_gif"
+	InlineQueryResultTypePhoto    InlineQueryResultType = "photo"
+	InlineQueryResultTypeSticker  InlineQueryResultType = "sticker"
+	InlineQueryResultTypeVideo    InlineQueryResultType = "video"
+	InlineQueryResultTypeVoice    InlineQueryResultType = "voice"
+	InlineQueryResultTypeArticle  InlineQueryResultType = "article"
+	InlineQueryResultTypeContact  InlineQueryResultType = "contact"
+	InlineQueryResultTypeGame     InlineQueryResultType = "game"
+	InlineQueryResultTypeLocation InlineQueryResultType = "location"
+	InlineQueryResultTypeVenue    InlineQueryResultType = "venue"
+)
+
+type InputMediaType string
+
+const (
+	InputMediaTypeAnimation InputMediaType = "animation"
+	InputMediaTypeAudio     InputMediaType = "audio"
+	InputMediaTypeDocument  InputMediaType = "document"
+	InputMediaTypeLivePhoto InputMediaType = "live_photo"
+	InputMediaTypePhoto     InputMediaType = "photo"
+	InputMediaTypeVideo     InputMediaType = "video"
+)
+
+type InputPaidMediaType string
+
+const (
+	InputPaidMediaTypeLivePhoto InputPaidMediaType = "live_photo"
+	InputPaidMediaTypePhoto     InputPaidMediaType = "photo"
+	InputPaidMediaTypeVideo     InputPaidMediaType = "video"
+)
+
+type InputPollMediaType string
+
+const (
+	InputPollMediaTypeAnimation InputPollMediaType = "animation"
+	InputPollMediaTypeAudio     InputPollMediaType = "audio"
+	InputPollMediaTypeDocument  InputPollMediaType = "document"
+	InputPollMediaTypeLivePhoto InputPollMediaType = "live_photo"
+	InputPollMediaTypeLocation  InputPollMediaType = "location"
+	InputPollMediaTypePhoto     InputPollMediaType = "photo"
+	InputPollMediaTypeVenue     InputPollMediaType = "venue"
+	InputPollMediaTypeVideo     InputPollMediaType = "video"
+)
+
+type InputPollOptionMediaType string
+
+const (
+	InputPollOptionMediaTypeAnimation InputPollOptionMediaType = "animation"
+	InputPollOptionMediaTypeLivePhoto InputPollOptionMediaType = "live_photo"
+	InputPollOptionMediaTypeLocation  InputPollOptionMediaType = "location"
+	InputPollOptionMediaTypePhoto     InputPollOptionMediaType = "photo"
+	InputPollOptionMediaTypeSticker   InputPollOptionMediaType = "sticker"
+	InputPollOptionMediaTypeVenue     InputPollOptionMediaType = "venue"
+	InputPollOptionMediaTypeVideo     InputPollOptionMediaType = "video"
+)
+
+type InputProfilePhotoType string
+
+const (
+	InputProfilePhotoTypeStatic   InputProfilePhotoType = "static"
+	InputProfilePhotoTypeAnimated InputProfilePhotoType = "animated"
+)
+
 type InputStickerFormat string
 
 const (
 	InputStickerFormatStatic   InputStickerFormat = "static"
 	InputStickerFormatAnimated InputStickerFormat = "animated"
 	InputStickerFormatVideo    InputStickerFormat = "video"
+)
+
+type InputStoryContentType string
+
+const (
+	InputStoryContentTypePhoto InputStoryContentType = "photo"
+	InputStoryContentTypeVideo InputStoryContentType = "video"
 )
 
 type KeyboardButtonStyle string
@@ -115,6 +203,14 @@ const (
 	MaskPositionPointEyes     MaskPositionPoint = "eyes"
 	MaskPositionPointMouth    MaskPositionPoint = "mouth"
 	MaskPositionPointChin     MaskPositionPoint = "chin"
+)
+
+type MenuButtonType string
+
+const (
+	MenuButtonTypeCommands MenuButtonType = "commands"
+	MenuButtonTypeWebApp   MenuButtonType = "web_app"
+	MenuButtonTypeDefault  MenuButtonType = "default"
 )
 
 type MessageEntityType string
@@ -210,6 +306,20 @@ const (
 	PassportElementErrorSelfieTypeDriverLicense    PassportElementErrorSelfieType = "driver_license"
 	PassportElementErrorSelfieTypeIdentityCard     PassportElementErrorSelfieType = "identity_card"
 	PassportElementErrorSelfieTypeInternalPassport PassportElementErrorSelfieType = "internal_passport"
+)
+
+type PassportElementErrorSource string
+
+const (
+	PassportElementErrorSourceData             PassportElementErrorSource = "data"
+	PassportElementErrorSourceFrontSide        PassportElementErrorSource = "front_side"
+	PassportElementErrorSourceReverseSide      PassportElementErrorSource = "reverse_side"
+	PassportElementErrorSourceSelfie           PassportElementErrorSource = "selfie"
+	PassportElementErrorSourceFile             PassportElementErrorSource = "file"
+	PassportElementErrorSourceFiles            PassportElementErrorSource = "files"
+	PassportElementErrorSourceTranslationFile  PassportElementErrorSource = "translation_file"
+	PassportElementErrorSourceTranslationFiles PassportElementErrorSource = "translation_files"
+	PassportElementErrorSourceUnspecified      PassportElementErrorSource = "unspecified"
 )
 
 type PassportElementErrorTranslationFileType string

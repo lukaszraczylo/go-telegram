@@ -83,3 +83,56 @@ func TestExtractEnumValues_DedupeRepeatedValues(t *testing.T) {
 	got := extractEnumValues("currency", desc)
 	require.Equal(t, []string{"XTR"}, got)
 }
+
+func TestExtractEnumValues_ProseDiscriminator(t *testing.T) {
+	cases := []struct {
+		name string
+		desc string
+		want []string
+	}{
+		{"InlineQueryResultArticle", "Type of the result, must be article", []string{"article"}},
+		{"InlineQueryResultPhoto", "Type of the result, must be photo", []string{"photo"}},
+		{"InlineQueryResultMpeg4Gif", "Type of the result, must be mpeg4_gif", []string{"mpeg4_gif"}},
+		{"BotCommandScopeAllPrivateChats", "Scope type, must be all_private_chats", []string{"all_private_chats"}},
+		{"BotCommandScopeChat", "Scope type, must be chat", []string{"chat"}},
+		{"PassportElementErrorData", "Error source, must be data", []string{"data"}},
+		{"MenuButtonWebApp", "Type of the button, must be web_app", []string{"web_app"}},
+		{"InputProfilePhotoAnimated", "Type of the profile photo, must be animated", []string{"animated"}},
+		{"InputStoryContentVideo", "Type of the content, must be video", []string{"video"}},
+		{"InputPaidMediaPhoto", "Type of the media, must be photo", []string{"photo"}},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			require.Equal(t, tc.want, extractEnumValues("type", tc.desc))
+		})
+	}
+}
+
+func TestExtractEnumValues_ProseFalsePositives(t *testing.T) {
+	cases := []struct {
+		name string
+		desc string
+	}{
+		{"available_only_for", "Optional. Bot-specified invoice payload. Can be available only for “invoice_payment” transactions."},
+		{"must_be_sent", "If True, the message must be sent immediately."},
+		{"must_be_shown_above", "Optional. True, if the link preview must be shown above the message text"},
+		{"must_be_specified", "The identifiers must be specified in a strictly increasing order."},
+		{"must_be_paid", "The number of Telegram Stars that must be paid to send the sticker"},
+		{"must_be_one_of_numbers", "Number of months the Telegram Premium subscription will be active for the user; must be one of 3, 6, or 12"},
+		{"must_be_between", "Currently, price in Telegram Stars must be between 5 and 100000"},
+		{"must_be_a_pay_button", "If not empty, the first button must be a Pay button."},
+		{"must_be_repainted", "True, if the sticker must be repainted to a text color in messages"},
+		{"must_be_active", "the subscription must be active up to the end of the current subscription period"},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			require.Nil(t, extractEnumValues("type", tc.desc))
+		})
+	}
+}
+
+func TestExtractEnumValues_CanonicalMustBeOneOfStillWorks(t *testing.T) {
+	desc := "Currently, must be one of “Markdown”, “MarkdownV2”, “HTML”"
+	got := extractEnumValues("parse_mode_kind", desc)
+	require.Equal(t, []string{"Markdown", "MarkdownV2", "HTML"}, got)
+}

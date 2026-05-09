@@ -10529,7 +10529,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Scope type, must be default"
+          "doc": "Scope type, must be default",
+          "enum_values": [
+            "default"
+          ]
         }
       ]
     },
@@ -10545,7 +10548,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Scope type, must be all_private_chats"
+          "doc": "Scope type, must be all_private_chats",
+          "enum_values": [
+            "all_private_chats"
+          ]
         }
       ]
     },
@@ -10561,7 +10567,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Scope type, must be all_group_chats"
+          "doc": "Scope type, must be all_group_chats",
+          "enum_values": [
+            "all_group_chats"
+          ]
         }
       ]
     },
@@ -10577,7 +10586,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Scope type, must be all_chat_administrators"
+          "doc": "Scope type, must be all_chat_administrators",
+          "enum_values": [
+            "all_chat_administrators"
+          ]
         }
       ]
     },
@@ -10593,7 +10605,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Scope type, must be chat"
+          "doc": "Scope type, must be chat",
+          "enum_values": [
+            "chat"
+          ]
         },
         {
           "name": "ChatID",
@@ -10622,7 +10637,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Scope type, must be chat_administrators"
+          "doc": "Scope type, must be chat_administrators",
+          "enum_values": [
+            "chat_administrators"
+          ]
         },
         {
           "name": "ChatID",
@@ -10651,7 +10669,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Scope type, must be chat_member"
+          "doc": "Scope type, must be chat_member",
+          "enum_values": [
+            "chat_member"
+          ]
         },
         {
           "name": "ChatID",
@@ -10747,7 +10768,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the button, must be commands"
+          "doc": "Type of the button, must be commands",
+          "enum_values": [
+            "commands"
+          ]
         }
       ]
     },
@@ -10763,7 +10787,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the button, must be web_app"
+          "doc": "Type of the button, must be web_app",
+          "enum_values": [
+            "web_app"
+          ]
         },
         {
           "name": "Text",
@@ -10799,7 +10826,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the button, must be default"
+          "doc": "Type of the button, must be default",
+          "enum_values": [
+            "default"
+          ]
         }
       ]
     },
@@ -11451,7 +11481,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be animation"
+          "doc": "Type of the result, must be animation",
+          "enum_values": [
+            "animation"
+          ]
         },
         {
           "name": "Media",
@@ -11566,7 +11599,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be audio"
+          "doc": "Type of the result, must be audio",
+          "enum_values": [
+            "audio"
+          ]
         },
         {
           "name": "Media",
@@ -11663,7 +11699,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be document"
+          "doc": "Type of the result, must be document",
+          "enum_values": [
+            "document"
+          ]
         },
         {
           "name": "Media",
@@ -11742,7 +11781,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be live_photo"
+          "doc": "Type of the result, must be live_photo",
+          "enum_values": [
+            "live_photo"
+          ]
         },
         {
           "name": "Media",
@@ -11831,7 +11873,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be location"
+          "doc": "Type of the result, must be location",
+          "enum_values": [
+            "location"
+          ]
         },
         {
           "name": "Latitude",
@@ -11876,7 +11921,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be photo"
+          "doc": "Type of the result, must be photo",
+          "enum_values": [
+            "photo"
+          ]
         },
         {
           "name": "Media",
@@ -11955,7 +12003,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be sticker"
+          "doc": "Type of the result, must be sticker",
+          "enum_values": [
+            "sticker"
+          ]
         },
         {
           "name": "Media",
@@ -11990,7 +12041,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be venue"
+          "doc": "Type of the result, must be venue",
+          "enum_values": [
+            "venue"
+          ]
         },
         {
           "name": "Latitude",
@@ -12082,7 +12136,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be video"
+          "doc": "Type of the result, must be video",
+          "enum_values": [
+            "video"
+          ]
         },
         {
           "name": "Media",
@@ -12237,7 +12294,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the media, must be live_photo"
+          "doc": "Type of the media, must be live_photo",
+          "enum_values": [
+            "live_photo"
+          ]
         },
         {
           "name": "Media",
@@ -12273,7 +12333,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the media, must be photo"
+          "doc": "Type of the media, must be photo",
+          "enum_values": [
+            "photo"
+          ]
         },
         {
           "name": "Media",
@@ -12299,7 +12362,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the media, must be video"
+          "doc": "Type of the media, must be video",
+          "enum_values": [
+            "video"
+          ]
         },
         {
           "name": "Media",
@@ -12396,7 +12462,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the profile photo, must be static"
+          "doc": "Type of the profile photo, must be static",
+          "enum_values": [
+            "static"
+          ]
         },
         {
           "name": "Photo",
@@ -12422,7 +12491,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the profile photo, must be animated"
+          "doc": "Type of the profile photo, must be animated",
+          "enum_values": [
+            "animated"
+          ]
         },
         {
           "name": "Animation",
@@ -12465,7 +12537,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the content, must be photo"
+          "doc": "Type of the content, must be photo",
+          "enum_values": [
+            "photo"
+          ]
         },
         {
           "name": "Photo",
@@ -12491,7 +12566,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the content, must be video"
+          "doc": "Type of the content, must be video",
+          "enum_values": [
+            "video"
+          ]
         },
         {
           "name": "Video",
@@ -13008,7 +13086,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be article"
+          "doc": "Type of the result, must be article",
+          "enum_values": [
+            "article"
+          ]
         },
         {
           "name": "ID",
@@ -13108,7 +13189,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be photo"
+          "doc": "Type of the result, must be photo",
+          "enum_values": [
+            "photo"
+          ]
         },
         {
           "name": "ID",
@@ -13252,7 +13336,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be gif"
+          "doc": "Type of the result, must be gif",
+          "enum_values": [
+            "gif"
+          ]
         },
         {
           "name": "ID",
@@ -13410,7 +13497,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be mpeg4_gif"
+          "doc": "Type of the result, must be mpeg4_gif",
+          "enum_values": [
+            "mpeg4_gif"
+          ]
         },
         {
           "name": "ID",
@@ -13568,7 +13658,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be video"
+          "doc": "Type of the result, must be video",
+          "enum_values": [
+            "video"
+          ]
         },
         {
           "name": "ID",
@@ -13732,7 +13825,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be audio"
+          "doc": "Type of the result, must be audio",
+          "enum_values": [
+            "audio"
+          ]
         },
         {
           "name": "ID",
@@ -13849,7 +13945,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be voice"
+          "doc": "Type of the result, must be voice",
+          "enum_values": [
+            "voice"
+          ]
         },
         {
           "name": "ID",
@@ -13957,7 +14056,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be document"
+          "doc": "Type of the result, must be document",
+          "enum_values": [
+            "document"
+          ]
         },
         {
           "name": "ID",
@@ -14106,7 +14208,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be location"
+          "doc": "Type of the result, must be location",
+          "enum_values": [
+            "location"
+          ]
         },
         {
           "name": "ID",
@@ -14243,7 +14348,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be venue"
+          "doc": "Type of the result, must be venue",
+          "enum_values": [
+            "venue"
+          ]
         },
         {
           "name": "ID",
@@ -14390,7 +14498,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be contact"
+          "doc": "Type of the result, must be contact",
+          "enum_values": [
+            "contact"
+          ]
         },
         {
           "name": "ID",
@@ -14499,7 +14610,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be game"
+          "doc": "Type of the result, must be game",
+          "enum_values": [
+            "game"
+          ]
         },
         {
           "name": "ID",
@@ -14544,7 +14658,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be photo"
+          "doc": "Type of the result, must be photo",
+          "enum_values": [
+            "photo"
+          ]
         },
         {
           "name": "ID",
@@ -14660,7 +14777,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be gif"
+          "doc": "Type of the result, must be gif",
+          "enum_values": [
+            "gif"
+          ]
         },
         {
           "name": "ID",
@@ -14767,7 +14887,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be mpeg4_gif"
+          "doc": "Type of the result, must be mpeg4_gif",
+          "enum_values": [
+            "mpeg4_gif"
+          ]
         },
         {
           "name": "ID",
@@ -14874,7 +14997,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be sticker"
+          "doc": "Type of the result, must be sticker",
+          "enum_values": [
+            "sticker"
+          ]
         },
         {
           "name": "ID",
@@ -14928,7 +15054,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be document"
+          "doc": "Type of the result, must be document",
+          "enum_values": [
+            "document"
+          ]
         },
         {
           "name": "ID",
@@ -15036,7 +15165,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be video"
+          "doc": "Type of the result, must be video",
+          "enum_values": [
+            "video"
+          ]
         },
         {
           "name": "ID",
@@ -15153,7 +15285,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be voice"
+          "doc": "Type of the result, must be voice",
+          "enum_values": [
+            "voice"
+          ]
         },
         {
           "name": "ID",
@@ -15252,7 +15387,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be audio"
+          "doc": "Type of the result, must be audio",
+          "enum_values": [
+            "audio"
+          ]
         },
         {
           "name": "ID",
@@ -17138,7 +17276,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Error source, must be data"
+          "doc": "Error source, must be data",
+          "enum_values": [
+            "data"
+          ]
         },
         {
           "name": "Type",
@@ -17202,7 +17343,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Error source, must be front_side"
+          "doc": "Error source, must be front_side",
+          "enum_values": [
+            "front_side"
+          ]
         },
         {
           "name": "Type",
@@ -17254,7 +17398,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Error source, must be reverse_side"
+          "doc": "Error source, must be reverse_side",
+          "enum_values": [
+            "reverse_side"
+          ]
         },
         {
           "name": "Type",
@@ -17304,7 +17451,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Error source, must be selfie"
+          "doc": "Error source, must be selfie",
+          "enum_values": [
+            "selfie"
+          ]
         },
         {
           "name": "Type",
@@ -17356,7 +17506,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Error source, must be file"
+          "doc": "Error source, must be file",
+          "enum_values": [
+            "file"
+          ]
         },
         {
           "name": "Type",
@@ -17409,7 +17562,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Error source, must be files"
+          "doc": "Error source, must be files",
+          "enum_values": [
+            "files"
+          ]
         },
         {
           "name": "Type",
@@ -17465,7 +17621,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Error source, must be translation_file"
+          "doc": "Error source, must be translation_file",
+          "enum_values": [
+            "translation_file"
+          ]
         },
         {
           "name": "Type",
@@ -17522,7 +17681,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Error source, must be translation_files"
+          "doc": "Error source, must be translation_files",
+          "enum_values": [
+            "translation_files"
+          ]
         },
         {
           "name": "Type",
@@ -17582,7 +17744,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Error source, must be unspecified"
+          "doc": "Error source, must be unspecified",
+          "enum_values": [
+            "unspecified"
+          ]
         },
         {
           "name": "Type",

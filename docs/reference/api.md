@@ -174,6 +174,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func \(v \*BotCommandScopeChatMember\) MarshalJSON\(\) \(\[\]byte, error\)](<#BotCommandScopeChatMember.MarshalJSON>)
 - [type BotCommandScopeDefault](<#BotCommandScopeDefault>)
   - [func \(v \*BotCommandScopeDefault\) MarshalJSON\(\) \(\[\]byte, error\)](<#BotCommandScopeDefault.MarshalJSON>)
+- [type BotCommandScopeType](<#BotCommandScopeType>)
 - [type BotDescription](<#BotDescription>)
   - [func GetMyDescription\(ctx context.Context, b \*client.Bot, p \*GetMyDescriptionParams\) \(\*BotDescription, error\)](<#GetMyDescription>)
 - [type BotName](<#BotName>)
@@ -415,6 +416,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func \(v \*InlineQueryResultMpeg4Gif\) MarshalJSON\(\) \(\[\]byte, error\)](<#InlineQueryResultMpeg4Gif.MarshalJSON>)
 - [type InlineQueryResultPhoto](<#InlineQueryResultPhoto>)
   - [func \(v \*InlineQueryResultPhoto\) MarshalJSON\(\) \(\[\]byte, error\)](<#InlineQueryResultPhoto.MarshalJSON>)
+- [type InlineQueryResultType](<#InlineQueryResultType>)
 - [type InlineQueryResultVenue](<#InlineQueryResultVenue>)
   - [func \(v \*InlineQueryResultVenue\) MarshalJSON\(\) \(\[\]byte, error\)](<#InlineQueryResultVenue.MarshalJSON>)
 - [type InlineQueryResultVideo](<#InlineQueryResultVideo>)
@@ -444,6 +446,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func \(v \*InputMediaPhoto\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputMediaPhoto.MarshalJSON>)
 - [type InputMediaSticker](<#InputMediaSticker>)
   - [func \(v \*InputMediaSticker\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputMediaSticker.MarshalJSON>)
+- [type InputMediaType](<#InputMediaType>)
 - [type InputMediaVenue](<#InputMediaVenue>)
   - [func \(v \*InputMediaVenue\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputMediaVenue.MarshalJSON>)
 - [type InputMediaVideo](<#InputMediaVideo>)
@@ -454,21 +457,26 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func \(v \*InputPaidMediaLivePhoto\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputPaidMediaLivePhoto.MarshalJSON>)
 - [type InputPaidMediaPhoto](<#InputPaidMediaPhoto>)
   - [func \(v \*InputPaidMediaPhoto\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputPaidMediaPhoto.MarshalJSON>)
+- [type InputPaidMediaType](<#InputPaidMediaType>)
 - [type InputPaidMediaVideo](<#InputPaidMediaVideo>)
   - [func \(v \*InputPaidMediaVideo\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputPaidMediaVideo.MarshalJSON>)
 - [type InputPollMedia](<#InputPollMedia>)
+- [type InputPollMediaType](<#InputPollMediaType>)
 - [type InputPollOption](<#InputPollOption>)
 - [type InputPollOptionMedia](<#InputPollOptionMedia>)
+- [type InputPollOptionMediaType](<#InputPollOptionMediaType>)
 - [type InputProfilePhoto](<#InputProfilePhoto>)
 - [type InputProfilePhotoAnimated](<#InputProfilePhotoAnimated>)
   - [func \(v \*InputProfilePhotoAnimated\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputProfilePhotoAnimated.MarshalJSON>)
 - [type InputProfilePhotoStatic](<#InputProfilePhotoStatic>)
   - [func \(v \*InputProfilePhotoStatic\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputProfilePhotoStatic.MarshalJSON>)
+- [type InputProfilePhotoType](<#InputProfilePhotoType>)
 - [type InputSticker](<#InputSticker>)
 - [type InputStickerFormat](<#InputStickerFormat>)
 - [type InputStoryContent](<#InputStoryContent>)
 - [type InputStoryContentPhoto](<#InputStoryContentPhoto>)
   - [func \(v \*InputStoryContentPhoto\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputStoryContentPhoto.MarshalJSON>)
+- [type InputStoryContentType](<#InputStoryContentType>)
 - [type InputStoryContentVideo](<#InputStoryContentVideo>)
   - [func \(v \*InputStoryContentVideo\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputStoryContentVideo.MarshalJSON>)
 - [type InputTextMessageContent](<#InputTextMessageContent>)
@@ -504,6 +512,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func \(v \*MenuButtonCommands\) MarshalJSON\(\) \(\[\]byte, error\)](<#MenuButtonCommands.MarshalJSON>)
 - [type MenuButtonDefault](<#MenuButtonDefault>)
   - [func \(v \*MenuButtonDefault\) MarshalJSON\(\) \(\[\]byte, error\)](<#MenuButtonDefault.MarshalJSON>)
+- [type MenuButtonType](<#MenuButtonType>)
 - [type MenuButtonWebApp](<#MenuButtonWebApp>)
   - [func \(v \*MenuButtonWebApp\) MarshalJSON\(\) \(\[\]byte, error\)](<#MenuButtonWebApp.MarshalJSON>)
 - [type Message](<#Message>)
@@ -610,6 +619,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type PassportElementErrorSelfie](<#PassportElementErrorSelfie>)
   - [func \(v \*PassportElementErrorSelfie\) MarshalJSON\(\) \(\[\]byte, error\)](<#PassportElementErrorSelfie.MarshalJSON>)
 - [type PassportElementErrorSelfieType](<#PassportElementErrorSelfieType>)
+- [type PassportElementErrorSource](<#PassportElementErrorSource>)
 - [type PassportElementErrorTranslationFile](<#PassportElementErrorTranslationFile>)
   - [func \(v \*PassportElementErrorTranslationFile\) MarshalJSON\(\) \(\[\]byte, error\)](<#PassportElementErrorTranslationFile.MarshalJSON>)
 - [type PassportElementErrorTranslationFileType](<#PassportElementErrorTranslationFileType>)
@@ -2719,7 +2729,7 @@ Represents the scope of bot commands, covering all group and supergroup chat adm
 ```go
 type BotCommandScopeAllChatAdministrators struct {
     // Scope type, must be all_chat_administrators
-    Type string `json:"type"`
+    Type BotCommandScopeType `json:"type"`
 }
 ```
 
@@ -2740,7 +2750,7 @@ Represents the scope of bot commands, covering all group and supergroup chats.
 ```go
 type BotCommandScopeAllGroupChats struct {
     // Scope type, must be all_group_chats
-    Type string `json:"type"`
+    Type BotCommandScopeType `json:"type"`
 }
 ```
 
@@ -2761,7 +2771,7 @@ Represents the scope of bot commands, covering all private chats.
 ```go
 type BotCommandScopeAllPrivateChats struct {
     // Scope type, must be all_private_chats
-    Type string `json:"type"`
+    Type BotCommandScopeType `json:"type"`
 }
 ```
 
@@ -2782,7 +2792,7 @@ Represents the scope of bot commands, covering a specific chat.
 ```go
 type BotCommandScopeChat struct {
     // Scope type, must be chat
-    Type string `json:"type"`
+    Type BotCommandScopeType `json:"type"`
     // Unique identifier for the target chat or username of the target supergroup in the format @username. Channel direct messages chats and channel chats aren't supported.
     ChatID ChatID `json:"chat_id"`
 }
@@ -2805,7 +2815,7 @@ Represents the scope of bot commands, covering all administrators of a specific 
 ```go
 type BotCommandScopeChatAdministrators struct {
     // Scope type, must be chat_administrators
-    Type string `json:"type"`
+    Type BotCommandScopeType `json:"type"`
     // Unique identifier for the target chat or username of the target supergroup in the format @username. Channel direct messages chats and channel chats aren't supported.
     ChatID ChatID `json:"chat_id"`
 }
@@ -2828,7 +2838,7 @@ Represents the scope of bot commands, covering a specific member of a group or s
 ```go
 type BotCommandScopeChatMember struct {
     // Scope type, must be chat_member
-    Type string `json:"type"`
+    Type BotCommandScopeType `json:"type"`
     // Unique identifier for the target chat or username of the target supergroup in the format @username. Channel direct messages chats and channel chats aren't supported.
     ChatID ChatID `json:"chat_id"`
     // Unique identifier of the target user
@@ -2853,7 +2863,7 @@ Represents the default scope of bot commands. Default commands are used if no co
 ```go
 type BotCommandScopeDefault struct {
     // Scope type, must be default
-    Type string `json:"type"`
+    Type BotCommandScopeType `json:"type"`
 }
 ```
 
@@ -2865,6 +2875,29 @@ func (v *BotCommandScopeDefault) MarshalJSON() ([]byte, error)
 ```
 
 MarshalJSON encodes BotCommandScopeDefault with the discriminator field "type" forced to "default". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="BotCommandScopeType"></a>
+## type [BotCommandScopeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L24>)
+
+
+
+```go
+type BotCommandScopeType string
+```
+
+<a name="BotCommandScopeTypeDefault"></a>
+
+```go
+const (
+    BotCommandScopeTypeDefault               BotCommandScopeType = "default"
+    BotCommandScopeTypeAllPrivateChats       BotCommandScopeType = "all_private_chats"
+    BotCommandScopeTypeAllGroupChats         BotCommandScopeType = "all_group_chats"
+    BotCommandScopeTypeAllChatAdministrators BotCommandScopeType = "all_chat_administrators"
+    BotCommandScopeTypeChat                  BotCommandScopeType = "chat"
+    BotCommandScopeTypeChatAdministrators    BotCommandScopeType = "chat_administrators"
+    BotCommandScopeTypeChatMember            BotCommandScopeType = "chat_member"
+)
+```
 
 <a name="BotDescription"></a>
 ## type [BotDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4251-L4254>)
@@ -3370,7 +3403,7 @@ func (v *ChatBoostSourceGiveaway) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ChatBoostSourceGiveaway with the discriminator field "source" forced to "giveaway". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ChatBoostSourceKind"></a>
-## type [ChatBoostSourceKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L24>)
+## type [ChatBoostSourceKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L36>)
 
 
 
@@ -4021,7 +4054,7 @@ func (v *ChatMemberRestricted) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ChatMemberRestricted with the discriminator field "status" forced to "restricted". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ChatMemberStatus"></a>
-## type [ChatMemberStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L32>)
+## type [ChatMemberStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L44>)
 
 
 
@@ -4182,7 +4215,7 @@ type ChatShared struct {
 ```
 
 <a name="ChatType"></a>
-## type [ChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L43>)
+## type [ChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L55>)
 
 
 
@@ -5259,7 +5292,7 @@ type EncryptedPassportElement struct {
 ```
 
 <a name="EncryptedPassportElementType"></a>
-## type [EncryptedPassportElementType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L52>)
+## type [EncryptedPassportElementType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L64>)
 
 
 
@@ -6499,7 +6532,7 @@ type InlineQuery struct {
 ```
 
 <a name="InlineQueryChatType"></a>
-## type [InlineQueryChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L70>)
+## type [InlineQueryChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L82>)
 
 
 
@@ -6561,7 +6594,7 @@ Represents a link to an article or web page.
 ```go
 type InlineQueryResultArticle struct {
     // Type of the result, must be article
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 Bytes
     ID  string `json:"id"`
     // Title of the result
@@ -6600,7 +6633,7 @@ Represents a link to an MP3 audio file. By default, this audio file will be sent
 ```go
 type InlineQueryResultAudio struct {
     // Type of the result, must be audio
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid URL for the audio file
@@ -6641,7 +6674,7 @@ Represents a link to an MP3 audio file stored on the Telegram servers. By defaul
 ```go
 type InlineQueryResultCachedAudio struct {
     // Type of the result, must be audio
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid file identifier for the audio file
@@ -6676,7 +6709,7 @@ Represents a link to a file stored on the Telegram servers. By default, this fil
 ```go
 type InlineQueryResultCachedDocument struct {
     // Type of the result, must be document
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // Title for the result
@@ -6715,7 +6748,7 @@ Represents a link to an animated GIF file stored on the Telegram servers. By def
 ```go
 type InlineQueryResultCachedGif struct {
     // Type of the result, must be gif
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid file identifier for the GIF file
@@ -6754,7 +6787,7 @@ Represents a link to a video animation \(H.264/MPEG\-4 AVC video without sound\)
 ```go
 type InlineQueryResultCachedMpeg4Gif struct {
     // Type of the result, must be mpeg4_gif
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid file identifier for the MPEG4 file
@@ -6793,7 +6826,7 @@ Represents a link to a photo stored on the Telegram servers. By default, this ph
 ```go
 type InlineQueryResultCachedPhoto struct {
     // Type of the result, must be photo
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid file identifier of the photo
@@ -6834,7 +6867,7 @@ Represents a link to a sticker stored on the Telegram servers. By default, this 
 ```go
 type InlineQueryResultCachedSticker struct {
     // Type of the result, must be sticker
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid file identifier of the sticker
@@ -6863,7 +6896,7 @@ Represents a link to a video file stored on the Telegram servers. By default, th
 ```go
 type InlineQueryResultCachedVideo struct {
     // Type of the result, must be video
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid file identifier for the video file
@@ -6904,7 +6937,7 @@ Represents a link to a voice message stored on the Telegram servers. By default,
 ```go
 type InlineQueryResultCachedVoice struct {
     // Type of the result, must be voice
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid file identifier for the voice message
@@ -6941,7 +6974,7 @@ Represents a contact with a phone number. By default, this contact will be sent 
 ```go
 type InlineQueryResultContact struct {
     // Type of the result, must be contact
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 Bytes
     ID  string `json:"id"`
     // Contact's phone number
@@ -6982,7 +7015,7 @@ Represents a link to a file. By default, this file will be sent by the user with
 ```go
 type InlineQueryResultDocument struct {
     // Type of the result, must be document
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // Title for the result
@@ -7022,7 +7055,7 @@ func (v *InlineQueryResultDocument) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultDocument with the discriminator field "type" forced to "document". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultDocumentMimeType"></a>
-## type [InlineQueryResultDocumentMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L80>)
+## type [InlineQueryResultDocumentMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L92>)
 
 
 
@@ -7047,7 +7080,7 @@ Represents a Game.
 ```go
 type InlineQueryResultGame struct {
     // Type of the result, must be game
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // Short name of the game
@@ -7074,7 +7107,7 @@ Represents a link to an animated GIF file. By default, this animated GIF file wi
 ```go
 type InlineQueryResultGif struct {
     // Type of the result, must be gif
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid URL for the GIF file
@@ -7116,7 +7149,7 @@ func (v *InlineQueryResultGif) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultGif with the discriminator field "type" forced to "gif". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultGifThumbnailMimeType"></a>
-## type [InlineQueryResultGifThumbnailMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L87>)
+## type [InlineQueryResultGifThumbnailMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L99>)
 
 
 
@@ -7142,7 +7175,7 @@ Represents a location on a map. By default, the location will be sent by the use
 ```go
 type InlineQueryResultLocation struct {
     // Type of the result, must be location
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 Bytes
     ID  string `json:"id"`
     // Location latitude in degrees
@@ -7189,7 +7222,7 @@ Represents a link to a video animation \(H.264/MPEG\-4 AVC video without sound\)
 ```go
 type InlineQueryResultMpeg4Gif struct {
     // Type of the result, must be mpeg4_gif
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid URL for the MPEG4 file
@@ -7238,7 +7271,7 @@ Represents a link to a photo. By default, this photo will be sent by the user wi
 ```go
 type InlineQueryResultPhoto struct {
     // Type of the result, must be photo
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB
@@ -7277,6 +7310,35 @@ func (v *InlineQueryResultPhoto) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes InlineQueryResultPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
+<a name="InlineQueryResultType"></a>
+## type [InlineQueryResultType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L107>)
+
+
+
+```go
+type InlineQueryResultType string
+```
+
+<a name="InlineQueryResultTypeAudio"></a>
+
+```go
+const (
+    InlineQueryResultTypeAudio    InlineQueryResultType = "audio"
+    InlineQueryResultTypeDocument InlineQueryResultType = "document"
+    InlineQueryResultTypeGif      InlineQueryResultType = "gif"
+    InlineQueryResultTypeMpeg4Gif InlineQueryResultType = "mpeg4_gif"
+    InlineQueryResultTypePhoto    InlineQueryResultType = "photo"
+    InlineQueryResultTypeSticker  InlineQueryResultType = "sticker"
+    InlineQueryResultTypeVideo    InlineQueryResultType = "video"
+    InlineQueryResultTypeVoice    InlineQueryResultType = "voice"
+    InlineQueryResultTypeArticle  InlineQueryResultType = "article"
+    InlineQueryResultTypeContact  InlineQueryResultType = "contact"
+    InlineQueryResultTypeGame     InlineQueryResultType = "game"
+    InlineQueryResultTypeLocation InlineQueryResultType = "location"
+    InlineQueryResultTypeVenue    InlineQueryResultType = "venue"
+)
+```
+
 <a name="InlineQueryResultVenue"></a>
 ## type [InlineQueryResultVenue](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5880-L5911>)
 
@@ -7285,7 +7347,7 @@ Represents a venue. By default, the venue will be sent by the user. Alternativel
 ```go
 type InlineQueryResultVenue struct {
     // Type of the result, must be venue
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 Bytes
     ID  string `json:"id"`
     // Latitude of the venue location in degrees
@@ -7334,7 +7396,7 @@ Represents a link to a page containing an embedded video player or a video file.
 ```go
 type InlineQueryResultVideo struct {
     // Type of the result, must be video
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid URL for the embedded video player or video file
@@ -7385,7 +7447,7 @@ Represents a link to a voice recording in an .OGG container encoded with OPUS. B
 ```go
 type InlineQueryResultVoice struct {
     // Type of the result, must be voice
-    Type string `json:"type"`
+    Type InlineQueryResultType `json:"type"`
     // Unique identifier for this result, 1-64 bytes
     ID  string `json:"id"`
     // A valid URL for the voice recording
@@ -7617,7 +7679,7 @@ Represents an animation file \(GIF or H.264/MPEG\-4 AVC video without sound\) to
 ```go
 type InputMediaAnimation struct {
     // Type of the result, must be animation
-    Type string `json:"type"`
+    Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
     // Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -7658,7 +7720,7 @@ Represents an audio file to be treated as music to be sent.
 ```go
 type InputMediaAudio struct {
     // Type of the result, must be audio
-    Type string `json:"type"`
+    Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
     // Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -7695,7 +7757,7 @@ Represents a general file to be sent.
 ```go
 type InputMediaDocument struct {
     // Type of the result, must be document
-    Type string `json:"type"`
+    Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
     // Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -7728,7 +7790,7 @@ Represents a live photo to be sent.
 ```go
 type InputMediaLivePhoto struct {
     // Type of the result, must be live_photo
-    Type string `json:"type"`
+    Type InputMediaType `json:"type"`
     // Video of the live photo to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
     Media string `json:"media"`
     // The static photo to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
@@ -7763,7 +7825,7 @@ Represents a location to be sent.
 ```go
 type InputMediaLocation struct {
     // Type of the result, must be location
-    Type string `json:"type"`
+    Type InputPollOptionMediaType `json:"type"`
     // Latitude of the location
     Latitude float64 `json:"latitude"`
     // Longitude of the location
@@ -7790,7 +7852,7 @@ Represents a photo to be sent.
 ```go
 type InputMediaPhoto struct {
     // Type of the result, must be photo
-    Type string `json:"type"`
+    Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
     // Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
@@ -7823,7 +7885,7 @@ Represents a sticker file to be sent.
 ```go
 type InputMediaSticker struct {
     // Type of the result, must be sticker
-    Type string `json:"type"`
+    Type InputPollOptionMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a .WEBP sticker from the Internet, or pass “attach://<file_attach_name>” to upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
     // Optional. Emoji associated with the sticker; only for just uploaded stickers
@@ -7840,6 +7902,28 @@ func (v *InputMediaSticker) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes InputMediaSticker with the discriminator field "type" forced to "sticker". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
+<a name="InputMediaType"></a>
+## type [InputMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L125>)
+
+
+
+```go
+type InputMediaType string
+```
+
+<a name="InputMediaTypeAnimation"></a>
+
+```go
+const (
+    InputMediaTypeAnimation InputMediaType = "animation"
+    InputMediaTypeAudio     InputMediaType = "audio"
+    InputMediaTypeDocument  InputMediaType = "document"
+    InputMediaTypeLivePhoto InputMediaType = "live_photo"
+    InputMediaTypePhoto     InputMediaType = "photo"
+    InputMediaTypeVideo     InputMediaType = "video"
+)
+```
+
 <a name="InputMediaVenue"></a>
 ## type [InputMediaVenue](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4950-L4969>)
 
@@ -7848,7 +7932,7 @@ Represents a venue to be sent.
 ```go
 type InputMediaVenue struct {
     // Type of the result, must be venue
-    Type string `json:"type"`
+    Type InputPollOptionMediaType `json:"type"`
     // Latitude of the location
     Latitude float64 `json:"latitude"`
     // Longitude of the location
@@ -7885,7 +7969,7 @@ Represents a video to be sent.
 ```go
 type InputMediaVideo struct {
     // Type of the result, must be video
-    Type string `json:"type"`
+    Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
     // Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -7968,7 +8052,7 @@ The paid media to send is a live photo.
 ```go
 type InputPaidMediaLivePhoto struct {
     // Type of the media, must be live_photo
-    Type string `json:"type"`
+    Type InputPaidMediaType `json:"type"`
     // Video of the live photo to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
     Media string `json:"media"`
     // The static photo to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
@@ -7993,7 +8077,7 @@ The paid media to send is a photo.
 ```go
 type InputPaidMediaPhoto struct {
     // Type of the media, must be photo
-    Type string `json:"type"`
+    Type InputPaidMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
 }
@@ -8008,6 +8092,25 @@ func (v *InputPaidMediaPhoto) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes InputPaidMediaPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
+<a name="InputPaidMediaType"></a>
+## type [InputPaidMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L136>)
+
+
+
+```go
+type InputPaidMediaType string
+```
+
+<a name="InputPaidMediaTypeLivePhoto"></a>
+
+```go
+const (
+    InputPaidMediaTypeLivePhoto InputPaidMediaType = "live_photo"
+    InputPaidMediaTypePhoto     InputPaidMediaType = "photo"
+    InputPaidMediaTypeVideo     InputPaidMediaType = "video"
+)
+```
+
 <a name="InputPaidMediaVideo"></a>
 ## type [InputPaidMediaVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5104-L5123>)
 
@@ -8016,7 +8119,7 @@ The paid media to send is a video.
 ```go
 type InputPaidMediaVideo struct {
     // Type of the media, must be video
-    Type string `json:"type"`
+    Type InputPaidMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
     // Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -8067,6 +8170,30 @@ type InputPollMedia interface {
 }
 ```
 
+<a name="InputPollMediaType"></a>
+## type [InputPollMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L144>)
+
+
+
+```go
+type InputPollMediaType string
+```
+
+<a name="InputPollMediaTypeAnimation"></a>
+
+```go
+const (
+    InputPollMediaTypeAnimation InputPollMediaType = "animation"
+    InputPollMediaTypeAudio     InputPollMediaType = "audio"
+    InputPollMediaTypeDocument  InputPollMediaType = "document"
+    InputPollMediaTypeLivePhoto InputPollMediaType = "live_photo"
+    InputPollMediaTypeLocation  InputPollMediaType = "location"
+    InputPollMediaTypePhoto     InputPollMediaType = "photo"
+    InputPollMediaTypeVenue     InputPollMediaType = "venue"
+    InputPollMediaTypeVideo     InputPollMediaType = "video"
+)
+```
+
 <a name="InputPollOption"></a>
 ## type [InputPollOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1411-L1420>)
 
@@ -8106,6 +8233,29 @@ type InputPollOptionMedia interface {
 }
 ```
 
+<a name="InputPollOptionMediaType"></a>
+## type [InputPollOptionMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L157>)
+
+
+
+```go
+type InputPollOptionMediaType string
+```
+
+<a name="InputPollOptionMediaTypeAnimation"></a>
+
+```go
+const (
+    InputPollOptionMediaTypeAnimation InputPollOptionMediaType = "animation"
+    InputPollOptionMediaTypeLivePhoto InputPollOptionMediaType = "live_photo"
+    InputPollOptionMediaTypeLocation  InputPollOptionMediaType = "location"
+    InputPollOptionMediaTypePhoto     InputPollOptionMediaType = "photo"
+    InputPollOptionMediaTypeSticker   InputPollOptionMediaType = "sticker"
+    InputPollOptionMediaTypeVenue     InputPollOptionMediaType = "venue"
+    InputPollOptionMediaTypeVideo     InputPollOptionMediaType = "video"
+)
+```
+
 <a name="InputProfilePhoto"></a>
 ## type [InputProfilePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5147>)
 
@@ -8130,7 +8280,7 @@ An animated profile photo in the MPEG4 format.
 ```go
 type InputProfilePhotoAnimated struct {
     // Type of the profile photo, must be animated
-    Type string `json:"type"`
+    Type InputProfilePhotoType `json:"type"`
     // The animated profile photo. Profile photos can't be reused and can only be uploaded as a new file, so you can pass “attach://<file_attach_name>” if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
     Animation string `json:"animation"`
     // Optional. Timestamp in seconds of the frame that will be used as the static profile photo. Defaults to 0.0.
@@ -8155,7 +8305,7 @@ A static profile photo in the .JPG format.
 ```go
 type InputProfilePhotoStatic struct {
     // Type of the profile photo, must be static
-    Type string `json:"type"`
+    Type InputProfilePhotoType `json:"type"`
     // The static profile photo. Profile photos can't be reused and can only be uploaded as a new file, so you can pass “attach://<file_attach_name>” if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
     Photo string `json:"photo"`
 }
@@ -8169,6 +8319,24 @@ func (v *InputProfilePhotoStatic) MarshalJSON() ([]byte, error)
 ```
 
 MarshalJSON encodes InputProfilePhotoStatic with the discriminator field "type" forced to "static". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputProfilePhotoType"></a>
+## type [InputProfilePhotoType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L169>)
+
+
+
+```go
+type InputProfilePhotoType string
+```
+
+<a name="InputProfilePhotoTypeStatic"></a>
+
+```go
+const (
+    InputProfilePhotoTypeStatic   InputProfilePhotoType = "static"
+    InputProfilePhotoTypeAnimated InputProfilePhotoType = "animated"
+)
+```
 
 <a name="InputSticker"></a>
 ## type [InputSticker](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5334-L5345>)
@@ -8191,7 +8359,7 @@ type InputSticker struct {
 ```
 
 <a name="InputStickerFormat"></a>
-## type [InputStickerFormat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L95>)
+## type [InputStickerFormat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L176>)
 
 
 
@@ -8233,7 +8401,7 @@ Describes a photo to post as a story.
 ```go
 type InputStoryContentPhoto struct {
     // Type of the content, must be photo
-    Type string `json:"type"`
+    Type InputStoryContentType `json:"type"`
     // The photo to post as a story. The photo must be of the size 1080x1920 and must not exceed 10 MB. The photo can't be reused and can only be uploaded as a new file, so you can pass “attach://<file_attach_name>” if the photo was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
     Photo string `json:"photo"`
 }
@@ -8248,6 +8416,24 @@ func (v *InputStoryContentPhoto) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes InputStoryContentPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
+<a name="InputStoryContentType"></a>
+## type [InputStoryContentType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L184>)
+
+
+
+```go
+type InputStoryContentType string
+```
+
+<a name="InputStoryContentTypePhoto"></a>
+
+```go
+const (
+    InputStoryContentTypePhoto InputStoryContentType = "photo"
+    InputStoryContentTypeVideo InputStoryContentType = "video"
+)
+```
+
 <a name="InputStoryContentVideo"></a>
 ## type [InputStoryContentVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5244-L5255>)
 
@@ -8256,7 +8442,7 @@ Describes a video to post as a story.
 ```go
 type InputStoryContentVideo struct {
     // Type of the content, must be video
-    Type string `json:"type"`
+    Type InputStoryContentType `json:"type"`
     // The video to post as a story. The video must be of the size 720x1280, streamable, encoded with H.265 codec, with key frames added each second in the MPEG4 format, and must not exceed 30 MB. The video can't be reused and can only be uploaded as a new file, so you can pass “attach://<file_attach_name>” if the video was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
     Video string `json:"video"`
     // Optional. Precise duration of the video in seconds; 0-60
@@ -8456,7 +8642,7 @@ type KeyboardButtonRequestUsers struct {
 ```
 
 <a name="KeyboardButtonStyle"></a>
-## type [KeyboardButtonStyle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L103>)
+## type [KeyboardButtonStyle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L191>)
 
 
 
@@ -8663,7 +8849,7 @@ type MaskPosition struct {
 ```
 
 <a name="MaskPositionPoint"></a>
-## type [MaskPositionPoint](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L111>)
+## type [MaskPositionPoint](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L199>)
 
 
 
@@ -8788,7 +8974,7 @@ Represents a menu button, which opens the bot's list of commands.
 ```go
 type MenuButtonCommands struct {
     // Type of the button, must be commands
-    Type string `json:"type"`
+    Type MenuButtonType `json:"type"`
 }
 ```
 
@@ -8809,7 +8995,7 @@ Describes that no specific value for the menu button was set.
 ```go
 type MenuButtonDefault struct {
     // Type of the button, must be default
-    Type string `json:"type"`
+    Type MenuButtonType `json:"type"`
 }
 ```
 
@@ -8822,6 +9008,25 @@ func (v *MenuButtonDefault) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes MenuButtonDefault with the discriminator field "type" forced to "default". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
+<a name="MenuButtonType"></a>
+## type [MenuButtonType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L208>)
+
+
+
+```go
+type MenuButtonType string
+```
+
+<a name="MenuButtonTypeCommands"></a>
+
+```go
+const (
+    MenuButtonTypeCommands MenuButtonType = "commands"
+    MenuButtonTypeWebApp   MenuButtonType = "web_app"
+    MenuButtonTypeDefault  MenuButtonType = "default"
+)
+```
+
 <a name="MenuButtonWebApp"></a>
 ## type [MenuButtonWebApp](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4330-L4337>)
 
@@ -8830,7 +9035,7 @@ Represents a menu button, which launches a Web App.
 ```go
 type MenuButtonWebApp struct {
     // Type of the button, must be web_app
-    Type string `json:"type"`
+    Type MenuButtonType `json:"type"`
     // Text on the button
     Text string `json:"text"`
     // Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery. Alternatively, a t.me link to a Web App of the bot can be specified in the object instead of the Web App's URL, in which case the Web App will be opened as if the user pressed the link.
@@ -9397,7 +9602,7 @@ type MessageEntity struct {
 ```
 
 <a name="MessageEntityType"></a>
-## type [MessageEntityType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L120>)
+## type [MessageEntityType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L216>)
 
 
 
@@ -9684,7 +9889,7 @@ func (v *MessageOriginHiddenUser) MarshalJSON() ([]byte, error)
 MarshalJSON encodes MessageOriginHiddenUser with the discriminator field "type" forced to "hidden\_user". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="MessageOriginType"></a>
-## type [MessageOriginType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L145>)
+## type [MessageOriginType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L241>)
 
 
 
@@ -9881,7 +10086,7 @@ func (v *OwnedGiftRegular) MarshalJSON() ([]byte, error)
 MarshalJSON encodes OwnedGiftRegular with the discriminator field "type" forced to "regular". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="OwnedGiftType"></a>
-## type [OwnedGiftType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L154>)
+## type [OwnedGiftType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L250>)
 
 
 
@@ -10131,7 +10336,7 @@ type PaidMediaPurchased struct {
 ```
 
 <a name="PaidMediaType"></a>
-## type [PaidMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L161>)
+## type [PaidMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L257>)
 
 
 
@@ -10186,7 +10391,7 @@ type PaidMessagePriceChanged struct {
 ```
 
 <a name="ParseMode"></a>
-## type [ParseMode](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L170>)
+## type [ParseMode](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L266>)
 
 
 
@@ -10249,7 +10454,7 @@ Represents an issue in one of the data fields that was provided by the user. The
 ```go
 type PassportElementErrorDataField struct {
     // Error source, must be data
-    Source string `json:"source"`
+    Source PassportElementErrorSource `json:"source"`
     // The section of the user's Telegram Passport which has the error, one of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”
     Type PassportElementErrorDataFieldType `json:"type"`
     // Name of the data field which has the error
@@ -10271,7 +10476,7 @@ func (v *PassportElementErrorDataField) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorDataField with the discriminator field "source" forced to "data". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorDataFieldType"></a>
-## type [PassportElementErrorDataFieldType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L178>)
+## type [PassportElementErrorDataFieldType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L274>)
 
 
 
@@ -10300,7 +10505,7 @@ Represents an issue with a document scan. The error is considered resolved when 
 ```go
 type PassportElementErrorFile struct {
     // Error source, must be file
-    Source string `json:"source"`
+    Source PassportElementErrorSource `json:"source"`
     // The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
     Type PassportElementErrorFileType `json:"type"`
     // Base64-encoded file hash
@@ -10320,7 +10525,7 @@ func (v *PassportElementErrorFile) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorFile with the discriminator field "source" forced to "file". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorFileType"></a>
-## type [PassportElementErrorFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L189>)
+## type [PassportElementErrorFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L285>)
 
 
 
@@ -10348,7 +10553,7 @@ Represents an issue with a list of scans. The error is considered resolved when 
 ```go
 type PassportElementErrorFiles struct {
     // Error source, must be files
-    Source string `json:"source"`
+    Source PassportElementErrorSource `json:"source"`
     // The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
     Type PassportElementErrorFileType `json:"type"`
     // List of base64-encoded file hashes
@@ -10375,7 +10580,7 @@ Represents an issue with the front side of a document. The error is considered r
 ```go
 type PassportElementErrorFrontSide struct {
     // Error source, must be front_side
-    Source string `json:"source"`
+    Source PassportElementErrorSource `json:"source"`
     // The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”
     Type PassportElementErrorSelfieType `json:"type"`
     // Base64-encoded hash of the file with the front side of the document
@@ -10402,7 +10607,7 @@ Represents an issue with the reverse side of a document. The error is considered
 ```go
 type PassportElementErrorReverseSide struct {
     // Error source, must be reverse_side
-    Source string `json:"source"`
+    Source PassportElementErrorSource `json:"source"`
     // The section of the user's Telegram Passport which has the issue, one of “driver_license”, “identity_card”
     Type PassportElementErrorReverseSideType `json:"type"`
     // Base64-encoded hash of the file with the reverse side of the document
@@ -10422,7 +10627,7 @@ func (v *PassportElementErrorReverseSide) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorReverseSide with the discriminator field "source" forced to "reverse\_side". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorReverseSideType"></a>
-## type [PassportElementErrorReverseSideType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L199>)
+## type [PassportElementErrorReverseSideType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L295>)
 
 
 
@@ -10447,7 +10652,7 @@ Represents an issue with the selfie with a document. The error is considered res
 ```go
 type PassportElementErrorSelfie struct {
     // Error source, must be selfie
-    Source string `json:"source"`
+    Source PassportElementErrorSource `json:"source"`
     // The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”
     Type PassportElementErrorSelfieType `json:"type"`
     // Base64-encoded hash of the file with the selfie
@@ -10467,7 +10672,7 @@ func (v *PassportElementErrorSelfie) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorSelfie with the discriminator field "source" forced to "selfie". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorSelfieType"></a>
-## type [PassportElementErrorSelfieType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L206>)
+## type [PassportElementErrorSelfieType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L302>)
 
 
 
@@ -10486,6 +10691,31 @@ const (
 )
 ```
 
+<a name="PassportElementErrorSource"></a>
+## type [PassportElementErrorSource](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L311>)
+
+
+
+```go
+type PassportElementErrorSource string
+```
+
+<a name="PassportElementErrorSourceData"></a>
+
+```go
+const (
+    PassportElementErrorSourceData             PassportElementErrorSource = "data"
+    PassportElementErrorSourceFrontSide        PassportElementErrorSource = "front_side"
+    PassportElementErrorSourceReverseSide      PassportElementErrorSource = "reverse_side"
+    PassportElementErrorSourceSelfie           PassportElementErrorSource = "selfie"
+    PassportElementErrorSourceFile             PassportElementErrorSource = "file"
+    PassportElementErrorSourceFiles            PassportElementErrorSource = "files"
+    PassportElementErrorSourceTranslationFile  PassportElementErrorSource = "translation_file"
+    PassportElementErrorSourceTranslationFiles PassportElementErrorSource = "translation_files"
+    PassportElementErrorSourceUnspecified      PassportElementErrorSource = "unspecified"
+)
+```
+
 <a name="PassportElementErrorTranslationFile"></a>
 ## type [PassportElementErrorTranslationFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7343-L7352>)
 
@@ -10494,7 +10724,7 @@ Represents an issue with one of the files that constitute the translation of a d
 ```go
 type PassportElementErrorTranslationFile struct {
     // Error source, must be translation_file
-    Source string `json:"source"`
+    Source PassportElementErrorSource `json:"source"`
     // Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
     Type PassportElementErrorTranslationFileType `json:"type"`
     // Base64-encoded file hash
@@ -10514,7 +10744,7 @@ func (v *PassportElementErrorTranslationFile) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorTranslationFile with the discriminator field "source" forced to "translation\_file". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorTranslationFileType"></a>
-## type [PassportElementErrorTranslationFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L215>)
+## type [PassportElementErrorTranslationFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L325>)
 
 
 
@@ -10546,7 +10776,7 @@ Represents an issue with the translated version of a document. The error is cons
 ```go
 type PassportElementErrorTranslationFiles struct {
     // Error source, must be translation_files
-    Source string `json:"source"`
+    Source PassportElementErrorSource `json:"source"`
     // Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
     Type PassportElementErrorTranslationFileType `json:"type"`
     // List of base64-encoded file hashes
@@ -10573,7 +10803,7 @@ Represents an issue in an unspecified place. The error is considered resolved wh
 ```go
 type PassportElementErrorUnspecified struct {
     // Error source, must be unspecified
-    Source string `json:"source"`
+    Source PassportElementErrorSource `json:"source"`
     // Type of element of the user's Telegram Passport which has the issue
     Type string `json:"type"`
     // Base64-encoded element hash
@@ -10851,7 +11081,7 @@ func (m *PollOptionDeleted) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes PollOptionDeleted by dispatching union\-typed fields \(PollMessage\) through their concrete UnmarshalXxx helpers.
 
 <a name="PollType"></a>
-## type [PollType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L229>)
+## type [PollType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L339>)
 
 
 
@@ -11132,7 +11362,7 @@ func (v *ReactionTypeEmoji) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ReactionTypeEmoji with the discriminator field "type" forced to "emoji". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ReactionTypeKind"></a>
-## type [ReactionTypeKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L236>)
+## type [ReactionTypeKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L346>)
 
 
 
@@ -11226,7 +11456,7 @@ type RefundedPayment struct {
 ```
 
 <a name="RefundedPaymentCurrency"></a>
-## type [RefundedPaymentCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L244>)
+## type [RefundedPaymentCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L354>)
 
 
 
@@ -11534,7 +11764,7 @@ func (v *RevenueWithdrawalStateFailed) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RevenueWithdrawalStateFailed with the discriminator field "type" forced to "failed". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RevenueWithdrawalStateKind"></a>
-## type [RevenueWithdrawalStateKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L250>)
+## type [RevenueWithdrawalStateKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L360>)
 
 
 
@@ -13952,7 +14182,7 @@ GetStickerSet calls the getStickerSet Telegram Bot API method.
 Use this method to get a sticker set. On success, a StickerSet object is returned.
 
 <a name="StickerType"></a>
-## type [StickerType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L258>)
+## type [StickerType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L368>)
 
 
 
@@ -14133,7 +14363,7 @@ func UnmarshalStoryAreaType(data []byte) (StoryAreaType, error)
 UnmarshalStoryAreaType decodes a StoryAreaType from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
 <a name="StoryAreaTypeKind"></a>
-## type [StoryAreaTypeKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L266>)
+## type [StoryAreaTypeKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L376>)
 
 
 
@@ -14380,7 +14610,7 @@ type SuggestedPostInfo struct {
 ```
 
 <a name="SuggestedPostInfoState"></a>
-## type [SuggestedPostInfoState](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L276>)
+## type [SuggestedPostInfoState](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L386>)
 
 
 
@@ -14417,7 +14647,7 @@ type SuggestedPostPaid struct {
 ```
 
 <a name="SuggestedPostPaidCurrency"></a>
-## type [SuggestedPostPaidCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L284>)
+## type [SuggestedPostPaidCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L394>)
 
 
 
@@ -14477,7 +14707,7 @@ type SuggestedPostRefunded struct {
 ```
 
 <a name="SuggestedPostRefundedReason"></a>
-## type [SuggestedPostRefundedReason](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L291>)
+## type [SuggestedPostRefundedReason](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L401>)
 
 
 
@@ -14710,7 +14940,7 @@ func (v *TransactionPartnerTelegramApi) MarshalJSON() ([]byte, error)
 MarshalJSON encodes TransactionPartnerTelegramApi with the discriminator field "type" forced to "telegram\_api". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="TransactionPartnerType"></a>
-## type [TransactionPartnerType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L298>)
+## type [TransactionPartnerType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L408>)
 
 
 
@@ -14781,7 +15011,7 @@ func (m *TransactionPartnerUser) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes TransactionPartnerUser by dispatching union\-typed fields \(PaidMedia\) through their concrete UnmarshalXxx helpers.
 
 <a name="TransactionPartnerUserTransactionType"></a>
-## type [TransactionPartnerUserTransactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L310>)
+## type [TransactionPartnerUserTransactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L420>)
 
 
 
@@ -15000,7 +15230,7 @@ type UniqueGiftInfo struct {
 ```
 
 <a name="UniqueGiftInfoOrigin"></a>
-## type [UniqueGiftInfoOrigin](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L320>)
+## type [UniqueGiftInfoOrigin](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L430>)
 
 
 
@@ -15039,7 +15269,7 @@ type UniqueGiftModel struct {
 ```
 
 <a name="UniqueGiftModelRarity"></a>
-## type [UniqueGiftModelRarity](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L330>)
+## type [UniqueGiftModelRarity](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L440>)
 
 
 
