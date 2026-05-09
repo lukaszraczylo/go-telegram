@@ -4690,7 +4690,7 @@ Use this method to delete the list of the bot's commands for the given scope and
 ```go
 type DeleteMyCommandsParams struct {
     // A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to BotCommandScopeDefault.
-    Scope *BotCommandScope `json:"scope,omitempty"`
+    Scope BotCommandScope `json:"scope,omitempty"`
     // A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
     LanguageCode string `json:"language_code,omitempty"`
 }
@@ -5860,7 +5860,7 @@ Use this method to get the current list of the bot's commands for the given scop
 ```go
 type GetMyCommandsParams struct {
     // A JSON-serialized object, describing scope of users. Defaults to BotCommandScopeDefault.
-    Scope *BotCommandScope `json:"scope,omitempty"`
+    Scope BotCommandScope `json:"scope,omitempty"`
     // A two-letter ISO 639-1 language code or an empty string
     LanguageCode string `json:"language_code,omitempty"`
 }
@@ -6528,7 +6528,7 @@ type InlineQueryResultAudio struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the audio
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -6554,7 +6554,7 @@ type InlineQueryResultCachedAudio struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the audio
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -6584,7 +6584,7 @@ type InlineQueryResultCachedDocument struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the file
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -6614,7 +6614,7 @@ type InlineQueryResultCachedGif struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the GIF animation
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -6644,7 +6644,7 @@ type InlineQueryResultCachedMpeg4Gif struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the video animation
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -6676,7 +6676,7 @@ type InlineQueryResultCachedPhoto struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the photo
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -6696,7 +6696,7 @@ type InlineQueryResultCachedSticker struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the sticker
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -6728,7 +6728,7 @@ type InlineQueryResultCachedVideo struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the video
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -6756,7 +6756,7 @@ type InlineQueryResultCachedVoice struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the voice message
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -6782,7 +6782,7 @@ type InlineQueryResultContact struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the contact
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
     // Optional. Url of the thumbnail for the result
     ThumbnailURL string `json:"thumbnail_url,omitempty"`
     // Optional. Thumbnail width
@@ -6820,7 +6820,7 @@ type InlineQueryResultDocument struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the file
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
     // Optional. URL of the thumbnail (JPEG only) for the file
     ThumbnailURL string `json:"thumbnail_url,omitempty"`
     // Optional. Thumbnail width
@@ -6902,7 +6902,7 @@ type InlineQueryResultGif struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the GIF animation
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -6953,7 +6953,7 @@ type InlineQueryResultLocation struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the location
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
     // Optional. Url of the thumbnail for the result
     ThumbnailURL string `json:"thumbnail_url,omitempty"`
     // Optional. Thumbnail width
@@ -6999,7 +6999,7 @@ type InlineQueryResultMpeg4Gif struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the video animation
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -7037,7 +7037,7 @@ type InlineQueryResultPhoto struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the photo
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -7071,7 +7071,7 @@ type InlineQueryResultVenue struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the venue
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
     // Optional. Url of the thumbnail for the result
     ThumbnailURL string `json:"thumbnail_url,omitempty"`
     // Optional. Thumbnail width
@@ -7119,7 +7119,7 @@ type InlineQueryResultVideo struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the video. This field is required if InlineQueryResultVideo is used to send an HTML-page as a result (e.g., a YouTube video).
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -7149,7 +7149,7 @@ type InlineQueryResultVoice struct {
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
     // Optional. Content of the message to be sent instead of the voice recording
-    InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
+    InputMessageContent InputMessageContent `json:"input_message_content,omitempty"`
 }
 ```
 
@@ -7710,7 +7710,7 @@ type InputPollOption struct {
     // Optional. A JSON-serialized list of special entities that appear in the poll option text. It can be specified instead of text_parse_mode
     TextEntities []MessageEntity `json:"text_entities,omitempty"`
     // Optional. Media added to the poll option
-    Media *InputPollOptionMedia `json:"media,omitempty"`
+    Media InputPollOptionMedia `json:"media,omitempty"`
 }
 ```
 
@@ -12102,7 +12102,7 @@ type SendPollParams struct {
     // A JSON-serialized list of special entities that appear in the poll explanation. It can be specified instead of explanation_parse_mode
     ExplanationEntities []MessageEntity `json:"explanation_entities,omitempty"`
     // Media added to the quiz explanation
-    ExplanationMedia *InputPollMedia `json:"explanation_media,omitempty"`
+    ExplanationMedia InputPollMedia `json:"explanation_media,omitempty"`
     // Amount of time in seconds the poll will be active after creation, 5-2628000. Can't be used together with close_date.
     OpenPeriod *int64 `json:"open_period,omitempty"`
     // Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 2628000 seconds in the future. Can't be used together with open_period.
@@ -12116,7 +12116,7 @@ type SendPollParams struct {
     // A JSON-serialized list of special entities that appear in the poll description, which can be specified instead of description_parse_mode
     DescriptionEntities []MessageEntity `json:"description_entities,omitempty"`
     // Media added to the poll description
-    Media *InputPollMedia `json:"media,omitempty"`
+    Media InputPollMedia `json:"media,omitempty"`
     // Sends the message silently. Users will receive a notification with no sound.
     DisableNotification *bool `json:"disable_notification,omitempty"`
     // Protects the contents of the sent message from forwarding and saving
@@ -12911,7 +12911,7 @@ type SetMyCommandsParams struct {
     // A JSON-serialized list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
     Commands []BotCommand `json:"commands"`
     // A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to BotCommandScopeDefault.
-    Scope *BotCommandScope `json:"scope,omitempty"`
+    Scope BotCommandScope `json:"scope,omitempty"`
     // A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
     LanguageCode string `json:"language_code,omitempty"`
 }

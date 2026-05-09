@@ -1875,7 +1875,7 @@ type SendPollParams struct {
 	// A JSON-serialized list of special entities that appear in the poll explanation. It can be specified instead of explanation_parse_mode
 	ExplanationEntities []MessageEntity `json:"explanation_entities,omitempty"`
 	// Media added to the quiz explanation
-	ExplanationMedia *InputPollMedia `json:"explanation_media,omitempty"`
+	ExplanationMedia InputPollMedia `json:"explanation_media,omitempty"`
 	// Amount of time in seconds the poll will be active after creation, 5-2628000. Can't be used together with close_date.
 	OpenPeriod *int64 `json:"open_period,omitempty"`
 	// Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 2628000 seconds in the future. Can't be used together with open_period.
@@ -1889,7 +1889,7 @@ type SendPollParams struct {
 	// A JSON-serialized list of special entities that appear in the poll description, which can be specified instead of description_parse_mode
 	DescriptionEntities []MessageEntity `json:"description_entities,omitempty"`
 	// Media added to the poll description
-	Media *InputPollMedia `json:"media,omitempty"`
+	Media InputPollMedia `json:"media,omitempty"`
 	// Sends the message silently. Users will receive a notification with no sound.
 	DisableNotification *bool `json:"disable_notification,omitempty"`
 	// Protects the contents of the sent message from forwarding and saving
@@ -3140,7 +3140,7 @@ type SetMyCommandsParams struct {
 	// A JSON-serialized list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
 	Commands []BotCommand `json:"commands"`
 	// A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to BotCommandScopeDefault.
-	Scope *BotCommandScope `json:"scope,omitempty"`
+	Scope BotCommandScope `json:"scope,omitempty"`
 	// A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
 	LanguageCode string `json:"language_code,omitempty"`
 }
@@ -3157,7 +3157,7 @@ func SetMyCommands(ctx context.Context, b *client.Bot, p *SetMyCommandsParams) (
 // Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users. Returns True on success.
 type DeleteMyCommandsParams struct {
 	// A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to BotCommandScopeDefault.
-	Scope *BotCommandScope `json:"scope,omitempty"`
+	Scope BotCommandScope `json:"scope,omitempty"`
 	// A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
 	LanguageCode string `json:"language_code,omitempty"`
 }
@@ -3174,7 +3174,7 @@ func DeleteMyCommands(ctx context.Context, b *client.Bot, p *DeleteMyCommandsPar
 // Use this method to get the current list of the bot's commands for the given scope and user language. Returns an Array of BotCommand objects. If commands aren't set, an empty list is returned.
 type GetMyCommandsParams struct {
 	// A JSON-serialized object, describing scope of users. Defaults to BotCommandScopeDefault.
-	Scope *BotCommandScope `json:"scope,omitempty"`
+	Scope BotCommandScope `json:"scope,omitempty"`
 	// A two-letter ISO 639-1 language code or an empty string
 	LanguageCode string `json:"language_code,omitempty"`
 }

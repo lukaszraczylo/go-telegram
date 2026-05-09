@@ -168,8 +168,17 @@ type emitter struct {
 }
 
 func newEmitter(api *spec.API, outDir string) *emitter {
+	knownInterfaceTypes = buildUnionTypeSet(api)
 	return &emitter{api: api, outDir: outDir, enums: planEnums(api)}
 }
+
+// knownInterfaceTypes is the full set of sealed-interface union type names
+// (both auto-decoded ones in knownDiscriminators and marker-only ones from
+// types with OneOf). Populated at emitter construction. goType and
+// unionTypeFor consult this so optional fields of any union type stay
+// bare interface, never *Interface (which is meaningless in Go and trips
+// users at every call site).
+var knownInterfaceTypes = map[string]bool{}
 
 // emitTypes renders types.gen.go.
 func (e *emitter) emitTypes() error {
@@ -477,7 +486,7 @@ func goType(tr spec.TypeRef, optional bool) string {
 		//    multipart helpers (fileCheck, multipartFileEntry) call
 		//    f.IsLocalUpload() and dereference Reader, both of which
 		//    expect a pointer receiver.
-		if _, isUnion := knownDiscriminators[tr.Name]; isUnion {
+		if knownInterfaceTypes[tr.Name] {
 			// Interface type — never add *.
 			return tr.Name
 		}
