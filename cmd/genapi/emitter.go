@@ -46,6 +46,30 @@ var runtimeTypes = map[string]bool{
 	"MessageOrBool":      true,
 }
 
+// fieldTypeOverrides maps "<TypeOrParamsName>.<FieldName>" → Go type expression.
+// Used for fields whose values are restricted but whose enum the scraper
+// can't detect (Telegram's curly-quoted emoji literals are routinely
+// stripped by the scraper's regex due to byte-boundary issues with
+// multi-byte sequences). The hand-curated typed-string enum lives in
+// api/enums.go (manual file); this override just retypes the field so
+// callers get IDE completion and compile-time checks. Generated fields
+// stay typed even after `make regen`.
+var fieldTypeOverrides = map[string]string{
+	"ReactionTypeEmoji.Emoji": "ReactionEmoji",
+	"SendDiceParams.Emoji":    "DiceEmoji",
+}
+
+// fieldTypeOverride returns the override type for a (parent, fieldName)
+// pair, or "" if none. parent is the Go type name owning the field —
+// either a struct type (e.g. "ReactionTypeEmoji") or a method-params
+// type (e.g. "SendDiceParams").
+func fieldTypeOverride(parent, fieldName string) string {
+	if parent == "" {
+		return ""
+	}
+	return fieldTypeOverrides[parent+"."+fieldName]
+}
+
 // discriminatorSpec describes how to decode a sealed-interface union by
 // peeking at a single JSON field.
 type discriminatorSpec struct {
@@ -395,6 +419,9 @@ func funcs(plan *enumPlan) template.FuncMap {
 		"goField": func(parent string, f spec.Field) string {
 			return goField(plan, parent, f)
 		},
+		"goFieldP": func(methodName string, f spec.Field) string {
+			return goFieldX(plan, "", title(methodName)+"Params", f)
+		},
 		"docComment":  docComment,
 		"isOptional":  func(f spec.Field) bool { return !f.Required },
 		"not":         func(b bool) bool { return !b },
@@ -403,6 +430,9 @@ func funcs(plan *enumPlan) template.FuncMap {
 		"fileCheck":   fileCheck,
 		"multipartFieldEntry": func(parent string, f spec.Field) string {
 			return multipartFieldEntry(plan, parent, f)
+		},
+		"multipartFieldEntryP": func(methodName string, f spec.Field) string {
+			return multipartFieldEntryX(plan, "", title(methodName)+"Params", f)
 		},
 		"multipartFileEntry": multipartFileEntry,
 		"returnGoType":       returnGoType,
@@ -503,7 +533,17 @@ func multipartFileEntry(f spec.Field) string {
 // when non-zero/non-empty. Typed-string enum fields are cast to string
 // before assignment because the multipart map is map[string]string.
 func multipartFieldEntry(plan *enumPlan, parent string, f spec.Field) string {
-	enumName := plan.FieldEnum(parent, f.Name)
+	return multipartFieldEntryX(plan, parent, parent, f)
+}
+
+// multipartFieldEntryX mirrors goFieldX: enumParent keys the enum plan,
+// overrideParent keys fieldTypeOverrides. They differ only for method
+// params.
+func multipartFieldEntryX(plan *enumPlan, enumParent, overrideParent string, f spec.Field) string {
+	enumName := plan.FieldEnum(enumParent, f.Name)
+	if enumName == "" {
+		enumName = fieldTypeOverride(overrideParent, f.Name)
+	}
 	switch f.Type.Kind {
 	case spec.KindPrimitive:
 		switch f.Type.Name {
@@ -775,10 +815,24 @@ func matchesVariants(got []string, want ...string) bool {
 // has a planned enum name for (parent, field), the field's Go type is
 // the enum identifier. Typed-string enums use the zero string ""
 // behaviour for omitempty, so we do not pointer-wrap optional enum
-// fields. Parent is "" for method parameters.
+// fields. Parent is "" for method parameters; pass the params type
+// name (e.g. "SendDiceParams") via overrideParent when calling from
+// the methods template so fieldTypeOverrides can resolve.
 func goField(plan *enumPlan, parent string, f spec.Field) string {
+	return goFieldX(plan, parent, parent, f)
+}
+
+// goFieldX is the underlying field-emitter. enumParent is used for the
+// enum-plan lookup (which keys method params under ""); overrideParent
+// is used for fieldTypeOverrides (which keys method params under the
+// params type name). For struct types both are the same; for method
+// params they differ.
+func goFieldX(plan *enumPlan, enumParent, overrideParent string, f spec.Field) string {
 	tag := fmt.Sprintf("`json:%q`", f.JSONName+omitempty(f))
-	if name := plan.FieldEnum(parent, f.Name); name != "" {
+	if name := plan.FieldEnum(enumParent, f.Name); name != "" {
+		return fmt.Sprintf("%s %s %s", f.Name, name, tag)
+	}
+	if name := fieldTypeOverride(overrideParent, f.Name); name != "" {
 		return fmt.Sprintf("%s %s %s", f.Name, name, tag)
 	}
 	return fmt.Sprintf("%s %s %s", f.Name, goType(f.Type, !f.Required), tag)

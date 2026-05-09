@@ -3472,7 +3472,7 @@ type ReactionTypeEmoji struct {
 	// Type of the reaction, always “emoji”
 	Type ReactionTypeKind `json:"type"`
 	// Reaction emoji. Currently, it can be one of "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
-	Emoji string `json:"emoji"`
+	Emoji ReactionEmoji `json:"emoji"`
 }
 
 // MarshalJSON encodes ReactionTypeEmoji with the discriminator field

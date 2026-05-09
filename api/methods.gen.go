@@ -1953,7 +1953,7 @@ type SendDiceParams struct {
 	// Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
 	DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
 	// Emoji on which the dice throw animation is based. Currently, must be one of “”, “”, “”, “”, “”, or “”. Dice can have values 1-6 for “”, “” and “”, values 1-5 for “” and “”, and values 1-64 for “”. Defaults to “”
-	Emoji string `json:"emoji,omitempty"`
+	Emoji DiceEmoji `json:"emoji,omitempty"`
 	// Sends the message silently. Users will receive a notification with no sound.
 	DisableNotification *bool `json:"disable_notification,omitempty"`
 	// Protects the contents of the sent message from forwarding

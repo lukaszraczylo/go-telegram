@@ -289,6 +289,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type DeleteStoryParams](<#DeleteStoryParams>)
 - [type DeleteWebhookParams](<#DeleteWebhookParams>)
 - [type Dice](<#Dice>)
+- [type DiceEmoji](<#DiceEmoji>)
 - [type DirectMessagePriceChanged](<#DirectMessagePriceChanged>)
 - [type DirectMessagesTopic](<#DirectMessagesTopic>)
 - [type Document](<#Document>)
@@ -651,6 +652,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type ProximityAlertTriggered](<#ProximityAlertTriggered>)
 - [type ReactionCount](<#ReactionCount>)
   - [func \(m \*ReactionCount\) UnmarshalJSON\(data \[\]byte\) error](<#ReactionCount.UnmarshalJSON>)
+- [type ReactionEmoji](<#ReactionEmoji>)
 - [type ReactionType](<#ReactionType>)
   - [func UnmarshalReactionType\(data \[\]byte\) \(ReactionType, error\)](<#UnmarshalReactionType>)
 - [type ReactionTypeCustomEmoji](<#ReactionTypeCustomEmoji>)
@@ -4882,6 +4884,28 @@ type Dice struct {
     // Value of the dice, 1-6 for “”, “” and “” base emoji, 1-5 for “” and “” base emoji, 1-64 for “” base emoji
     Value int64 `json:"value"`
 }
+```
+
+<a name="DiceEmoji"></a>
+## type [DiceEmoji](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.go#L42>)
+
+DiceEmoji is the set of emoji values accepted by sendDice. Telegram's canonical list is "🎲", "🎯", "🏀", "⚽", "🎳", "🎰". The codegen scraper drops these values during regex extraction \(multi\-byte boundary issues with curly\-quoted emoji\), so this enum is hand\- curated and wired into SendDiceParams.Emoji via the per\-field type override in cmd/genapi/emitter.go.
+
+```go
+type DiceEmoji string
+```
+
+<a name="DiceEmojiDice"></a>
+
+```go
+const (
+    DiceEmojiDice        DiceEmoji = "🎲"
+    DiceEmojiDart        DiceEmoji = "🎯"
+    DiceEmojiBasketball  DiceEmoji = "🏀"
+    DiceEmojiFootball    DiceEmoji = "⚽"
+    DiceEmojiBowling     DiceEmoji = "🎳"
+    DiceEmojiSlotMachine DiceEmoji = "🎰"
+)
 ```
 
 <a name="DirectMessagePriceChanged"></a>
@@ -11289,6 +11313,95 @@ func (m *ReactionCount) UnmarshalJSON(data []byte) error
 
 UnmarshalJSON decodes ReactionCount by dispatching union\-typed fields \(Type\) through their concrete UnmarshalXxx helpers.
 
+<a name="ReactionEmoji"></a>
+## type [ReactionEmoji](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.go#L62>)
+
+ReactionEmoji is the set of emoji Telegram allows in a ReactionTypeEmoji.Emoji value. Hand\-curated from https://core.telegram.org/bots/api#reactiontypeemoji because the scraper's curly\-quote regex strips the emoji literals \(byte\-boundary issue on multi\-byte sequences\). Names mirror the Unicode CLDR short name where one exists; otherwise a stable common\-English label. Telegram occasionally extends this set — passers of unrecognised strings still type\-check \(ReactionEmoji is a string alias\) so this list need not block runtime use of newer values.
+
+```go
+type ReactionEmoji string
+```
+
+<a name="ReactionEmojiHeart"></a>
+
+```go
+const (
+    ReactionEmojiHeart                     ReactionEmoji = "❤"
+    ReactionEmojiThumbsUp                  ReactionEmoji = "👍"
+    ReactionEmojiThumbsDown                ReactionEmoji = "👎"
+    ReactionEmojiFire                      ReactionEmoji = "🔥"
+    ReactionEmojiSmilingFaceWithHearts     ReactionEmoji = "🥰"
+    ReactionEmojiClappingHands             ReactionEmoji = "👏"
+    ReactionEmojiBeamingFace               ReactionEmoji = "😁"
+    ReactionEmojiThinkingFace              ReactionEmoji = "🤔"
+    ReactionEmojiExplodingHead             ReactionEmoji = "🤯"
+    ReactionEmojiScreamingFace             ReactionEmoji = "😱"
+    ReactionEmojiCursingFace               ReactionEmoji = "🤬"
+    ReactionEmojiCryingFace                ReactionEmoji = "😢"
+    ReactionEmojiPartyPopper               ReactionEmoji = "🎉"
+    ReactionEmojiStarStruck                ReactionEmoji = "🤩"
+    ReactionEmojiVomiting                  ReactionEmoji = "🤮"
+    ReactionEmojiPileOfPoo                 ReactionEmoji = "💩"
+    ReactionEmojiFoldedHands               ReactionEmoji = "🙏"
+    ReactionEmojiOKHand                    ReactionEmoji = "👌"
+    ReactionEmojiDove                      ReactionEmoji = "🕊"
+    ReactionEmojiClown                     ReactionEmoji = "🤡"
+    ReactionEmojiYawning                   ReactionEmoji = "🥱"
+    ReactionEmojiWoozyFace                 ReactionEmoji = "🥴"
+    ReactionEmojiHeartEyes                 ReactionEmoji = "😍"
+    ReactionEmojiWhale                     ReactionEmoji = "🐳"
+    ReactionEmojiHeartOnFire               ReactionEmoji = "❤‍🔥"
+    ReactionEmojiNewMoonFace               ReactionEmoji = "🌚"
+    ReactionEmojiHotDog                    ReactionEmoji = "🌭"
+    ReactionEmojiHundredPoints             ReactionEmoji = "💯"
+    ReactionEmojiRollingOnFloor            ReactionEmoji = "🤣"
+    ReactionEmojiLightning                 ReactionEmoji = "⚡"
+    ReactionEmojiBanana                    ReactionEmoji = "🍌"
+    ReactionEmojiTrophy                    ReactionEmoji = "🏆"
+    ReactionEmojiBrokenHeart               ReactionEmoji = "💔"
+    ReactionEmojiRaisedEyebrow             ReactionEmoji = "🤨"
+    ReactionEmojiNeutralFace               ReactionEmoji = "😐"
+    ReactionEmojiStrawberry                ReactionEmoji = "🍓"
+    ReactionEmojiChampagne                 ReactionEmoji = "🍾"
+    ReactionEmojiKissMark                  ReactionEmoji = "💋"
+    ReactionEmojiMiddleFinger              ReactionEmoji = "🖕"
+    ReactionEmojiDevil                     ReactionEmoji = "😈"
+    ReactionEmojiSleeping                  ReactionEmoji = "😴"
+    ReactionEmojiLoudlyCrying              ReactionEmoji = "😭"
+    ReactionEmojiNerd                      ReactionEmoji = "🤓"
+    ReactionEmojiGhost                     ReactionEmoji = "👻"
+    ReactionEmojiManTechnologist           ReactionEmoji = "👨‍💻"
+    ReactionEmojiEyes                      ReactionEmoji = "👀"
+    ReactionEmojiJackOLantern              ReactionEmoji = "🎃"
+    ReactionEmojiSeeNoEvil                 ReactionEmoji = "🙈"
+    ReactionEmojiHalo                      ReactionEmoji = "😇"
+    ReactionEmojiFearful                   ReactionEmoji = "😨"
+    ReactionEmojiHandshake                 ReactionEmoji = "🤝"
+    ReactionEmojiWriting                   ReactionEmoji = "✍"
+    ReactionEmojiHugging                   ReactionEmoji = "🤗"
+    ReactionEmojiSaluting                  ReactionEmoji = "🫡"
+    ReactionEmojiSantaClaus                ReactionEmoji = "🎅"
+    ReactionEmojiChristmasTree             ReactionEmoji = "🎄"
+    ReactionEmojiSnowman                   ReactionEmoji = "☃"
+    ReactionEmojiNailPolish                ReactionEmoji = "💅"
+    ReactionEmojiZanyFace                  ReactionEmoji = "🤪"
+    ReactionEmojiMoai                      ReactionEmoji = "🗿"
+    ReactionEmojiCool                      ReactionEmoji = "🆒"
+    ReactionEmojiHeartWithArrow            ReactionEmoji = "💘"
+    ReactionEmojiHearNoEvil                ReactionEmoji = "🙉"
+    ReactionEmojiUnicorn                   ReactionEmoji = "🦄"
+    ReactionEmojiKissingFace               ReactionEmoji = "😘"
+    ReactionEmojiPill                      ReactionEmoji = "💊"
+    ReactionEmojiSpeakNoEvil               ReactionEmoji = "🙊"
+    ReactionEmojiSmilingFaceWithSunglasses ReactionEmoji = "😎"
+    ReactionEmojiAlienMonster              ReactionEmoji = "👾"
+    ReactionEmojiManShrugging              ReactionEmoji = "🤷‍♂"
+    ReactionEmojiPersonShrugging           ReactionEmoji = "🤷"
+    ReactionEmojiWomanShrugging            ReactionEmoji = "🤷‍♀"
+    ReactionEmojiPoutingFace               ReactionEmoji = "😡"
+)
+```
+
 <a name="ReactionType"></a>
 ## type [ReactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3433>)
 
@@ -11348,7 +11461,7 @@ type ReactionTypeEmoji struct {
     // Type of the reaction, always “emoji”
     Type ReactionTypeKind `json:"type"`
     // Reaction emoji. Currently, it can be one of "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
-    Emoji string `json:"emoji"`
+    Emoji ReactionEmoji `json:"emoji"`
 }
 ```
 
@@ -12150,7 +12263,7 @@ type SendDiceParams struct {
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
     // Emoji on which the dice throw animation is based. Currently, must be one of “”, “”, “”, “”, “”, or “”. Dice can have values 1-6 for “”, “” and “”, values 1-5 for “” and “”, and values 1-64 for “”. Defaults to “”
-    Emoji string `json:"emoji,omitempty"`
+    Emoji DiceEmoji `json:"emoji,omitempty"`
     // Sends the message silently. Users will receive a notification with no sound.
     DisableNotification *bool `json:"disable_notification,omitempty"`
     // Protects the contents of the sent message from forwarding
