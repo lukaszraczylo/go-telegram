@@ -210,6 +210,12 @@ jobs:
       #   Inputs:  repository_local: true   (use already-cloned repo)
       #            existing: true           (respect existing tags as base)
       #   Output:  semantic_version         (bare version string, no "v" prefix)
+      - name: Ensure tags are local
+        run: |
+          git fetch --tags --force origin
+          echo "Tags visible to semver-generator (top 10 by creator date):"
+          git for-each-ref --sort=-creatordate --format='%(refname:short) %(creatordate:iso)' refs/tags | head -10
+
       - name: Compute next SemVer
         id: semver
         uses: lukaszraczylo/semver-generator@v1
@@ -217,6 +223,7 @@ jobs:
           repository_local: true
           existing: true
           config_file: .semver.yaml
+          debugmode: true
 
       - name: Read Bot API version
         id: api_version
