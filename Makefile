@@ -82,7 +82,11 @@ DOC_PACKAGES := \
 
 docs:
 	@which gomarkdoc > /dev/null || (echo "installing gomarkdoc..." && $(GO) install github.com/princjef/gomarkdoc/cmd/gomarkdoc@v1.1.0)
-	gomarkdoc -o 'docs/reference/{{.Dir}}.md' $(DOC_PACKAGES)
+	gomarkdoc \
+		--repository.url=https://github.com/lukaszraczylo/go-telegram \
+		--repository.default-branch=main \
+		--repository.path=/ \
+		-o 'docs/reference/{{.Dir}}.md' $(DOC_PACKAGES)
 
 docs-check: docs
 	@git diff --exit-code docs/reference/ || (echo "docs/reference/ is stale — run 'make docs' and commit" && exit 1)
