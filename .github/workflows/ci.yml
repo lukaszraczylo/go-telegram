@@ -210,12 +210,6 @@ jobs:
       #   Inputs:  repository_local: true   (use already-cloned repo)
       #            existing: true           (respect existing tags as base)
       #   Output:  semantic_version         (bare version string, no "v" prefix)
-      - name: Ensure tags are local
-        run: |
-          git fetch --tags --force origin
-          echo "Tags visible to semver-generator (top 10 by creator date):"
-          git for-each-ref --sort=-creatordate --format='%(refname:short) %(creatordate:iso)' refs/tags | head -10
-
       - name: Compute next SemVer
         id: semver
         uses: lukaszraczylo/semver-generator@v1
@@ -223,7 +217,6 @@ jobs:
           repository_local: true
           existing: true
           config_file: .semver.yaml
-          debugmode: true
 
       - name: Read Bot API version
         id: api_version
@@ -252,29 +245,15 @@ jobs:
           API_TAG: ${{ steps.api_version.outputs.tag }}
           API_VER: ${{ steps.api_version.outputs.version }}
         run: |
+          # Bot API version (currently $API_VER) is intentionally NOT
+          # tagged separately. semver-generator picks the most recent
+          # tag as the version base; a non-SemVer marker like
+          # bot-api-vX.Y poisons that and restarts numbering from
+          # v0.0.x. Bot API version stays as a comment in the lib tag
+          # message and in the release notes.
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Tag the bot-api marker FIRST, then the library version LAST.
-          # Order matters: semver-generator picks the chronologically most
-          # recent tag as the version base. With bot-api-vX.Y created after
-          # the library tag, semver-generator sees "vX.Y", can't parse it
-          # as full SemVer, and silently restarts numbering from v0.0.x.
-          # Tagging the lib version last keeps it as the most-recent tag
-          # so subsequent runs bump from it correctly.
-          if [ -n "$API_TAG" ]; then
-            # Force-update the bot-api tag so it always points at the latest
-            # release that supports that API version.
-            if git rev-parse "$API_TAG" >/dev/null 2>&1; then
-              git tag -f -a "$API_TAG" -m "go-telegram release $LIB_TAG (Bot API $API_VER)"
-              git push -f origin "$API_TAG"
-            else
-              git tag -a "$API_TAG" -m "go-telegram release $LIB_TAG (Bot API $API_VER)"
-              git push origin "$API_TAG"
-            fi
-          fi
-
-          git tag -a "$LIB_TAG" -m "Release $LIB_TAG"
+          git tag -a "$LIB_TAG" -m "Release $LIB_TAG (Bot API $API_VER)"
           git push origin "$LIB_TAG"
 
       - name: Run GoReleaser
