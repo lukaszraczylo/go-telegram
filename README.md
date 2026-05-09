@@ -141,6 +141,25 @@ Run any example: `TELEGRAM_BOT_TOKEN=xxx go run ./examples/<name>`
 | | [`polls`](examples/polls) | `sendPoll` and answer tally |
 | | [`payments`](examples/payments) | Invoice → pre-checkout → success |
 
+## Optional fields
+
+Telegram marks many fields as optional. For optional **scalars** (int, bool, float) we use pointers so you can explicitly send `false` or `0` when the wire format needs to override a chat default. The `api.Ptr` helper keeps that ergonomic:
+
+```go
+api.SendMessage(ctx, bot, &api.SendMessageParams{
+    ChatID:              api.ChatIDFromInt(chatID),
+    Text:                "hi",
+    DisableNotification: api.Ptr(true),     // type inferred
+})
+
+api.GetUserProfilePhotos(ctx, bot, &api.GetUserProfilePhotosParams{
+    UserID: userID,
+    Limit:  api.Ptr[int64](5),              // explicit type for untyped literals
+})
+```
+
+Optional structs and slices are already nullable in Go — no helper needed.
+
 ## Reference docs
 
 Full API reference is auto-generated from source comments and lives in [`docs/reference/`](docs/reference/README.md) — browse package by package on GitHub, or read it rendered at [go-telegram.raczylo.com](https://go-telegram.raczylo.com/) and [pkg.go.dev](https://pkg.go.dev/github.com/lukaszraczylo/go-telegram).

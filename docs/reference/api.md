@@ -59,6 +59,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [func LogOut\(ctx context.Context, b \*client.Bot, p \*LogOutParams\) \(bool, error\)](<#LogOut>)
 - [func PinChatMessage\(ctx context.Context, b \*client.Bot, p \*PinChatMessageParams\) \(bool, error\)](<#PinChatMessage>)
 - [func PromoteChatMember\(ctx context.Context, b \*client.Bot, p \*PromoteChatMemberParams\) \(bool, error\)](<#PromoteChatMember>)
+- [func Ptr\[T any\]\(v T\) \*T](<#Ptr>)
 - [func ReadBusinessMessage\(ctx context.Context, b \*client.Bot, p \*ReadBusinessMessageParams\) \(bool, error\)](<#ReadBusinessMessage>)
 - [func RefundStarPayment\(ctx context.Context, b \*client.Bot, p \*RefundStarPaymentParams\) \(bool, error\)](<#RefundStarPayment>)
 - [func RemoveBusinessAccountProfilePhoto\(ctx context.Context, b \*client.Bot, p \*RemoveBusinessAccountProfilePhotoParams\) \(bool, error\)](<#RemoveBusinessAccountProfilePhoto>)
@@ -1314,6 +1315,28 @@ func PromoteChatMember(ctx context.Context, b *client.Bot, p *PromoteChatMemberP
 PromoteChatMember calls the promoteChatMember Telegram Bot API method.
 
 Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Pass False for all boolean parameters to demote a user. Returns True on success.
+
+<a name="Ptr"></a>
+## func Ptr
+
+```go
+func Ptr[T any](v T) *T
+```
+
+Ptr returns a pointer to v. Useful for optional scalar fields where the wire format must distinguish absent \(nil\) from an explicit zero value \(e.g. DisableNotification: api.Ptr\(false\) to override the chat default\).
+
+For untyped literals, supply the type parameter explicitly:
+
+```
+Limit: api.Ptr[int64](5)
+```
+
+For already\-typed values, type inference handles it:
+
+```
+var n int64 = 5
+Limit: api.Ptr(n)
+```
 
 <a name="ReadBusinessMessage"></a>
 ## func ReadBusinessMessage
