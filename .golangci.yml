@@ -1,0 +1,72 @@
+version: "2"
+
+linters:
+  default: none
+  enable:
+    - govet
+    - staticcheck
+    - unused
+    - errcheck
+    - gosec
+
+  settings:
+    unused:
+      field-writes-are-uses: true
+      post-statements-are-reads: true
+      exported-is-used: true
+      exported-fields-are-used: true
+
+    govet:
+      enable-all: true
+      disable:
+        - fieldalignment  # Field order is intentional per project spec; alignment not enforced.
+
+    staticcheck:
+      checks: ["all"]
+
+  exclusions:
+    presets:
+      - common-false-positives
+    rules:
+      - path: _test\.go
+        linters:
+          - unused
+          - errcheck
+      - path: \.pb\.go$
+        linters:
+          - all
+      - path: transport/backoff\.go
+        linters:
+          - gosec
+        text: "G404"  # math/rand/v2 acceptable for jitter
+      - path: cmd/scrape/
+        linters:
+          - gosec
+        text: "G306"  # 0o644 intentional: output files are world-readable docs artifacts
+      - path: cmd/audit/
+        linters:
+          - gosec
+        text: "G204"  # git subprocess with CLI flag path — intentional operator tool
+      - path: cmd/audit/.*_test\.go
+        linters:
+          - gosec
+        text: "G302"  # test helper sets 0o755 on fake git binary — executable permission intentional
+
+formatters:
+  enable:
+    - gofmt
+  settings:
+    gofmt:
+      simplify: true
+
+run:
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+
+output:
+  formats:
+    text:
+      path: stdout
+      colors: true
+  sort-results: true

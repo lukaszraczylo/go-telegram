@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>fixture</title></head><body>
+<div id="dev_page_content">
+
+<h3>Recent changes</h3>
+<h4>Bot API 7.10</h4>
+<p>Test fixture; not a real release.</p>
+
+<h3>Available types</h3>
+
+<h4><a class="anchor" href="#user" name="user"></a>User</h4>
+<p>This object represents a Telegram user or bot.</p>
+<table class="table">
+<thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>id</td><td>Integer</td><td>Unique identifier.</td></tr>
+<tr><td>is_bot</td><td>Boolean</td><td>True, if this user is a bot.</td></tr>
+<tr><td>first_name</td><td>String</td><td>User's or bot's first name.</td></tr>
+<tr><td>last_name</td><td>String</td><td><em>Optional</em>. User's or bot's last name.</td></tr>
+</tbody>
+</table>
+
+<h4><a class="anchor" href="#chatmember" name="chatmember"></a>ChatMember</h4>
+<p>This object contains information about one member of a chat.
+Currently, the following 6 types of chat members are supported:</p>
+<ul>
+<li><a href="#chatmemberowner">ChatMemberOwner</a></li>
+<li><a href="#chatmemberadministrator">ChatMemberAdministrator</a></li>
+</ul>
+
+<h3>Available methods</h3>
+
+<h4><a class="anchor" href="#getme" name="getme"></a>getMe</h4>
+<p>A simple method for testing your bot's authentication token. Requires
+no parameters. Returns basic information about the bot in form of a <a href="#user">User</a> object.</p>
+
+<h4><a class="anchor" href="#sendmessage" name="sendmessage"></a>sendMessage</h4>
+<p>Use this method to send text messages. On success, the sent <a href="#message">Message</a> is returned.</p>
+<table class="table">
+<thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>chat_id</td><td>Integer or String</td><td>Yes</td><td>Unique identifier for the target chat.</td></tr>
+<tr><td>text</td><td>String</td><td>Yes</td><td>Text of the message to be sent.</td></tr>
+<tr><td>parse_mode</td><td>String</td><td>Optional</td><td>Mode for parsing entities in the message text.</td></tr>
+</tbody>
+</table>
+
+<h4><a class="anchor" href="#senddocument" name="senddocument"></a>sendDocument</h4>
+<p>Use this method to send general files. On success, the sent <a href="#message">Message</a> is returned.</p>
+<table class="table">
+<thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>chat_id</td><td>Integer</td><td>Yes</td><td>Unique identifier for the target chat.</td></tr>
+<tr><td>document</td><td><a href="#inputfile">InputFile</a> or String</td><td>Yes</td><td>File to send.</td></tr>
+<tr><td>caption</td><td>String</td><td>Optional</td><td>Document caption.</td></tr>
+</tbody>
+</table>
+
+<h4><a class="anchor" href="#getupdates" name="getupdates"></a>getUpdates</h4>
+<p>Use this method to receive incoming updates using long polling. Returns an Array of <a href="#update">Update</a> objects.</p>
+<table class="table">
+<thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>limit</td><td>Integer</td><td>Optional</td><td>Limits the number of updates to be retrieved.</td></tr>
+</tbody>
+</table>
+
+</div></body></html>

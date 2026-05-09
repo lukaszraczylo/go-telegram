@@ -1,0 +1,118 @@
+name: regen
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # Monday 06:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so audit -drift can compare against main
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          check-latest: true
+
+      - name: Capture latest snapshot
+        id: snapshot
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          DEST="testdata/html/snapshot_${DATE}.html"
+          curl -fsSL --user-agent "go-telegram codegen scraper" \
+            https://core.telegram.org/bots/api > "$DEST"
+          ln -sf "snapshot_${DATE}.html" testdata/html/latest.html
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+          echo "dest=$DEST" >> $GITHUB_OUTPUT
+
+      - name: Regenerate (scrape + emit, with clean-generated)
+        # `make regen` depends on `clean-generated`, which sweeps any orphan
+        # api/*.gen.go files left behind by removed/renamed methods.
+        run: make regen
+
+      - name: Audit fallbacks
+        id: audit
+        run: |
+          set +e
+          OUT=$(make audit 2>&1)
+          STATUS=$?
+          set -e
+          echo "$OUT"
+          {
+            echo 'output<<EOF'
+            echo "$OUT"
+            echo 'EOF'
+          } >> $GITHUB_OUTPUT
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          # Don't fail the workflow on fallbacks — surface them in the PR body so
+          # the reviewer can extend overrides.json or fix scraper patterns.
+
+      - name: Audit drift vs main
+        id: drift
+        run: |
+          set +e
+          DRIFT=$(go run ./cmd/audit -ir internal/spec/api.json -drift -against origin/main 2>&1)
+          set -e
+          echo "$DRIFT"
+          {
+            echo 'output<<EOF'
+            echo "$DRIFT"
+            echo 'EOF'
+          } >> $GITHUB_OUTPUT
+
+      - name: Run tests
+        run: go test -race ./...
+
+      - name: Detect changes
+        id: diff
+        run: |
+          git status --porcelain
+          if git diff --quiet internal/spec/api.json api/ testdata/html/; then
+            echo "no_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Read API version
+        if: steps.diff.outputs.no_changes != 'true'
+        id: meta
+        run: |
+          VERSION=$(python3 -c 'import json; print(json.load(open("internal/spec/api.json")).get("version", "unknown"))')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Open PR
+        if: steps.diff.outputs.no_changes != 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            chore(api): regenerate from Telegram Bot API v${{ steps.meta.outputs.version }}
+          branch: regen/api-v${{ steps.meta.outputs.version }}
+          title: "chore(api): regenerate from Telegram Bot API v${{ steps.meta.outputs.version }}"
+          labels: automated, api-update
+          body: |
+            Automated regeneration from `https://core.telegram.org/bots/api`.
+
+            **API version:** v${{ steps.meta.outputs.version }}
+            **Snapshot date:** ${{ steps.snapshot.outputs.date }}
+
+            ## Audit (fallbacks)
+            ```
+            ${{ steps.audit.outputs.output }}
+            ```
+
+            ## Drift vs `main`
+            ```
+            ${{ steps.drift.outputs.output }}
+            ```
+
+            Inspect the IR diff (`internal/spec/api.json`) for added/changed/removed methods.
+
+            CI must pass before merge. Auto-merge: enable when satisfied with the diff.

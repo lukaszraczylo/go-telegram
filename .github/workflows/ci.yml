@@ -1,0 +1,274 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      dry-run-release:
+        description: "Compute release version, do not tag or release"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: read
+  packages: write
+
+# Cancel any in-flight CI runs for the same branch when a new push lands.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  vet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          check-latest: true
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-1.25-${{ hashFiles('**/go.sum') }}
+      - run: go vet ./...
+
+  staticcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          check-latest: true
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-1.25-${{ hashFiles('**/go.sum') }}
+      - run: go install honnef.co/go/tools/cmd/staticcheck@v0.7.0
+      - run: staticcheck ./...
+
+  govulncheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          check-latest: true
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-1.25-${{ hashFiles('**/go.sum') }}
+      - run: go install golang.org/x/vuln/cmd/govulncheck@latest
+      - run: govulncheck ./...
+
+  gosec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          check-latest: true
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-1.25-${{ hashFiles('**/go.sum') }}
+      - run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+      # G404: math/rand/v2 jitter in transport/backoff.go — intentional (not crypto)
+      # G304: os.ReadFile from CLI flag variable — intentional (tool, not server)
+      # G306: 0o644 on generated doc artifacts in cmd/scrape — intentional
+      # G204: git subprocess in cmd/audit uses CLI flag path — intentional (operator tool)
+      # G706: log.Printf with values from Telegram/env in examples — illustrative,
+      #       library users are expected to sanitise before logging in production
+      - run: gosec -quiet -exclude=G404,G304,G306,G204,G706 -exclude-dir=testdata ./...
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          check-latest: true
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-1.25-${{ hashFiles('**/go.sum') }}
+      - run: go test -race -coverprofile=coverage.out ./...
+      - name: Build all examples
+        run: go build ./examples/...
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage.out
+
+  codegen-clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          check-latest: true
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-1.25-${{ hashFiles('**/go.sum') }}
+      - name: Regenerate against pinned snapshot
+        run: make regen-from-fixture
+      - name: Assert clean diff
+        run: git diff --exit-code internal/spec/api.json api/
+
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # need history for drift comparison
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          check-latest: true
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-1.25-${{ hashFiles('**/go.sum') }}
+      - name: Audit fallbacks
+        run: make audit
+      - name: Audit drift vs base
+        # On PRs: compare against the merge base (origin/<base>).
+        # On push to main: compare against the parent commit.
+        # Drift is informational; doesn't fail CI.
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="origin/${{ github.base_ref }}"
+          else
+            BASE="HEAD~1"
+          fi
+          echo "Drift base: $BASE"
+          go run ./cmd/audit -ir internal/spec/api.json -drift -against "$BASE" || true
+
+  # Aggregate gate — depends on every check above. Used as a single
+  # required status check in branch protection AND as a dependency for the
+  # release job below.
+  ci-success:
+    runs-on: ubuntu-latest
+    needs: [vet, staticcheck, govulncheck, gosec, test, codegen-clean, audit]
+    if: always()
+    steps:
+      - name: All checks passed
+        if: ${{ !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
+        run: echo "ci-success"
+      - name: At least one check failed
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        run: |
+          echo "Failed/cancelled jobs:"
+          echo '${{ toJSON(needs) }}'
+          exit 1
+
+  # Auto-release fires on every clean push to main (and on manual
+  # workflow_dispatch for testing). Computes next SemVer from commit
+  # history via lukaszraczylo/semver-generator, dual-tags
+  # (v<X.Y.Z> + bot-api-v<A.B>), runs GoReleaser.
+  release:
+    needs: ci-success
+    if: |
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          check-latest: true
+
+      # Action interface from
+      # https://github.com/lukaszraczylo/semver-generator/blob/main/action.yml
+      #   Inputs:  repository_local: true   (use already-cloned repo)
+      #            existing: true           (respect existing tags as base)
+      #   Output:  semantic_version         (bare version string, no "v" prefix)
+      - name: Compute next SemVer
+        id: semver
+        uses: lukaszraczylo/semver-generator@v1
+        with:
+          repository_local: true
+          existing: true
+          config_file: .semver.yaml
+
+      - name: Read Bot API version
+        id: api_version
+        run: |
+          VERSION=$(python3 -c 'import json; print(json.load(open("internal/spec/api.json"))["version"])')
+          if [ -z "$VERSION" ] || [ "$VERSION" = "null" ]; then
+            echo "tag=" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=bot-api-v${VERSION}" >> "$GITHUB_OUTPUT"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Dry-run summary
+        if: github.event_name == 'workflow_dispatch' && inputs.dry-run-release == true
+        run: |
+          echo "Would release: v${{ steps.semver.outputs.semantic_version }}"
+          if [ -n "${{ steps.api_version.outputs.tag }}" ]; then
+            echo "Would also tag: ${{ steps.api_version.outputs.tag }} (Bot API ${{ steps.api_version.outputs.version }})"
+          fi
+          echo "Skipping tag + release (dry-run)."
+
+      - name: Tag library + bot-api versions
+        if: github.event_name != 'workflow_dispatch' || inputs.dry-run-release == false
+        env:
+          LIB_TAG: v${{ steps.semver.outputs.semantic_version }}
+          API_TAG: ${{ steps.api_version.outputs.tag }}
+          API_VER: ${{ steps.api_version.outputs.version }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "$LIB_TAG" -m "Release $LIB_TAG"
+          git push origin "$LIB_TAG"
+
+          if [ -n "$API_TAG" ]; then
+            # Force-update the bot-api tag so it always points at the latest
+            # release that supports that API version.
+            if git rev-parse "$API_TAG" >/dev/null 2>&1; then
+              git tag -f -a "$API_TAG" -m "go-telegram release $LIB_TAG (Bot API $API_VER)"
+              git push -f origin "$API_TAG"
+            else
+              git tag -a "$API_TAG" -m "go-telegram release $LIB_TAG (Bot API $API_VER)"
+              git push origin "$API_TAG"
+            fi
+          fi
+
+      - name: Run GoReleaser
+        if: github.event_name != 'workflow_dispatch' || inputs.dry-run-release == false
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: '~> v2'
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BOT_API_VERSION: ${{ steps.api_version.outputs.version }}

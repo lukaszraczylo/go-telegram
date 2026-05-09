@@ -1,0 +1,45 @@
+# Binaries
+/bin/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test artifacts
+*.test
+*.out
+coverage.out
+coverage.html
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS
+.DS_Store
+
+# Local env
+.env
+.env.local
+
+# Stray binaries at repo root from `go build ./cmd/...` or `go run` artefacts.
+# Listed explicitly (not via /* glob) so source dirs are never accidentally ignored.
+/echo
+/webhook
+/genapi
+/scrape
+/audit
+/callback
+/conversation
+/files
+/inline
+/middleware
+/stateful
+/admin
+/moderation
+/pagination
+/payments
+/polls
+/welcome

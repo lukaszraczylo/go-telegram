@@ -1,0 +1,121 @@
+# Documentation: https://goreleaser.com
+version: 2
+
+project_name: go-telegram
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: scrape
+    main: ./cmd/scrape
+    binary: tg-scrape
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}}
+
+  - id: genapi
+    main: ./cmd/genapi
+    binary: tg-genapi
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}}
+
+  - id: audit
+    main: ./cmd/audit
+    binary: tg-audit
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}}
+
+archives:
+  - id: default
+    formats: [tar.gz]
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - LICENSE
+      - README.md
+      - CHANGELOG.md
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  version_template: '{{ incpatch .Version }}-next'
+
+changelog:
+  sort: asc
+  use: github
+  groups:
+    - title: Features
+      regexp: '^.*?feat(\(.+\))?:.+$'
+      order: 0
+    - title: Bug fixes
+      regexp: '^.*?fix(\(.+\))?:.+$'
+      order: 1
+    - title: Documentation
+      regexp: '^.*?docs(\(.+\))?:.+$'
+      order: 2
+    - title: Other
+      order: 999
+  filters:
+    exclude:
+      - '^chore:'
+      - '^test:'
+      - '^style:'
+      - 'merge conflict'
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+      - go mod tidy
+
+release:
+  github:
+    owner: lukaszraczylo
+    name: go-telegram
+  prerelease: auto
+  mode: replace
+  header: |
+    ## go-telegram {{ .Tag }}
+
+    Released on {{ .Date }} for Telegram Bot API regeneration tooling.
+    Built against **Bot API {{ envOrDefault "BOT_API_VERSION" "(unspecified)" }}**.
+
+    The library itself ships via `go get github.com/lukaszraczylo/go-telegram@{{ .Tag }}`.
+    Binaries below are the codegen tools (`tg-scrape`, `tg-genapi`, `tg-audit`)
+    for users who want to vendor regen tooling.
+  footer: |
+    **Full changelog**: https://github.com/lukaszraczylo/go-telegram/compare/{{ .PreviousTag }}...{{ .Tag }}
