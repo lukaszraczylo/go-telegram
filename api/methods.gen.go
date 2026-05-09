@@ -198,7 +198,7 @@ type SendMessageParams struct {
 	// Text of the message to be sent, 1-4096 characters after entities parsing
 	Text string `json:"text"`
 	// Mode for parsing entities in the message text. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
 	Entities []MessageEntity `json:"entities,omitempty"`
 	// Link preview generation options for the message
@@ -305,7 +305,7 @@ type CopyMessageParams struct {
 	// New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the new caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
@@ -379,7 +379,7 @@ type SendPhotoParams struct {
 	// Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the photo caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// Pass True, if the caption must be shown above the message media
@@ -427,7 +427,7 @@ func (p *SendPhotoParams) MultipartFields() map[string]string {
 		out["caption"] = p.Caption
 	}
 	if p.ParseMode != "" {
-		out["parse_mode"] = p.ParseMode
+		out["parse_mode"] = string(p.ParseMode)
 	}
 	if p.CaptionEntities != nil {
 		if b, _ := json.Marshal(p.CaptionEntities); len(b) > 0 {
@@ -509,7 +509,7 @@ type SendLivePhotoParams struct {
 	// Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the video caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// Pass True, if the caption must be shown above the message media
@@ -560,7 +560,7 @@ func (p *SendLivePhotoParams) MultipartFields() map[string]string {
 		out["caption"] = p.Caption
 	}
 	if p.ParseMode != "" {
-		out["parse_mode"] = p.ParseMode
+		out["parse_mode"] = string(p.ParseMode)
 	}
 	if p.CaptionEntities != nil {
 		if b, _ := json.Marshal(p.CaptionEntities); len(b) > 0 {
@@ -648,7 +648,7 @@ type SendAudioParams struct {
 	// Audio caption, 0-1024 characters after entities parsing
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the audio caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// Duration of the audio in seconds
@@ -703,7 +703,7 @@ func (p *SendAudioParams) MultipartFields() map[string]string {
 		out["caption"] = p.Caption
 	}
 	if p.ParseMode != "" {
-		out["parse_mode"] = p.ParseMode
+		out["parse_mode"] = string(p.ParseMode)
 	}
 	if p.CaptionEntities != nil {
 		if b, _ := json.Marshal(p.CaptionEntities); len(b) > 0 {
@@ -796,7 +796,7 @@ type SendDocumentParams struct {
 	// Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the document caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// Disables automatic server-side content type detection for files uploaded using multipart/form-data
@@ -845,7 +845,7 @@ func (p *SendDocumentParams) MultipartFields() map[string]string {
 		out["caption"] = p.Caption
 	}
 	if p.ParseMode != "" {
-		out["parse_mode"] = p.ParseMode
+		out["parse_mode"] = string(p.ParseMode)
 	}
 	if p.CaptionEntities != nil {
 		if b, _ := json.Marshal(p.CaptionEntities); len(b) > 0 {
@@ -941,7 +941,7 @@ type SendVideoParams struct {
 	// Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the video caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// Pass True, if the caption must be shown above the message media
@@ -1009,7 +1009,7 @@ func (p *SendVideoParams) MultipartFields() map[string]string {
 		out["caption"] = p.Caption
 	}
 	if p.ParseMode != "" {
-		out["parse_mode"] = p.ParseMode
+		out["parse_mode"] = string(p.ParseMode)
 	}
 	if p.CaptionEntities != nil {
 		if b, _ := json.Marshal(p.CaptionEntities); len(b) > 0 {
@@ -1114,7 +1114,7 @@ type SendAnimationParams struct {
 	// Animation caption (may also be used when resending animation by file_id), 0-1024 characters after entities parsing
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the animation caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// Pass True, if the caption must be shown above the message media
@@ -1174,7 +1174,7 @@ func (p *SendAnimationParams) MultipartFields() map[string]string {
 		out["caption"] = p.Caption
 	}
 	if p.ParseMode != "" {
-		out["parse_mode"] = p.ParseMode
+		out["parse_mode"] = string(p.ParseMode)
 	}
 	if p.CaptionEntities != nil {
 		if b, _ := json.Marshal(p.CaptionEntities); len(b) > 0 {
@@ -1261,7 +1261,7 @@ type SendVoiceParams struct {
 	// Voice message caption, 0-1024 characters after entities parsing
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the voice message caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// Duration of the voice message in seconds
@@ -1307,7 +1307,7 @@ func (p *SendVoiceParams) MultipartFields() map[string]string {
 		out["caption"] = p.Caption
 	}
 	if p.ParseMode != "" {
-		out["parse_mode"] = p.ParseMode
+		out["parse_mode"] = string(p.ParseMode)
 	}
 	if p.CaptionEntities != nil {
 		if b, _ := json.Marshal(p.CaptionEntities); len(b) > 0 {
@@ -1511,7 +1511,7 @@ type SendPaidMediaParams struct {
 	// Media caption, 0-1024 characters after entities parsing
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the media caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// Pass True, if the caption must be shown above the message media
@@ -1559,7 +1559,7 @@ func (p *SendPaidMediaParams) MultipartFields() map[string]string {
 		out["caption"] = p.Caption
 	}
 	if p.ParseMode != "" {
-		out["parse_mode"] = p.ParseMode
+		out["parse_mode"] = string(p.ParseMode)
 	}
 	if p.CaptionEntities != nil {
 		if b, _ := json.Marshal(p.CaptionEntities); len(b) > 0 {
@@ -1843,7 +1843,7 @@ type SendPollParams struct {
 	// Poll question, 1-300 characters
 	Question string `json:"question"`
 	// Mode for parsing entities in the question. See formatting options for more details. Currently, only custom emoji entities are allowed
-	QuestionParseMode string `json:"question_parse_mode,omitempty"`
+	QuestionParseMode ParseMode `json:"question_parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the poll question. It can be specified instead of question_parse_mode
 	QuestionEntities []MessageEntity `json:"question_entities,omitempty"`
 	// A JSON-serialized list of 1-12 answer options
@@ -1871,7 +1871,7 @@ type SendPollParams struct {
 	// Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
 	Explanation string `json:"explanation,omitempty"`
 	// Mode for parsing entities in the explanation. See formatting options for more details.
-	ExplanationParseMode string `json:"explanation_parse_mode,omitempty"`
+	ExplanationParseMode ParseMode `json:"explanation_parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the poll explanation. It can be specified instead of explanation_parse_mode
 	ExplanationEntities []MessageEntity `json:"explanation_entities,omitempty"`
 	// Media added to the quiz explanation
@@ -1885,7 +1885,7 @@ type SendPollParams struct {
 	// Description of the poll to be sent, 0-1024 characters after entities parsing
 	Description string `json:"description,omitempty"`
 	// Mode for parsing entities in the poll description. See formatting options for more details.
-	DescriptionParseMode string `json:"description_parse_mode,omitempty"`
+	DescriptionParseMode ParseMode `json:"description_parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the poll description, which can be specified instead of description_parse_mode
 	DescriptionEntities []MessageEntity `json:"description_entities,omitempty"`
 	// Media added to the poll description
@@ -1990,7 +1990,7 @@ type SendMessageDraftParams struct {
 	// Text of the message to be sent, 0-4096 characters after entities parsing. Pass an empty text to show a “Thinking…” placeholder.
 	Text string `json:"text,omitempty"`
 	// Mode for parsing entities in the message text. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
 	Entities []MessageEntity `json:"entities,omitempty"`
 }
@@ -3390,7 +3390,7 @@ type SendGiftParams struct {
 	// Text that will be shown along with the gift; 0-128 characters
 	Text string `json:"text,omitempty"`
 	// Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
-	TextParseMode string `json:"text_parse_mode,omitempty"`
+	TextParseMode ParseMode `json:"text_parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
 	TextEntities []MessageEntity `json:"text_entities,omitempty"`
 }
@@ -3415,7 +3415,7 @@ type GiftPremiumSubscriptionParams struct {
 	// Text that will be shown along with the service message about the subscription; 0-128 characters
 	Text string `json:"text,omitempty"`
 	// Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
-	TextParseMode string `json:"text_parse_mode,omitempty"`
+	TextParseMode ParseMode `json:"text_parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
 	TextEntities []MessageEntity `json:"text_entities,omitempty"`
 }
@@ -3840,7 +3840,7 @@ type PostStoryParams struct {
 	// Caption of the story, 0-2048 characters after entities parsing
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the story caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// A JSON-serialized list of clickable areas to be shown on the story
@@ -3896,7 +3896,7 @@ type EditStoryParams struct {
 	// Caption of the story, 0-2048 characters after entities parsing
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the story caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// A JSON-serialized list of clickable areas to be shown on the story
@@ -4001,7 +4001,7 @@ type EditMessageTextParams struct {
 	// New text of the message, 1-4096 characters after entities parsing
 	Text string `json:"text"`
 	// Mode for parsing entities in the message text. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
 	Entities []MessageEntity `json:"entities,omitempty"`
 	// Link preview generation options for the message
@@ -4032,7 +4032,7 @@ type EditMessageCaptionParams struct {
 	// New caption of the message, 0-1024 characters after entities parsing
 	Caption string `json:"caption,omitempty"`
 	// Mode for parsing entities in the message caption. See formatting options for more details.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
 	CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
 	// Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
@@ -4492,7 +4492,7 @@ type UploadStickerFileParams struct {
 	// A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See https://core.telegram.org/stickers for technical requirements. More information on Sending Files »
 	Sticker *InputFile `json:"sticker"`
 	// Format of the sticker, must be one of “static”, “animated”, “video”
-	StickerFormat string `json:"sticker_format"`
+	StickerFormat InputStickerFormat `json:"sticker_format"`
 }
 
 // HasFile reports whether a multipart upload is required.
@@ -4507,7 +4507,7 @@ func (p *UploadStickerFileParams) HasFile() bool {
 func (p *UploadStickerFileParams) MultipartFields() map[string]string {
 	out := map[string]string{}
 	out["user_id"] = strconv.FormatInt(p.UserID, 10)
-	out["sticker_format"] = p.StickerFormat
+	out["sticker_format"] = string(p.StickerFormat)
 	return out
 }
 
@@ -4707,7 +4707,7 @@ type SetStickerSetThumbnailParams struct {
 	// A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animation-requirements for animated sticker technical requirements), or a .WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files ». Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
 	Thumbnail *InputFile `json:"thumbnail,omitempty"`
 	// Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, or “video” for a .WEBM video
-	Format string `json:"format"`
+	Format InputStickerFormat `json:"format"`
 }
 
 // HasFile reports whether a multipart upload is required.
@@ -4723,7 +4723,7 @@ func (p *SetStickerSetThumbnailParams) MultipartFields() map[string]string {
 	out := map[string]string{}
 	out["name"] = p.Name
 	out["user_id"] = strconv.FormatInt(p.UserID, 10)
-	out["format"] = p.Format
+	out["format"] = string(p.Format)
 	return out
 }
 

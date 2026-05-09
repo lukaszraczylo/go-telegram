@@ -48,7 +48,7 @@ func Command(name string) dispatch.Filter[*api.Message] {
 			return false
 		}
 		first := m.Entities[0]
-		if first.Type != string(api.EntityBotCommand) || first.Offset != 0 {
+		if first.Type != api.MessageEntityTypeBotCommand || first.Offset != 0 {
 			return false
 		}
 		end := int(first.Length)
@@ -72,7 +72,7 @@ func AnyCommand() dispatch.Filter[*api.Message] {
 			return false
 		}
 		first := m.Entities[0]
-		return first.Type == string(api.EntityBotCommand) && first.Offset == 0
+		return first.Type == api.MessageEntityTypeBotCommand && first.Offset == 0
 	}
 }
 
@@ -105,8 +105,8 @@ func HasDocument() dispatch.Filter[*api.Message] {
 }
 
 // HasEntity returns a Filter that matches messages whose Entities contain at
-// least one entity of type t (e.g. string(api.EntityBotCommand)).
-func HasEntity(t string) dispatch.Filter[*api.Message] {
+// least one entity of type t (e.g. api.MessageEntityTypeBotCommand).
+func HasEntity(t api.MessageEntityType) dispatch.Filter[*api.Message] {
 	return func(m *api.Message) bool {
 		if m == nil {
 			return false
@@ -123,7 +123,7 @@ func HasEntity(t string) dispatch.Filter[*api.Message] {
 // ChatType returns a Filter that matches messages whose Chat.Type equals t.
 func ChatType(t api.ChatType) dispatch.Filter[*api.Message] {
 	return func(m *api.Message) bool {
-		return m != nil && m.Chat.Type == string(t)
+		return m != nil && m.Chat.Type == t
 	}
 }
 

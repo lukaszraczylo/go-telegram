@@ -164,15 +164,16 @@ var knownDiscriminators = map[string]discriminatorSpec{
 type emitter struct {
 	api    *spec.API
 	outDir string
+	enums  *enumPlan
 }
 
 func newEmitter(api *spec.API, outDir string) *emitter {
-	return &emitter{api: api, outDir: outDir}
+	return &emitter{api: api, outDir: outDir, enums: planEnums(api)}
 }
 
 // emitTypes renders types.gen.go.
 func (e *emitter) emitTypes() error {
-	t, err := template.New("types").Funcs(funcs()).Parse(typesTmpl)
+	t, err := template.New("types").Funcs(funcs(e.enums)).Parse(typesTmpl)
 	if err != nil {
 		return fmt.Errorf("parse types.tmpl: %w", err)
 	}
@@ -208,20 +209,33 @@ func loadAPI(path string) (*spec.API, error) {
 	return &api, nil
 }
 
-// funcs is the FuncMap shared across templates.
-func funcs() template.FuncMap {
+// funcs is the FuncMap shared across templates. plan is the resolved
+// enum plan; pass nil only in unit tests that don't exercise enums.
+func funcs(plan *enumPlan) template.FuncMap {
 	return template.FuncMap{
-		"goType":              goType,
-		"goField":             goField,
-		"docComment":          docComment,
-		"isOptional":          func(f spec.Field) bool { return !f.Required },
-		"not":                 func(b bool) bool { return !b },
-		"title":               title,
-		"isFileField":         isFileField,
-		"fileCheck":           fileCheck,
-		"multipartFieldEntry": multipartFieldEntry,
-		"multipartFileEntry":  multipartFileEntry,
-		"returnGoType":        returnGoType,
+		"goType": goType,
+		"goField": func(parent string, f spec.Field) string {
+			return goField(plan, parent, f)
+		},
+		"docComment":  docComment,
+		"isOptional":  func(f spec.Field) bool { return !f.Required },
+		"not":         func(b bool) bool { return !b },
+		"title":       title,
+		"isFileField": isFileField,
+		"fileCheck":   fileCheck,
+		"multipartFieldEntry": func(parent string, f spec.Field) string {
+			return multipartFieldEntry(plan, parent, f)
+		},
+		"multipartFileEntry": multipartFileEntry,
+		"returnGoType":       returnGoType,
+		// enum helpers
+		"enums": func() []enumDecl {
+			if plan == nil {
+				return nil
+			}
+			return plan.All()
+		},
+		"enumConstName": constName,
 		// discriminator helpers for types.tmpl
 		"hasDiscriminator": func(name string) bool { s, ok := knownDiscriminators[name]; return ok && len(s.Variants) > 0 },
 		"isSealedUnionReturn": func(tr spec.TypeRef) bool {
@@ -295,8 +309,10 @@ func multipartFileEntry(f spec.Field) string {
 
 // multipartFieldEntry generates the line that adds f to the multipart map.
 // Required scalar fields go in unconditionally; optional ones go in only
-// when non-zero/non-empty.
-func multipartFieldEntry(f spec.Field) string {
+// when non-zero/non-empty. Typed-string enum fields are cast to string
+// before assignment because the multipart map is map[string]string.
+func multipartFieldEntry(plan *enumPlan, parent string, f spec.Field) string {
+	enumName := plan.FieldEnum(parent, f.Name)
 	switch f.Type.Kind {
 	case spec.KindPrimitive:
 		switch f.Type.Name {
@@ -306,6 +322,12 @@ func multipartFieldEntry(f spec.Field) string {
 			}
 			return fmt.Sprintf("\tif p.%s != nil { out[%q] = strconv.FormatInt(*p.%s, 10) }\n", f.Name, f.JSONName, f.Name)
 		case "string":
+			if enumName != "" {
+				if f.Required {
+					return fmt.Sprintf("\tout[%q] = string(p.%s)\n", f.JSONName, f.Name)
+				}
+				return fmt.Sprintf("\tif p.%s != \"\" { out[%q] = string(p.%s) }\n", f.Name, f.JSONName, f.Name)
+			}
 			if f.Required {
 				return fmt.Sprintf("\tout[%q] = p.%s\n", f.JSONName, f.Name)
 			}
@@ -392,7 +414,7 @@ func returnGoElem(tr spec.TypeRef) string {
 
 // emitMethods renders methods.gen.go.
 func (e *emitter) emitMethods() error {
-	t, err := template.New("methods").Funcs(funcs()).Parse(methodsTmpl)
+	t, err := template.New("methods").Funcs(funcs(e.enums)).Parse(methodsTmpl)
 	if err != nil {
 		return fmt.Errorf("parse methods.tmpl: %w", err)
 	}
@@ -409,7 +431,7 @@ func (e *emitter) emitMethods() error {
 
 // emitEnums renders enums.gen.go.
 func (e *emitter) emitEnums() error {
-	t, err := template.New("enums").Funcs(funcs()).Parse(enumsTmpl)
+	t, err := template.New("enums").Funcs(funcs(e.enums)).Parse(enumsTmpl)
 	if err != nil {
 		return fmt.Errorf("parse enums.tmpl: %w", err)
 	}
@@ -558,8 +580,16 @@ func matchesVariants(got []string, want ...string) bool {
 }
 
 // goField returns the Go struct-field declaration for a Field.
-func goField(f spec.Field) string {
+// When the field carries scraper-detected enum values and the emitter
+// has a planned enum name for (parent, field), the field's Go type is
+// the enum identifier. Typed-string enums use the zero string ""
+// behaviour for omitempty, so we do not pointer-wrap optional enum
+// fields. Parent is "" for method parameters.
+func goField(plan *enumPlan, parent string, f spec.Field) string {
 	tag := fmt.Sprintf("`json:%q`", f.JSONName+omitempty(f))
+	if name := plan.FieldEnum(parent, f.Name); name != "" {
+		return fmt.Sprintf("%s %s %s", f.Name, name, tag)
+	}
 	return fmt.Sprintf("%s %s %s", f.Name, goType(f.Type, !f.Required), tag)
 }
 
@@ -623,14 +653,19 @@ func buildUnionTypeSet(api *spec.API) map[string]bool {
 
 // makeSentinelValue returns a sentinelValue func that uses the given union type set.
 // It returns a minimal valid Go expression for a spec.Field's type,
-// used in generated test param literals.
-func makeSentinelValue(unionTypes map[string]bool) func(spec.Field) string {
+// used in generated test param literals. plan supplies typed-enum names
+// so a method-param sentinel for a ParseMode field becomes a typed
+// constant rather than a magic string.
+func makeSentinelValue(unionTypes map[string]bool, plan *enumPlan) func(spec.Field) string {
 	return func(f spec.Field) string {
-		return sentinelForField(f, unionTypes)
+		return sentinelForField(f, unionTypes, plan)
 	}
 }
 
-func sentinelForField(f spec.Field, unionTypes map[string]bool) string {
+func sentinelForField(f spec.Field, unionTypes map[string]bool, plan *enumPlan) string {
+	if name := plan.FieldEnum("", f.Name); name != "" && len(f.EnumValues) > 0 {
+		return constName(name, f.EnumValues[0])
+	}
 	tr := f.Type
 	switch tr.Kind {
 	case spec.KindPrimitive:
@@ -729,8 +764,8 @@ func (e *emitter) emitTests() error {
 	unionTypes := buildUnionTypeSet(e.api)
 
 	// Add test-specific helpers to the shared func map.
-	fm := funcs()
-	fm["sentinelValue"] = makeSentinelValue(unionTypes)
+	fm := funcs(e.enums)
+	fm["sentinelValue"] = makeSentinelValue(unionTypes, e.enums)
 	fm["successResp"] = successResp
 
 	t, err := template.New("tests").Funcs(fm).Parse(testsTmpl)

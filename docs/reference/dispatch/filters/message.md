@@ -15,7 +15,7 @@ Package message provides Filter helpers for \*api.Message payloads.
 - [func Command\(name string\) dispatch.Filter\[\*api.Message\]](<#Command>)
 - [func FromUser\(userID int64\) dispatch.Filter\[\*api.Message\]](<#FromUser>)
 - [func HasDocument\(\) dispatch.Filter\[\*api.Message\]](<#HasDocument>)
-- [func HasEntity\(t string\) dispatch.Filter\[\*api.Message\]](<#HasEntity>)
+- [func HasEntity\(t api.MessageEntityType\) dispatch.Filter\[\*api.Message\]](<#HasEntity>)
 - [func HasPhoto\(\) dispatch.Filter\[\*api.Message\]](<#HasPhoto>)
 - [func InChat\(chatID int64\) dispatch.Filter\[\*api.Message\]](<#InChat>)
 - [func IsForward\(\) dispatch.Filter\[\*api.Message\]](<#IsForward>)
@@ -75,10 +75,10 @@ HasDocument returns a Filter that matches messages with a Document attachment.
 ## func HasEntity
 
 ```go
-func HasEntity(t string) dispatch.Filter[*api.Message]
+func HasEntity(t api.MessageEntityType) dispatch.Filter[*api.Message]
 ```
 
-HasEntity returns a Filter that matches messages whose Entities contain at least one entity of type t \(e.g. string\(api.EntityBotCommand\)\).
+HasEntity returns a Filter that matches messages whose Entities contain at least one entity of type t \(e.g. api.MessageEntityTypeBotCommand\).
 
 <a name="HasPhoto"></a>
 ## func HasPhoto

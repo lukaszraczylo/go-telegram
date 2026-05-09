@@ -4,57 +4,10 @@
 
 package api
 
-// ParseMode controls how Telegram interprets formatting in message text.
-type ParseMode string
+{{range $e := enums}}
+type {{$e.Name}} string
 
 const (
-	ParseModeMarkdown   ParseMode = "Markdown"   // legacy
-	ParseModeMarkdownV2 ParseMode = "MarkdownV2"
-	ParseModeHTML       ParseMode = "HTML"
-)
-
-// ChatType is the type of a Telegram chat.
-type ChatType string
-
-const (
-	ChatTypePrivate    ChatType = "private"
-	ChatTypeGroup      ChatType = "group"
-	ChatTypeSupergroup ChatType = "supergroup"
-	ChatTypeChannel    ChatType = "channel"
-)
-
-// UpdateType identifies an Update payload variant. Used by allowed_updates
-// in getUpdates / setWebhook.
-type UpdateType string
-
-const (
-	UpdateMessage           UpdateType = "message"
-	UpdateEditedMessage     UpdateType = "edited_message"
-	UpdateChannelPost       UpdateType = "channel_post"
-	UpdateEditedChannelPost UpdateType = "edited_channel_post"
-	UpdateCallbackQuery     UpdateType = "callback_query"
-	UpdateInlineQuery       UpdateType = "inline_query"
-)
-
-// MessageEntityType is the kind of an entity (mention, hashtag, command, ...).
-type MessageEntityType string
-
-const (
-	EntityMention     MessageEntityType = "mention"
-	EntityHashtag     MessageEntityType = "hashtag"
-	EntityCashtag     MessageEntityType = "cashtag"
-	EntityBotCommand  MessageEntityType = "bot_command"
-	EntityURL         MessageEntityType = "url"
-	EntityEmail       MessageEntityType = "email"
-	EntityPhoneNumber MessageEntityType = "phone_number"
-	EntityBold        MessageEntityType = "bold"
-	EntityItalic      MessageEntityType = "italic"
-	EntityUnderline   MessageEntityType = "underline"
-	EntityStrike      MessageEntityType = "strikethrough"
-	EntitySpoiler     MessageEntityType = "spoiler"
-	EntityCode        MessageEntityType = "code"
-	EntityPre         MessageEntityType = "pre"
-	EntityTextLink    MessageEntityType = "text_link"
-	EntityTextMention MessageEntityType = "text_mention"
-	EntityCustomEmoji MessageEntityType = "custom_emoji"
-)
+{{range $v := $e.Values}}	{{enumConstName $e.Name $v}} {{$e.Name}} = {{printf "%q" $v}}
+{{end}})
+{{end}}

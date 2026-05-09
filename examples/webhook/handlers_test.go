@@ -49,7 +49,7 @@ func TestHandlePing_RepliesWithPong(t *testing.T) {
 	bot := client.New("test:token", client.WithHTTPClient(m))
 	msg := &api.Message{
 		MessageID: 1,
-		Chat:      api.Chat{ID: 42, Type: string(api.ChatTypePrivate)},
+		Chat:      api.Chat{ID: 42, Type: api.ChatTypePrivate},
 		From:      &api.User{ID: 7, FirstName: "Alice"},
 		Text:      "/ping",
 	}

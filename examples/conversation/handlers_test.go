@@ -46,7 +46,7 @@ func msgUpd(userID, chatID int64, text string) api.Update {
 			}
 		}
 		entities = append(entities, api.MessageEntity{
-			Type:   string(api.EntityBotCommand),
+			Type:   api.MessageEntityTypeBotCommand,
 			Offset: 0,
 			Length: int64(end),
 		})
@@ -56,7 +56,7 @@ func msgUpd(userID, chatID int64, text string) api.Update {
 		Message: &api.Message{
 			MessageID: 1,
 			From:      &api.User{ID: userID},
-			Chat:      api.Chat{ID: chatID, Type: string(api.ChatTypePrivate)},
+			Chat:      api.Chat{ID: chatID, Type: api.ChatTypePrivate},
 			Text:      text,
 			Entities:  entities,
 		},

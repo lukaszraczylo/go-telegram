@@ -31,9 +31,9 @@ func cmdMessage(text string) api.Update {
 	return api.Update{
 		UpdateID: 1,
 		Message: &api.Message{
-			MessageID: 1, Date: 0, Chat: api.Chat{ID: 1, Type: string(api.ChatTypePrivate)},
+			MessageID: 1, Date: 0, Chat: api.Chat{ID: 1, Type: api.ChatTypePrivate},
 			Text:     text,
-			Entities: []api.MessageEntity{{Type: string(api.EntityBotCommand), Offset: 0, Length: int64(indexEnd(text))}},
+			Entities: []api.MessageEntity{{Type: api.MessageEntityTypeBotCommand, Offset: 0, Length: int64(indexEnd(text))}},
 		},
 	}
 }
@@ -153,10 +153,10 @@ func TestRouter_NonASCIICommand(t *testing.T) {
 		UpdateID: 1,
 		Message: &api.Message{
 			MessageID: 1,
-			Chat:      api.Chat{ID: 1, Type: string(api.ChatTypePrivate)},
+			Chat:      api.Chat{ID: 1, Type: api.ChatTypePrivate},
 			Text:      text,
 			Entities: []api.MessageEntity{
-				{Type: string(api.EntityBotCommand), Offset: 0, Length: cmdU16Len},
+				{Type: api.MessageEntityTypeBotCommand, Offset: 0, Length: cmdU16Len},
 			},
 		},
 	}
@@ -196,7 +196,7 @@ func TestRouter_CommandValuesNotLeakedOnNoMatch(t *testing.T) {
 	u := api.Update{UpdateID: 1, Message: &api.Message{
 		MessageID: 1, Chat: api.Chat{ID: 1, Type: "private"},
 		Text:     "/unknown",
-		Entities: []api.MessageEntity{{Type: string(api.EntityBotCommand), Offset: 0, Length: 8}},
+		Entities: []api.MessageEntity{{Type: api.MessageEntityTypeBotCommand, Offset: 0, Length: 8}},
 	}}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
@@ -247,7 +247,7 @@ func TestRouter_OnChannelPost(t *testing.T) {
 	})
 
 	u := api.Update{UpdateID: 1, ChannelPost: &api.Message{
-		MessageID: 99, Chat: api.Chat{ID: -100, Type: string(api.ChatTypeChannel)},
+		MessageID: 99, Chat: api.Chat{ID: -100, Type: api.ChatTypeChannel},
 	}}
 	ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 	defer cancel()
@@ -393,7 +393,7 @@ func TestRouter_OnInlineQueryFilter_Matches(t *testing.T) {
 func TestRouter_FilterChain_Composition(t *testing.T) {
 	// Filter: private chat AND text contains "hello"
 	privateChat := Filter[*api.Message](func(m *api.Message) bool {
-		return m != nil && m.Chat.Type == string(api.ChatTypePrivate)
+		return m != nil && m.Chat.Type == api.ChatTypePrivate
 	})
 	hasHello := Filter[*api.Message](func(m *api.Message) bool {
 		return m != nil && len(m.Text) > 0 && containsStr(m.Text, "hello")
@@ -405,10 +405,10 @@ func TestRouter_FilterChain_Composition(t *testing.T) {
 	r.OnMessageFilter(combined, func(c *Context, m *api.Message) error { hit <- m.Text; return nil })
 
 	match := api.Update{UpdateID: 1, Message: &api.Message{
-		MessageID: 1, Chat: api.Chat{ID: 1, Type: string(api.ChatTypePrivate)}, Text: "say hello",
+		MessageID: 1, Chat: api.Chat{ID: 1, Type: api.ChatTypePrivate}, Text: "say hello",
 	}}
 	noMatch := api.Update{UpdateID: 2, Message: &api.Message{
-		MessageID: 2, Chat: api.Chat{ID: 2, Type: string(api.ChatTypeGroup)}, Text: "say hello",
+		MessageID: 2, Chat: api.Chat{ID: 2, Type: api.ChatTypeGroup}, Text: "say hello",
 	}}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
@@ -462,7 +462,7 @@ func TestRouter_ConcurrentDispatch_AllHandlersFire(t *testing.T) {
 	for i := range ups {
 		ups[i] = api.Update{UpdateID: int64(i + 1), Message: &api.Message{
 			MessageID: int64(i + 1),
-			Chat:      api.Chat{ID: 1, Type: string(api.ChatTypePrivate)},
+			Chat:      api.Chat{ID: 1, Type: api.ChatTypePrivate},
 			Text:      "hi",
 		}}
 	}
@@ -493,7 +493,7 @@ func TestRouter_ConcurrentDispatch_SemaphoreBoundsConcurrency(t *testing.T) {
 	for i := range ups {
 		ups[i] = api.Update{UpdateID: int64(i + 1), Message: &api.Message{
 			MessageID: int64(i + 1),
-			Chat:      api.Chat{ID: 1, Type: string(api.ChatTypePrivate)},
+			Chat:      api.Chat{ID: 1, Type: api.ChatTypePrivate},
 			Text:      "hi",
 		}}
 	}
@@ -555,7 +555,7 @@ func TestRouter_ConcurrentDispatch_WaitsForInFlight(t *testing.T) {
 	)
 
 	u := api.Update{UpdateID: 1, Message: &api.Message{
-		MessageID: 1, Chat: api.Chat{ID: 1, Type: string(api.ChatTypePrivate)}, Text: "hi",
+		MessageID: 1, Chat: api.Chat{ID: 1, Type: api.ChatTypePrivate}, Text: "hi",
 	}}
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
@@ -594,7 +594,7 @@ func TestRouter_SerialMode_NoRace(t *testing.T) {
 	for i := range ups {
 		ups[i] = api.Update{UpdateID: int64(i + 1), Message: &api.Message{
 			MessageID: int64(i + 1),
-			Chat:      api.Chat{ID: 1, Type: string(api.ChatTypePrivate)},
+			Chat:      api.Chat{ID: 1, Type: api.ChatTypePrivate},
 			Text:      "hi",
 		}}
 	}
@@ -908,7 +908,7 @@ func TestRouter_ContextCancel_UnblocksWaitingAcquire(t *testing.T) {
 	for i := range limit {
 		lu.Send(api.Update{UpdateID: int64(i + 1), Message: &api.Message{
 			MessageID: int64(i + 1),
-			Chat:      api.Chat{ID: 1, Type: string(api.ChatTypePrivate)},
+			Chat:      api.Chat{ID: 1, Type: api.ChatTypePrivate},
 			Text:      "hi",
 		}})
 	}
@@ -919,7 +919,7 @@ func TestRouter_ContextCancel_UnblocksWaitingAcquire(t *testing.T) {
 	// Send one more update — Run will block trying to acquire the full semaphore.
 	lu.Send(api.Update{UpdateID: int64(limit + 1), Message: &api.Message{
 		MessageID: int64(limit + 1),
-		Chat:      api.Chat{ID: 1, Type: string(api.ChatTypePrivate)},
+		Chat:      api.Chat{ID: 1, Type: api.ChatTypePrivate},
 		Text:      "extra",
 	}})
 

@@ -82,7 +82,7 @@ func UnmarshalMaybeInaccessibleMessage(data []byte) (MaybeInaccessibleMessage, e
 {{else}}
 {{docComment .Doc -}}
 type {{.Name}} struct {
-{{range .Fields}}{{docComment .Doc}}{{goField .}}
+{{range .Fields}}{{docComment .Doc}}{{goField $td.Name .}}
 {{end}}}
 {{$unionFields := unionFields .}}{{if $unionFields}}
 // UnmarshalJSON decodes {{.Name}} by dispatching union-typed fields

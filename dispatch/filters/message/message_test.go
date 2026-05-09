@@ -11,7 +11,7 @@ import (
 func msg(text string) *api.Message {
 	return &api.Message{
 		MessageID: 1,
-		Chat:      api.Chat{ID: 1, Type: string(api.ChatTypePrivate)},
+		Chat:      api.Chat{ID: 1, Type: api.ChatTypePrivate},
 		Text:      text,
 	}
 }
@@ -20,10 +20,10 @@ func cmdMsg(cmd string) *api.Message {
 	text := cmd
 	return &api.Message{
 		MessageID: 1,
-		Chat:      api.Chat{ID: 1, Type: string(api.ChatTypePrivate)},
+		Chat:      api.Chat{ID: 1, Type: api.ChatTypePrivate},
 		Text:      text,
 		Entities: []api.MessageEntity{
-			{Type: string(api.EntityBotCommand), Offset: 0, Length: int64(len([]rune(text)))},
+			{Type: api.MessageEntityTypeBotCommand, Offset: 0, Length: int64(len([]rune(text)))},
 		},
 	}
 }
@@ -72,7 +72,7 @@ func TestCommand(t *testing.T) {
 	t.Run("strips BotName suffix", func(t *testing.T) {
 		m := &api.Message{
 			Text:     "/start@MyBot",
-			Entities: []api.MessageEntity{{Type: string(api.EntityBotCommand), Offset: 0, Length: 12}},
+			Entities: []api.MessageEntity{{Type: api.MessageEntityTypeBotCommand, Offset: 0, Length: 12}},
 		}
 		f := msgfilter.Command("/start")
 		require.True(t, f(m))
@@ -134,9 +134,9 @@ func TestHasDocument(t *testing.T) {
 }
 
 func TestHasEntity(t *testing.T) {
-	f := msgfilter.HasEntity(string(api.EntityURL))
+	f := msgfilter.HasEntity(api.MessageEntityTypeURL)
 	m := msg("check https://example.com")
-	m.Entities = []api.MessageEntity{{Type: string(api.EntityURL), Offset: 6, Length: 19}}
+	m.Entities = []api.MessageEntity{{Type: api.MessageEntityTypeURL, Offset: 6, Length: 19}}
 	require.True(t, f(m))
 	require.False(t, f(msg("plain")))
 	require.False(t, f(nil))
@@ -148,7 +148,7 @@ func TestChatType(t *testing.T) {
 	require.True(t, f(private))
 
 	group := msg("hi")
-	group.Chat.Type = string(api.ChatTypeGroup)
+	group.Chat.Type = api.ChatTypeGroup
 	require.False(t, f(group))
 	require.False(t, f(nil))
 }
@@ -183,6 +183,6 @@ func TestComposedMessageFilters(t *testing.T) {
 	require.True(t, f(m))
 
 	m2 := msg("say hello")
-	m2.Chat.Type = string(api.ChatTypeGroup)
+	m2.Chat.Type = api.ChatTypeGroup
 	require.False(t, f(m2))
 }

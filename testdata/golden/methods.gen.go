@@ -37,7 +37,7 @@ type SendMessageParams struct {
 	// Text of the message to be sent.
 	Text string `json:"text"`
 	// Mode for parsing entities in the message text.
-	ParseMode string `json:"parse_mode,omitempty"`
+	ParseMode ParseMode `json:"parse_mode,omitempty"`
 }
 
 // SendMessage calls the sendMessage Telegram Bot API method.

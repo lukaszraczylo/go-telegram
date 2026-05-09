@@ -519,7 +519,13 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the chat, can be either “private”, “group”, “supergroup” or “channel”"
+          "doc": "Type of the chat, can be either “private”, “group”, “supergroup” or “channel”",
+          "enum_values": [
+            "private",
+            "group",
+            "supergroup",
+            "channel"
+          ]
         },
         {
           "name": "Title",
@@ -599,7 +605,13 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the chat, can be either “private”, “group”, “supergroup” or “channel”"
+          "doc": "Type of the chat, can be either “private”, “group”, “supergroup” or “channel”",
+          "enum_values": [
+            "private",
+            "group",
+            "supergroup",
+            "channel"
+          ]
         },
         {
           "name": "Title",
@@ -2175,7 +2187,29 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the entity. Currently, can be “mention” (@username), “hashtag” (#hashtag or #hashtag@chatusername), “cashtag” ($USD or $USD@chatusername), “bot_command” (/start@jobs_bot), “url” (https://telegram.org), “email” (do-not-reply@telegram.org), “phone_number” (+1-212-555-0123), “bold” (bold text), “italic” (italic text), “underline” (underlined text), “strikethrough” (strikethrough text), “spoiler” (spoiler message), “blockquote” (block quotation), “expandable_blockquote” (collapsed-by-default block quotation), “code” (monowidth string), “pre” (monowidth block), “text_link” (for clickable text URLs), “text_mention” (for users without usernames), “custom_emoji” (for inline custom emoji stickers), or “date_time” (for formatted date and time)"
+          "doc": "Type of the entity. Currently, can be “mention” (@username), “hashtag” (#hashtag or #hashtag@chatusername), “cashtag” ($USD or $USD@chatusername), “bot_command” (/start@jobs_bot), “url” (https://telegram.org), “email” (do-not-reply@telegram.org), “phone_number” (+1-212-555-0123), “bold” (bold text), “italic” (italic text), “underline” (underlined text), “strikethrough” (strikethrough text), “spoiler” (spoiler message), “blockquote” (block quotation), “expandable_blockquote” (collapsed-by-default block quotation), “code” (monowidth string), “pre” (monowidth block), “text_link” (for clickable text URLs), “text_mention” (for users without usernames), “custom_emoji” (for inline custom emoji stickers), or “date_time” (for formatted date and time)",
+          "enum_values": [
+            "mention",
+            "hashtag",
+            "cashtag",
+            "bot_command",
+            "url",
+            "email",
+            "phone_number",
+            "bold",
+            "italic",
+            "underline",
+            "strikethrough",
+            "spoiler",
+            "blockquote",
+            "expandable_blockquote",
+            "code",
+            "pre",
+            "text_link",
+            "text_mention",
+            "custom_emoji",
+            "date_time"
+          ]
         },
         {
           "name": "Offset",
@@ -2595,7 +2629,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the quote. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the quote. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "QuoteEntities",
@@ -2660,7 +2699,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the message origin, always “user”"
+          "doc": "Type of the message origin, always “user”",
+          "enum_values": [
+            "user"
+          ]
         },
         {
           "name": "Date",
@@ -2696,7 +2738,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the message origin, always “hidden_user”"
+          "doc": "Type of the message origin, always “hidden_user”",
+          "enum_values": [
+            "hidden_user"
+          ]
         },
         {
           "name": "Date",
@@ -2732,7 +2777,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the message origin, always “chat”"
+          "doc": "Type of the message origin, always “chat”",
+          "enum_values": [
+            "chat"
+          ]
         },
         {
           "name": "Date",
@@ -2777,7 +2825,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the message origin, always “channel”"
+          "doc": "Type of the message origin, always “channel”",
+          "enum_values": [
+            "channel"
+          ]
         },
         {
           "name": "Date",
@@ -3590,7 +3641,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the paid media, always “live_photo”"
+          "doc": "Type of the paid media, always “live_photo”",
+          "enum_values": [
+            "live_photo"
+          ]
         },
         {
           "name": "LivePhoto",
@@ -3616,7 +3670,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the paid media, always “photo”"
+          "doc": "Type of the paid media, always “photo”",
+          "enum_values": [
+            "photo"
+          ]
         },
         {
           "name": "Photo",
@@ -3645,7 +3702,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the paid media, always “preview”"
+          "doc": "Type of the paid media, always “preview”",
+          "enum_values": [
+            "preview"
+          ]
         },
         {
           "name": "Width",
@@ -3688,7 +3748,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the paid media, always “video”"
+          "doc": "Type of the paid media, always “video”",
+          "enum_values": [
+            "video"
+          ]
         },
         {
           "name": "Video",
@@ -4003,7 +4066,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the text. See formatting options for more details. Currently, only custom emoji entities are allowed"
+          "doc": "Optional. Mode for parsing entities in the text. See formatting options for more details. Currently, only custom emoji entities are allowed",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "TextEntities",
@@ -4175,7 +4243,11 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Poll type, currently can be “regular” or “quiz”"
+          "doc": "Poll type, currently can be “regular” or “quiz”",
+          "enum_values": [
+            "regular",
+            "quiz"
+          ]
         },
         {
           "name": "AllowsMultipleAnswers",
@@ -4466,7 +4538,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the text. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the text. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "TextEntities",
@@ -4503,7 +4580,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the title. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the title. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "TitleEntities",
@@ -5002,7 +5084,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the background fill, always “solid”"
+          "doc": "Type of the background fill, always “solid”",
+          "enum_values": [
+            "solid"
+          ]
         },
         {
           "name": "Color",
@@ -5028,7 +5113,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the background fill, always “gradient”"
+          "doc": "Type of the background fill, always “gradient”",
+          "enum_values": [
+            "gradient"
+          ]
         },
         {
           "name": "TopColor",
@@ -5074,7 +5162,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the background fill, always “freeform_gradient”"
+          "doc": "Type of the background fill, always “freeform_gradient”",
+          "enum_values": [
+            "freeform_gradient"
+          ]
         },
         {
           "name": "Colors",
@@ -5113,7 +5204,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the background, always “fill”"
+          "doc": "Type of the background, always “fill”",
+          "enum_values": [
+            "fill"
+          ]
         },
         {
           "name": "Fill",
@@ -5149,7 +5243,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the background, always “wallpaper”"
+          "doc": "Type of the background, always “wallpaper”",
+          "enum_values": [
+            "wallpaper"
+          ]
         },
         {
           "name": "Document",
@@ -5203,7 +5300,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the background, always “pattern”"
+          "doc": "Type of the background, always “pattern”",
+          "enum_values": [
+            "pattern"
+          ]
         },
         {
           "name": "Document",
@@ -5267,7 +5367,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the background, always “chat_theme”"
+          "doc": "Type of the background, always “chat_theme”",
+          "enum_values": [
+            "chat_theme"
+          ]
         },
         {
           "name": "ThemeName",
@@ -5754,7 +5857,11 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins"
+          "doc": "Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins",
+          "enum_values": [
+            "XTR",
+            "TON"
+          ]
         },
         {
           "name": "Amount",
@@ -5797,7 +5904,11 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Reason for the refund. Currently, one of “post_deleted” if the post was deleted within 24 hours of being posted or removed from scheduled messages without being posted, or “payment_refunded” if the payer refunded their payment."
+          "doc": "Reason for the refund. Currently, one of “post_deleted” if the post was deleted within 24 hours of being posted or removed from scheduled messages without being posted, or “payment_refunded” if the payer refunded their payment.",
+          "enum_values": [
+            "post_deleted",
+            "payment_refunded"
+          ]
         }
       ]
     },
@@ -6140,7 +6251,11 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for toncoins"
+          "doc": "Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for toncoins",
+          "enum_values": [
+            "XTR",
+            "TON"
+          ]
         },
         {
           "name": "Amount",
@@ -6166,7 +6281,12 @@
             "name": "string"
           },
           "required": true,
-          "doc": "State of the suggested post. Currently, it can be one of “pending”, “approved”, “declined”."
+          "doc": "State of the suggested post. Currently, it can be one of “pending”, “approved”, “declined”.",
+          "enum_values": [
+            "pending",
+            "approved",
+            "declined"
+          ]
         },
         {
           "name": "Price",
@@ -6455,7 +6575,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Style of the button. Must be one of “danger” (red), “success” (green) or “primary” (blue). If omitted, then an app-specific style is used."
+          "doc": "Optional. Style of the button. Must be one of “danger” (red), “success” (green) or “primary” (blue). If omitted, then an app-specific style is used.",
+          "enum_values": [
+            "danger",
+            "success",
+            "primary"
+          ]
         },
         {
           "name": "RequestUsers",
@@ -6825,7 +6950,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Style of the button. Must be one of “danger” (red), “success” (green) or “primary” (blue). If omitted, then an app-specific style is used."
+          "doc": "Optional. Style of the button. Must be one of “danger” (red), “success” (green) or “primary” (blue). If omitted, then an app-specific style is used.",
+          "enum_values": [
+            "danger",
+            "success",
+            "primary"
+          ]
         },
         {
           "name": "URL",
@@ -7568,7 +7698,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The member's status in the chat, always “creator”"
+          "doc": "The member's status in the chat, always “creator”",
+          "enum_values": [
+            "creator"
+          ]
         },
         {
           "name": "User",
@@ -7613,7 +7746,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The member's status in the chat, always “administrator”"
+          "doc": "The member's status in the chat, always “administrator”",
+          "enum_values": [
+            "administrator"
+          ]
         },
         {
           "name": "User",
@@ -7822,7 +7958,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The member's status in the chat, always “member”"
+          "doc": "The member's status in the chat, always “member”",
+          "enum_values": [
+            "member"
+          ]
         },
         {
           "name": "Tag",
@@ -7866,7 +8005,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The member's status in the chat, always “restricted”"
+          "doc": "The member's status in the chat, always “restricted”",
+          "enum_values": [
+            "restricted"
+          ]
         },
         {
           "name": "Tag",
@@ -8081,7 +8223,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The member's status in the chat, always “left”"
+          "doc": "The member's status in the chat, always “left”",
+          "enum_values": [
+            "left"
+          ]
         },
         {
           "name": "User",
@@ -8107,7 +8252,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The member's status in the chat, always “kicked”"
+          "doc": "The member's status in the chat, always “kicked”",
+          "enum_values": [
+            "kicked"
+          ]
         },
         {
           "name": "User",
@@ -8670,7 +8818,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the area, always “location”"
+          "doc": "Type of the area, always “location”",
+          "enum_values": [
+            "location"
+          ]
         },
         {
           "name": "Latitude",
@@ -8715,7 +8866,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the area, always “suggested_reaction”"
+          "doc": "Type of the area, always “suggested_reaction”",
+          "enum_values": [
+            "suggested_reaction"
+          ]
         },
         {
           "name": "ReactionType",
@@ -8759,7 +8913,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the area, always “link”"
+          "doc": "Type of the area, always “link”",
+          "enum_values": [
+            "link"
+          ]
         },
         {
           "name": "URL",
@@ -8785,7 +8942,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the area, always “weather”"
+          "doc": "Type of the area, always “weather”",
+          "enum_values": [
+            "weather"
+          ]
         },
         {
           "name": "Temperature",
@@ -8831,7 +8991,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the area, always “unique_gift”"
+          "doc": "Type of the area, always “unique_gift”",
+          "enum_values": [
+            "unique_gift"
+          ]
         },
         {
           "name": "Name",
@@ -8918,7 +9081,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the reaction, always “emoji”"
+          "doc": "Type of the reaction, always “emoji”",
+          "enum_values": [
+            "emoji"
+          ]
         },
         {
           "name": "Emoji",
@@ -8944,7 +9110,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the reaction, always “custom_emoji”"
+          "doc": "Type of the reaction, always “custom_emoji”",
+          "enum_values": [
+            "custom_emoji"
+          ]
         },
         {
           "name": "CustomEmojiID",
@@ -8970,7 +9139,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the reaction, always “paid”"
+          "doc": "Type of the reaction, always “paid”",
+          "enum_values": [
+            "paid"
+          ]
         }
       ]
     },
@@ -9405,7 +9577,13 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Rarity of the model if it is a crafted model. Currently, can be “uncommon”, “rare”, “epic”, or “legendary”."
+          "doc": "Optional. Rarity of the model if it is a crafted model. Currently, can be “uncommon”, “rare”, “epic”, or “legendary”.",
+          "enum_values": [
+            "uncommon",
+            "rare",
+            "epic",
+            "legendary"
+          ]
         }
       ]
     },
@@ -9842,7 +10020,14 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, “resale” for gifts bought from other users, “gifted_upgrade” for upgrades purchased after the gift was sent, or “offer” for gifts bought or sold through gift purchase offers"
+          "doc": "Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, “resale” for gifts bought from other users, “gifted_upgrade” for upgrades purchased after the gift was sent, or “offer” for gifts bought or sold through gift purchase offers",
+          "enum_values": [
+            "upgrade",
+            "transfer",
+            "resale",
+            "gifted_upgrade",
+            "offer"
+          ]
         },
         {
           "name": "LastResaleCurrency",
@@ -9851,7 +10036,11 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins."
+          "doc": "Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.",
+          "enum_values": [
+            "XTR",
+            "TON"
+          ]
         },
         {
           "name": "LastResaleAmount",
@@ -9911,7 +10100,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the gift, always “regular”"
+          "doc": "Type of the gift, always “regular”",
+          "enum_values": [
+            "regular"
+          ]
         },
         {
           "name": "Gift",
@@ -10058,7 +10250,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the gift, always “unique”"
+          "doc": "Type of the gift, always “unique”",
+          "enum_values": [
+            "unique"
+          ]
         },
         {
           "name": "Gift",
@@ -10629,7 +10824,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Source of the boost, always “premium”"
+          "doc": "Source of the boost, always “premium”",
+          "enum_values": [
+            "premium"
+          ]
         },
         {
           "name": "User",
@@ -10655,7 +10853,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Source of the boost, always “gift_code”"
+          "doc": "Source of the boost, always “gift_code”",
+          "enum_values": [
+            "gift_code"
+          ]
         },
         {
           "name": "User",
@@ -10681,7 +10882,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Source of the boost, always “giveaway”"
+          "doc": "Source of the boost, always “giveaway”",
+          "enum_values": [
+            "giveaway"
+          ]
         },
         {
           "name": "GiveawayMessageID",
@@ -11284,7 +11488,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the animation caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the animation caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -11394,7 +11603,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the audio caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the audio caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -11486,7 +11700,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the document caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the document caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -11561,7 +11780,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the live photo caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the live photo caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -11680,7 +11904,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the photo caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the photo caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -11908,7 +12137,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the video caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the video caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -12330,7 +12564,12 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the sticker, currently one of “regular”, “mask”, “custom_emoji”. The type of the sticker is independent from its format, which is determined by the fields is_animated and is_video."
+          "doc": "Type of the sticker, currently one of “regular”, “mask”, “custom_emoji”. The type of the sticker is independent from its format, which is determined by the fields is_animated and is_video.",
+          "enum_values": [
+            "regular",
+            "mask",
+            "custom_emoji"
+          ]
         },
         {
           "name": "Width",
@@ -12478,7 +12717,12 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of stickers in the set, currently one of “regular”, “mask”, “custom_emoji”"
+          "doc": "Type of stickers in the set, currently one of “regular”, “mask”, “custom_emoji”",
+          "enum_values": [
+            "regular",
+            "mask",
+            "custom_emoji"
+          ]
         },
         {
           "name": "Stickers",
@@ -12516,7 +12760,13 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”, “mouth”, or “chin”."
+          "doc": "The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”, “mouth”, or “chin”.",
+          "enum_values": [
+            "forehead",
+            "eyes",
+            "mouth",
+            "chin"
+          ]
         },
         {
           "name": "XShift",
@@ -12572,7 +12822,12 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Format of the added sticker, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, “video” for a .WEBM video"
+          "doc": "Format of the added sticker, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, “video” for a .WEBM video",
+          "enum_values": [
+            "static",
+            "animated",
+            "video"
+          ]
         },
         {
           "name": "EmojiList",
@@ -12661,7 +12916,14 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Type of the chat from which the inline query was sent. Can be either “sender” for a private chat with the inline query sender, “private”, “group”, “supergroup”, or “channel”. The chat type should be always known for requests sent from official clients and most third-party clients, unless the request was sent from a secret chat"
+          "doc": "Optional. Type of the chat from which the inline query was sent. Can be either “sender” for a private chat with the inline query sender, “private”, “group”, “supergroup”, or “channel”. The chat type should be always known for requests sent from official clients and most third-party clients, unless the request was sent from a secret chat",
+          "enum_values": [
+            "sender",
+            "private",
+            "group",
+            "supergroup",
+            "channel"
+          ]
         },
         {
           "name": "Location",
@@ -12930,7 +13192,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the photo caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the photo caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -13051,7 +13318,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”"
+          "doc": "Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”",
+          "enum_values": [
+            "image/jpeg",
+            "image/gif",
+            "video/mp4"
+          ]
         },
         {
           "name": "Title",
@@ -13078,7 +13350,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -13199,7 +13476,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”"
+          "doc": "Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”",
+          "enum_values": [
+            "image/jpeg",
+            "image/gif",
+            "video/mp4"
+          ]
         },
         {
           "name": "Title",
@@ -13226,7 +13508,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -13349,7 +13636,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the video caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the video caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -13488,7 +13780,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the audio caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the audio caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -13600,7 +13897,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the voice message caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the voice message caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -13693,7 +13995,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the document caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the document caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -13725,7 +14032,11 @@
             "name": "string"
           },
           "required": true,
-          "doc": "MIME type of the content of the file, either “application/pdf” or “application/zip”"
+          "doc": "MIME type of the content of the file, either “application/pdf” or “application/zip”",
+          "enum_values": [
+            "application/pdf",
+            "application/zip"
+          ]
         },
         {
           "name": "Description",
@@ -14289,7 +14600,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the photo caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the photo caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -14391,7 +14707,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -14493,7 +14814,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -14659,7 +14985,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the document caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the document caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -14762,7 +15093,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the video caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the video caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -14865,7 +15201,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the voice message caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the voice message caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -14949,7 +15290,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the audio caption. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the audio caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -15015,7 +15361,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Mode for parsing entities in the message text. See formatting options for more details."
+          "doc": "Optional. Mode for parsing entities in the message text. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "Entities",
@@ -15821,7 +16172,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars. Currently, always “XTR”"
+          "doc": "Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars. Currently, always “XTR”",
+          "enum_values": [
+            "XTR"
+          ]
         },
         {
           "name": "TotalAmount",
@@ -16031,7 +16385,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the state, always “pending”"
+          "doc": "Type of the state, always “pending”",
+          "enum_values": [
+            "pending"
+          ]
         }
       ]
     },
@@ -16047,7 +16404,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the state, always “succeeded”"
+          "doc": "Type of the state, always “succeeded”",
+          "enum_values": [
+            "succeeded"
+          ]
         },
         {
           "name": "Date",
@@ -16083,7 +16443,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the state, always “failed”"
+          "doc": "Type of the state, always “failed”",
+          "enum_values": [
+            "failed"
+          ]
         }
       ]
     },
@@ -16165,7 +16528,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the transaction partner, always “user”"
+          "doc": "Type of the transaction partner, always “user”",
+          "enum_values": [
+            "user"
+          ]
         },
         {
           "name": "TransactionType",
@@ -16175,7 +16541,14 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the transaction, currently one of “invoice_payment” for payments via invoices, “paid_media_payment” for payments for paid media, “gift_purchase” for gifts sent by the bot, “premium_purchase” for Telegram Premium subscriptions gifted by the bot, “business_account_transfer” for direct transfers from managed business accounts"
+          "doc": "Type of the transaction, currently one of “invoice_payment” for payments via invoices, “paid_media_payment” for payments for paid media, “gift_purchase” for gifts sent by the bot, “premium_purchase” for Telegram Premium subscriptions gifted by the bot, “business_account_transfer” for direct transfers from managed business accounts",
+          "enum_values": [
+            "invoice_payment",
+            "paid_media_payment",
+            "gift_purchase",
+            "premium_purchase",
+            "business_account_transfer"
+          ]
         },
         {
           "name": "User",
@@ -16267,7 +16640,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the transaction partner, always “chat”"
+          "doc": "Type of the transaction partner, always “chat”",
+          "enum_values": [
+            "chat"
+          ]
         },
         {
           "name": "Chat",
@@ -16302,7 +16678,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the transaction partner, always “affiliate_program”"
+          "doc": "Type of the transaction partner, always “affiliate_program”",
+          "enum_values": [
+            "affiliate_program"
+          ]
         },
         {
           "name": "SponsorUser",
@@ -16337,7 +16716,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the transaction partner, always “fragment”"
+          "doc": "Type of the transaction partner, always “fragment”",
+          "enum_values": [
+            "fragment"
+          ]
         },
         {
           "name": "WithdrawalState",
@@ -16362,7 +16744,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the transaction partner, always “telegram_ads”"
+          "doc": "Type of the transaction partner, always “telegram_ads”",
+          "enum_values": [
+            "telegram_ads"
+          ]
         }
       ]
     },
@@ -16378,7 +16763,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the transaction partner, always “telegram_api”"
+          "doc": "Type of the transaction partner, always “telegram_api”",
+          "enum_values": [
+            "telegram_api"
+          ]
         },
         {
           "name": "RequestCount",
@@ -16404,7 +16792,10 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the transaction partner, always “other”"
+          "doc": "Type of the transaction partner, always “other”",
+          "enum_values": [
+            "other"
+          ]
         }
       ]
     },
@@ -16577,7 +16968,22 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Element type. One of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”, “phone_number”, “email”."
+          "doc": "Element type. One of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”, “phone_number”, “email”.",
+          "enum_values": [
+            "personal_details",
+            "passport",
+            "driver_license",
+            "identity_card",
+            "internal_passport",
+            "address",
+            "utility_bill",
+            "bank_statement",
+            "rental_agreement",
+            "passport_registration",
+            "temporary_registration",
+            "phone_number",
+            "email"
+          ]
         },
         {
           "name": "Data",
@@ -16742,7 +17148,15 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The section of the user's Telegram Passport which has the error, one of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”"
+          "doc": "The section of the user's Telegram Passport which has the error, one of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”",
+          "enum_values": [
+            "personal_details",
+            "passport",
+            "driver_license",
+            "identity_card",
+            "internal_passport",
+            "address"
+          ]
         },
         {
           "name": "FieldName",
@@ -16798,7 +17212,13 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”"
+          "doc": "The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”",
+          "enum_values": [
+            "passport",
+            "driver_license",
+            "identity_card",
+            "internal_passport"
+          ]
         },
         {
           "name": "FileHash",
@@ -16844,7 +17264,11 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The section of the user's Telegram Passport which has the issue, one of “driver_license”, “identity_card”"
+          "doc": "The section of the user's Telegram Passport which has the issue, one of “driver_license”, “identity_card”",
+          "enum_values": [
+            "driver_license",
+            "identity_card"
+          ]
         },
         {
           "name": "FileHash",
@@ -16890,7 +17314,13 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”"
+          "doc": "The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”",
+          "enum_values": [
+            "passport",
+            "driver_license",
+            "identity_card",
+            "internal_passport"
+          ]
         },
         {
           "name": "FileHash",
@@ -16936,7 +17366,14 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”"
+          "doc": "The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”",
+          "enum_values": [
+            "utility_bill",
+            "bank_statement",
+            "rental_agreement",
+            "passport_registration",
+            "temporary_registration"
+          ]
         },
         {
           "name": "FileHash",
@@ -16982,7 +17419,14 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”"
+          "doc": "The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”",
+          "enum_values": [
+            "utility_bill",
+            "bank_statement",
+            "rental_agreement",
+            "passport_registration",
+            "temporary_registration"
+          ]
         },
         {
           "name": "FileHashes",
@@ -17031,7 +17475,18 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”"
+          "doc": "Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”",
+          "enum_values": [
+            "passport",
+            "driver_license",
+            "identity_card",
+            "internal_passport",
+            "utility_bill",
+            "bank_statement",
+            "rental_agreement",
+            "passport_registration",
+            "temporary_registration"
+          ]
         },
         {
           "name": "FileHash",
@@ -17077,7 +17532,18 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”"
+          "doc": "Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”",
+          "enum_values": [
+            "passport",
+            "driver_license",
+            "identity_card",
+            "internal_passport",
+            "utility_bill",
+            "bank_statement",
+            "rental_agreement",
+            "passport_registration",
+            "temporary_registration"
+          ]
         },
         {
           "name": "FileHashes",
@@ -17503,7 +17969,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the message text. See formatting options for more details."
+          "doc": "Mode for parsing entities in the message text. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "Entities",
@@ -17880,7 +18351,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the new caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the new caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -18147,7 +18623,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the photo caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the photo caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -18340,7 +18821,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the video caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the video caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -18520,7 +19006,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the audio caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the audio caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -18733,7 +19224,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the document caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the document caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -18964,7 +19460,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the video caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the video caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -19192,7 +19693,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the animation caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the animation caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -19372,7 +19878,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the voice message caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the voice message caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -19724,7 +20235,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the media caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the media caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -20507,7 +21023,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the question. See formatting options for more details. Currently, only custom emoji entities are allowed"
+          "doc": "Mode for parsing entities in the question. See formatting options for more details. Currently, only custom emoji entities are allowed",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "QuestionEntities",
@@ -20646,7 +21167,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the explanation. See formatting options for more details."
+          "doc": "Mode for parsing entities in the explanation. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "ExplanationEntities",
@@ -20712,7 +21238,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the poll description. See formatting options for more details."
+          "doc": "Mode for parsing entities in the poll description. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "DescriptionEntities",
@@ -21064,7 +21595,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the message text. See formatting options for more details."
+          "doc": "Mode for parsing entities in the message text. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "Entities",
@@ -23728,7 +24264,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored."
+          "doc": "Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "TextEntities",
@@ -23798,7 +24339,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored."
+          "doc": "Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "TextEntities",
@@ -24742,7 +25288,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the story caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the story caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -24910,7 +25461,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the story caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the story caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -25158,7 +25714,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the message text. See formatting options for more details."
+          "doc": "Mode for parsing entities in the message text. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "Entities",
@@ -25255,7 +25816,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the message caption. See formatting options for more details."
+          "doc": "Mode for parsing entities in the message caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         },
         {
           "name": "CaptionEntities",
@@ -26163,7 +26729,12 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Format of the sticker, must be one of “static”, “animated”, “video”"
+          "doc": "Format of the sticker, must be one of “static”, “animated”, “video”",
+          "enum_values": [
+            "static",
+            "animated",
+            "video"
+          ]
         }
       ],
       "returns": {
@@ -26551,7 +27122,12 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, or “video” for a .WEBM video"
+          "doc": "Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, or “video” for a .WEBM video",
+          "enum_values": [
+            "static",
+            "animated",
+            "video"
+          ]
         }
       ],
       "returns": {

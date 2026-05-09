@@ -30,12 +30,18 @@ func parseFieldsTable(t *html.Node) []spec.Field {
 		desc := strings.TrimSpace(textOf(cells[2]))
 
 		required := !strings.HasPrefix(desc, "Optional.")
+		tref := parseTypeRef(typeText)
+		var enumVals []string
+		if tref.Kind == spec.KindPrimitive && tref.Name == "string" {
+			enumVals = extractEnumValues(jname, desc)
+		}
 		fields = append(fields, spec.Field{
-			Name:     goName(jname),
-			JSONName: jname,
-			Type:     parseTypeRef(typeText),
-			Required: required,
-			Doc:      desc,
+			Name:       goName(jname),
+			JSONName:   jname,
+			Type:       tref,
+			Required:   required,
+			Doc:        desc,
+			EnumValues: enumVals,
 		})
 	}
 	return fields
@@ -59,12 +65,18 @@ func parseParamsTable(t *html.Node) []spec.Field {
 		req := strings.EqualFold(strings.TrimSpace(textOf(cells[2])), "Yes")
 		desc := strings.TrimSpace(textOf(cells[3]))
 
+		tref := parseTypeRef(typeText)
+		var enumVals []string
+		if tref.Kind == spec.KindPrimitive && tref.Name == "string" {
+			enumVals = extractEnumValues(jname, desc)
+		}
 		params = append(params, spec.Field{
-			Name:     goName(jname),
-			JSONName: jname,
-			Type:     parseTypeRef(typeText),
-			Required: req,
-			Doc:      desc,
+			Name:       goName(jname),
+			JSONName:   jname,
+			Type:       tref,
+			Required:   req,
+			Doc:        desc,
+			EnumValues: enumVals,
 		})
 	}
 	return params

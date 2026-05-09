@@ -68,7 +68,7 @@ func TestHandleStart_SendsInitialKeyboard(t *testing.T) {
 	bot := client.New("test:token", client.WithHTTPClient(m))
 	msg := &api.Message{
 		MessageID: 1,
-		Chat:      api.Chat{ID: 42, Type: string(api.ChatTypePrivate)},
+		Chat:      api.Chat{ID: 42, Type: api.ChatTypePrivate},
 		From:      &api.User{ID: 7, FirstName: "Alice"},
 		Text:      "/start",
 	}
@@ -88,7 +88,7 @@ func callbackCtx(bot *client.Bot, q *api.CallbackQuery, groups []string) *dispat
 func callbackQuery(data string, msgID int64, chatID int64) *api.CallbackQuery {
 	msg := &api.Message{
 		MessageID: msgID,
-		Chat:      api.Chat{ID: chatID, Type: string(api.ChatTypePrivate)},
+		Chat:      api.Chat{ID: chatID, Type: api.ChatTypePrivate},
 	}
 	return &api.CallbackQuery{
 		ID:      "cb1",

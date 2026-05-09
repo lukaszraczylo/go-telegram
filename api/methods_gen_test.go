@@ -20954,7 +20954,7 @@ func Test_UploadStickerFile_Success(t *testing.T) {
 	params := &UploadStickerFileParams{
 		UserID:        42,
 		Sticker:       &InputFile{PathOrID: "file_id_test"},
-		StickerFormat: "test_value",
+		StickerFormat: InputStickerFormatStatic,
 	}
 	_, err := UploadStickerFile(context.Background(), bot, params)
 	require.NoError(t, err)
@@ -20969,7 +20969,7 @@ func Test_UploadStickerFile_APIError(t *testing.T) {
 	params := &UploadStickerFileParams{
 		UserID:        42,
 		Sticker:       &InputFile{PathOrID: "file_id_test"},
-		StickerFormat: "test_value",
+		StickerFormat: InputStickerFormatStatic,
 	}
 	_, err := UploadStickerFile(context.Background(), bot, params)
 	require.Error(t, err)
@@ -20987,7 +20987,7 @@ func Test_UploadStickerFile_NetworkError(t *testing.T) {
 	params := &UploadStickerFileParams{
 		UserID:        42,
 		Sticker:       &InputFile{PathOrID: "file_id_test"},
-		StickerFormat: "test_value",
+		StickerFormat: InputStickerFormatStatic,
 	}
 	_, err := UploadStickerFile(context.Background(), bot, params)
 	require.Error(t, err)
@@ -21003,7 +21003,7 @@ func Test_UploadStickerFile_ParseError(t *testing.T) {
 	params := &UploadStickerFileParams{
 		UserID:        42,
 		Sticker:       &InputFile{PathOrID: "file_id_test"},
-		StickerFormat: "test_value",
+		StickerFormat: InputStickerFormatStatic,
 	}
 	_, err := UploadStickerFile(context.Background(), bot, params)
 	require.Error(t, err)
@@ -21022,7 +21022,7 @@ func Test_UploadStickerFile_ContextCanceled(t *testing.T) {
 	params := &UploadStickerFileParams{
 		UserID:        42,
 		Sticker:       &InputFile{PathOrID: "file_id_test"},
-		StickerFormat: "test_value",
+		StickerFormat: InputStickerFormatStatic,
 	}
 	_, err := UploadStickerFile(ctx, bot, params)
 	require.Error(t, err)
@@ -21063,7 +21063,7 @@ func Test_UploadStickerFile_Forbidden(t *testing.T) {
 	params := &UploadStickerFileParams{
 		UserID:        42,
 		Sticker:       &InputFile{PathOrID: "file_id_test"},
-		StickerFormat: "test_value",
+		StickerFormat: InputStickerFormatStatic,
 	}
 	_, err := UploadStickerFile(context.Background(), bot, params)
 	require.Error(t, err)
@@ -21085,7 +21085,7 @@ func Test_UploadStickerFile_ServerError(t *testing.T) {
 	params := &UploadStickerFileParams{
 		UserID:        42,
 		Sticker:       &InputFile{PathOrID: "file_id_test"},
-		StickerFormat: "test_value",
+		StickerFormat: InputStickerFormatStatic,
 	}
 	_, err := UploadStickerFile(context.Background(), bot, params)
 	require.Error(t, err)
@@ -22415,7 +22415,7 @@ func Test_SetStickerSetThumbnail_Success(t *testing.T) {
 	params := &SetStickerSetThumbnailParams{
 		Name:   "test_value",
 		UserID: 42,
-		Format: "test_value",
+		Format: InputStickerFormatStatic,
 	}
 	_, err := SetStickerSetThumbnail(context.Background(), bot, params)
 	require.NoError(t, err)
@@ -22430,7 +22430,7 @@ func Test_SetStickerSetThumbnail_APIError(t *testing.T) {
 	params := &SetStickerSetThumbnailParams{
 		Name:   "test_value",
 		UserID: 42,
-		Format: "test_value",
+		Format: InputStickerFormatStatic,
 	}
 	_, err := SetStickerSetThumbnail(context.Background(), bot, params)
 	require.Error(t, err)
@@ -22448,7 +22448,7 @@ func Test_SetStickerSetThumbnail_NetworkError(t *testing.T) {
 	params := &SetStickerSetThumbnailParams{
 		Name:   "test_value",
 		UserID: 42,
-		Format: "test_value",
+		Format: InputStickerFormatStatic,
 	}
 	_, err := SetStickerSetThumbnail(context.Background(), bot, params)
 	require.Error(t, err)
@@ -22464,7 +22464,7 @@ func Test_SetStickerSetThumbnail_ParseError(t *testing.T) {
 	params := &SetStickerSetThumbnailParams{
 		Name:   "test_value",
 		UserID: 42,
-		Format: "test_value",
+		Format: InputStickerFormatStatic,
 	}
 	_, err := SetStickerSetThumbnail(context.Background(), bot, params)
 	require.Error(t, err)
@@ -22483,7 +22483,7 @@ func Test_SetStickerSetThumbnail_ContextCanceled(t *testing.T) {
 	params := &SetStickerSetThumbnailParams{
 		Name:   "test_value",
 		UserID: 42,
-		Format: "test_value",
+		Format: InputStickerFormatStatic,
 	}
 	_, err := SetStickerSetThumbnail(ctx, bot, params)
 	require.Error(t, err)
@@ -22524,7 +22524,7 @@ func Test_SetStickerSetThumbnail_Forbidden(t *testing.T) {
 	params := &SetStickerSetThumbnailParams{
 		Name:   "test_value",
 		UserID: 42,
-		Format: "test_value",
+		Format: InputStickerFormatStatic,
 	}
 	_, err := SetStickerSetThumbnail(context.Background(), bot, params)
 	require.Error(t, err)
@@ -22546,7 +22546,7 @@ func Test_SetStickerSetThumbnail_ServerError(t *testing.T) {
 	params := &SetStickerSetThumbnailParams{
 		Name:   "test_value",
 		UserID: 42,
-		Format: "test_value",
+		Format: InputStickerFormatStatic,
 	}
 	_, err := SetStickerSetThumbnail(context.Background(), bot, params)
 	require.Error(t, err)

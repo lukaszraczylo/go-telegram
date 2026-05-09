@@ -175,101 +175,101 @@ func makeFieldVariants(name, jname string, kind spec.Kind, variants []string, re
 
 func TestMultipartFieldEntry_Int64Required(t *testing.T) {
 	f := makeField("ChatID", "chat_id", "int64", spec.KindPrimitive, true)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `FormatInt`)
 	require.NotContains(t, got, "if p.")
 }
 
 func TestMultipartFieldEntry_Int64Optional(t *testing.T) {
 	f := makeField("MessageThreadID", "message_thread_id", "int64", spec.KindPrimitive, false)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `FormatInt`)
 	require.Contains(t, got, "if p.")
 }
 
 func TestMultipartFieldEntry_StringRequired(t *testing.T) {
 	f := makeField("Text", "text", "string", spec.KindPrimitive, true)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `out["text"]`)
 	require.NotContains(t, got, "if p.Text")
 }
 
 func TestMultipartFieldEntry_StringOptional(t *testing.T) {
 	f := makeField("ParseMode", "parse_mode", "string", spec.KindPrimitive, false)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `if p.ParseMode`)
 }
 
 func TestMultipartFieldEntry_BoolRequired(t *testing.T) {
 	f := makeField("DisableNotification", "disable_notification", "bool", spec.KindPrimitive, true)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `FormatBool`)
 	require.NotContains(t, got, "if p.")
 }
 
 func TestMultipartFieldEntry_BoolOptional(t *testing.T) {
 	f := makeField("Protected", "protect_content", "bool", spec.KindPrimitive, false)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `FormatBool`)
 	require.Contains(t, got, "if p.")
 }
 
 func TestMultipartFieldEntry_Float64Required(t *testing.T) {
 	f := makeField("Latitude", "latitude", "float64", spec.KindPrimitive, true)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `FormatFloat`)
 	require.NotContains(t, got, "if p.")
 }
 
 func TestMultipartFieldEntry_Float64Optional(t *testing.T) {
 	f := makeField("Longitude", "longitude", "float64", spec.KindPrimitive, false)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `FormatFloat`)
 	require.Contains(t, got, "if p.")
 }
 
 func TestMultipartFieldEntry_OneOf_ChatIDRequired(t *testing.T) {
 	f := makeFieldVariants("ChatID", "chat_id", spec.KindOneOf, []string{"int64", "string"}, true)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `.String()`)
 	require.NotContains(t, got, "IsZero")
 }
 
 func TestMultipartFieldEntry_OneOf_ChatIDOptional(t *testing.T) {
 	f := makeFieldVariants("ChatID", "chat_id", spec.KindOneOf, []string{"int64", "string"}, false)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `IsZero`)
 }
 
 func TestMultipartFieldEntry_OneOf_InputFileOrString(t *testing.T) {
 	f := makeFieldVariants("Photo", "photo", spec.KindOneOf, []string{"InputFile", "string"}, false)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `PathOrID`)
 }
 
 func TestMultipartFieldEntry_OneOf_SealedRequired(t *testing.T) {
 	f := makeFieldVariants("Markup", "reply_markup", spec.KindOneOf, []string{"A", "B"}, true)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `json.Marshal`)
 }
 
 func TestMultipartFieldEntry_OneOf_SealedOptional(t *testing.T) {
 	f := makeFieldVariants("Markup", "reply_markup", spec.KindOneOf, []string{"A", "B"}, false)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `json.Marshal`)
 	require.Contains(t, got, "if p.Markup")
 }
 
 func TestMultipartFieldEntry_Named_Required(t *testing.T) {
 	f := makeField("Entities", "entities", "MessageEntity", spec.KindNamed, true)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `json.Marshal`)
 	require.NotContains(t, got, "if p.")
 }
 
 func TestMultipartFieldEntry_Named_Optional(t *testing.T) {
 	f := makeField("Entities", "entities", "MessageEntity", spec.KindNamed, false)
-	got := multipartFieldEntry(f)
+	got := multipartFieldEntry(nil, "", f)
 	require.Contains(t, got, `json.Marshal`)
 	require.Contains(t, got, "if p.")
 }
@@ -574,7 +574,7 @@ func TestSentinelForField(t *testing.T) {
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			got := sentinelForField(c.field, unionTypes)
+			got := sentinelForField(c.field, unionTypes, nil)
 			require.Contains(t, got, c.contains, "sentinelForField for %q", c.name)
 		})
 	}
@@ -637,7 +637,7 @@ func TestUnionTypeFor_OneOfNoMatch(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestFuncs_HasExpectedKeys(t *testing.T) {
-	fm := funcs()
+	fm := funcs(nil)
 	require.NotNil(t, fm)
 	for _, key := range []string{"goType", "docComment", "returnGoType", "unionFields"} {
 		require.NotNil(t, fm[key], "funcs() missing key %q", key)

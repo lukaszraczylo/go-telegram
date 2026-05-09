@@ -4,16 +4,102 @@
 
 package api
 
-// ParseMode controls how Telegram interprets formatting in message text.
-type ParseMode string
+type BackgroundFillFreeformGradientType string
 
 const (
-	ParseModeMarkdown   ParseMode = "Markdown" // legacy
-	ParseModeMarkdownV2 ParseMode = "MarkdownV2"
-	ParseModeHTML       ParseMode = "HTML"
+	BackgroundFillFreeformGradientTypeFreeformGradient BackgroundFillFreeformGradientType = "freeform_gradient"
 )
 
-// ChatType is the type of a Telegram chat.
+type BackgroundFillGradientType string
+
+const (
+	BackgroundFillGradientTypeGradient BackgroundFillGradientType = "gradient"
+)
+
+type BackgroundFillSolidType string
+
+const (
+	BackgroundFillSolidTypeSolid BackgroundFillSolidType = "solid"
+)
+
+type BackgroundTypeChatThemeType string
+
+const (
+	BackgroundTypeChatThemeTypeChatTheme BackgroundTypeChatThemeType = "chat_theme"
+)
+
+type BackgroundTypeFillType string
+
+const (
+	BackgroundTypeFillTypeFill BackgroundTypeFillType = "fill"
+)
+
+type BackgroundTypePatternType string
+
+const (
+	BackgroundTypePatternTypePattern BackgroundTypePatternType = "pattern"
+)
+
+type BackgroundTypeWallpaperType string
+
+const (
+	BackgroundTypeWallpaperTypeWallpaper BackgroundTypeWallpaperType = "wallpaper"
+)
+
+type ChatBoostSourceGiftCodeSource string
+
+const (
+	ChatBoostSourceGiftCodeSourceGiftCode ChatBoostSourceGiftCodeSource = "gift_code"
+)
+
+type ChatBoostSourceGiveawaySource string
+
+const (
+	ChatBoostSourceGiveawaySourceGiveaway ChatBoostSourceGiveawaySource = "giveaway"
+)
+
+type ChatBoostSourcePremiumSource string
+
+const (
+	ChatBoostSourcePremiumSourcePremium ChatBoostSourcePremiumSource = "premium"
+)
+
+type ChatMemberAdministratorStatus string
+
+const (
+	ChatMemberAdministratorStatusAdministrator ChatMemberAdministratorStatus = "administrator"
+)
+
+type ChatMemberBannedStatus string
+
+const (
+	ChatMemberBannedStatusKicked ChatMemberBannedStatus = "kicked"
+)
+
+type ChatMemberLeftStatus string
+
+const (
+	ChatMemberLeftStatusLeft ChatMemberLeftStatus = "left"
+)
+
+type ChatMemberMemberStatus string
+
+const (
+	ChatMemberMemberStatusMember ChatMemberMemberStatus = "member"
+)
+
+type ChatMemberOwnerStatus string
+
+const (
+	ChatMemberOwnerStatusCreator ChatMemberOwnerStatus = "creator"
+)
+
+type ChatMemberRestrictedStatus string
+
+const (
+	ChatMemberRestrictedStatusRestricted ChatMemberRestrictedStatus = "restricted"
+)
+
 type ChatType string
 
 const (
@@ -23,38 +109,382 @@ const (
 	ChatTypeChannel    ChatType = "channel"
 )
 
-// UpdateType identifies an Update payload variant. Used by allowed_updates
-// in getUpdates / setWebhook.
-type UpdateType string
+type EncryptedPassportElementType string
 
 const (
-	UpdateMessage           UpdateType = "message"
-	UpdateEditedMessage     UpdateType = "edited_message"
-	UpdateChannelPost       UpdateType = "channel_post"
-	UpdateEditedChannelPost UpdateType = "edited_channel_post"
-	UpdateCallbackQuery     UpdateType = "callback_query"
-	UpdateInlineQuery       UpdateType = "inline_query"
+	EncryptedPassportElementTypePersonalDetails       EncryptedPassportElementType = "personal_details"
+	EncryptedPassportElementTypePassport              EncryptedPassportElementType = "passport"
+	EncryptedPassportElementTypeDriverLicense         EncryptedPassportElementType = "driver_license"
+	EncryptedPassportElementTypeIdentityCard          EncryptedPassportElementType = "identity_card"
+	EncryptedPassportElementTypeInternalPassport      EncryptedPassportElementType = "internal_passport"
+	EncryptedPassportElementTypeAddress               EncryptedPassportElementType = "address"
+	EncryptedPassportElementTypeUtilityBill           EncryptedPassportElementType = "utility_bill"
+	EncryptedPassportElementTypeBankStatement         EncryptedPassportElementType = "bank_statement"
+	EncryptedPassportElementTypeRentalAgreement       EncryptedPassportElementType = "rental_agreement"
+	EncryptedPassportElementTypePassportRegistration  EncryptedPassportElementType = "passport_registration"
+	EncryptedPassportElementTypeTemporaryRegistration EncryptedPassportElementType = "temporary_registration"
+	EncryptedPassportElementTypePhoneNumber           EncryptedPassportElementType = "phone_number"
+	EncryptedPassportElementTypeEmail                 EncryptedPassportElementType = "email"
 )
 
-// MessageEntityType is the kind of an entity (mention, hashtag, command, ...).
+type InlineQueryChatType string
+
+const (
+	InlineQueryChatTypeSender     InlineQueryChatType = "sender"
+	InlineQueryChatTypePrivate    InlineQueryChatType = "private"
+	InlineQueryChatTypeGroup      InlineQueryChatType = "group"
+	InlineQueryChatTypeSupergroup InlineQueryChatType = "supergroup"
+	InlineQueryChatTypeChannel    InlineQueryChatType = "channel"
+)
+
+type InlineQueryResultDocumentMimeType string
+
+const (
+	InlineQueryResultDocumentMimeTypeApplicationOfPdf InlineQueryResultDocumentMimeType = "application/pdf"
+	InlineQueryResultDocumentMimeTypeApplicationOfZip InlineQueryResultDocumentMimeType = "application/zip"
+)
+
+type InlineQueryResultGifThumbnailMimeType string
+
+const (
+	InlineQueryResultGifThumbnailMimeTypeImageOfJpeg InlineQueryResultGifThumbnailMimeType = "image/jpeg"
+	InlineQueryResultGifThumbnailMimeTypeImageOfGif  InlineQueryResultGifThumbnailMimeType = "image/gif"
+	InlineQueryResultGifThumbnailMimeTypeVideoOfMp4  InlineQueryResultGifThumbnailMimeType = "video/mp4"
+)
+
+type InputStickerFormat string
+
+const (
+	InputStickerFormatStatic   InputStickerFormat = "static"
+	InputStickerFormatAnimated InputStickerFormat = "animated"
+	InputStickerFormatVideo    InputStickerFormat = "video"
+)
+
+type KeyboardButtonStyle string
+
+const (
+	KeyboardButtonStyleDanger  KeyboardButtonStyle = "danger"
+	KeyboardButtonStyleSuccess KeyboardButtonStyle = "success"
+	KeyboardButtonStylePrimary KeyboardButtonStyle = "primary"
+)
+
+type MaskPositionPoint string
+
+const (
+	MaskPositionPointForehead MaskPositionPoint = "forehead"
+	MaskPositionPointEyes     MaskPositionPoint = "eyes"
+	MaskPositionPointMouth    MaskPositionPoint = "mouth"
+	MaskPositionPointChin     MaskPositionPoint = "chin"
+)
+
 type MessageEntityType string
 
 const (
-	EntityMention     MessageEntityType = "mention"
-	EntityHashtag     MessageEntityType = "hashtag"
-	EntityCashtag     MessageEntityType = "cashtag"
-	EntityBotCommand  MessageEntityType = "bot_command"
-	EntityURL         MessageEntityType = "url"
-	EntityEmail       MessageEntityType = "email"
-	EntityPhoneNumber MessageEntityType = "phone_number"
-	EntityBold        MessageEntityType = "bold"
-	EntityItalic      MessageEntityType = "italic"
-	EntityUnderline   MessageEntityType = "underline"
-	EntityStrike      MessageEntityType = "strikethrough"
-	EntitySpoiler     MessageEntityType = "spoiler"
-	EntityCode        MessageEntityType = "code"
-	EntityPre         MessageEntityType = "pre"
-	EntityTextLink    MessageEntityType = "text_link"
-	EntityTextMention MessageEntityType = "text_mention"
-	EntityCustomEmoji MessageEntityType = "custom_emoji"
+	MessageEntityTypeMention              MessageEntityType = "mention"
+	MessageEntityTypeHashtag              MessageEntityType = "hashtag"
+	MessageEntityTypeCashtag              MessageEntityType = "cashtag"
+	MessageEntityTypeBotCommand           MessageEntityType = "bot_command"
+	MessageEntityTypeURL                  MessageEntityType = "url"
+	MessageEntityTypeEmail                MessageEntityType = "email"
+	MessageEntityTypePhoneNumber          MessageEntityType = "phone_number"
+	MessageEntityTypeBold                 MessageEntityType = "bold"
+	MessageEntityTypeItalic               MessageEntityType = "italic"
+	MessageEntityTypeUnderline            MessageEntityType = "underline"
+	MessageEntityTypeStrikethrough        MessageEntityType = "strikethrough"
+	MessageEntityTypeSpoiler              MessageEntityType = "spoiler"
+	MessageEntityTypeBlockquote           MessageEntityType = "blockquote"
+	MessageEntityTypeExpandableBlockquote MessageEntityType = "expandable_blockquote"
+	MessageEntityTypeCode                 MessageEntityType = "code"
+	MessageEntityTypePre                  MessageEntityType = "pre"
+	MessageEntityTypeTextLink             MessageEntityType = "text_link"
+	MessageEntityTypeTextMention          MessageEntityType = "text_mention"
+	MessageEntityTypeCustomEmoji          MessageEntityType = "custom_emoji"
+	MessageEntityTypeDateTime             MessageEntityType = "date_time"
+)
+
+type MessageOriginChannelType string
+
+const (
+	MessageOriginChannelTypeChannel MessageOriginChannelType = "channel"
+)
+
+type MessageOriginChatType string
+
+const (
+	MessageOriginChatTypeChat MessageOriginChatType = "chat"
+)
+
+type MessageOriginHiddenUserType string
+
+const (
+	MessageOriginHiddenUserTypeHiddenUser MessageOriginHiddenUserType = "hidden_user"
+)
+
+type MessageOriginUserType string
+
+const (
+	MessageOriginUserTypeUser MessageOriginUserType = "user"
+)
+
+type OwnedGiftRegularType string
+
+const (
+	OwnedGiftRegularTypeRegular OwnedGiftRegularType = "regular"
+)
+
+type OwnedGiftUniqueType string
+
+const (
+	OwnedGiftUniqueTypeUnique OwnedGiftUniqueType = "unique"
+)
+
+type PaidMediaLivePhotoType string
+
+const (
+	PaidMediaLivePhotoTypeLivePhoto PaidMediaLivePhotoType = "live_photo"
+)
+
+type PaidMediaPhotoType string
+
+const (
+	PaidMediaPhotoTypePhoto PaidMediaPhotoType = "photo"
+)
+
+type PaidMediaPreviewType string
+
+const (
+	PaidMediaPreviewTypePreview PaidMediaPreviewType = "preview"
+)
+
+type PaidMediaVideoType string
+
+const (
+	PaidMediaVideoTypeVideo PaidMediaVideoType = "video"
+)
+
+type ParseMode string
+
+const (
+	ParseModeMarkdown   ParseMode = "Markdown"
+	ParseModeMarkdownV2 ParseMode = "MarkdownV2"
+	ParseModeHTML       ParseMode = "HTML"
+)
+
+type PassportElementErrorDataFieldType string
+
+const (
+	PassportElementErrorDataFieldTypePersonalDetails  PassportElementErrorDataFieldType = "personal_details"
+	PassportElementErrorDataFieldTypePassport         PassportElementErrorDataFieldType = "passport"
+	PassportElementErrorDataFieldTypeDriverLicense    PassportElementErrorDataFieldType = "driver_license"
+	PassportElementErrorDataFieldTypeIdentityCard     PassportElementErrorDataFieldType = "identity_card"
+	PassportElementErrorDataFieldTypeInternalPassport PassportElementErrorDataFieldType = "internal_passport"
+	PassportElementErrorDataFieldTypeAddress          PassportElementErrorDataFieldType = "address"
+)
+
+type PassportElementErrorFileType string
+
+const (
+	PassportElementErrorFileTypeUtilityBill           PassportElementErrorFileType = "utility_bill"
+	PassportElementErrorFileTypeBankStatement         PassportElementErrorFileType = "bank_statement"
+	PassportElementErrorFileTypeRentalAgreement       PassportElementErrorFileType = "rental_agreement"
+	PassportElementErrorFileTypePassportRegistration  PassportElementErrorFileType = "passport_registration"
+	PassportElementErrorFileTypeTemporaryRegistration PassportElementErrorFileType = "temporary_registration"
+)
+
+type PassportElementErrorReverseSideType string
+
+const (
+	PassportElementErrorReverseSideTypeDriverLicense PassportElementErrorReverseSideType = "driver_license"
+	PassportElementErrorReverseSideTypeIdentityCard  PassportElementErrorReverseSideType = "identity_card"
+)
+
+type PassportElementErrorSelfieType string
+
+const (
+	PassportElementErrorSelfieTypePassport         PassportElementErrorSelfieType = "passport"
+	PassportElementErrorSelfieTypeDriverLicense    PassportElementErrorSelfieType = "driver_license"
+	PassportElementErrorSelfieTypeIdentityCard     PassportElementErrorSelfieType = "identity_card"
+	PassportElementErrorSelfieTypeInternalPassport PassportElementErrorSelfieType = "internal_passport"
+)
+
+type PassportElementErrorTranslationFileType string
+
+const (
+	PassportElementErrorTranslationFileTypePassport              PassportElementErrorTranslationFileType = "passport"
+	PassportElementErrorTranslationFileTypeDriverLicense         PassportElementErrorTranslationFileType = "driver_license"
+	PassportElementErrorTranslationFileTypeIdentityCard          PassportElementErrorTranslationFileType = "identity_card"
+	PassportElementErrorTranslationFileTypeInternalPassport      PassportElementErrorTranslationFileType = "internal_passport"
+	PassportElementErrorTranslationFileTypeUtilityBill           PassportElementErrorTranslationFileType = "utility_bill"
+	PassportElementErrorTranslationFileTypeBankStatement         PassportElementErrorTranslationFileType = "bank_statement"
+	PassportElementErrorTranslationFileTypeRentalAgreement       PassportElementErrorTranslationFileType = "rental_agreement"
+	PassportElementErrorTranslationFileTypePassportRegistration  PassportElementErrorTranslationFileType = "passport_registration"
+	PassportElementErrorTranslationFileTypeTemporaryRegistration PassportElementErrorTranslationFileType = "temporary_registration"
+)
+
+type PollType string
+
+const (
+	PollTypeRegular PollType = "regular"
+	PollTypeQuiz    PollType = "quiz"
+)
+
+type ReactionTypeCustomEmojiType string
+
+const (
+	ReactionTypeCustomEmojiTypeCustomEmoji ReactionTypeCustomEmojiType = "custom_emoji"
+)
+
+type ReactionTypeEmojiType string
+
+const (
+	ReactionTypeEmojiTypeEmoji ReactionTypeEmojiType = "emoji"
+)
+
+type ReactionTypePaidType string
+
+const (
+	ReactionTypePaidTypePaid ReactionTypePaidType = "paid"
+)
+
+type RefundedPaymentCurrency string
+
+const (
+	RefundedPaymentCurrencyXTR RefundedPaymentCurrency = "XTR"
+)
+
+type RevenueWithdrawalStateFailedType string
+
+const (
+	RevenueWithdrawalStateFailedTypeFailed RevenueWithdrawalStateFailedType = "failed"
+)
+
+type RevenueWithdrawalStatePendingType string
+
+const (
+	RevenueWithdrawalStatePendingTypePending RevenueWithdrawalStatePendingType = "pending"
+)
+
+type RevenueWithdrawalStateSucceededType string
+
+const (
+	RevenueWithdrawalStateSucceededTypeSucceeded RevenueWithdrawalStateSucceededType = "succeeded"
+)
+
+type StickerType string
+
+const (
+	StickerTypeRegular     StickerType = "regular"
+	StickerTypeMask        StickerType = "mask"
+	StickerTypeCustomEmoji StickerType = "custom_emoji"
+)
+
+type StoryAreaTypeLinkType string
+
+const (
+	StoryAreaTypeLinkTypeLink StoryAreaTypeLinkType = "link"
+)
+
+type StoryAreaTypeLocationType string
+
+const (
+	StoryAreaTypeLocationTypeLocation StoryAreaTypeLocationType = "location"
+)
+
+type StoryAreaTypeSuggestedReactionType string
+
+const (
+	StoryAreaTypeSuggestedReactionTypeSuggestedReaction StoryAreaTypeSuggestedReactionType = "suggested_reaction"
+)
+
+type StoryAreaTypeUniqueGiftType string
+
+const (
+	StoryAreaTypeUniqueGiftTypeUniqueGift StoryAreaTypeUniqueGiftType = "unique_gift"
+)
+
+type StoryAreaTypeWeatherType string
+
+const (
+	StoryAreaTypeWeatherTypeWeather StoryAreaTypeWeatherType = "weather"
+)
+
+type SuggestedPostInfoState string
+
+const (
+	SuggestedPostInfoStatePending  SuggestedPostInfoState = "pending"
+	SuggestedPostInfoStateApproved SuggestedPostInfoState = "approved"
+	SuggestedPostInfoStateDeclined SuggestedPostInfoState = "declined"
+)
+
+type SuggestedPostPaidCurrency string
+
+const (
+	SuggestedPostPaidCurrencyXTR SuggestedPostPaidCurrency = "XTR"
+	SuggestedPostPaidCurrencyTON SuggestedPostPaidCurrency = "TON"
+)
+
+type SuggestedPostRefundedReason string
+
+const (
+	SuggestedPostRefundedReasonPostDeleted     SuggestedPostRefundedReason = "post_deleted"
+	SuggestedPostRefundedReasonPaymentRefunded SuggestedPostRefundedReason = "payment_refunded"
+)
+
+type TransactionPartnerAffiliateProgramType string
+
+const (
+	TransactionPartnerAffiliateProgramTypeAffiliateProgram TransactionPartnerAffiliateProgramType = "affiliate_program"
+)
+
+type TransactionPartnerFragmentType string
+
+const (
+	TransactionPartnerFragmentTypeFragment TransactionPartnerFragmentType = "fragment"
+)
+
+type TransactionPartnerOtherType string
+
+const (
+	TransactionPartnerOtherTypeOther TransactionPartnerOtherType = "other"
+)
+
+type TransactionPartnerTelegramAdsType string
+
+const (
+	TransactionPartnerTelegramAdsTypeTelegramAds TransactionPartnerTelegramAdsType = "telegram_ads"
+)
+
+type TransactionPartnerTelegramApiType string
+
+const (
+	TransactionPartnerTelegramApiTypeTelegramApi TransactionPartnerTelegramApiType = "telegram_api"
+)
+
+type TransactionPartnerUserTransactionType string
+
+const (
+	TransactionPartnerUserTransactionTypeInvoicePayment          TransactionPartnerUserTransactionType = "invoice_payment"
+	TransactionPartnerUserTransactionTypePaidMediaPayment        TransactionPartnerUserTransactionType = "paid_media_payment"
+	TransactionPartnerUserTransactionTypeGiftPurchase            TransactionPartnerUserTransactionType = "gift_purchase"
+	TransactionPartnerUserTransactionTypePremiumPurchase         TransactionPartnerUserTransactionType = "premium_purchase"
+	TransactionPartnerUserTransactionTypeBusinessAccountTransfer TransactionPartnerUserTransactionType = "business_account_transfer"
+)
+
+type UniqueGiftInfoOrigin string
+
+const (
+	UniqueGiftInfoOriginUpgrade       UniqueGiftInfoOrigin = "upgrade"
+	UniqueGiftInfoOriginTransfer      UniqueGiftInfoOrigin = "transfer"
+	UniqueGiftInfoOriginResale        UniqueGiftInfoOrigin = "resale"
+	UniqueGiftInfoOriginGiftedUpgrade UniqueGiftInfoOrigin = "gifted_upgrade"
+	UniqueGiftInfoOriginOffer         UniqueGiftInfoOrigin = "offer"
+)
+
+type UniqueGiftModelRarity string
+
+const (
+	UniqueGiftModelRarityUncommon  UniqueGiftModelRarity = "uncommon"
+	UniqueGiftModelRarityRare      UniqueGiftModelRarity = "rare"
+	UniqueGiftModelRarityEpic      UniqueGiftModelRarity = "epic"
+	UniqueGiftModelRarityLegendary UniqueGiftModelRarity = "legendary"
 )

@@ -17,7 +17,7 @@ func msgUpdate(id int64, text string) api.Update {
 		UpdateID: id,
 		Message: &api.Message{
 			MessageID: id,
-			Chat:      api.Chat{ID: 1, Type: string(api.ChatTypePrivate)},
+			Chat:      api.Chat{ID: 1, Type: api.ChatTypePrivate},
 			Text:      text,
 		},
 	}
@@ -29,10 +29,10 @@ func cmdUpdate(id int64, cmd string) api.Update {
 		UpdateID: id,
 		Message: &api.Message{
 			MessageID: id,
-			Chat:      api.Chat{ID: 1, Type: string(api.ChatTypePrivate)},
+			Chat:      api.Chat{ID: 1, Type: api.ChatTypePrivate},
 			Text:      cmd,
 			Entities: []api.MessageEntity{
-				{Type: string(api.EntityBotCommand), Offset: 0, Length: int64(len(cmd))},
+				{Type: api.MessageEntityTypeBotCommand, Offset: 0, Length: int64(len(cmd))},
 			},
 		},
 	}

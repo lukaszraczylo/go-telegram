@@ -15,17 +15,17 @@ func NewStatus(s string) dispatch.Filter[*api.ChatMemberUpdated] {
 		}
 		switch m := u.NewChatMember.(type) {
 		case *api.ChatMemberOwner:
-			return m.Status == s
+			return string(m.Status) == s
 		case *api.ChatMemberAdministrator:
-			return m.Status == s
+			return string(m.Status) == s
 		case *api.ChatMemberMember:
-			return m.Status == s
+			return string(m.Status) == s
 		case *api.ChatMemberRestricted:
-			return m.Status == s
+			return string(m.Status) == s
 		case *api.ChatMemberLeft:
-			return m.Status == s
+			return string(m.Status) == s
 		case *api.ChatMemberBanned:
-			return m.Status == s
+			return string(m.Status) == s
 		default:
 			return false
 		}

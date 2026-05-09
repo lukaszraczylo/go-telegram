@@ -132,16 +132,23 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type BackgroundFill](<#BackgroundFill>)
   - [func UnmarshalBackgroundFill\(data \[\]byte\) \(BackgroundFill, error\)](<#UnmarshalBackgroundFill>)
 - [type BackgroundFillFreeformGradient](<#BackgroundFillFreeformGradient>)
+- [type BackgroundFillFreeformGradientType](<#BackgroundFillFreeformGradientType>)
 - [type BackgroundFillGradient](<#BackgroundFillGradient>)
+- [type BackgroundFillGradientType](<#BackgroundFillGradientType>)
 - [type BackgroundFillSolid](<#BackgroundFillSolid>)
+- [type BackgroundFillSolidType](<#BackgroundFillSolidType>)
 - [type BackgroundType](<#BackgroundType>)
   - [func UnmarshalBackgroundType\(data \[\]byte\) \(BackgroundType, error\)](<#UnmarshalBackgroundType>)
 - [type BackgroundTypeChatTheme](<#BackgroundTypeChatTheme>)
+- [type BackgroundTypeChatThemeType](<#BackgroundTypeChatThemeType>)
 - [type BackgroundTypeFill](<#BackgroundTypeFill>)
   - [func \(m \*BackgroundTypeFill\) UnmarshalJSON\(data \[\]byte\) error](<#BackgroundTypeFill.UnmarshalJSON>)
+- [type BackgroundTypeFillType](<#BackgroundTypeFillType>)
 - [type BackgroundTypePattern](<#BackgroundTypePattern>)
   - [func \(m \*BackgroundTypePattern\) UnmarshalJSON\(data \[\]byte\) error](<#BackgroundTypePattern.UnmarshalJSON>)
+- [type BackgroundTypePatternType](<#BackgroundTypePatternType>)
 - [type BackgroundTypeWallpaper](<#BackgroundTypeWallpaper>)
+- [type BackgroundTypeWallpaperType](<#BackgroundTypeWallpaperType>)
 - [type BanChatMemberParams](<#BanChatMemberParams>)
 - [type BanChatSenderChatParams](<#BanChatSenderChatParams>)
 - [type Birthdate](<#Birthdate>)
@@ -187,8 +194,11 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type ChatBoostSource](<#ChatBoostSource>)
   - [func UnmarshalChatBoostSource\(data \[\]byte\) \(ChatBoostSource, error\)](<#UnmarshalChatBoostSource>)
 - [type ChatBoostSourceGiftCode](<#ChatBoostSourceGiftCode>)
+- [type ChatBoostSourceGiftCodeSource](<#ChatBoostSourceGiftCodeSource>)
 - [type ChatBoostSourceGiveaway](<#ChatBoostSourceGiveaway>)
+- [type ChatBoostSourceGiveawaySource](<#ChatBoostSourceGiveawaySource>)
 - [type ChatBoostSourcePremium](<#ChatBoostSourcePremium>)
+- [type ChatBoostSourcePremiumSource](<#ChatBoostSourcePremiumSource>)
 - [type ChatBoostUpdated](<#ChatBoostUpdated>)
 - [type ChatFullInfo](<#ChatFullInfo>)
   - [func GetChat\(ctx context.Context, b \*client.Bot, p \*GetChatParams\) \(\*ChatFullInfo, error\)](<#GetChat>)
@@ -213,11 +223,17 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func GetChatMember\(ctx context.Context, b \*client.Bot, p \*GetChatMemberParams\) \(ChatMember, error\)](<#GetChatMember>)
   - [func UnmarshalChatMember\(data \[\]byte\) \(ChatMember, error\)](<#UnmarshalChatMember>)
 - [type ChatMemberAdministrator](<#ChatMemberAdministrator>)
+- [type ChatMemberAdministratorStatus](<#ChatMemberAdministratorStatus>)
 - [type ChatMemberBanned](<#ChatMemberBanned>)
+- [type ChatMemberBannedStatus](<#ChatMemberBannedStatus>)
 - [type ChatMemberLeft](<#ChatMemberLeft>)
+- [type ChatMemberLeftStatus](<#ChatMemberLeftStatus>)
 - [type ChatMemberMember](<#ChatMemberMember>)
+- [type ChatMemberMemberStatus](<#ChatMemberMemberStatus>)
 - [type ChatMemberOwner](<#ChatMemberOwner>)
+- [type ChatMemberOwnerStatus](<#ChatMemberOwnerStatus>)
 - [type ChatMemberRestricted](<#ChatMemberRestricted>)
+- [type ChatMemberRestrictedStatus](<#ChatMemberRestrictedStatus>)
 - [type ChatMemberUpdated](<#ChatMemberUpdated>)
   - [func \(m \*ChatMemberUpdated\) UnmarshalJSON\(data \[\]byte\) error](<#ChatMemberUpdated.UnmarshalJSON>)
 - [type ChatOwnerChanged](<#ChatOwnerChanged>)
@@ -280,6 +296,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type EditUserStarSubscriptionParams](<#EditUserStarSubscriptionParams>)
 - [type EncryptedCredentials](<#EncryptedCredentials>)
 - [type EncryptedPassportElement](<#EncryptedPassportElement>)
+- [type EncryptedPassportElementType](<#EncryptedPassportElementType>)
 - [type ExportChatInviteLinkParams](<#ExportChatInviteLinkParams>)
 - [type ExternalReplyInfo](<#ExternalReplyInfo>)
   - [func \(m \*ExternalReplyInfo\) UnmarshalJSON\(data \[\]byte\) error](<#ExternalReplyInfo.UnmarshalJSON>)
@@ -348,6 +365,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type InlineKeyboardButton](<#InlineKeyboardButton>)
 - [type InlineKeyboardMarkup](<#InlineKeyboardMarkup>)
 - [type InlineQuery](<#InlineQuery>)
+- [type InlineQueryChatType](<#InlineQueryChatType>)
 - [type InlineQueryResult](<#InlineQueryResult>)
 - [type InlineQueryResultArticle](<#InlineQueryResultArticle>)
 - [type InlineQueryResultAudio](<#InlineQueryResultAudio>)
@@ -361,8 +379,10 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type InlineQueryResultCachedVoice](<#InlineQueryResultCachedVoice>)
 - [type InlineQueryResultContact](<#InlineQueryResultContact>)
 - [type InlineQueryResultDocument](<#InlineQueryResultDocument>)
+- [type InlineQueryResultDocumentMimeType](<#InlineQueryResultDocumentMimeType>)
 - [type InlineQueryResultGame](<#InlineQueryResultGame>)
 - [type InlineQueryResultGif](<#InlineQueryResultGif>)
+- [type InlineQueryResultGifThumbnailMimeType](<#InlineQueryResultGifThumbnailMimeType>)
 - [type InlineQueryResultLocation](<#InlineQueryResultLocation>)
 - [type InlineQueryResultMpeg4Gif](<#InlineQueryResultMpeg4Gif>)
 - [type InlineQueryResultPhoto](<#InlineQueryResultPhoto>)
@@ -399,6 +419,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type InputProfilePhotoAnimated](<#InputProfilePhotoAnimated>)
 - [type InputProfilePhotoStatic](<#InputProfilePhotoStatic>)
 - [type InputSticker](<#InputSticker>)
+- [type InputStickerFormat](<#InputStickerFormat>)
 - [type InputStoryContent](<#InputStoryContent>)
 - [type InputStoryContentPhoto](<#InputStoryContentPhoto>)
 - [type InputStoryContentVideo](<#InputStoryContentVideo>)
@@ -410,6 +431,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type KeyboardButtonRequestChat](<#KeyboardButtonRequestChat>)
 - [type KeyboardButtonRequestManagedBot](<#KeyboardButtonRequestManagedBot>)
 - [type KeyboardButtonRequestUsers](<#KeyboardButtonRequestUsers>)
+- [type KeyboardButtonStyle](<#KeyboardButtonStyle>)
 - [type LabeledPrice](<#LabeledPrice>)
 - [type LeaveChatParams](<#LeaveChatParams>)
 - [type LinkPreviewOptions](<#LinkPreviewOptions>)
@@ -421,6 +443,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type ManagedBotCreated](<#ManagedBotCreated>)
 - [type ManagedBotUpdated](<#ManagedBotUpdated>)
 - [type MaskPosition](<#MaskPosition>)
+- [type MaskPositionPoint](<#MaskPositionPoint>)
 - [type MaybeInaccessibleMessage](<#MaybeInaccessibleMessage>)
   - [func UnmarshalMaybeInaccessibleMessage\(data \[\]byte\) \(MaybeInaccessibleMessage, error\)](<#UnmarshalMaybeInaccessibleMessage>)
 - [type MeCache](<#MeCache>)
@@ -477,9 +500,13 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type MessageOrigin](<#MessageOrigin>)
   - [func UnmarshalMessageOrigin\(data \[\]byte\) \(MessageOrigin, error\)](<#UnmarshalMessageOrigin>)
 - [type MessageOriginChannel](<#MessageOriginChannel>)
+- [type MessageOriginChannelType](<#MessageOriginChannelType>)
 - [type MessageOriginChat](<#MessageOriginChat>)
+- [type MessageOriginChatType](<#MessageOriginChatType>)
 - [type MessageOriginHiddenUser](<#MessageOriginHiddenUser>)
+- [type MessageOriginHiddenUserType](<#MessageOriginHiddenUserType>)
 - [type MessageOriginUser](<#MessageOriginUser>)
+- [type MessageOriginUserType](<#MessageOriginUserType>)
 - [type MessageReactionCountUpdated](<#MessageReactionCountUpdated>)
 - [type MessageReactionUpdated](<#MessageReactionUpdated>)
   - [func \(mru \*MessageReactionUpdated\) GetSender\(\) \*Sender](<#MessageReactionUpdated.GetSender>)
@@ -488,7 +515,9 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type OwnedGift](<#OwnedGift>)
   - [func UnmarshalOwnedGift\(data \[\]byte\) \(OwnedGift, error\)](<#UnmarshalOwnedGift>)
 - [type OwnedGiftRegular](<#OwnedGiftRegular>)
+- [type OwnedGiftRegularType](<#OwnedGiftRegularType>)
 - [type OwnedGiftUnique](<#OwnedGiftUnique>)
+- [type OwnedGiftUniqueType](<#OwnedGiftUniqueType>)
 - [type OwnedGifts](<#OwnedGifts>)
   - [func GetBusinessAccountGifts\(ctx context.Context, b \*client.Bot, p \*GetBusinessAccountGiftsParams\) \(\*OwnedGifts, error\)](<#GetBusinessAccountGifts>)
   - [func GetChatGifts\(ctx context.Context, b \*client.Bot, p \*GetChatGiftsParams\) \(\*OwnedGifts, error\)](<#GetChatGifts>)
@@ -499,21 +528,30 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type PaidMediaInfo](<#PaidMediaInfo>)
   - [func \(m \*PaidMediaInfo\) UnmarshalJSON\(data \[\]byte\) error](<#PaidMediaInfo.UnmarshalJSON>)
 - [type PaidMediaLivePhoto](<#PaidMediaLivePhoto>)
+- [type PaidMediaLivePhotoType](<#PaidMediaLivePhotoType>)
 - [type PaidMediaPhoto](<#PaidMediaPhoto>)
+- [type PaidMediaPhotoType](<#PaidMediaPhotoType>)
 - [type PaidMediaPreview](<#PaidMediaPreview>)
+- [type PaidMediaPreviewType](<#PaidMediaPreviewType>)
 - [type PaidMediaPurchased](<#PaidMediaPurchased>)
 - [type PaidMediaVideo](<#PaidMediaVideo>)
+- [type PaidMediaVideoType](<#PaidMediaVideoType>)
 - [type PaidMessagePriceChanged](<#PaidMessagePriceChanged>)
 - [type ParseMode](<#ParseMode>)
 - [type PassportData](<#PassportData>)
 - [type PassportElementError](<#PassportElementError>)
 - [type PassportElementErrorDataField](<#PassportElementErrorDataField>)
+- [type PassportElementErrorDataFieldType](<#PassportElementErrorDataFieldType>)
 - [type PassportElementErrorFile](<#PassportElementErrorFile>)
+- [type PassportElementErrorFileType](<#PassportElementErrorFileType>)
 - [type PassportElementErrorFiles](<#PassportElementErrorFiles>)
 - [type PassportElementErrorFrontSide](<#PassportElementErrorFrontSide>)
 - [type PassportElementErrorReverseSide](<#PassportElementErrorReverseSide>)
+- [type PassportElementErrorReverseSideType](<#PassportElementErrorReverseSideType>)
 - [type PassportElementErrorSelfie](<#PassportElementErrorSelfie>)
+- [type PassportElementErrorSelfieType](<#PassportElementErrorSelfieType>)
 - [type PassportElementErrorTranslationFile](<#PassportElementErrorTranslationFile>)
+- [type PassportElementErrorTranslationFileType](<#PassportElementErrorTranslationFileType>)
 - [type PassportElementErrorTranslationFiles](<#PassportElementErrorTranslationFiles>)
 - [type PassportElementErrorUnspecified](<#PassportElementErrorUnspecified>)
 - [type PassportFile](<#PassportFile>)
@@ -529,6 +567,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func \(m \*PollOptionAdded\) UnmarshalJSON\(data \[\]byte\) error](<#PollOptionAdded.UnmarshalJSON>)
 - [type PollOptionDeleted](<#PollOptionDeleted>)
   - [func \(m \*PollOptionDeleted\) UnmarshalJSON\(data \[\]byte\) error](<#PollOptionDeleted.UnmarshalJSON>)
+- [type PollType](<#PollType>)
 - [type PostStoryParams](<#PostStoryParams>)
 - [type PreCheckoutQuery](<#PreCheckoutQuery>)
 - [type PreparedInlineMessage](<#PreparedInlineMessage>)
@@ -542,11 +581,15 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type ReactionType](<#ReactionType>)
   - [func UnmarshalReactionType\(data \[\]byte\) \(ReactionType, error\)](<#UnmarshalReactionType>)
 - [type ReactionTypeCustomEmoji](<#ReactionTypeCustomEmoji>)
+- [type ReactionTypeCustomEmojiType](<#ReactionTypeCustomEmojiType>)
 - [type ReactionTypeEmoji](<#ReactionTypeEmoji>)
+- [type ReactionTypeEmojiType](<#ReactionTypeEmojiType>)
 - [type ReactionTypePaid](<#ReactionTypePaid>)
+- [type ReactionTypePaidType](<#ReactionTypePaidType>)
 - [type ReadBusinessMessageParams](<#ReadBusinessMessageParams>)
 - [type RefundStarPaymentParams](<#RefundStarPaymentParams>)
 - [type RefundedPayment](<#RefundedPayment>)
+- [type RefundedPaymentCurrency](<#RefundedPaymentCurrency>)
 - [type RemoveBusinessAccountProfilePhotoParams](<#RemoveBusinessAccountProfilePhotoParams>)
 - [type RemoveChatVerificationParams](<#RemoveChatVerificationParams>)
 - [type RemoveMyProfilePhotoParams](<#RemoveMyProfilePhotoParams>)
@@ -564,8 +607,11 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type RevenueWithdrawalState](<#RevenueWithdrawalState>)
   - [func UnmarshalRevenueWithdrawalState\(data \[\]byte\) \(RevenueWithdrawalState, error\)](<#UnmarshalRevenueWithdrawalState>)
 - [type RevenueWithdrawalStateFailed](<#RevenueWithdrawalStateFailed>)
+- [type RevenueWithdrawalStateFailedType](<#RevenueWithdrawalStateFailedType>)
 - [type RevenueWithdrawalStatePending](<#RevenueWithdrawalStatePending>)
+- [type RevenueWithdrawalStatePendingType](<#RevenueWithdrawalStatePendingType>)
 - [type RevenueWithdrawalStateSucceeded](<#RevenueWithdrawalStateSucceeded>)
+- [type RevenueWithdrawalStateSucceededType](<#RevenueWithdrawalStateSucceededType>)
 - [type RevokeChatInviteLinkParams](<#RevokeChatInviteLinkParams>)
 - [type SavePreparedInlineMessageParams](<#SavePreparedInlineMessageParams>)
 - [type SavePreparedKeyboardButtonParams](<#SavePreparedKeyboardButtonParams>)
@@ -690,6 +736,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func GetForumTopicIconStickers\(ctx context.Context, b \*client.Bot, p \*GetForumTopicIconStickersParams\) \(\[\]Sticker, error\)](<#GetForumTopicIconStickers>)
 - [type StickerSet](<#StickerSet>)
   - [func GetStickerSet\(ctx context.Context, b \*client.Bot, p \*GetStickerSetParams\) \(\*StickerSet, error\)](<#GetStickerSet>)
+- [type StickerType](<#StickerType>)
 - [type StopMessageLiveLocationParams](<#StopMessageLiveLocationParams>)
 - [type StopPollParams](<#StopPollParams>)
 - [type Story](<#Story>)
@@ -702,33 +749,47 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type StoryAreaType](<#StoryAreaType>)
   - [func UnmarshalStoryAreaType\(data \[\]byte\) \(StoryAreaType, error\)](<#UnmarshalStoryAreaType>)
 - [type StoryAreaTypeLink](<#StoryAreaTypeLink>)
+- [type StoryAreaTypeLinkType](<#StoryAreaTypeLinkType>)
 - [type StoryAreaTypeLocation](<#StoryAreaTypeLocation>)
+- [type StoryAreaTypeLocationType](<#StoryAreaTypeLocationType>)
 - [type StoryAreaTypeSuggestedReaction](<#StoryAreaTypeSuggestedReaction>)
   - [func \(m \*StoryAreaTypeSuggestedReaction\) UnmarshalJSON\(data \[\]byte\) error](<#StoryAreaTypeSuggestedReaction.UnmarshalJSON>)
+- [type StoryAreaTypeSuggestedReactionType](<#StoryAreaTypeSuggestedReactionType>)
 - [type StoryAreaTypeUniqueGift](<#StoryAreaTypeUniqueGift>)
+- [type StoryAreaTypeUniqueGiftType](<#StoryAreaTypeUniqueGiftType>)
 - [type StoryAreaTypeWeather](<#StoryAreaTypeWeather>)
+- [type StoryAreaTypeWeatherType](<#StoryAreaTypeWeatherType>)
 - [type SuccessfulPayment](<#SuccessfulPayment>)
 - [type SuggestedPostApprovalFailed](<#SuggestedPostApprovalFailed>)
 - [type SuggestedPostApproved](<#SuggestedPostApproved>)
 - [type SuggestedPostDeclined](<#SuggestedPostDeclined>)
 - [type SuggestedPostInfo](<#SuggestedPostInfo>)
+- [type SuggestedPostInfoState](<#SuggestedPostInfoState>)
 - [type SuggestedPostPaid](<#SuggestedPostPaid>)
+- [type SuggestedPostPaidCurrency](<#SuggestedPostPaidCurrency>)
 - [type SuggestedPostParameters](<#SuggestedPostParameters>)
 - [type SuggestedPostPrice](<#SuggestedPostPrice>)
 - [type SuggestedPostRefunded](<#SuggestedPostRefunded>)
+- [type SuggestedPostRefundedReason](<#SuggestedPostRefundedReason>)
 - [type SwitchInlineQueryChosenChat](<#SwitchInlineQueryChosenChat>)
 - [type TextQuote](<#TextQuote>)
 - [type TransactionPartner](<#TransactionPartner>)
   - [func UnmarshalTransactionPartner\(data \[\]byte\) \(TransactionPartner, error\)](<#UnmarshalTransactionPartner>)
 - [type TransactionPartnerAffiliateProgram](<#TransactionPartnerAffiliateProgram>)
+- [type TransactionPartnerAffiliateProgramType](<#TransactionPartnerAffiliateProgramType>)
 - [type TransactionPartnerChat](<#TransactionPartnerChat>)
 - [type TransactionPartnerFragment](<#TransactionPartnerFragment>)
   - [func \(m \*TransactionPartnerFragment\) UnmarshalJSON\(data \[\]byte\) error](<#TransactionPartnerFragment.UnmarshalJSON>)
+- [type TransactionPartnerFragmentType](<#TransactionPartnerFragmentType>)
 - [type TransactionPartnerOther](<#TransactionPartnerOther>)
+- [type TransactionPartnerOtherType](<#TransactionPartnerOtherType>)
 - [type TransactionPartnerTelegramAds](<#TransactionPartnerTelegramAds>)
+- [type TransactionPartnerTelegramAdsType](<#TransactionPartnerTelegramAdsType>)
 - [type TransactionPartnerTelegramApi](<#TransactionPartnerTelegramApi>)
+- [type TransactionPartnerTelegramApiType](<#TransactionPartnerTelegramApiType>)
 - [type TransactionPartnerUser](<#TransactionPartnerUser>)
   - [func \(m \*TransactionPartnerUser\) UnmarshalJSON\(data \[\]byte\) error](<#TransactionPartnerUser.UnmarshalJSON>)
+- [type TransactionPartnerUserTransactionType](<#TransactionPartnerUserTransactionType>)
 - [type TransferBusinessAccountStarsParams](<#TransferBusinessAccountStarsParams>)
 - [type TransferGiftParams](<#TransferGiftParams>)
 - [type UnbanChatMemberParams](<#UnbanChatMemberParams>)
@@ -739,7 +800,9 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type UniqueGiftBackdropColors](<#UniqueGiftBackdropColors>)
 - [type UniqueGiftColors](<#UniqueGiftColors>)
 - [type UniqueGiftInfo](<#UniqueGiftInfo>)
+- [type UniqueGiftInfoOrigin](<#UniqueGiftInfoOrigin>)
 - [type UniqueGiftModel](<#UniqueGiftModel>)
+- [type UniqueGiftModelRarity](<#UniqueGiftModelRarity>)
 - [type UniqueGiftSymbol](<#UniqueGiftSymbol>)
 - [type UnpinAllChatMessagesParams](<#UnpinAllChatMessagesParams>)
 - [type UnpinAllForumTopicMessagesParams](<#UnpinAllForumTopicMessagesParams>)
@@ -2177,10 +2240,27 @@ The background is a freeform gradient that rotates after every message in the ch
 ```go
 type BackgroundFillFreeformGradient struct {
     // Type of the background fill, always “freeform_gradient”
-    Type string `json:"type"`
+    Type BackgroundFillFreeformGradientType `json:"type"`
     // A list of the 3 or 4 base colors that are used to generate the freeform gradient in the RGB24 format
     Colors []int64 `json:"colors"`
 }
+```
+
+<a name="BackgroundFillFreeformGradientType"></a>
+## type BackgroundFillFreeformGradientType
+
+
+
+```go
+type BackgroundFillFreeformGradientType string
+```
+
+<a name="BackgroundFillFreeformGradientTypeFreeformGradient"></a>
+
+```go
+const (
+    BackgroundFillFreeformGradientTypeFreeformGradient BackgroundFillFreeformGradientType = "freeform_gradient"
+)
 ```
 
 <a name="BackgroundFillGradient"></a>
@@ -2191,7 +2271,7 @@ The background is a gradient fill.
 ```go
 type BackgroundFillGradient struct {
     // Type of the background fill, always “gradient”
-    Type string `json:"type"`
+    Type BackgroundFillGradientType `json:"type"`
     // Top color of the gradient in the RGB24 format
     TopColor int64 `json:"top_color"`
     // Bottom color of the gradient in the RGB24 format
@@ -2199,6 +2279,23 @@ type BackgroundFillGradient struct {
     // Clockwise rotation angle of the background fill in degrees; 0-359
     RotationAngle int64 `json:"rotation_angle"`
 }
+```
+
+<a name="BackgroundFillGradientType"></a>
+## type BackgroundFillGradientType
+
+
+
+```go
+type BackgroundFillGradientType string
+```
+
+<a name="BackgroundFillGradientTypeGradient"></a>
+
+```go
+const (
+    BackgroundFillGradientTypeGradient BackgroundFillGradientType = "gradient"
+)
 ```
 
 <a name="BackgroundFillSolid"></a>
@@ -2209,10 +2306,27 @@ The background is filled using the selected color.
 ```go
 type BackgroundFillSolid struct {
     // Type of the background fill, always “solid”
-    Type string `json:"type"`
+    Type BackgroundFillSolidType `json:"type"`
     // The color of the background fill in the RGB24 format
     Color int64 `json:"color"`
 }
+```
+
+<a name="BackgroundFillSolidType"></a>
+## type BackgroundFillSolidType
+
+
+
+```go
+type BackgroundFillSolidType string
+```
+
+<a name="BackgroundFillSolidTypeSolid"></a>
+
+```go
+const (
+    BackgroundFillSolidTypeSolid BackgroundFillSolidType = "solid"
+)
 ```
 
 <a name="BackgroundType"></a>
@@ -2250,10 +2364,27 @@ The background is taken directly from a built\-in chat theme.
 ```go
 type BackgroundTypeChatTheme struct {
     // Type of the background, always “chat_theme”
-    Type string `json:"type"`
+    Type BackgroundTypeChatThemeType `json:"type"`
     // Name of the chat theme, which is usually an emoji
     ThemeName string `json:"theme_name"`
 }
+```
+
+<a name="BackgroundTypeChatThemeType"></a>
+## type BackgroundTypeChatThemeType
+
+
+
+```go
+type BackgroundTypeChatThemeType string
+```
+
+<a name="BackgroundTypeChatThemeTypeChatTheme"></a>
+
+```go
+const (
+    BackgroundTypeChatThemeTypeChatTheme BackgroundTypeChatThemeType = "chat_theme"
+)
 ```
 
 <a name="BackgroundTypeFill"></a>
@@ -2264,7 +2395,7 @@ The background is automatically filled based on the selected colors.
 ```go
 type BackgroundTypeFill struct {
     // Type of the background, always “fill”
-    Type string `json:"type"`
+    Type BackgroundTypeFillType `json:"type"`
     // The background fill
     Fill BackgroundFill `json:"fill"`
     // Dimming of the background in dark themes, as a percentage; 0-100
@@ -2281,6 +2412,23 @@ func (m *BackgroundTypeFill) UnmarshalJSON(data []byte) error
 
 UnmarshalJSON decodes BackgroundTypeFill by dispatching union\-typed fields \(Fill\) through their concrete UnmarshalXxx helpers.
 
+<a name="BackgroundTypeFillType"></a>
+## type BackgroundTypeFillType
+
+
+
+```go
+type BackgroundTypeFillType string
+```
+
+<a name="BackgroundTypeFillTypeFill"></a>
+
+```go
+const (
+    BackgroundTypeFillTypeFill BackgroundTypeFillType = "fill"
+)
+```
+
 <a name="BackgroundTypePattern"></a>
 ## type BackgroundTypePattern
 
@@ -2289,7 +2437,7 @@ The background is a .PNG or .TGV \(gzipped subset of SVG with MIME type “appli
 ```go
 type BackgroundTypePattern struct {
     // Type of the background, always “pattern”
-    Type string `json:"type"`
+    Type BackgroundTypePatternType `json:"type"`
     // Document with the pattern
     Document Document `json:"document"`
     // The background fill that is combined with the pattern
@@ -2312,6 +2460,23 @@ func (m *BackgroundTypePattern) UnmarshalJSON(data []byte) error
 
 UnmarshalJSON decodes BackgroundTypePattern by dispatching union\-typed fields \(Fill\) through their concrete UnmarshalXxx helpers.
 
+<a name="BackgroundTypePatternType"></a>
+## type BackgroundTypePatternType
+
+
+
+```go
+type BackgroundTypePatternType string
+```
+
+<a name="BackgroundTypePatternTypePattern"></a>
+
+```go
+const (
+    BackgroundTypePatternTypePattern BackgroundTypePatternType = "pattern"
+)
+```
+
 <a name="BackgroundTypeWallpaper"></a>
 ## type BackgroundTypeWallpaper
 
@@ -2320,7 +2485,7 @@ The background is a wallpaper in the JPEG format.
 ```go
 type BackgroundTypeWallpaper struct {
     // Type of the background, always “wallpaper”
-    Type string `json:"type"`
+    Type BackgroundTypeWallpaperType `json:"type"`
     // Document with the wallpaper
     Document Document `json:"document"`
     // Dimming of the background in dark themes, as a percentage; 0-100
@@ -2330,6 +2495,23 @@ type BackgroundTypeWallpaper struct {
     // Optional. True, if the background moves slightly when the device is tilted
     IsMoving *bool `json:"is_moving,omitempty"`
 }
+```
+
+<a name="BackgroundTypeWallpaperType"></a>
+## type BackgroundTypeWallpaperType
+
+
+
+```go
+type BackgroundTypeWallpaperType string
+```
+
+<a name="BackgroundTypeWallpaperTypeWallpaper"></a>
+
+```go
+const (
+    BackgroundTypeWallpaperTypeWallpaper BackgroundTypeWallpaperType = "wallpaper"
+)
 ```
 
 <a name="BanChatMemberParams"></a>
@@ -2814,7 +2996,7 @@ type Chat struct {
     // Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
     ID  int64 `json:"id"`
     // Type of the chat, can be either “private”, “group”, “supergroup” or “channel”
-    Type string `json:"type"`
+    Type ChatType `json:"type"`
     // Optional. Title, for supergroups, channels and group chats
     Title string `json:"title,omitempty"`
     // Optional. Username, for private chats, supergroups and channels if available
@@ -3006,10 +3188,27 @@ The boost was obtained by the creation of Telegram Premium gift codes to boost a
 ```go
 type ChatBoostSourceGiftCode struct {
     // Source of the boost, always “gift_code”
-    Source string `json:"source"`
+    Source ChatBoostSourceGiftCodeSource `json:"source"`
     // User for which the gift code was created
     User User `json:"user"`
 }
+```
+
+<a name="ChatBoostSourceGiftCodeSource"></a>
+## type ChatBoostSourceGiftCodeSource
+
+
+
+```go
+type ChatBoostSourceGiftCodeSource string
+```
+
+<a name="ChatBoostSourceGiftCodeSourceGiftCode"></a>
+
+```go
+const (
+    ChatBoostSourceGiftCodeSourceGiftCode ChatBoostSourceGiftCodeSource = "gift_code"
+)
 ```
 
 <a name="ChatBoostSourceGiveaway"></a>
@@ -3020,7 +3219,7 @@ The boost was obtained by the creation of a Telegram Premium or a Telegram Star 
 ```go
 type ChatBoostSourceGiveaway struct {
     // Source of the boost, always “giveaway”
-    Source string `json:"source"`
+    Source ChatBoostSourceGiveawaySource `json:"source"`
     // Identifier of a message in the chat with the giveaway; the message could have been deleted already. May be 0 if the message isn't sent yet.
     GiveawayMessageID int64 `json:"giveaway_message_id"`
     // Optional. User that won the prize in the giveaway if any; for Telegram Premium giveaways only
@@ -3032,6 +3231,23 @@ type ChatBoostSourceGiveaway struct {
 }
 ```
 
+<a name="ChatBoostSourceGiveawaySource"></a>
+## type ChatBoostSourceGiveawaySource
+
+
+
+```go
+type ChatBoostSourceGiveawaySource string
+```
+
+<a name="ChatBoostSourceGiveawaySourceGiveaway"></a>
+
+```go
+const (
+    ChatBoostSourceGiveawaySourceGiveaway ChatBoostSourceGiveawaySource = "giveaway"
+)
+```
+
 <a name="ChatBoostSourcePremium"></a>
 ## type ChatBoostSourcePremium
 
@@ -3040,10 +3256,27 @@ The boost was obtained by subscribing to Telegram Premium or by gifting a Telegr
 ```go
 type ChatBoostSourcePremium struct {
     // Source of the boost, always “premium”
-    Source string `json:"source"`
+    Source ChatBoostSourcePremiumSource `json:"source"`
     // User that boosted the chat
     User User `json:"user"`
 }
+```
+
+<a name="ChatBoostSourcePremiumSource"></a>
+## type ChatBoostSourcePremiumSource
+
+
+
+```go
+type ChatBoostSourcePremiumSource string
+```
+
+<a name="ChatBoostSourcePremiumSourcePremium"></a>
+
+```go
+const (
+    ChatBoostSourcePremiumSourcePremium ChatBoostSourcePremiumSource = "premium"
+)
 ```
 
 <a name="ChatBoostUpdated"></a>
@@ -3070,7 +3303,7 @@ type ChatFullInfo struct {
     // Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
     ID  int64 `json:"id"`
     // Type of the chat, can be either “private”, “group”, “supergroup” or “channel”
-    Type string `json:"type"`
+    Type ChatType `json:"type"`
     // Optional. Title, for supergroups, channels and group chats
     Title string `json:"title,omitempty"`
     // Optional. Username, for private chats, supergroups and channels if available
@@ -3439,7 +3672,7 @@ Represents a chat member that has some additional privileges.
 ```go
 type ChatMemberAdministrator struct {
     // The member's status in the chat, always “administrator”
-    Status string `json:"status"`
+    Status ChatMemberAdministratorStatus `json:"status"`
     // Information about the user
     User User `json:"user"`
     // True, if the bot is allowed to edit administrator privileges of that user
@@ -3483,6 +3716,23 @@ type ChatMemberAdministrator struct {
 }
 ```
 
+<a name="ChatMemberAdministratorStatus"></a>
+## type ChatMemberAdministratorStatus
+
+
+
+```go
+type ChatMemberAdministratorStatus string
+```
+
+<a name="ChatMemberAdministratorStatusAdministrator"></a>
+
+```go
+const (
+    ChatMemberAdministratorStatusAdministrator ChatMemberAdministratorStatus = "administrator"
+)
+```
+
 <a name="ChatMemberBanned"></a>
 ## type ChatMemberBanned
 
@@ -3491,12 +3741,29 @@ Represents a chat member that was banned in the chat and can't return to the cha
 ```go
 type ChatMemberBanned struct {
     // The member's status in the chat, always “kicked”
-    Status string `json:"status"`
+    Status ChatMemberBannedStatus `json:"status"`
     // Information about the user
     User User `json:"user"`
     // Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever
     UntilDate int64 `json:"until_date"`
 }
+```
+
+<a name="ChatMemberBannedStatus"></a>
+## type ChatMemberBannedStatus
+
+
+
+```go
+type ChatMemberBannedStatus string
+```
+
+<a name="ChatMemberBannedStatusKicked"></a>
+
+```go
+const (
+    ChatMemberBannedStatusKicked ChatMemberBannedStatus = "kicked"
+)
 ```
 
 <a name="ChatMemberLeft"></a>
@@ -3507,10 +3774,27 @@ Represents a chat member that isn't currently a member of the chat, but may join
 ```go
 type ChatMemberLeft struct {
     // The member's status in the chat, always “left”
-    Status string `json:"status"`
+    Status ChatMemberLeftStatus `json:"status"`
     // Information about the user
     User User `json:"user"`
 }
+```
+
+<a name="ChatMemberLeftStatus"></a>
+## type ChatMemberLeftStatus
+
+
+
+```go
+type ChatMemberLeftStatus string
+```
+
+<a name="ChatMemberLeftStatusLeft"></a>
+
+```go
+const (
+    ChatMemberLeftStatusLeft ChatMemberLeftStatus = "left"
+)
 ```
 
 <a name="ChatMemberMember"></a>
@@ -3521,7 +3805,7 @@ Represents a chat member that has no additional privileges or restrictions.
 ```go
 type ChatMemberMember struct {
     // The member's status in the chat, always “member”
-    Status string `json:"status"`
+    Status ChatMemberMemberStatus `json:"status"`
     // Optional. Tag of the member
     Tag string `json:"tag,omitempty"`
     // Information about the user
@@ -3529,6 +3813,23 @@ type ChatMemberMember struct {
     // Optional. Date when the user's subscription will expire; Unix time
     UntilDate *int64 `json:"until_date,omitempty"`
 }
+```
+
+<a name="ChatMemberMemberStatus"></a>
+## type ChatMemberMemberStatus
+
+
+
+```go
+type ChatMemberMemberStatus string
+```
+
+<a name="ChatMemberMemberStatusMember"></a>
+
+```go
+const (
+    ChatMemberMemberStatusMember ChatMemberMemberStatus = "member"
+)
 ```
 
 <a name="ChatMemberOwner"></a>
@@ -3539,7 +3840,7 @@ Represents a chat member that owns the chat and has all administrator privileges
 ```go
 type ChatMemberOwner struct {
     // The member's status in the chat, always “creator”
-    Status string `json:"status"`
+    Status ChatMemberOwnerStatus `json:"status"`
     // Information about the user
     User User `json:"user"`
     // True, if the user's presence in the chat is hidden
@@ -3547,6 +3848,23 @@ type ChatMemberOwner struct {
     // Optional. Custom title for this user
     CustomTitle string `json:"custom_title,omitempty"`
 }
+```
+
+<a name="ChatMemberOwnerStatus"></a>
+## type ChatMemberOwnerStatus
+
+
+
+```go
+type ChatMemberOwnerStatus string
+```
+
+<a name="ChatMemberOwnerStatusCreator"></a>
+
+```go
+const (
+    ChatMemberOwnerStatusCreator ChatMemberOwnerStatus = "creator"
+)
 ```
 
 <a name="ChatMemberRestricted"></a>
@@ -3557,7 +3875,7 @@ Represents a chat member that is under certain restrictions in the chat. Supergr
 ```go
 type ChatMemberRestricted struct {
     // The member's status in the chat, always “restricted”
-    Status string `json:"status"`
+    Status ChatMemberRestrictedStatus `json:"status"`
     // Optional. Tag of the member
     Tag string `json:"tag,omitempty"`
     // Information about the user
@@ -3599,6 +3917,23 @@ type ChatMemberRestricted struct {
     // Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever
     UntilDate int64 `json:"until_date"`
 }
+```
+
+<a name="ChatMemberRestrictedStatus"></a>
+## type ChatMemberRestrictedStatus
+
+
+
+```go
+type ChatMemberRestrictedStatus string
+```
+
+<a name="ChatMemberRestrictedStatusRestricted"></a>
+
+```go
+const (
+    ChatMemberRestrictedStatusRestricted ChatMemberRestrictedStatus = "restricted"
+)
 ```
 
 <a name="ChatMemberUpdated"></a>
@@ -3743,7 +4078,7 @@ type ChatShared struct {
 <a name="ChatType"></a>
 ## type ChatType
 
-ChatType is the type of a Telegram chat.
+
 
 ```go
 type ChatType string
@@ -3954,7 +4289,7 @@ type CopyMessageParams struct {
     // New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the new caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
@@ -4558,7 +4893,7 @@ type EditMessageCaptionParams struct {
     // New caption of the message, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the message caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
@@ -4717,7 +5052,7 @@ type EditMessageTextParams struct {
     // New text of the message, 1-4096 characters after entities parsing
     Text string `json:"text"`
     // Mode for parsing entities in the message text. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
     Entities []MessageEntity `json:"entities,omitempty"`
     // Link preview generation options for the message
@@ -4745,7 +5080,7 @@ type EditStoryParams struct {
     // Caption of the story, 0-2048 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the story caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // A JSON-serialized list of clickable areas to be shown on the story
@@ -4795,7 +5130,7 @@ Describes documents or other Telegram Passport elements shared with the bot by t
 ```go
 type EncryptedPassportElement struct {
     // Element type. One of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”, “phone_number”, “email”.
-    Type string `json:"type"`
+    Type EncryptedPassportElementType `json:"type"`
     // Optional. Base64-encoded encrypted Telegram Passport element data provided by the user; available only for “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport” and “address” types. Can be decrypted and verified using the accompanying EncryptedCredentials.
     Data string `json:"data,omitempty"`
     // Optional. User's verified phone number; available only for “phone_number” type
@@ -4815,6 +5150,35 @@ type EncryptedPassportElement struct {
     // Base64-encoded element hash for using in PassportElementErrorUnspecified
     Hash string `json:"hash"`
 }
+```
+
+<a name="EncryptedPassportElementType"></a>
+## type EncryptedPassportElementType
+
+
+
+```go
+type EncryptedPassportElementType string
+```
+
+<a name="EncryptedPassportElementTypePersonalDetails"></a>
+
+```go
+const (
+    EncryptedPassportElementTypePersonalDetails       EncryptedPassportElementType = "personal_details"
+    EncryptedPassportElementTypePassport              EncryptedPassportElementType = "passport"
+    EncryptedPassportElementTypeDriverLicense         EncryptedPassportElementType = "driver_license"
+    EncryptedPassportElementTypeIdentityCard          EncryptedPassportElementType = "identity_card"
+    EncryptedPassportElementTypeInternalPassport      EncryptedPassportElementType = "internal_passport"
+    EncryptedPassportElementTypeAddress               EncryptedPassportElementType = "address"
+    EncryptedPassportElementTypeUtilityBill           EncryptedPassportElementType = "utility_bill"
+    EncryptedPassportElementTypeBankStatement         EncryptedPassportElementType = "bank_statement"
+    EncryptedPassportElementTypeRentalAgreement       EncryptedPassportElementType = "rental_agreement"
+    EncryptedPassportElementTypePassportRegistration  EncryptedPassportElementType = "passport_registration"
+    EncryptedPassportElementTypeTemporaryRegistration EncryptedPassportElementType = "temporary_registration"
+    EncryptedPassportElementTypePhoneNumber           EncryptedPassportElementType = "phone_number"
+    EncryptedPassportElementTypeEmail                 EncryptedPassportElementType = "email"
+)
 ```
 
 <a name="ExportChatInviteLinkParams"></a>
@@ -5807,7 +6171,7 @@ type GiftPremiumSubscriptionParams struct {
     // Text that will be shown along with the service message about the subscription; 0-128 characters
     Text string `json:"text,omitempty"`
     // Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
-    TextParseMode string `json:"text_parse_mode,omitempty"`
+    TextParseMode ParseMode `json:"text_parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
     TextEntities []MessageEntity `json:"text_entities,omitempty"`
 }
@@ -5970,7 +6334,7 @@ type InlineKeyboardButton struct {
     // Optional. Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on Fragment or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.
     IconCustomEmojiID string `json:"icon_custom_emoji_id,omitempty"`
     // Optional. Style of the button. Must be one of “danger” (red), “success” (green) or “primary” (blue). If omitted, then an app-specific style is used.
-    Style string `json:"style,omitempty"`
+    Style KeyboardButtonStyle `json:"style,omitempty"`
     // Optional. HTTP or tg:// URL to be opened when the button is pressed. Links tg://user?id=<user_id> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.
     URL string `json:"url,omitempty"`
     // Optional. Data to be sent in a callback query to the bot when the button is pressed, 1-64 bytes
@@ -6022,10 +6386,31 @@ type InlineQuery struct {
     // Offset of the results to be returned, can be controlled by the bot
     Offset string `json:"offset"`
     // Optional. Type of the chat from which the inline query was sent. Can be either “sender” for a private chat with the inline query sender, “private”, “group”, “supergroup”, or “channel”. The chat type should be always known for requests sent from official clients and most third-party clients, unless the request was sent from a secret chat
-    ChatType string `json:"chat_type,omitempty"`
+    ChatType InlineQueryChatType `json:"chat_type,omitempty"`
     // Optional. Sender location, only for bots that request user location
     Location *Location `json:"location,omitempty"`
 }
+```
+
+<a name="InlineQueryChatType"></a>
+## type InlineQueryChatType
+
+
+
+```go
+type InlineQueryChatType string
+```
+
+<a name="InlineQueryChatTypeSender"></a>
+
+```go
+const (
+    InlineQueryChatTypeSender     InlineQueryChatType = "sender"
+    InlineQueryChatTypePrivate    InlineQueryChatType = "private"
+    InlineQueryChatTypeGroup      InlineQueryChatType = "group"
+    InlineQueryChatTypeSupergroup InlineQueryChatType = "supergroup"
+    InlineQueryChatTypeChannel    InlineQueryChatType = "channel"
+)
 ```
 
 <a name="InlineQueryResult"></a>
@@ -6110,7 +6495,7 @@ type InlineQueryResultAudio struct {
     // Optional. Caption, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the audio caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Performer
@@ -6140,7 +6525,7 @@ type InlineQueryResultCachedAudio struct {
     // Optional. Caption, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the audio caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Inline keyboard attached to the message
@@ -6170,7 +6555,7 @@ type InlineQueryResultCachedDocument struct {
     // Optional. Caption of the document to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the document caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Inline keyboard attached to the message
@@ -6198,7 +6583,7 @@ type InlineQueryResultCachedGif struct {
     // Optional. Caption of the GIF file to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -6228,7 +6613,7 @@ type InlineQueryResultCachedMpeg4Gif struct {
     // Optional. Caption of the MPEG-4 file to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -6260,7 +6645,7 @@ type InlineQueryResultCachedPhoto struct {
     // Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the photo caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -6312,7 +6697,7 @@ type InlineQueryResultCachedVideo struct {
     // Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the video caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -6342,7 +6727,7 @@ type InlineQueryResultCachedVoice struct {
     // Optional. Caption, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the voice message caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Inline keyboard attached to the message
@@ -6400,13 +6785,13 @@ type InlineQueryResultDocument struct {
     // Optional. Caption of the document to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the document caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // A valid URL for the file
     DocumentURL string `json:"document_url"`
     // MIME type of the content of the file, either “application/pdf” or “application/zip”
-    MimeType string `json:"mime_type"`
+    MimeType InlineQueryResultDocumentMimeType `json:"mime_type"`
     // Optional. Short description of the result
     Description string `json:"description,omitempty"`
     // Optional. Inline keyboard attached to the message
@@ -6420,6 +6805,24 @@ type InlineQueryResultDocument struct {
     // Optional. Thumbnail height
     ThumbnailHeight *int64 `json:"thumbnail_height,omitempty"`
 }
+```
+
+<a name="InlineQueryResultDocumentMimeType"></a>
+## type InlineQueryResultDocumentMimeType
+
+
+
+```go
+type InlineQueryResultDocumentMimeType string
+```
+
+<a name="InlineQueryResultDocumentMimeTypeApplicationOfPdf"></a>
+
+```go
+const (
+    InlineQueryResultDocumentMimeTypeApplicationOfPdf InlineQueryResultDocumentMimeType = "application/pdf"
+    InlineQueryResultDocumentMimeTypeApplicationOfZip InlineQueryResultDocumentMimeType = "application/zip"
+)
 ```
 
 <a name="InlineQueryResultGame"></a>
@@ -6462,13 +6865,13 @@ type InlineQueryResultGif struct {
     // URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
     ThumbnailURL string `json:"thumbnail_url"`
     // Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”
-    ThumbnailMimeType string `json:"thumbnail_mime_type,omitempty"`
+    ThumbnailMimeType InlineQueryResultGifThumbnailMimeType `json:"thumbnail_mime_type,omitempty"`
     // Optional. Title for the result
     Title string `json:"title,omitempty"`
     // Optional. Caption of the GIF file to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -6478,6 +6881,25 @@ type InlineQueryResultGif struct {
     // Optional. Content of the message to be sent instead of the GIF animation
     InputMessageContent *InputMessageContent `json:"input_message_content,omitempty"`
 }
+```
+
+<a name="InlineQueryResultGifThumbnailMimeType"></a>
+## type InlineQueryResultGifThumbnailMimeType
+
+
+
+```go
+type InlineQueryResultGifThumbnailMimeType string
+```
+
+<a name="InlineQueryResultGifThumbnailMimeTypeImageOfJpeg"></a>
+
+```go
+const (
+    InlineQueryResultGifThumbnailMimeTypeImageOfJpeg InlineQueryResultGifThumbnailMimeType = "image/jpeg"
+    InlineQueryResultGifThumbnailMimeTypeImageOfGif  InlineQueryResultGifThumbnailMimeType = "image/gif"
+    InlineQueryResultGifThumbnailMimeTypeVideoOfMp4  InlineQueryResultGifThumbnailMimeType = "video/mp4"
+)
 ```
 
 <a name="InlineQueryResultLocation"></a>
@@ -6540,13 +6962,13 @@ type InlineQueryResultMpeg4Gif struct {
     // URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
     ThumbnailURL string `json:"thumbnail_url"`
     // Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”
-    ThumbnailMimeType string `json:"thumbnail_mime_type,omitempty"`
+    ThumbnailMimeType InlineQueryResultGifThumbnailMimeType `json:"thumbnail_mime_type,omitempty"`
     // Optional. Title for the result
     Title string `json:"title,omitempty"`
     // Optional. Caption of the MPEG-4 file to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -6584,7 +7006,7 @@ type InlineQueryResultPhoto struct {
     // Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the photo caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -6658,7 +7080,7 @@ type InlineQueryResultVideo struct {
     // Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the video caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -6696,7 +7118,7 @@ type InlineQueryResultVoice struct {
     // Optional. Caption, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the voice message caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Recording duration in seconds
@@ -6734,7 +7156,7 @@ type InputChecklist struct {
     // Title of the checklist; 1-255 characters after entities parsing
     Title string `json:"title"`
     // Optional. Mode for parsing entities in the title. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the title, which can be specified instead of parse_mode. Currently, only bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities are allowed.
     TitleEntities []MessageEntity `json:"title_entities,omitempty"`
     // List of 1-30 tasks in the checklist
@@ -6758,7 +7180,7 @@ type InputChecklistTask struct {
     // Text of the task; 1-100 characters after entities parsing
     Text string `json:"text"`
     // Optional. Mode for parsing entities in the text. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the text, which can be specified instead of parse_mode. Currently, only bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities are allowed.
     TextEntities []MessageEntity `json:"text_entities,omitempty"`
 }
@@ -6917,7 +7339,7 @@ type InputMediaAnimation struct {
     // Optional. Caption of the animation to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the animation caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -6949,7 +7371,7 @@ type InputMediaAudio struct {
     // Optional. Caption of the audio to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the audio caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Duration of the audio in seconds
@@ -6977,7 +7399,7 @@ type InputMediaDocument struct {
     // Optional. Caption of the document to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the document caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Disables automatic server-side content type detection for files uploaded using multipart/form-data. Always True, if the document is sent as part of an album.
@@ -7001,7 +7423,7 @@ type InputMediaLivePhoto struct {
     // Optional. Caption of the live photo to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the live photo caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -7043,7 +7465,7 @@ type InputMediaPhoto struct {
     // Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the photo caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -7117,7 +7539,7 @@ type InputMediaVideo struct {
     // Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Optional. Mode for parsing entities in the video caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Optional. Pass True, if the caption must be shown above the message media
@@ -7261,7 +7683,7 @@ type InputPollOption struct {
     // Option text, 1-100 characters
     Text string `json:"text"`
     // Optional. Mode for parsing entities in the text. See formatting options for more details. Currently, only custom emoji entities are allowed
-    TextParseMode string `json:"text_parse_mode,omitempty"`
+    TextParseMode ParseMode `json:"text_parse_mode,omitempty"`
     // Optional. A JSON-serialized list of special entities that appear in the poll option text. It can be specified instead of text_parse_mode
     TextEntities []MessageEntity `json:"text_entities,omitempty"`
     // Optional. Media added to the poll option
@@ -7346,7 +7768,7 @@ type InputSticker struct {
     // The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new file using multipart/form-data under <file_attach_name> name. Animated and video stickers can't be uploaded via HTTP URL. More information on Sending Files »
     Sticker string `json:"sticker"`
     // Format of the added sticker, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, “video” for a .WEBM video
-    Format string `json:"format"`
+    Format InputStickerFormat `json:"format"`
     // List of 1-20 emoji associated with the sticker
     EmojiList []string `json:"emoji_list"`
     // Optional. Position where the mask should be placed on faces. For “mask” stickers only.
@@ -7354,6 +7776,25 @@ type InputSticker struct {
     // Optional. List of 0-20 search keywords for the sticker with total length of up to 64 characters. For “regular” and “custom_emoji” stickers only.
     Keywords []string `json:"keywords,omitempty"`
 }
+```
+
+<a name="InputStickerFormat"></a>
+## type InputStickerFormat
+
+
+
+```go
+type InputStickerFormat string
+```
+
+<a name="InputStickerFormatStatic"></a>
+
+```go
+const (
+    InputStickerFormatStatic   InputStickerFormat = "static"
+    InputStickerFormatAnimated InputStickerFormat = "animated"
+    InputStickerFormatVideo    InputStickerFormat = "video"
+)
 ```
 
 <a name="InputStoryContent"></a>
@@ -7416,7 +7857,7 @@ type InputTextMessageContent struct {
     // Text of the message to be sent, 1-4096 characters
     MessageText string `json:"message_text"`
     // Optional. Mode for parsing entities in the message text. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
     Entities []MessageEntity `json:"entities,omitempty"`
     // Optional. Link preview generation options for the message
@@ -7482,7 +7923,7 @@ type KeyboardButton struct {
     // Optional. Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on Fragment or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.
     IconCustomEmojiID string `json:"icon_custom_emoji_id,omitempty"`
     // Optional. Style of the button. Must be one of “danger” (red), “success” (green) or “primary” (blue). If omitted, then an app-specific style is used.
-    Style string `json:"style,omitempty"`
+    Style KeyboardButtonStyle `json:"style,omitempty"`
     // Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a “users_shared” service message. Available in private chats only.
     RequestUsers *KeyboardButtonRequestUsers `json:"request_users,omitempty"`
     // Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a “chat_shared” service message. Available in private chats only.
@@ -7582,6 +8023,25 @@ type KeyboardButtonRequestUsers struct {
     // Optional. Pass True to request the users' photos
     RequestPhoto *bool `json:"request_photo,omitempty"`
 }
+```
+
+<a name="KeyboardButtonStyle"></a>
+## type KeyboardButtonStyle
+
+
+
+```go
+type KeyboardButtonStyle string
+```
+
+<a name="KeyboardButtonStyleDanger"></a>
+
+```go
+const (
+    KeyboardButtonStyleDanger  KeyboardButtonStyle = "danger"
+    KeyboardButtonStyleSuccess KeyboardButtonStyle = "success"
+    KeyboardButtonStylePrimary KeyboardButtonStyle = "primary"
+)
 ```
 
 <a name="LabeledPrice"></a>
@@ -7762,7 +8222,7 @@ This object describes the position on faces where a mask should be placed by def
 ```go
 type MaskPosition struct {
     // The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”, “mouth”, or “chin”.
-    Point string `json:"point"`
+    Point MaskPositionPoint `json:"point"`
     // Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. For example, choosing -1.0 will place mask just to the left of the default mask position.
     XShift float64 `json:"x_shift"`
     // Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. For example, 1.0 will place the mask just below the default mask position.
@@ -7770,6 +8230,26 @@ type MaskPosition struct {
     // Mask scaling coefficient. For example, 2.0 means double size.
     Scale float64 `json:"scale"`
 }
+```
+
+<a name="MaskPositionPoint"></a>
+## type MaskPositionPoint
+
+
+
+```go
+type MaskPositionPoint string
+```
+
+<a name="MaskPositionPointForehead"></a>
+
+```go
+const (
+    MaskPositionPointForehead MaskPositionPoint = "forehead"
+    MaskPositionPointEyes     MaskPositionPoint = "eyes"
+    MaskPositionPointMouth    MaskPositionPoint = "mouth"
+    MaskPositionPointChin     MaskPositionPoint = "chin"
+)
 ```
 
 <a name="MaybeInaccessibleMessage"></a>
@@ -8439,7 +8919,7 @@ This object represents one special entity in a text message. For example, hashta
 ```go
 type MessageEntity struct {
     // Type of the entity. Currently, can be “mention” (@username), “hashtag” (#hashtag or #hashtag@chatusername), “cashtag” ($USD or $USD@chatusername), “bot_command” (/start@jobs_bot), “url” (https://telegram.org), “email” (do-not-reply@telegram.org), “phone_number” (+1-212-555-0123), “bold” (bold text), “italic” (italic text), “underline” (underlined text), “strikethrough” (strikethrough text), “spoiler” (spoiler message), “blockquote” (block quotation), “expandable_blockquote” (collapsed-by-default block quotation), “code” (monowidth string), “pre” (monowidth block), “text_link” (for clickable text URLs), “text_mention” (for users without usernames), “custom_emoji” (for inline custom emoji stickers), or “date_time” (for formatted date and time)
-    Type string `json:"type"`
+    Type MessageEntityType `json:"type"`
     // Offset in UTF-16 code units to the start of the entity
     Offset int64 `json:"offset"`
     // Length of the entity in UTF-16 code units
@@ -8462,33 +8942,36 @@ type MessageEntity struct {
 <a name="MessageEntityType"></a>
 ## type MessageEntityType
 
-MessageEntityType is the kind of an entity \(mention, hashtag, command, ...\).
+
 
 ```go
 type MessageEntityType string
 ```
 
-<a name="EntityMention"></a>
+<a name="MessageEntityTypeMention"></a>
 
 ```go
 const (
-    EntityMention     MessageEntityType = "mention"
-    EntityHashtag     MessageEntityType = "hashtag"
-    EntityCashtag     MessageEntityType = "cashtag"
-    EntityBotCommand  MessageEntityType = "bot_command"
-    EntityURL         MessageEntityType = "url"
-    EntityEmail       MessageEntityType = "email"
-    EntityPhoneNumber MessageEntityType = "phone_number"
-    EntityBold        MessageEntityType = "bold"
-    EntityItalic      MessageEntityType = "italic"
-    EntityUnderline   MessageEntityType = "underline"
-    EntityStrike      MessageEntityType = "strikethrough"
-    EntitySpoiler     MessageEntityType = "spoiler"
-    EntityCode        MessageEntityType = "code"
-    EntityPre         MessageEntityType = "pre"
-    EntityTextLink    MessageEntityType = "text_link"
-    EntityTextMention MessageEntityType = "text_mention"
-    EntityCustomEmoji MessageEntityType = "custom_emoji"
+    MessageEntityTypeMention              MessageEntityType = "mention"
+    MessageEntityTypeHashtag              MessageEntityType = "hashtag"
+    MessageEntityTypeCashtag              MessageEntityType = "cashtag"
+    MessageEntityTypeBotCommand           MessageEntityType = "bot_command"
+    MessageEntityTypeURL                  MessageEntityType = "url"
+    MessageEntityTypeEmail                MessageEntityType = "email"
+    MessageEntityTypePhoneNumber          MessageEntityType = "phone_number"
+    MessageEntityTypeBold                 MessageEntityType = "bold"
+    MessageEntityTypeItalic               MessageEntityType = "italic"
+    MessageEntityTypeUnderline            MessageEntityType = "underline"
+    MessageEntityTypeStrikethrough        MessageEntityType = "strikethrough"
+    MessageEntityTypeSpoiler              MessageEntityType = "spoiler"
+    MessageEntityTypeBlockquote           MessageEntityType = "blockquote"
+    MessageEntityTypeExpandableBlockquote MessageEntityType = "expandable_blockquote"
+    MessageEntityTypeCode                 MessageEntityType = "code"
+    MessageEntityTypePre                  MessageEntityType = "pre"
+    MessageEntityTypeTextLink             MessageEntityType = "text_link"
+    MessageEntityTypeTextMention          MessageEntityType = "text_mention"
+    MessageEntityTypeCustomEmoji          MessageEntityType = "custom_emoji"
+    MessageEntityTypeDateTime             MessageEntityType = "date_time"
 )
 ```
 
@@ -8670,7 +9153,7 @@ The message was originally sent to a channel chat.
 ```go
 type MessageOriginChannel struct {
     // Type of the message origin, always “channel”
-    Type string `json:"type"`
+    Type MessageOriginChannelType `json:"type"`
     // Date the message was sent originally in Unix time
     Date int64 `json:"date"`
     // Channel chat to which the message was originally sent
@@ -8682,6 +9165,23 @@ type MessageOriginChannel struct {
 }
 ```
 
+<a name="MessageOriginChannelType"></a>
+## type MessageOriginChannelType
+
+
+
+```go
+type MessageOriginChannelType string
+```
+
+<a name="MessageOriginChannelTypeChannel"></a>
+
+```go
+const (
+    MessageOriginChannelTypeChannel MessageOriginChannelType = "channel"
+)
+```
+
 <a name="MessageOriginChat"></a>
 ## type MessageOriginChat
 
@@ -8690,7 +9190,7 @@ The message was originally sent on behalf of a chat to a group chat.
 ```go
 type MessageOriginChat struct {
     // Type of the message origin, always “chat”
-    Type string `json:"type"`
+    Type MessageOriginChatType `json:"type"`
     // Date the message was sent originally in Unix time
     Date int64 `json:"date"`
     // Chat that sent the message originally
@@ -8698,6 +9198,23 @@ type MessageOriginChat struct {
     // Optional. For messages originally sent by an anonymous chat administrator, original message author signature
     AuthorSignature string `json:"author_signature,omitempty"`
 }
+```
+
+<a name="MessageOriginChatType"></a>
+## type MessageOriginChatType
+
+
+
+```go
+type MessageOriginChatType string
+```
+
+<a name="MessageOriginChatTypeChat"></a>
+
+```go
+const (
+    MessageOriginChatTypeChat MessageOriginChatType = "chat"
+)
 ```
 
 <a name="MessageOriginHiddenUser"></a>
@@ -8708,12 +9225,29 @@ The message was originally sent by an unknown user.
 ```go
 type MessageOriginHiddenUser struct {
     // Type of the message origin, always “hidden_user”
-    Type string `json:"type"`
+    Type MessageOriginHiddenUserType `json:"type"`
     // Date the message was sent originally in Unix time
     Date int64 `json:"date"`
     // Name of the user that sent the message originally
     SenderUserName string `json:"sender_user_name"`
 }
+```
+
+<a name="MessageOriginHiddenUserType"></a>
+## type MessageOriginHiddenUserType
+
+
+
+```go
+type MessageOriginHiddenUserType string
+```
+
+<a name="MessageOriginHiddenUserTypeHiddenUser"></a>
+
+```go
+const (
+    MessageOriginHiddenUserTypeHiddenUser MessageOriginHiddenUserType = "hidden_user"
+)
 ```
 
 <a name="MessageOriginUser"></a>
@@ -8724,12 +9258,29 @@ The message was originally sent by a known user.
 ```go
 type MessageOriginUser struct {
     // Type of the message origin, always “user”
-    Type string `json:"type"`
+    Type MessageOriginUserType `json:"type"`
     // Date the message was sent originally in Unix time
     Date int64 `json:"date"`
     // User that sent the message originally
     SenderUser User `json:"sender_user"`
 }
+```
+
+<a name="MessageOriginUserType"></a>
+## type MessageOriginUserType
+
+
+
+```go
+type MessageOriginUserType string
+```
+
+<a name="MessageOriginUserTypeUser"></a>
+
+```go
+const (
+    MessageOriginUserTypeUser MessageOriginUserType = "user"
+)
 ```
 
 <a name="MessageReactionCountUpdated"></a>
@@ -8843,7 +9394,7 @@ Describes a regular gift owned by a user or a chat.
 ```go
 type OwnedGiftRegular struct {
     // Type of the gift, always “regular”
-    Type string `json:"type"`
+    Type OwnedGiftRegularType `json:"type"`
     // Information about the regular gift
     Gift Gift `json:"gift"`
     // Optional. Unique identifier of the gift for the bot; for gifts received on behalf of business accounts only
@@ -8875,6 +9426,23 @@ type OwnedGiftRegular struct {
 }
 ```
 
+<a name="OwnedGiftRegularType"></a>
+## type OwnedGiftRegularType
+
+
+
+```go
+type OwnedGiftRegularType string
+```
+
+<a name="OwnedGiftRegularTypeRegular"></a>
+
+```go
+const (
+    OwnedGiftRegularTypeRegular OwnedGiftRegularType = "regular"
+)
+```
+
 <a name="OwnedGiftUnique"></a>
 ## type OwnedGiftUnique
 
@@ -8883,7 +9451,7 @@ Describes a unique gift received and owned by a user or a chat.
 ```go
 type OwnedGiftUnique struct {
     // Type of the gift, always “unique”
-    Type string `json:"type"`
+    Type OwnedGiftUniqueType `json:"type"`
     // Information about the unique gift
     Gift UniqueGift `json:"gift"`
     // Optional. Unique identifier of the received gift for the bot; for gifts received on behalf of business accounts only
@@ -8901,6 +9469,23 @@ type OwnedGiftUnique struct {
     // Optional. Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift can be transferred now
     NextTransferDate *int64 `json:"next_transfer_date,omitempty"`
 }
+```
+
+<a name="OwnedGiftUniqueType"></a>
+## type OwnedGiftUniqueType
+
+
+
+```go
+type OwnedGiftUniqueType string
+```
+
+<a name="OwnedGiftUniqueTypeUnique"></a>
+
+```go
+const (
+    OwnedGiftUniqueTypeUnique OwnedGiftUniqueType = "unique"
+)
 ```
 
 <a name="OwnedGifts"></a>
@@ -9019,10 +9604,27 @@ The paid media is a live photo.
 ```go
 type PaidMediaLivePhoto struct {
     // Type of the paid media, always “live_photo”
-    Type string `json:"type"`
+    Type PaidMediaLivePhotoType `json:"type"`
     // The photo
     LivePhoto LivePhoto `json:"live_photo"`
 }
+```
+
+<a name="PaidMediaLivePhotoType"></a>
+## type PaidMediaLivePhotoType
+
+
+
+```go
+type PaidMediaLivePhotoType string
+```
+
+<a name="PaidMediaLivePhotoTypeLivePhoto"></a>
+
+```go
+const (
+    PaidMediaLivePhotoTypeLivePhoto PaidMediaLivePhotoType = "live_photo"
+)
 ```
 
 <a name="PaidMediaPhoto"></a>
@@ -9033,10 +9635,27 @@ The paid media is a photo.
 ```go
 type PaidMediaPhoto struct {
     // Type of the paid media, always “photo”
-    Type string `json:"type"`
+    Type PaidMediaPhotoType `json:"type"`
     // The photo
     Photo []PhotoSize `json:"photo"`
 }
+```
+
+<a name="PaidMediaPhotoType"></a>
+## type PaidMediaPhotoType
+
+
+
+```go
+type PaidMediaPhotoType string
+```
+
+<a name="PaidMediaPhotoTypePhoto"></a>
+
+```go
+const (
+    PaidMediaPhotoTypePhoto PaidMediaPhotoType = "photo"
+)
 ```
 
 <a name="PaidMediaPreview"></a>
@@ -9047,7 +9666,7 @@ The paid media isn't available before the payment.
 ```go
 type PaidMediaPreview struct {
     // Type of the paid media, always “preview”
-    Type string `json:"type"`
+    Type PaidMediaPreviewType `json:"type"`
     // Optional. Media width as defined by the sender
     Width *int64 `json:"width,omitempty"`
     // Optional. Media height as defined by the sender
@@ -9055,6 +9674,23 @@ type PaidMediaPreview struct {
     // Optional. Duration of the media in seconds as defined by the sender
     Duration *int64 `json:"duration,omitempty"`
 }
+```
+
+<a name="PaidMediaPreviewType"></a>
+## type PaidMediaPreviewType
+
+
+
+```go
+type PaidMediaPreviewType string
+```
+
+<a name="PaidMediaPreviewTypePreview"></a>
+
+```go
+const (
+    PaidMediaPreviewTypePreview PaidMediaPreviewType = "preview"
+)
 ```
 
 <a name="PaidMediaPurchased"></a>
@@ -9079,10 +9715,27 @@ The paid media is a video.
 ```go
 type PaidMediaVideo struct {
     // Type of the paid media, always “video”
-    Type string `json:"type"`
+    Type PaidMediaVideoType `json:"type"`
     // The video
     Video Video `json:"video"`
 }
+```
+
+<a name="PaidMediaVideoType"></a>
+## type PaidMediaVideoType
+
+
+
+```go
+type PaidMediaVideoType string
+```
+
+<a name="PaidMediaVideoTypeVideo"></a>
+
+```go
+const (
+    PaidMediaVideoTypeVideo PaidMediaVideoType = "video"
+)
 ```
 
 <a name="PaidMessagePriceChanged"></a>
@@ -9100,7 +9753,7 @@ type PaidMessagePriceChanged struct {
 <a name="ParseMode"></a>
 ## type ParseMode
 
-ParseMode controls how Telegram interprets formatting in message text.
+
 
 ```go
 type ParseMode string
@@ -9110,7 +9763,7 @@ type ParseMode string
 
 ```go
 const (
-    ParseModeMarkdown   ParseMode = "Markdown" // legacy
+    ParseModeMarkdown   ParseMode = "Markdown"
     ParseModeMarkdownV2 ParseMode = "MarkdownV2"
     ParseModeHTML       ParseMode = "HTML"
 )
@@ -9163,7 +9816,7 @@ type PassportElementErrorDataField struct {
     // Error source, must be data
     Source string `json:"source"`
     // The section of the user's Telegram Passport which has the error, one of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”
-    Type string `json:"type"`
+    Type PassportElementErrorDataFieldType `json:"type"`
     // Name of the data field which has the error
     FieldName string `json:"field_name"`
     // Base64-encoded data hash
@@ -9171,6 +9824,28 @@ type PassportElementErrorDataField struct {
     // Error message
     Message string `json:"message"`
 }
+```
+
+<a name="PassportElementErrorDataFieldType"></a>
+## type PassportElementErrorDataFieldType
+
+
+
+```go
+type PassportElementErrorDataFieldType string
+```
+
+<a name="PassportElementErrorDataFieldTypePersonalDetails"></a>
+
+```go
+const (
+    PassportElementErrorDataFieldTypePersonalDetails  PassportElementErrorDataFieldType = "personal_details"
+    PassportElementErrorDataFieldTypePassport         PassportElementErrorDataFieldType = "passport"
+    PassportElementErrorDataFieldTypeDriverLicense    PassportElementErrorDataFieldType = "driver_license"
+    PassportElementErrorDataFieldTypeIdentityCard     PassportElementErrorDataFieldType = "identity_card"
+    PassportElementErrorDataFieldTypeInternalPassport PassportElementErrorDataFieldType = "internal_passport"
+    PassportElementErrorDataFieldTypeAddress          PassportElementErrorDataFieldType = "address"
+)
 ```
 
 <a name="PassportElementErrorFile"></a>
@@ -9183,12 +9858,33 @@ type PassportElementErrorFile struct {
     // Error source, must be file
     Source string `json:"source"`
     // The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
-    Type string `json:"type"`
+    Type PassportElementErrorFileType `json:"type"`
     // Base64-encoded file hash
     FileHash string `json:"file_hash"`
     // Error message
     Message string `json:"message"`
 }
+```
+
+<a name="PassportElementErrorFileType"></a>
+## type PassportElementErrorFileType
+
+
+
+```go
+type PassportElementErrorFileType string
+```
+
+<a name="PassportElementErrorFileTypeUtilityBill"></a>
+
+```go
+const (
+    PassportElementErrorFileTypeUtilityBill           PassportElementErrorFileType = "utility_bill"
+    PassportElementErrorFileTypeBankStatement         PassportElementErrorFileType = "bank_statement"
+    PassportElementErrorFileTypeRentalAgreement       PassportElementErrorFileType = "rental_agreement"
+    PassportElementErrorFileTypePassportRegistration  PassportElementErrorFileType = "passport_registration"
+    PassportElementErrorFileTypeTemporaryRegistration PassportElementErrorFileType = "temporary_registration"
+)
 ```
 
 <a name="PassportElementErrorFiles"></a>
@@ -9201,7 +9897,7 @@ type PassportElementErrorFiles struct {
     // Error source, must be files
     Source string `json:"source"`
     // The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
-    Type string `json:"type"`
+    Type PassportElementErrorFileType `json:"type"`
     // List of base64-encoded file hashes
     FileHashes []string `json:"file_hashes"`
     // Error message
@@ -9219,7 +9915,7 @@ type PassportElementErrorFrontSide struct {
     // Error source, must be front_side
     Source string `json:"source"`
     // The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”
-    Type string `json:"type"`
+    Type PassportElementErrorSelfieType `json:"type"`
     // Base64-encoded hash of the file with the front side of the document
     FileHash string `json:"file_hash"`
     // Error message
@@ -9237,12 +9933,30 @@ type PassportElementErrorReverseSide struct {
     // Error source, must be reverse_side
     Source string `json:"source"`
     // The section of the user's Telegram Passport which has the issue, one of “driver_license”, “identity_card”
-    Type string `json:"type"`
+    Type PassportElementErrorReverseSideType `json:"type"`
     // Base64-encoded hash of the file with the reverse side of the document
     FileHash string `json:"file_hash"`
     // Error message
     Message string `json:"message"`
 }
+```
+
+<a name="PassportElementErrorReverseSideType"></a>
+## type PassportElementErrorReverseSideType
+
+
+
+```go
+type PassportElementErrorReverseSideType string
+```
+
+<a name="PassportElementErrorReverseSideTypeDriverLicense"></a>
+
+```go
+const (
+    PassportElementErrorReverseSideTypeDriverLicense PassportElementErrorReverseSideType = "driver_license"
+    PassportElementErrorReverseSideTypeIdentityCard  PassportElementErrorReverseSideType = "identity_card"
+)
 ```
 
 <a name="PassportElementErrorSelfie"></a>
@@ -9255,12 +9969,32 @@ type PassportElementErrorSelfie struct {
     // Error source, must be selfie
     Source string `json:"source"`
     // The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”
-    Type string `json:"type"`
+    Type PassportElementErrorSelfieType `json:"type"`
     // Base64-encoded hash of the file with the selfie
     FileHash string `json:"file_hash"`
     // Error message
     Message string `json:"message"`
 }
+```
+
+<a name="PassportElementErrorSelfieType"></a>
+## type PassportElementErrorSelfieType
+
+
+
+```go
+type PassportElementErrorSelfieType string
+```
+
+<a name="PassportElementErrorSelfieTypePassport"></a>
+
+```go
+const (
+    PassportElementErrorSelfieTypePassport         PassportElementErrorSelfieType = "passport"
+    PassportElementErrorSelfieTypeDriverLicense    PassportElementErrorSelfieType = "driver_license"
+    PassportElementErrorSelfieTypeIdentityCard     PassportElementErrorSelfieType = "identity_card"
+    PassportElementErrorSelfieTypeInternalPassport PassportElementErrorSelfieType = "internal_passport"
+)
 ```
 
 <a name="PassportElementErrorTranslationFile"></a>
@@ -9273,12 +10007,37 @@ type PassportElementErrorTranslationFile struct {
     // Error source, must be translation_file
     Source string `json:"source"`
     // Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
-    Type string `json:"type"`
+    Type PassportElementErrorTranslationFileType `json:"type"`
     // Base64-encoded file hash
     FileHash string `json:"file_hash"`
     // Error message
     Message string `json:"message"`
 }
+```
+
+<a name="PassportElementErrorTranslationFileType"></a>
+## type PassportElementErrorTranslationFileType
+
+
+
+```go
+type PassportElementErrorTranslationFileType string
+```
+
+<a name="PassportElementErrorTranslationFileTypePassport"></a>
+
+```go
+const (
+    PassportElementErrorTranslationFileTypePassport              PassportElementErrorTranslationFileType = "passport"
+    PassportElementErrorTranslationFileTypeDriverLicense         PassportElementErrorTranslationFileType = "driver_license"
+    PassportElementErrorTranslationFileTypeIdentityCard          PassportElementErrorTranslationFileType = "identity_card"
+    PassportElementErrorTranslationFileTypeInternalPassport      PassportElementErrorTranslationFileType = "internal_passport"
+    PassportElementErrorTranslationFileTypeUtilityBill           PassportElementErrorTranslationFileType = "utility_bill"
+    PassportElementErrorTranslationFileTypeBankStatement         PassportElementErrorTranslationFileType = "bank_statement"
+    PassportElementErrorTranslationFileTypeRentalAgreement       PassportElementErrorTranslationFileType = "rental_agreement"
+    PassportElementErrorTranslationFileTypePassportRegistration  PassportElementErrorTranslationFileType = "passport_registration"
+    PassportElementErrorTranslationFileTypeTemporaryRegistration PassportElementErrorTranslationFileType = "temporary_registration"
+)
 ```
 
 <a name="PassportElementErrorTranslationFiles"></a>
@@ -9291,7 +10050,7 @@ type PassportElementErrorTranslationFiles struct {
     // Error source, must be translation_files
     Source string `json:"source"`
     // Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
-    Type string `json:"type"`
+    Type PassportElementErrorTranslationFileType `json:"type"`
     // List of base64-encoded file hashes
     FileHashes []string `json:"file_hashes"`
     // Error message
@@ -9397,7 +10156,7 @@ type Poll struct {
     // True, if the poll is anonymous
     IsAnonymous bool `json:"is_anonymous"`
     // Poll type, currently can be “regular” or “quiz”
-    Type string `json:"type"`
+    Type PollType `json:"type"`
     // True, if the poll allows multiple answers
     AllowsMultipleAnswers bool `json:"allows_multiple_answers"`
     // True, if the poll allows to change the chosen answer options
@@ -9575,6 +10334,24 @@ func (m *PollOptionDeleted) UnmarshalJSON(data []byte) error
 
 UnmarshalJSON decodes PollOptionDeleted by dispatching union\-typed fields \(PollMessage\) through their concrete UnmarshalXxx helpers.
 
+<a name="PollType"></a>
+## type PollType
+
+
+
+```go
+type PollType string
+```
+
+<a name="PollTypeRegular"></a>
+
+```go
+const (
+    PollTypeRegular PollType = "regular"
+    PollTypeQuiz    PollType = "quiz"
+)
+```
+
 <a name="PostStoryParams"></a>
 ## type PostStoryParams
 
@@ -9593,7 +10370,7 @@ type PostStoryParams struct {
     // Caption of the story, 0-2048 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the story caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // A JSON-serialized list of clickable areas to be shown on the story
@@ -9800,10 +10577,27 @@ The reaction is based on a custom emoji.
 ```go
 type ReactionTypeCustomEmoji struct {
     // Type of the reaction, always “custom_emoji”
-    Type string `json:"type"`
+    Type ReactionTypeCustomEmojiType `json:"type"`
     // Custom emoji identifier
     CustomEmojiID string `json:"custom_emoji_id"`
 }
+```
+
+<a name="ReactionTypeCustomEmojiType"></a>
+## type ReactionTypeCustomEmojiType
+
+
+
+```go
+type ReactionTypeCustomEmojiType string
+```
+
+<a name="ReactionTypeCustomEmojiTypeCustomEmoji"></a>
+
+```go
+const (
+    ReactionTypeCustomEmojiTypeCustomEmoji ReactionTypeCustomEmojiType = "custom_emoji"
+)
 ```
 
 <a name="ReactionTypeEmoji"></a>
@@ -9814,10 +10608,27 @@ The reaction is based on an emoji.
 ```go
 type ReactionTypeEmoji struct {
     // Type of the reaction, always “emoji”
-    Type string `json:"type"`
+    Type ReactionTypeEmojiType `json:"type"`
     // Reaction emoji. Currently, it can be one of "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
     Emoji string `json:"emoji"`
 }
+```
+
+<a name="ReactionTypeEmojiType"></a>
+## type ReactionTypeEmojiType
+
+
+
+```go
+type ReactionTypeEmojiType string
+```
+
+<a name="ReactionTypeEmojiTypeEmoji"></a>
+
+```go
+const (
+    ReactionTypeEmojiTypeEmoji ReactionTypeEmojiType = "emoji"
+)
 ```
 
 <a name="ReactionTypePaid"></a>
@@ -9828,8 +10639,25 @@ The reaction is paid.
 ```go
 type ReactionTypePaid struct {
     // Type of the reaction, always “paid”
-    Type string `json:"type"`
+    Type ReactionTypePaidType `json:"type"`
 }
+```
+
+<a name="ReactionTypePaidType"></a>
+## type ReactionTypePaidType
+
+
+
+```go
+type ReactionTypePaidType string
+```
+
+<a name="ReactionTypePaidTypePaid"></a>
+
+```go
+const (
+    ReactionTypePaidTypePaid ReactionTypePaidType = "paid"
+)
 ```
 
 <a name="ReadBusinessMessageParams"></a>
@@ -9874,7 +10702,7 @@ This object contains basic information about a refunded payment.
 ```go
 type RefundedPayment struct {
     // Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars. Currently, always “XTR”
-    Currency string `json:"currency"`
+    Currency RefundedPaymentCurrency `json:"currency"`
     // Total refunded price in the smallest units of the currency (integer, not float/double). For example, for a price of US$ 1.45, total_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies).
     TotalAmount int64 `json:"total_amount"`
     // Bot-specified invoice payload
@@ -9884,6 +10712,23 @@ type RefundedPayment struct {
     // Optional. Provider payment identifier
     ProviderPaymentChargeID string `json:"provider_payment_charge_id,omitempty"`
 }
+```
+
+<a name="RefundedPaymentCurrency"></a>
+## type RefundedPaymentCurrency
+
+
+
+```go
+type RefundedPaymentCurrency string
+```
+
+<a name="RefundedPaymentCurrencyXTR"></a>
+
+```go
+const (
+    RefundedPaymentCurrencyXTR RefundedPaymentCurrency = "XTR"
+)
 ```
 
 <a name="RemoveBusinessAccountProfilePhotoParams"></a>
@@ -10058,7 +10903,7 @@ type ReplyParameters struct {
     // Optional. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities. The message will fail to send if the quote isn't found in the original message.
     Quote string `json:"quote,omitempty"`
     // Optional. Mode for parsing entities in the quote. See formatting options for more details.
-    QuoteParseMode string `json:"quote_parse_mode,omitempty"`
+    QuoteParseMode ParseMode `json:"quote_parse_mode,omitempty"`
     // Optional. A JSON-serialized list of special entities that appear in the quote. It can be specified instead of quote_parse_mode.
     QuoteEntities []MessageEntity `json:"quote_entities,omitempty"`
     // Optional. Position of the quote in the original message in UTF-16 code units
@@ -10164,8 +11009,25 @@ The withdrawal failed and the transaction was refunded.
 ```go
 type RevenueWithdrawalStateFailed struct {
     // Type of the state, always “failed”
-    Type string `json:"type"`
+    Type RevenueWithdrawalStateFailedType `json:"type"`
 }
+```
+
+<a name="RevenueWithdrawalStateFailedType"></a>
+## type RevenueWithdrawalStateFailedType
+
+
+
+```go
+type RevenueWithdrawalStateFailedType string
+```
+
+<a name="RevenueWithdrawalStateFailedTypeFailed"></a>
+
+```go
+const (
+    RevenueWithdrawalStateFailedTypeFailed RevenueWithdrawalStateFailedType = "failed"
+)
 ```
 
 <a name="RevenueWithdrawalStatePending"></a>
@@ -10176,8 +11038,25 @@ The withdrawal is in progress.
 ```go
 type RevenueWithdrawalStatePending struct {
     // Type of the state, always “pending”
-    Type string `json:"type"`
+    Type RevenueWithdrawalStatePendingType `json:"type"`
 }
+```
+
+<a name="RevenueWithdrawalStatePendingType"></a>
+## type RevenueWithdrawalStatePendingType
+
+
+
+```go
+type RevenueWithdrawalStatePendingType string
+```
+
+<a name="RevenueWithdrawalStatePendingTypePending"></a>
+
+```go
+const (
+    RevenueWithdrawalStatePendingTypePending RevenueWithdrawalStatePendingType = "pending"
+)
 ```
 
 <a name="RevenueWithdrawalStateSucceeded"></a>
@@ -10188,12 +11067,29 @@ The withdrawal succeeded.
 ```go
 type RevenueWithdrawalStateSucceeded struct {
     // Type of the state, always “succeeded”
-    Type string `json:"type"`
+    Type RevenueWithdrawalStateSucceededType `json:"type"`
     // Date the withdrawal was completed in Unix time
     Date int64 `json:"date"`
     // An HTTPS URL that can be used to see transaction details
     URL string `json:"url"`
 }
+```
+
+<a name="RevenueWithdrawalStateSucceededType"></a>
+## type RevenueWithdrawalStateSucceededType
+
+
+
+```go
+type RevenueWithdrawalStateSucceededType string
+```
+
+<a name="RevenueWithdrawalStateSucceededTypeSucceeded"></a>
+
+```go
+const (
+    RevenueWithdrawalStateSucceededTypeSucceeded RevenueWithdrawalStateSucceededType = "succeeded"
+)
 ```
 
 <a name="RevokeChatInviteLinkParams"></a>
@@ -10282,7 +11178,7 @@ type SendAnimationParams struct {
     // Animation caption (may also be used when resending animation by file_id), 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the animation caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Pass True, if the caption must be shown above the message media
@@ -10355,7 +11251,7 @@ type SendAudioParams struct {
     // Audio caption, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the audio caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Duration of the audio in seconds
@@ -10560,7 +11456,7 @@ type SendDocumentParams struct {
     // Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the document caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Disables automatic server-side content type detection for files uploaded using multipart/form-data
@@ -10661,7 +11557,7 @@ type SendGiftParams struct {
     // Text that will be shown along with the gift; 0-128 characters
     Text string `json:"text,omitempty"`
     // Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
-    TextParseMode string `json:"text_parse_mode,omitempty"`
+    TextParseMode ParseMode `json:"text_parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
     TextEntities []MessageEntity `json:"text_entities,omitempty"`
 }
@@ -10765,7 +11661,7 @@ type SendLivePhotoParams struct {
     // Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the video caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Pass True, if the caption must be shown above the message media
@@ -10939,7 +11835,7 @@ type SendMessageDraftParams struct {
     // Text of the message to be sent, 0-4096 characters after entities parsing. Pass an empty text to show a “Thinking…” placeholder.
     Text string `json:"text,omitempty"`
     // Mode for parsing entities in the message text. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
     Entities []MessageEntity `json:"entities,omitempty"`
 }
@@ -10965,7 +11861,7 @@ type SendMessageParams struct {
     // Text of the message to be sent, 1-4096 characters after entities parsing
     Text string `json:"text"`
     // Mode for parsing entities in the message text. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
     Entities []MessageEntity `json:"entities,omitempty"`
     // Link preview generation options for the message
@@ -11013,7 +11909,7 @@ type SendPaidMediaParams struct {
     // Media caption, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the media caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Pass True, if the caption must be shown above the message media
@@ -11082,7 +11978,7 @@ type SendPhotoParams struct {
     // Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the photo caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Pass True, if the caption must be shown above the message media
@@ -11151,7 +12047,7 @@ type SendPollParams struct {
     // Poll question, 1-300 characters
     Question string `json:"question"`
     // Mode for parsing entities in the question. See formatting options for more details. Currently, only custom emoji entities are allowed
-    QuestionParseMode string `json:"question_parse_mode,omitempty"`
+    QuestionParseMode ParseMode `json:"question_parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the poll question. It can be specified instead of question_parse_mode
     QuestionEntities []MessageEntity `json:"question_entities,omitempty"`
     // A JSON-serialized list of 1-12 answer options
@@ -11179,7 +12075,7 @@ type SendPollParams struct {
     // Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
     Explanation string `json:"explanation,omitempty"`
     // Mode for parsing entities in the explanation. See formatting options for more details.
-    ExplanationParseMode string `json:"explanation_parse_mode,omitempty"`
+    ExplanationParseMode ParseMode `json:"explanation_parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the poll explanation. It can be specified instead of explanation_parse_mode
     ExplanationEntities []MessageEntity `json:"explanation_entities,omitempty"`
     // Media added to the quiz explanation
@@ -11193,7 +12089,7 @@ type SendPollParams struct {
     // Description of the poll to be sent, 0-1024 characters after entities parsing
     Description string `json:"description,omitempty"`
     // Mode for parsing entities in the poll description. See formatting options for more details.
-    DescriptionParseMode string `json:"description_parse_mode,omitempty"`
+    DescriptionParseMode ParseMode `json:"description_parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the poll description, which can be specified instead of description_parse_mode
     DescriptionEntities []MessageEntity `json:"description_entities,omitempty"`
     // Media added to the poll description
@@ -11431,7 +12327,7 @@ type SendVideoParams struct {
     // Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the video caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Pass True, if the caption must be shown above the message media
@@ -11506,7 +12402,7 @@ type SendVoiceParams struct {
     // Voice message caption, 0-1024 characters after entities parsing
     Caption string `json:"caption,omitempty"`
     // Mode for parsing entities in the voice message caption. See formatting options for more details.
-    ParseMode string `json:"parse_mode,omitempty"`
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
     // Duration of the voice message in seconds
@@ -12172,7 +13068,7 @@ type SetStickerSetThumbnailParams struct {
     // A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animation-requirements for animated sticker technical requirements), or a .WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files ». Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
     Thumbnail *InputFile `json:"thumbnail,omitempty"`
     // Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, or “video” for a .WEBM video
-    Format string `json:"format"`
+    Format InputStickerFormat `json:"format"`
 }
 ```
 
@@ -12468,7 +13364,7 @@ type Sticker struct {
     // Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
     FileUniqueID string `json:"file_unique_id"`
     // Type of the sticker, currently one of “regular”, “mask”, “custom_emoji”. The type of the sticker is independent from its format, which is determined by the fields is_animated and is_video.
-    Type string `json:"type"`
+    Type StickerType `json:"type"`
     // Sticker width
     Width int64 `json:"width"`
     // Sticker height
@@ -12530,7 +13426,7 @@ type StickerSet struct {
     // Sticker set title
     Title string `json:"title"`
     // Type of stickers in the set, currently one of “regular”, “mask”, “custom_emoji”
-    StickerType string `json:"sticker_type"`
+    StickerType StickerType `json:"sticker_type"`
     // List of all set stickers
     Stickers []Sticker `json:"stickers"`
     // Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
@@ -12548,6 +13444,25 @@ func GetStickerSet(ctx context.Context, b *client.Bot, p *GetStickerSetParams) (
 GetStickerSet calls the getStickerSet Telegram Bot API method.
 
 Use this method to get a sticker set. On success, a StickerSet object is returned.
+
+<a name="StickerType"></a>
+## type StickerType
+
+
+
+```go
+type StickerType string
+```
+
+<a name="StickerTypeRegular"></a>
+
+```go
+const (
+    StickerTypeRegular     StickerType = "regular"
+    StickerTypeMask        StickerType = "mask"
+    StickerTypeCustomEmoji StickerType = "custom_emoji"
+)
+```
 
 <a name="StopMessageLiveLocationParams"></a>
 ## type StopMessageLiveLocationParams
@@ -12719,10 +13634,27 @@ Describes a story area pointing to an HTTP or tg:// link. Currently, a story can
 ```go
 type StoryAreaTypeLink struct {
     // Type of the area, always “link”
-    Type string `json:"type"`
+    Type StoryAreaTypeLinkType `json:"type"`
     // HTTP or tg:// URL to be opened when the area is clicked
     URL string `json:"url"`
 }
+```
+
+<a name="StoryAreaTypeLinkType"></a>
+## type StoryAreaTypeLinkType
+
+
+
+```go
+type StoryAreaTypeLinkType string
+```
+
+<a name="StoryAreaTypeLinkTypeLink"></a>
+
+```go
+const (
+    StoryAreaTypeLinkTypeLink StoryAreaTypeLinkType = "link"
+)
 ```
 
 <a name="StoryAreaTypeLocation"></a>
@@ -12733,7 +13665,7 @@ Describes a story area pointing to a location. Currently, a story can have up to
 ```go
 type StoryAreaTypeLocation struct {
     // Type of the area, always “location”
-    Type string `json:"type"`
+    Type StoryAreaTypeLocationType `json:"type"`
     // Location latitude in degrees
     Latitude float64 `json:"latitude"`
     // Location longitude in degrees
@@ -12741,6 +13673,23 @@ type StoryAreaTypeLocation struct {
     // Optional. Address of the location
     Address *LocationAddress `json:"address,omitempty"`
 }
+```
+
+<a name="StoryAreaTypeLocationType"></a>
+## type StoryAreaTypeLocationType
+
+
+
+```go
+type StoryAreaTypeLocationType string
+```
+
+<a name="StoryAreaTypeLocationTypeLocation"></a>
+
+```go
+const (
+    StoryAreaTypeLocationTypeLocation StoryAreaTypeLocationType = "location"
+)
 ```
 
 <a name="StoryAreaTypeSuggestedReaction"></a>
@@ -12751,7 +13700,7 @@ Describes a story area pointing to a suggested reaction. Currently, a story can 
 ```go
 type StoryAreaTypeSuggestedReaction struct {
     // Type of the area, always “suggested_reaction”
-    Type string `json:"type"`
+    Type StoryAreaTypeSuggestedReactionType `json:"type"`
     // Type of the reaction
     ReactionType ReactionType `json:"reaction_type"`
     // Optional. Pass True if the reaction area has a dark background
@@ -12770,6 +13719,23 @@ func (m *StoryAreaTypeSuggestedReaction) UnmarshalJSON(data []byte) error
 
 UnmarshalJSON decodes StoryAreaTypeSuggestedReaction by dispatching union\-typed fields \(ReactionType\) through their concrete UnmarshalXxx helpers.
 
+<a name="StoryAreaTypeSuggestedReactionType"></a>
+## type StoryAreaTypeSuggestedReactionType
+
+
+
+```go
+type StoryAreaTypeSuggestedReactionType string
+```
+
+<a name="StoryAreaTypeSuggestedReactionTypeSuggestedReaction"></a>
+
+```go
+const (
+    StoryAreaTypeSuggestedReactionTypeSuggestedReaction StoryAreaTypeSuggestedReactionType = "suggested_reaction"
+)
+```
+
 <a name="StoryAreaTypeUniqueGift"></a>
 ## type StoryAreaTypeUniqueGift
 
@@ -12778,10 +13744,27 @@ Describes a story area pointing to a unique gift. Currently, a story can have at
 ```go
 type StoryAreaTypeUniqueGift struct {
     // Type of the area, always “unique_gift”
-    Type string `json:"type"`
+    Type StoryAreaTypeUniqueGiftType `json:"type"`
     // Unique name of the gift
     Name string `json:"name"`
 }
+```
+
+<a name="StoryAreaTypeUniqueGiftType"></a>
+## type StoryAreaTypeUniqueGiftType
+
+
+
+```go
+type StoryAreaTypeUniqueGiftType string
+```
+
+<a name="StoryAreaTypeUniqueGiftTypeUniqueGift"></a>
+
+```go
+const (
+    StoryAreaTypeUniqueGiftTypeUniqueGift StoryAreaTypeUniqueGiftType = "unique_gift"
+)
 ```
 
 <a name="StoryAreaTypeWeather"></a>
@@ -12792,7 +13775,7 @@ Describes a story area containing weather information. Currently, a story can ha
 ```go
 type StoryAreaTypeWeather struct {
     // Type of the area, always “weather”
-    Type string `json:"type"`
+    Type StoryAreaTypeWeatherType `json:"type"`
     // Temperature, in degree Celsius
     Temperature float64 `json:"temperature"`
     // Emoji representing the weather
@@ -12800,6 +13783,23 @@ type StoryAreaTypeWeather struct {
     // A color of the area background in the ARGB format
     BackgroundColor int64 `json:"background_color"`
 }
+```
+
+<a name="StoryAreaTypeWeatherType"></a>
+## type StoryAreaTypeWeatherType
+
+
+
+```go
+type StoryAreaTypeWeatherType string
+```
+
+<a name="StoryAreaTypeWeatherTypeWeather"></a>
+
+```go
+const (
+    StoryAreaTypeWeatherTypeWeather StoryAreaTypeWeatherType = "weather"
+)
 ```
 
 <a name="SuccessfulPayment"></a>
@@ -12884,12 +13884,31 @@ Contains information about a suggested post.
 ```go
 type SuggestedPostInfo struct {
     // State of the suggested post. Currently, it can be one of “pending”, “approved”, “declined”.
-    State string `json:"state"`
+    State SuggestedPostInfoState `json:"state"`
     // Optional. Proposed price of the post. If the field is omitted, then the post is unpaid.
     Price *SuggestedPostPrice `json:"price,omitempty"`
     // Optional. Proposed send date of the post. If the field is omitted, then the post can be published at any time within 30 days at the sole discretion of the user or administrator who approves it.
     SendDate *int64 `json:"send_date,omitempty"`
 }
+```
+
+<a name="SuggestedPostInfoState"></a>
+## type SuggestedPostInfoState
+
+
+
+```go
+type SuggestedPostInfoState string
+```
+
+<a name="SuggestedPostInfoStatePending"></a>
+
+```go
+const (
+    SuggestedPostInfoStatePending  SuggestedPostInfoState = "pending"
+    SuggestedPostInfoStateApproved SuggestedPostInfoState = "approved"
+    SuggestedPostInfoStateDeclined SuggestedPostInfoState = "declined"
+)
 ```
 
 <a name="SuggestedPostPaid"></a>
@@ -12902,12 +13921,30 @@ type SuggestedPostPaid struct {
     // Optional. Message containing the suggested post. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
     SuggestedPostMessage *Message `json:"suggested_post_message,omitempty"`
     // Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins
-    Currency string `json:"currency"`
+    Currency SuggestedPostPaidCurrency `json:"currency"`
     // Optional. The amount of the currency that was received by the channel in nanotoncoins; for payments in toncoins only
     Amount *int64 `json:"amount,omitempty"`
     // Optional. The amount of Telegram Stars that was received by the channel; for payments in Telegram Stars only
     StarAmount *StarAmount `json:"star_amount,omitempty"`
 }
+```
+
+<a name="SuggestedPostPaidCurrency"></a>
+## type SuggestedPostPaidCurrency
+
+
+
+```go
+type SuggestedPostPaidCurrency string
+```
+
+<a name="SuggestedPostPaidCurrencyXTR"></a>
+
+```go
+const (
+    SuggestedPostPaidCurrencyXTR SuggestedPostPaidCurrency = "XTR"
+    SuggestedPostPaidCurrencyTON SuggestedPostPaidCurrency = "TON"
+)
 ```
 
 <a name="SuggestedPostParameters"></a>
@@ -12932,7 +13969,7 @@ Describes the price of a suggested post.
 ```go
 type SuggestedPostPrice struct {
     // Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for toncoins
-    Currency string `json:"currency"`
+    Currency SuggestedPostPaidCurrency `json:"currency"`
     // The amount of the currency that will be paid for the post in the smallest units of the currency, i.e. Telegram Stars or nanotoncoins. Currently, price in Telegram Stars must be between 5 and 100000, and price in nanotoncoins must be between 10000000 and 10000000000000.
     Amount int64 `json:"amount"`
 }
@@ -12948,8 +13985,26 @@ type SuggestedPostRefunded struct {
     // Optional. Message containing the suggested post. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
     SuggestedPostMessage *Message `json:"suggested_post_message,omitempty"`
     // Reason for the refund. Currently, one of “post_deleted” if the post was deleted within 24 hours of being posted or removed from scheduled messages without being posted, or “payment_refunded” if the payer refunded their payment.
-    Reason string `json:"reason"`
+    Reason SuggestedPostRefundedReason `json:"reason"`
 }
+```
+
+<a name="SuggestedPostRefundedReason"></a>
+## type SuggestedPostRefundedReason
+
+
+
+```go
+type SuggestedPostRefundedReason string
+```
+
+<a name="SuggestedPostRefundedReasonPostDeleted"></a>
+
+```go
+const (
+    SuggestedPostRefundedReasonPostDeleted     SuggestedPostRefundedReason = "post_deleted"
+    SuggestedPostRefundedReasonPaymentRefunded SuggestedPostRefundedReason = "payment_refunded"
+)
 ```
 
 <a name="SwitchInlineQueryChosenChat"></a>
@@ -13028,12 +14083,29 @@ Describes the affiliate program that issued the affiliate commission received vi
 ```go
 type TransactionPartnerAffiliateProgram struct {
     // Type of the transaction partner, always “affiliate_program”
-    Type string `json:"type"`
+    Type TransactionPartnerAffiliateProgramType `json:"type"`
     // Optional. Information about the bot that sponsored the affiliate program
     SponsorUser *User `json:"sponsor_user,omitempty"`
     // The number of Telegram Stars received by the bot for each 1000 Telegram Stars received by the affiliate program sponsor from referred users
     CommissionPerMille int64 `json:"commission_per_mille"`
 }
+```
+
+<a name="TransactionPartnerAffiliateProgramType"></a>
+## type TransactionPartnerAffiliateProgramType
+
+
+
+```go
+type TransactionPartnerAffiliateProgramType string
+```
+
+<a name="TransactionPartnerAffiliateProgramTypeAffiliateProgram"></a>
+
+```go
+const (
+    TransactionPartnerAffiliateProgramTypeAffiliateProgram TransactionPartnerAffiliateProgramType = "affiliate_program"
+)
 ```
 
 <a name="TransactionPartnerChat"></a>
@@ -13044,7 +14116,7 @@ Describes a transaction with a chat.
 ```go
 type TransactionPartnerChat struct {
     // Type of the transaction partner, always “chat”
-    Type string `json:"type"`
+    Type MessageOriginChatType `json:"type"`
     // Information about the chat
     Chat Chat `json:"chat"`
     // Optional. The gift sent to the chat by the bot
@@ -13060,7 +14132,7 @@ Describes a withdrawal transaction with Fragment.
 ```go
 type TransactionPartnerFragment struct {
     // Type of the transaction partner, always “fragment”
-    Type string `json:"type"`
+    Type TransactionPartnerFragmentType `json:"type"`
     // Optional. State of the transaction if the transaction is outgoing
     WithdrawalState RevenueWithdrawalState `json:"withdrawal_state,omitempty"`
 }
@@ -13075,6 +14147,23 @@ func (m *TransactionPartnerFragment) UnmarshalJSON(data []byte) error
 
 UnmarshalJSON decodes TransactionPartnerFragment by dispatching union\-typed fields \(WithdrawalState\) through their concrete UnmarshalXxx helpers.
 
+<a name="TransactionPartnerFragmentType"></a>
+## type TransactionPartnerFragmentType
+
+
+
+```go
+type TransactionPartnerFragmentType string
+```
+
+<a name="TransactionPartnerFragmentTypeFragment"></a>
+
+```go
+const (
+    TransactionPartnerFragmentTypeFragment TransactionPartnerFragmentType = "fragment"
+)
+```
+
 <a name="TransactionPartnerOther"></a>
 ## type TransactionPartnerOther
 
@@ -13083,8 +14172,25 @@ Describes a transaction with an unknown source or recipient.
 ```go
 type TransactionPartnerOther struct {
     // Type of the transaction partner, always “other”
-    Type string `json:"type"`
+    Type TransactionPartnerOtherType `json:"type"`
 }
+```
+
+<a name="TransactionPartnerOtherType"></a>
+## type TransactionPartnerOtherType
+
+
+
+```go
+type TransactionPartnerOtherType string
+```
+
+<a name="TransactionPartnerOtherTypeOther"></a>
+
+```go
+const (
+    TransactionPartnerOtherTypeOther TransactionPartnerOtherType = "other"
+)
 ```
 
 <a name="TransactionPartnerTelegramAds"></a>
@@ -13095,8 +14201,25 @@ Describes a withdrawal transaction to the Telegram Ads platform.
 ```go
 type TransactionPartnerTelegramAds struct {
     // Type of the transaction partner, always “telegram_ads”
-    Type string `json:"type"`
+    Type TransactionPartnerTelegramAdsType `json:"type"`
 }
+```
+
+<a name="TransactionPartnerTelegramAdsType"></a>
+## type TransactionPartnerTelegramAdsType
+
+
+
+```go
+type TransactionPartnerTelegramAdsType string
+```
+
+<a name="TransactionPartnerTelegramAdsTypeTelegramAds"></a>
+
+```go
+const (
+    TransactionPartnerTelegramAdsTypeTelegramAds TransactionPartnerTelegramAdsType = "telegram_ads"
+)
 ```
 
 <a name="TransactionPartnerTelegramApi"></a>
@@ -13107,10 +14230,27 @@ Describes a transaction with payment for paid broadcasting.
 ```go
 type TransactionPartnerTelegramApi struct {
     // Type of the transaction partner, always “telegram_api”
-    Type string `json:"type"`
+    Type TransactionPartnerTelegramApiType `json:"type"`
     // The number of successful requests that exceeded regular limits and were therefore billed
     RequestCount int64 `json:"request_count"`
 }
+```
+
+<a name="TransactionPartnerTelegramApiType"></a>
+## type TransactionPartnerTelegramApiType
+
+
+
+```go
+type TransactionPartnerTelegramApiType string
+```
+
+<a name="TransactionPartnerTelegramApiTypeTelegramApi"></a>
+
+```go
+const (
+    TransactionPartnerTelegramApiTypeTelegramApi TransactionPartnerTelegramApiType = "telegram_api"
+)
 ```
 
 <a name="TransactionPartnerUser"></a>
@@ -13121,9 +14261,9 @@ Describes a transaction with a user.
 ```go
 type TransactionPartnerUser struct {
     // Type of the transaction partner, always “user”
-    Type string `json:"type"`
+    Type MessageOriginUserType `json:"type"`
     // Type of the transaction, currently one of “invoice_payment” for payments via invoices, “paid_media_payment” for payments for paid media, “gift_purchase” for gifts sent by the bot, “premium_purchase” for Telegram Premium subscriptions gifted by the bot, “business_account_transfer” for direct transfers from managed business accounts
-    TransactionType string `json:"transaction_type"`
+    TransactionType TransactionPartnerUserTransactionType `json:"transaction_type"`
     // Information about the user
     User User `json:"user"`
     // Optional. Information about the affiliate that received a commission via this transaction. Can be available only for “invoice_payment” and “paid_media_payment” transactions.
@@ -13151,6 +14291,27 @@ func (m *TransactionPartnerUser) UnmarshalJSON(data []byte) error
 ```
 
 UnmarshalJSON decodes TransactionPartnerUser by dispatching union\-typed fields \(PaidMedia\) through their concrete UnmarshalXxx helpers.
+
+<a name="TransactionPartnerUserTransactionType"></a>
+## type TransactionPartnerUserTransactionType
+
+
+
+```go
+type TransactionPartnerUserTransactionType string
+```
+
+<a name="TransactionPartnerUserTransactionTypeInvoicePayment"></a>
+
+```go
+const (
+    TransactionPartnerUserTransactionTypeInvoicePayment          TransactionPartnerUserTransactionType = "invoice_payment"
+    TransactionPartnerUserTransactionTypePaidMediaPayment        TransactionPartnerUserTransactionType = "paid_media_payment"
+    TransactionPartnerUserTransactionTypeGiftPurchase            TransactionPartnerUserTransactionType = "gift_purchase"
+    TransactionPartnerUserTransactionTypePremiumPurchase         TransactionPartnerUserTransactionType = "premium_purchase"
+    TransactionPartnerUserTransactionTypeBusinessAccountTransfer TransactionPartnerUserTransactionType = "business_account_transfer"
+)
+```
 
 <a name="TransferBusinessAccountStarsParams"></a>
 ## type TransferBusinessAccountStarsParams
@@ -13336,9 +14497,9 @@ type UniqueGiftInfo struct {
     // Information about the gift
     Gift UniqueGift `json:"gift"`
     // Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, “resale” for gifts bought from other users, “gifted_upgrade” for upgrades purchased after the gift was sent, or “offer” for gifts bought or sold through gift purchase offers
-    Origin string `json:"origin"`
+    Origin UniqueGiftInfoOrigin `json:"origin"`
     // Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.
-    LastResaleCurrency string `json:"last_resale_currency,omitempty"`
+    LastResaleCurrency SuggestedPostPaidCurrency `json:"last_resale_currency,omitempty"`
     // Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanotoncoins
     LastResaleAmount *int64 `json:"last_resale_amount,omitempty"`
     // Optional. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts
@@ -13348,6 +14509,27 @@ type UniqueGiftInfo struct {
     // Optional. Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift can be transferred now
     NextTransferDate *int64 `json:"next_transfer_date,omitempty"`
 }
+```
+
+<a name="UniqueGiftInfoOrigin"></a>
+## type UniqueGiftInfoOrigin
+
+
+
+```go
+type UniqueGiftInfoOrigin string
+```
+
+<a name="UniqueGiftInfoOriginUpgrade"></a>
+
+```go
+const (
+    UniqueGiftInfoOriginUpgrade       UniqueGiftInfoOrigin = "upgrade"
+    UniqueGiftInfoOriginTransfer      UniqueGiftInfoOrigin = "transfer"
+    UniqueGiftInfoOriginResale        UniqueGiftInfoOrigin = "resale"
+    UniqueGiftInfoOriginGiftedUpgrade UniqueGiftInfoOrigin = "gifted_upgrade"
+    UniqueGiftInfoOriginOffer         UniqueGiftInfoOrigin = "offer"
+)
 ```
 
 <a name="UniqueGiftModel"></a>
@@ -13364,8 +14546,28 @@ type UniqueGiftModel struct {
     // The number of unique gifts that receive this model for every 1000 gift upgrades. Always 0 for crafted gifts.
     RarityPerMille int64 `json:"rarity_per_mille"`
     // Optional. Rarity of the model if it is a crafted model. Currently, can be “uncommon”, “rare”, “epic”, or “legendary”.
-    Rarity string `json:"rarity,omitempty"`
+    Rarity UniqueGiftModelRarity `json:"rarity,omitempty"`
 }
+```
+
+<a name="UniqueGiftModelRarity"></a>
+## type UniqueGiftModelRarity
+
+
+
+```go
+type UniqueGiftModelRarity string
+```
+
+<a name="UniqueGiftModelRarityUncommon"></a>
+
+```go
+const (
+    UniqueGiftModelRarityUncommon  UniqueGiftModelRarity = "uncommon"
+    UniqueGiftModelRarityRare      UniqueGiftModelRarity = "rare"
+    UniqueGiftModelRarityEpic      UniqueGiftModelRarity = "epic"
+    UniqueGiftModelRarityLegendary UniqueGiftModelRarity = "legendary"
+)
 ```
 
 <a name="UniqueGiftSymbol"></a>
@@ -13522,7 +14724,7 @@ Use this method to receive incoming updates using long polling \(wiki\). Returns
 <a name="UpdateType"></a>
 ## type UpdateType
 
-UpdateType identifies an Update payload variant. Used by allowed\_updates in getUpdates / setWebhook.
+UpdateType identifies an Update payload variant. Used by allowed\_updates in getUpdates / setWebhook. The Telegram docs do not enumerate these values inline \(they are derived from the optional fields of Update\), so the codegen pipeline cannot synthesise this enum and it lives here as a hand\-curated companion to the generated enums.gen.go.
 
 ```go
 type UpdateType string
@@ -13532,12 +14734,29 @@ type UpdateType string
 
 ```go
 const (
-    UpdateMessage           UpdateType = "message"
-    UpdateEditedMessage     UpdateType = "edited_message"
-    UpdateChannelPost       UpdateType = "channel_post"
-    UpdateEditedChannelPost UpdateType = "edited_channel_post"
-    UpdateCallbackQuery     UpdateType = "callback_query"
-    UpdateInlineQuery       UpdateType = "inline_query"
+    UpdateMessage                 UpdateType = "message"
+    UpdateEditedMessage           UpdateType = "edited_message"
+    UpdateChannelPost             UpdateType = "channel_post"
+    UpdateEditedChannelPost       UpdateType = "edited_channel_post"
+    UpdateBusinessConnection      UpdateType = "business_connection"
+    UpdateBusinessMessage         UpdateType = "business_message"
+    UpdateEditedBusinessMessage   UpdateType = "edited_business_message"
+    UpdateDeletedBusinessMessages UpdateType = "deleted_business_messages"
+    UpdateMessageReaction         UpdateType = "message_reaction"
+    UpdateMessageReactionCount    UpdateType = "message_reaction_count"
+    UpdateInlineQuery             UpdateType = "inline_query"
+    UpdateChosenInlineResult      UpdateType = "chosen_inline_result"
+    UpdateCallbackQuery           UpdateType = "callback_query"
+    UpdateShippingQuery           UpdateType = "shipping_query"
+    UpdatePreCheckoutQuery        UpdateType = "pre_checkout_query"
+    UpdatePurchasedPaidMedia      UpdateType = "purchased_paid_media"
+    UpdatePoll                    UpdateType = "poll"
+    UpdatePollAnswer              UpdateType = "poll_answer"
+    UpdateMyChatMember            UpdateType = "my_chat_member"
+    UpdateChatMember              UpdateType = "chat_member"
+    UpdateChatJoinRequest         UpdateType = "chat_join_request"
+    UpdateChatBoost               UpdateType = "chat_boost"
+    UpdateRemovedChatBoost        UpdateType = "removed_chat_boost"
 )
 ```
 
@@ -13575,7 +14794,7 @@ type UploadStickerFileParams struct {
     // A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See https://core.telegram.org/stickers for technical requirements. More information on Sending Files »
     Sticker *InputFile `json:"sticker"`
     // Format of the sticker, must be one of “static”, “animated”, “video”
-    StickerFormat string `json:"sticker_format"`
+    StickerFormat InputStickerFormat `json:"sticker_format"`
 }
 ```
 

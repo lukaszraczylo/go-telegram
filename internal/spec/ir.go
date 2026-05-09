@@ -45,6 +45,11 @@ type Field struct {
 	Type     TypeRef `json:"type"`
 	Required bool    `json:"required,omitempty"`
 	Doc      string  `json:"doc,omitempty"`
+	// EnumValues, when non-empty, lists the wire-level string values the
+	// scraper detected for an enum-like description ("can be A, B or C",
+	// "always X", parse_mode special-case). Order is doc order, deduped.
+	// Emitted as a typed Go enum that replaces the field's string type.
+	EnumValues []string `json:"enum_values,omitempty"`
 }
 
 // Kind enumerates TypeRef shapes.

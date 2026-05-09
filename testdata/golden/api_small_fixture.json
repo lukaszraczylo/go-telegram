@@ -98,7 +98,12 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Mode for parsing entities in the message text."
+          "doc": "Mode for parsing entities in the message text.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
         }
       ],
       "returns": {

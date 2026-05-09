@@ -516,7 +516,7 @@ func extractCommand(m *api.Message) (cmd, args string, ok bool) {
 		return "", "", false
 	}
 	first := m.Entities[0]
-	if first.Type != string(api.EntityBotCommand) || first.Offset != 0 {
+	if first.Type != api.MessageEntityTypeBotCommand || first.Offset != 0 {
 		return "", "", false
 	}
 	cmd, sliceOk := utf16Slice(m.Text, int(first.Offset), int(first.Length))
