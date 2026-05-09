@@ -113,7 +113,7 @@ func (p *LongPoller) Run(ctx context.Context) error
 Run implements Updater. It blocks until ctx is cancelled, Stop is called, or a fatal error occurs \(e.g. unauthorized\). See LongPoller for at\-least\-once delivery semantics on shutdown.
 
 <a name="LongPoller.Stop"></a>
-### func \(\*LongPoller\) [Stop](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/longpoll.go#L126>)
+### func \(\*LongPoller\) [Stop](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/longpoll.go#L122>)
 
 ```go
 func (p *LongPoller) Stop(ctx context.Context) error
