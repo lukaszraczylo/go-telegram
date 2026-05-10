@@ -63,11 +63,14 @@ func BenchmarkEncodeJSONBody(b *testing.B) {
 	req := &benchSendReq{ChatID: 42, Text: "hello, world"}
 	b.ReportAllocs()
 	for b.Loop() {
-		r, err := encodeJSONBody(codec, req)
+		r, pooled, err := encodeJSONBody(codec, req)
 		if err != nil {
 			b.Fatal(err)
 		}
 		_ = r
+		if pooled != nil {
+			putReqBuf(pooled)
+		}
 	}
 }
 

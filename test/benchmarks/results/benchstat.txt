@@ -4,55 +4,55 @@ pkg: github.com/lukaszraczylo/go-telegram/test/benchmarks
 cpu: Apple M4 Max
                            │ /Users/nvm/Documents/projects/private/go-telegram/test/benchmarks/results/raw.txt │
                            │                                      sec/op                                       │
-Call_ours-16                                                                                       38.95µ ± 3%
-Call_gotba-16                                                                                      41.95µ ± 2%
-Call_telebot-16                                                                                    43.63µ ± 0%
-Call_gobot-16                                                                                      61.11µ ± 1%
-Call_telego-16                                                                                     36.31µ ± 1%
-Dispatch_ours-16                                                                                   100.7n ± 3%
-Dispatch_telebot-16                                                                                269.2n ± 5%
-Dispatch_gobot-16                                                                                  251.5n ± 4%
-LargeUnmarshal_ours-16                                                                             6.667µ ± 4%
-LargeUnmarshal_gotba-16                                                                            8.321µ ± 2%
-LargeUnmarshal_telebot-16                                                                          10.24µ ± 4%
-LargeUnmarshal_gobot-16                                                                            8.150µ ± 2%
-LargeUnmarshal_telego-16                                                                           7.797µ ± 1%
-LargeUnmarshal_echotron-16                                                                         8.072µ ± 0%
-Webhook_ours-16                                                                                    1.743µ ± 3%
-Webhook_gotba-16                                                                                   2.016µ ± 3%
-Webhook_telebot-16                                                                                 2.073µ ± 3%
-Webhook_gobot-16                                                                                   1.999µ ± 1%
-Webhook_telego-16                                                                                  2.026µ ± 2%
-Webhook_echotron-16                                                                                1.973µ ± 0%
-geomean                                                                                            4.603µ
+Call_ours-16                                                                                       39.83µ ± 4%
+Call_gotba-16                                                                                      42.03µ ± 4%
+Call_telebot-16                                                                                    43.41µ ± 1%
+Call_gobot-16                                                                                      61.19µ ± 1%
+Call_telego-16                                                                                     35.84µ ± 1%
+Dispatch_ours-16                                                                                   98.46n ± 2%
+Dispatch_telebot-16                                                                                270.9n ± 2%
+Dispatch_gobot-16                                                                                  246.1n ± 1%
+LargeUnmarshal_ours-16                                                                             6.726µ ± 1%
+LargeUnmarshal_gotba-16                                                                            8.066µ ± 1%
+LargeUnmarshal_telebot-16                                                                          10.19µ ± 1%
+LargeUnmarshal_gobot-16                                                                            8.231µ ± 1%
+LargeUnmarshal_telego-16                                                                           7.849µ ± 2%
+LargeUnmarshal_echotron-16                                                                         8.123µ ± 1%
+Webhook_ours-16                                                                                    1.832µ ± 4%
+Webhook_gotba-16                                                                                   2.082µ ± 0%
+Webhook_telebot-16                                                                                 2.194µ ± 1%
+Webhook_gobot-16                                                                                   2.082µ ± 1%
+Webhook_telego-16                                                                                  2.143µ ± 2%
+Webhook_echotron-16                                                                                2.039µ ± 1%
+geomean                                                                                            4.658µ
 
                            │ /Users/nvm/Documents/projects/private/go-telegram/test/benchmarks/results/raw.txt │
                            │                                       B/op                                        │
-Call_ours-16                                                                                      11.17Ki ± 0%
-Call_gotba-16                                                                                     10.95Ki ± 0%
-Call_telebot-16                                                                                   13.16Ki ± 0%
-Call_gobot-16                                                                                     13.51Ki ± 0%
-Call_telego-16                                                                                    6.556Ki ± 0%
+Call_ours-16                                                                                      11.09Ki ± 1%
+Call_gotba-16                                                                                     10.97Ki ± 0%
+Call_telebot-16                                                                                   13.15Ki ± 0%
+Call_gobot-16                                                                                     13.50Ki ± 0%
+Call_telego-16                                                                                    6.547Ki ± 0%
 Dispatch_ours-16                                                                                    128.0 ± 0%
-Dispatch_telebot-16                                                                                 678.0 ± 0%
+Dispatch_telebot-16                                                                                 678.5 ± 0%
 Dispatch_gobot-16                                                                                   48.00 ± 0%
-LargeUnmarshal_ours-16                                                                            5.881Ki ± 0%
+LargeUnmarshal_ours-16                                                                            5.875Ki ± 0%
 LargeUnmarshal_gotba-16                                                                           3.438Ki ± 0%
 LargeUnmarshal_telebot-16                                                                         5.594Ki ± 0%
 LargeUnmarshal_gobot-16                                                                           4.703Ki ± 0%
-LargeUnmarshal_telego-16                                                                          6.621Ki ± 0%
+LargeUnmarshal_telego-16                                                                          6.600Ki ± 0%
 LargeUnmarshal_echotron-16                                                                        4.219Ki ± 0%
 Webhook_ours-16                                                                                   2.180Ki ± 0%
 Webhook_gotba-16                                                                                  1.461Ki ± 0%
 Webhook_telebot-16                                                                                1.773Ki ± 0%
 Webhook_gobot-16                                                                                  1.789Ki ± 0%
-Webhook_telego-16                                                                                 3.060Ki ± 0%
+Webhook_telego-16                                                                                 3.058Ki ± 0%
 Webhook_echotron-16                                                                               1.680Ki ± 0%
-geomean                                                                                           2.701Ki
+geomean                                                                                           2.699Ki
 
                            │ /Users/nvm/Documents/projects/private/go-telegram/test/benchmarks/results/raw.txt │
                            │                                     allocs/op                                     │
-Call_ours-16                                                                                        104.0 ± 0%
+Call_ours-16                                                                                        102.0 ± 0%
 Call_gotba-16                                                                                       125.0 ± 0%
 Call_telebot-16                                                                                     139.0 ± 0%
 Call_gobot-16                                                                                       176.0 ± 0%
@@ -72,4 +72,4 @@ Webhook_telebot-16                                                              
 Webhook_gobot-16                                                                                    16.00 ± 0%
 Webhook_telego-16                                                                                   11.00 ± 0%
 Webhook_echotron-16                                                                                 16.00 ± 0%
-geomean                                                                                             26.03
+geomean                                                                                             26.00

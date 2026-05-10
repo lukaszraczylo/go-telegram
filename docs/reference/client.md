@@ -19,6 +19,7 @@ Package client provides HTTP client primitives for the Telegram Bot API.
   - [func \(e \*APIError\) IsRetryable\(\) bool](<#APIError.IsRetryable>)
   - [func \(e \*APIError\) RetryAfter\(\) time.Duration](<#APIError.RetryAfter>)
   - [func \(e \*APIError\) Unwrap\(\) error](<#APIError.Unwrap>)
+- [type BodyEncoder](<#BodyEncoder>)
 - [type Bot](<#Bot>)
   - [func New\(token string, opts ...Option\) \*Bot](<#New>)
   - [func \(b \*Bot\) BaseURL\(\) string](<#Bot.BaseURL>)
@@ -29,6 +30,7 @@ Package client provides HTTP client primitives for the Telegram Bot API.
 - [type Codec](<#Codec>)
 - [type DefaultCodec](<#DefaultCodec>)
   - [func \(DefaultCodec\) Marshal\(v any\) \(\[\]byte, error\)](<#DefaultCodec.Marshal>)
+  - [func \(DefaultCodec\) MarshalTo\(w io.Writer, v any\) error](<#DefaultCodec.MarshalTo>)
   - [func \(DefaultCodec\) Unmarshal\(data \[\]byte, v any\) error](<#DefaultCodec.Unmarshal>)
 - [type HTTPDoer](<#HTTPDoer>)
 - [type Logger](<#Logger>)
@@ -80,7 +82,7 @@ var (
 ```
 
 <a name="Call"></a>
-## func [Call](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/call.go#L53>)
+## func [Call](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/call.go#L68>)
 
 ```go
 func Call[Req any, Resp any](ctx context.Context, b *Bot, method string, req Req) (Resp, error)
@@ -93,7 +95,7 @@ It is generic over both request and response types. Methods with no parameters m
 Call is exported because the api package \(which lives outside this one\) invokes it from generated method wrappers. User code should not normally call it directly — use the typed wrappers in package api instead.
 
 <a name="CallRaw"></a>
-## func [CallRaw](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/call.go#L104>)
+## func [CallRaw](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/call.go#L119>)
 
 ```go
 func CallRaw[Req any](ctx context.Context, b *Bot, method string, req Req) (json.RawMessage, error)
@@ -166,8 +168,19 @@ func (e *APIError) Unwrap() error
 
 Unwrap returns the matched sentinel error, if any.
 
+<a name="BodyEncoder"></a>
+## type [BodyEncoder](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L24-L26>)
+
+BodyEncoder is an optional Codec extension that encodes directly into an io.Writer, skipping the intermediate \[\]byte that Marshal returns. Call uses this when present to avoid allocating the marshal result and the bytes.Reader that wraps it; codecs without it fall through to Marshal \+ bytes.NewReader.
+
+```go
+type BodyEncoder interface {
+    MarshalTo(w io.Writer, v any) error
+}
+```
+
 <a name="Bot"></a>
-## type [Bot](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L7-L13>)
+## type [Bot](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L11-L24>)
 
 Bot is the Telegram Bot API client. Construct via New. All API methods \(declared in package api\) hang off \*Bot via thin wrappers around call.
 
@@ -178,7 +191,7 @@ type Bot struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L36>)
+### func [New](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L47>)
 
 ```go
 func New(token string, opts ...Option) *Bot
@@ -187,7 +200,7 @@ func New(token string, opts ...Option) *Bot
 New constructs a Bot with the given token and optional configuration. The default HTTP client is tuned for long\-poll workloads \(see NewDefaultHTTPDoer\); the default codec wraps encoding/json; the default logger discards records.
 
 <a name="Bot.BaseURL"></a>
-### func \(\*Bot\) [BaseURL](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L20>)
+### func \(\*Bot\) [BaseURL](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L31>)
 
 ```go
 func (b *Bot) BaseURL() string
@@ -196,7 +209,7 @@ func (b *Bot) BaseURL() string
 BaseURL returns the configured Telegram API base URL.
 
 <a name="Bot.Codec"></a>
-### func \(\*Bot\) [Codec](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L27>)
+### func \(\*Bot\) [Codec](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L38>)
 
 ```go
 func (b *Bot) Codec() Codec
@@ -205,7 +218,7 @@ func (b *Bot) Codec() Codec
 Codec returns the configured Codec.
 
 <a name="Bot.HTTP"></a>
-### func \(\*Bot\) [HTTP](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L24>)
+### func \(\*Bot\) [HTTP](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L35>)
 
 ```go
 func (b *Bot) HTTP() HTTPDoer
@@ -214,7 +227,7 @@ func (b *Bot) HTTP() HTTPDoer
 HTTP returns the underlying HTTPDoer. Exposed for adapters that need to share connection pools or for diagnostic checks.
 
 <a name="Bot.Logger"></a>
-### func \(\*Bot\) [Logger](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L30>)
+### func \(\*Bot\) [Logger](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L41>)
 
 ```go
 func (b *Bot) Logger() Logger
@@ -223,7 +236,7 @@ func (b *Bot) Logger() Logger
 Logger returns the configured Logger.
 
 <a name="Bot.Token"></a>
-### func \(\*Bot\) [Token](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L17>)
+### func \(\*Bot\) [Token](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/client.go#L28>)
 
 ```go
 func (b *Bot) Token() string
@@ -232,7 +245,7 @@ func (b *Bot) Token() string
 Token returns the bot token. Exposed for advanced use cases \(custom transports, manual URL building\); ordinary code does not need it.
 
 <a name="Codec"></a>
-## type [Codec](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L10-L13>)
+## type [Codec](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L14-L17>)
 
 Codec encodes/decodes JSON payloads exchanged with the Telegram Bot API. The default implementation wraps goccy/go\-json. Users may plug in bytedance/sonic or any compatible encoder by passing WithCodec to New.
 
@@ -244,7 +257,7 @@ type Codec interface {
 ```
 
 <a name="DefaultCodec"></a>
-## type [DefaultCodec](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L16>)
+## type [DefaultCodec](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L29>)
 
 DefaultCodec wraps goccy/go\-json. It is the zero\-value safe default.
 
@@ -253,7 +266,7 @@ type DefaultCodec struct{}
 ```
 
 <a name="DefaultCodec.Marshal"></a>
-### func \(DefaultCodec\) [Marshal](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L19>)
+### func \(DefaultCodec\) [Marshal](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L32>)
 
 ```go
 func (DefaultCodec) Marshal(v any) ([]byte, error)
@@ -261,8 +274,17 @@ func (DefaultCodec) Marshal(v any) ([]byte, error)
 
 Marshal calls json.Marshal.
 
+<a name="DefaultCodec.MarshalTo"></a>
+### func \(DefaultCodec\) [MarshalTo](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L40>)
+
+```go
+func (DefaultCodec) MarshalTo(w io.Writer, v any) error
+```
+
+MarshalTo encodes v into w via goccy/go\-json's streaming encoder. The trailing newline that Encoder appends is valid JSON whitespace and is accepted by Telegram's parser.
+
 <a name="DefaultCodec.Unmarshal"></a>
-### func \(DefaultCodec\) [Unmarshal](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L22>)
+### func \(DefaultCodec\) [Unmarshal](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/codec.go#L35>)
 
 ```go
 func (DefaultCodec) Unmarshal(data []byte, v any) error

@@ -18,10 +18,10 @@
 
 ## TL;DR
 
-- **Webhook decode** (small Update): ours is **15–19% faster** than every competitor and ties telego for the lowest alloc count (11).
-- **Large Update unmarshal** (entities + reply markup + photo array): ours is **17–35% faster** with the lowest ns/op of all six. telego edges us on alloc count (31 vs 34) at the cost of ~17% more time.
-- **API call round-trip** (mock HTTP server): telego wins (36.3 µs / 48 allocs) thanks to its custom binder; ours is second (38.95 µs / 104 allocs) and beats gotba, telebot, gobot.
-- **Dispatcher routing** (20 handlers, last matches): ours is **2.5× faster than telebot and gobot** (101 ns vs 269 / 252 ns).
+- **Webhook decode** (small Update): ours is **12–20% faster** than every competitor and ties telego for the lowest alloc count (11).
+- **Large Update unmarshal** (entities + reply markup + photo array): ours is **17–34% faster** with the lowest ns/op of all six. telego edges us on alloc count (31 vs 34) at the cost of ~17% more time.
+- **API call round-trip** (mock HTTP server): telego wins (35.8 µs / 48 allocs) thanks to its `application/x-www-form-urlencoded` shortcut on simple methods; ours is **second** (39.8 µs / 102 allocs) and beats gotba, telebot, gobot.
+- **Dispatcher routing** (20 handlers, last matches): ours is **2.5–2.8× faster than telebot and gobot** (98 ns vs 271 / 246 ns).
 
 ## How to read these numbers
 
@@ -37,12 +37,12 @@ Decode `shared.SmallUpdateJSON` into the library's typed `Update` struct.
 
 | Lib | sec/op | B/op | allocs/op |
 |-----|--------|------|-----------|
-| **ours** | **1.743 µs ±3%** | 2.180 KiB | **11** |
-| gotba | 2.016 µs ±3% | 1.461 KiB | 17 |
-| telebot | 2.073 µs ±3% | 1.773 KiB | 17 |
-| gobot | 1.999 µs ±1% | 1.789 KiB | 16 |
-| telego | 2.026 µs ±2% | 3.060 KiB | **11** |
-| echotron | 1.973 µs ±0% | 1.680 KiB | 16 |
+| **ours** | **1.832 µs ±4%** | 2.180 KiB | **11** |
+| gotba | 2.082 µs ±0% | 1.461 KiB | 17 |
+| telebot | 2.194 µs ±1% | 1.773 KiB | 17 |
+| gobot | 2.082 µs ±1% | 1.789 KiB | 16 |
+| telego | 2.143 µs ±2% | 3.058 KiB | **11** |
+| echotron | 2.039 µs ±1% | 1.680 KiB | 16 |
 
 **Notes.** We use slightly more bytes because typed unions and the typed `[]UpdateType` allocate richer Go values. We win on time and tie telego on alloc count.
 
@@ -52,12 +52,12 @@ Decode `shared.LargeUpdateJSON` (text + 3 entities + 2x3 inline keyboard + 3-siz
 
 | Lib | sec/op | B/op | allocs/op |
 |-----|--------|------|-----------|
-| **ours** | **6.667 µs ±4%** | 5.881 KiB | 34 |
-| gotba | 8.321 µs ±2% | 3.438 KiB | 56 |
-| telebot | 10.240 µs ±4% | 5.594 KiB | 60 |
-| gobot | 8.150 µs ±2% | 4.703 KiB | 50 |
-| telego | 7.797 µs ±1% | 6.621 KiB | **31** |
-| echotron | 8.072 µs ±0% | 4.219 KiB | 56 |
+| **ours** | **6.726 µs ±1%** | 5.875 KiB | 34 |
+| gotba | 8.066 µs ±1% | 3.438 KiB | 56 |
+| telebot | 10.190 µs ±1% | 5.594 KiB | 60 |
+| gobot | 8.231 µs ±1% | 4.703 KiB | 50 |
+| telego | 7.849 µs ±2% | 6.600 KiB | **31** |
+| echotron | 8.123 µs ±1% | 4.219 KiB | 56 |
 
 **Notes.** Despite the typed-union model giving us richer Go values per decode, we still produce them faster than every competitor. telego edges us by 3 allocs but pays 17% more time.
 
@@ -67,15 +67,16 @@ Build params → POST to local `httptest.Server` returning `{"ok":true,"result":
 
 | Lib | sec/op | B/op | allocs/op |
 |-----|--------|------|-----------|
-| ours | 38.95 µs ±3% | 11.17 KiB | 104 |
-| gotba | 41.95 µs ±2% | 10.95 KiB | 125 |
-| telebot | 43.63 µs ±0% | 13.16 KiB | 139 |
-| gobot | 61.11 µs ±1% | 13.51 KiB | 176 |
-| **telego** | **36.31 µs ±1%** | **6.556 KiB** | **48** |
+| ours | 39.83 µs ±4% | 11.09 KiB | 102 |
+| gotba | 42.03 µs ±4% | 10.97 KiB | 125 |
+| telebot | 43.41 µs ±1% | 13.15 KiB | 139 |
+| gobot | 61.19 µs ±1% | 13.50 KiB | 176 |
+| **telego** | **35.84 µs ±1%** | **6.547 KiB** | **48** |
 | echotron | *skipped — see below* | — | — |
 
 **Notes.**
 - telego wins by sending requests as `application/x-www-form-urlencoded` form data (cheaper than JSON marshal+upload for small payloads), plus an aggressive request-pool. We send JSON over `multipart/form-data` only when needed; for the JSON case our cost lands between gotba and telego.
+- Our request path runs through a manually-constructed `*http.Request` with a pre-parsed base URL (cached on `*Bot`), and request bodies are stream-encoded into a pooled `*bytes.Buffer` via the optional `BodyEncoder` codec extension. Together those skip the `url.Parse` + `*http.Request` bookkeeping that `http.NewRequestWithContext` runs on every call.
 - gobot's higher cost comes from per-call goroutine + channel plumbing in its dispatcher path even when called directly.
 - **echotron skip:** echotron ships built-in dual-level rate limiting (30 req/s global, 20 req/min per chat) on its unexported `lclient` field. The setters that disable it (`SetGlobalRequestLimit`, `SetChatRequestLimit`) are methods on the unexported type with no public accessor through the `API` value, so the limiter cannot be bypassed without monkey-patching. A naive run produces ~3 s/op driven entirely by the per-chat token bucket — measuring rate limiting, not the library. We skip rather than publish a misleading number. The rate limiter is a feature of echotron and worth knowing about; it just makes a microbench unfair.
 
@@ -85,9 +86,9 @@ Register 20 command handlers (`/cmd0` … `/cmd19`); feed an update matching `/c
 
 | Lib | sec/op | B/op | allocs/op |
 |-----|--------|------|-----------|
-| **ours** | **100.7 ns ±3%** | 128 B | 3 |
-| telebot | 269.2 ns ±5% | 678 B | 5 |
-| gobot | 251.5 ns ±4% | **48 B** | **1** |
+| **ours** | **98.46 ns ±2%** | 128 B | 3 |
+| telebot | 270.9 ns ±2% | 678 B | 5 |
+| gobot | 246.1 ns ±1% | **48 B** | **1** |
 
 **Notes.** We dispatch ~2.5× faster than telebot and gobot. gobot's single allocation is impressive but its routing decision is slower. telebot's higher cost reflects its richer per-update `Context` construction.
 

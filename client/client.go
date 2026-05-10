@@ -1,5 +1,9 @@
 package client
 
+import (
+	"net/url"
+)
+
 const defaultBaseURL = "https://api.telegram.org"
 
 // Bot is the Telegram Bot API client. Construct via New. All API methods
@@ -10,6 +14,13 @@ type Bot struct {
 	http   HTTPDoer
 	codec  Codec
 	logger Logger
+
+	// baseURL is the parsed form of base, lazily populated on first Call.
+	// Caching it avoids running url.Parse on every API request.
+	baseURL *url.URL
+	// pathPrefix is "/bot<token>/" built once so per-call URL assembly
+	// is a single string concatenation with the method name.
+	pathPrefix string
 }
 
 // Token returns the bot token. Exposed for advanced use cases (custom
@@ -44,5 +55,13 @@ func New(token string, opts ...Option) *Bot {
 	for _, o := range opts {
 		o(b)
 	}
+	// Pre-compute URL pieces. Errors here are unlikely (defaultBaseURL is
+	// well-formed; user-supplied bases via WithBaseURL are validated by
+	// url.Parse below) but if parsing fails we leave baseURL nil and fall
+	// back to the string-concat path on the next Call.
+	if u, err := url.Parse(b.base); err == nil {
+		b.baseURL = u
+	}
+	b.pathPrefix = "/bot" + b.token + "/"
 	return b
 }

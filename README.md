@@ -326,10 +326,10 @@ Apples-to-apples micro-benchmarks against the five most-starred Go Telegram libr
 
 | Path | Fastest | Our position |
 |------|---------|--------------|
-| Webhook decode (small Update) | **ours** — 1.74 µs / 11 allocs | 1st of 6 |
-| Large Update unmarshal (unions + reply markup) | **ours** — 6.67 µs / 34 allocs | 1st of 6 |
-| `sendMessage` round-trip (mock server) | telego — 36.3 µs / 48 allocs | 2nd of 5 |
-| Dispatcher routing (20 handlers, last matches) | **ours** — 101 ns / 3 allocs | 1st of 3 |
+| Webhook decode (small Update) | **ours** — 1.83 µs / 11 allocs | 1st of 6 |
+| Large Update unmarshal (unions + reply markup) | **ours** — 6.73 µs / 34 allocs | 1st of 6 |
+| `sendMessage` round-trip (mock server) | telego — 35.8 µs / 48 allocs | 2nd of 5 |
+| Dispatcher routing (20 handlers, last matches) | **ours** — 98 ns / 3 allocs | 1st of 3 |
 
 Full tables, caveats, and reproduction steps: **[`docs/benchmarks/2026-05-10-comparison.md`](docs/benchmarks/2026-05-10-comparison.md)**.
 

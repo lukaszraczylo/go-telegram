@@ -23,9 +23,17 @@ var (
 	// return slices that alias the buffer and therefore cannot use the
 	// pool without an extra copy that would defeat the point.
 	respBufPool = sync.Pool{New: func() any { return new(bytes.Buffer) }}
+
+	// reqBufPool reuses *bytes.Buffer for request body marshalling on the
+	// JSON path. Only used when the configured Codec satisfies BodyEncoder
+	// so we can stream-encode into the buffer instead of allocating an
+	// intermediate []byte. The buffer is safe to return to the pool once
+	// http.Client.Do (or RetryDoer, which io.ReadAlls the body up front)
+	// has consumed it.
+	reqBufPool = sync.Pool{New: func() any { return new(bytes.Buffer) }}
 )
 
-// maxPooledBufCap caps the buffer size returned to respBufPool. Buffers
+// maxPooledBufCap caps the buffer size returned to either pool. Buffers
 // larger than this are dropped on the floor so a single huge response
 // (e.g. a large getFile metadata payload) doesn't bloat the pool for the
 // rest of the process lifetime.
@@ -36,6 +44,13 @@ func putRespBuf(buf *bytes.Buffer) {
 		return
 	}
 	respBufPool.Put(buf)
+}
+
+func putReqBuf(buf *bytes.Buffer) {
+	if buf.Cap() > maxPooledBufCap {
+		return
+	}
+	reqBufPool.Put(buf)
 }
 
 // Call is the single point through which every Telegram Bot API method
@@ -62,18 +77,18 @@ func Call[Req any, Resp any](ctx context.Context, b *Bot, method string, req Req
 		}
 	}
 
-	body, err := encodeJSONBody(b.codec, req)
+	body, pooledReqBuf, err := encodeJSONBody(b.codec, req)
 	if err != nil {
 		return zero, err
 	}
+	if pooledReqBuf != nil {
+		defer putReqBuf(pooledReqBuf)
+	}
 
-	url := b.base + "/bot" + b.token + "/" + method
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, url, body)
+	httpReq, err := b.buildRequest(ctx, method, body)
 	if err != nil {
 		return zero, &NetworkError{Err: err}
 	}
-	httpReq.Header["Content-Type"] = headerJSONValue
-	httpReq.Header["Accept"] = headerJSONValue
 
 	resp, err := b.http.Do(httpReq)
 	if err != nil {
@@ -111,18 +126,18 @@ func CallRaw[Req any](ctx context.Context, b *Bot, method string, req Req) (json
 		}
 	}
 
-	body, err := encodeJSONBody(b.codec, req)
+	body, pooledReqBuf, err := encodeJSONBody(b.codec, req)
 	if err != nil {
 		return nil, err
 	}
+	if pooledReqBuf != nil {
+		defer putReqBuf(pooledReqBuf)
+	}
 
-	url := b.base + "/bot" + b.token + "/" + method
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, url, body)
+	httpReq, err := b.buildRequest(ctx, method, body)
 	if err != nil {
 		return nil, &NetworkError{Err: err}
 	}
-	httpReq.Header["Content-Type"] = headerJSONValue
-	httpReq.Header["Accept"] = headerJSONValue
 
 	resp, err := b.http.Do(httpReq)
 	if err != nil {
@@ -154,17 +169,108 @@ func decodeResultRaw(codec Codec, raw []byte) (json.RawMessage, error) {
 	return env.Result, nil
 }
 
-// encodeJSONBody marshals req to a JSON body. A nil interface or nil
-// pointer req yields "{}" so Telegram receives a valid empty object.
-func encodeJSONBody(codec Codec, req any) (io.Reader, error) {
+// buildRequest constructs the *http.Request for an API call. When the bot
+// has a cached parsed base URL (the common path), the request is built
+// manually so that net/url.Parse and net/http.NewRequestWithContext's
+// internal book-keeping are skipped — saving allocations on every call.
+//
+// ContentLength and GetBody are populated from the body's concrete type
+// in bodyToReadCloser so RetryDoer can replay the body across attempts.
+func (b *Bot) buildRequest(ctx context.Context, method string, body io.Reader) (*http.Request, error) {
+	if b.baseURL == nil {
+		// Slow path: WithBaseURL configured an unparsable URL (or New ran
+		// before pre-parse for some reason). Fall back to the stdlib
+		// constructor so we still produce a valid request.
+		url := b.base + b.pathPrefix + method
+		req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, body)
+		if err != nil {
+			return nil, err
+		}
+		req.Header["Content-Type"] = headerJSONValue
+		req.Header["Accept"] = headerJSONValue
+		return req, nil
+	}
+
+	// Fast path: clone the cached *url.URL by value, set the per-method
+	// path. Constructing &http.Request{} directly avoids the Header,
+	// URL-parse, and ContentLength bookkeeping that NewRequestWithContext
+	// runs unconditionally.
+	u := *b.baseURL
+	u.Path = b.pathPrefix + method
+	u.RawPath = ""
+
+	rc, contentLength, getBody := bodyToReadCloser(body)
+	req := &http.Request{
+		Method:        http.MethodPost,
+		URL:           &u,
+		Proto:         "HTTP/1.1",
+		ProtoMajor:    1,
+		ProtoMinor:    1,
+		Header:        http.Header{"Content-Type": headerJSONValue, "Accept": headerJSONValue},
+		Body:          rc,
+		GetBody:       getBody,
+		ContentLength: contentLength,
+		Host:          u.Host,
+	}
+	return req.WithContext(ctx), nil
+}
+
+// bodyToReadCloser wraps body for assignment to *http.Request.Body. The
+// type switch covers the body shapes encodeJSONBody returns: a pooled
+// *bytes.Buffer (BodyEncoder path or {} fast path) or a *bytes.Reader
+// (Marshal fallback for codecs that don't implement BodyEncoder). Both
+// cases populate ContentLength and GetBody so RetryDoer can replay the
+// body across retry attempts without buffering it again.
+func bodyToReadCloser(body io.Reader) (io.ReadCloser, int64, func() (io.ReadCloser, error)) {
+	switch v := body.(type) {
+	case *bytes.Buffer:
+		buf := v.Bytes()
+		length := int64(len(buf))
+		return io.NopCloser(v), length, func() (io.ReadCloser, error) {
+			return io.NopCloser(bytes.NewReader(buf)), nil
+		}
+	case *bytes.Reader:
+		length := int64(v.Len())
+		// Snapshot the reader's current data so GetBody returns a fresh one.
+		snapshot := *v
+		return io.NopCloser(v), length, func() (io.ReadCloser, error) {
+			s := snapshot
+			return io.NopCloser(&s), nil
+		}
+	default:
+		// Unknown reader: no length, no replay. Should not happen with the
+		// current encodeJSONBody body shapes but kept for forward safety.
+		return io.NopCloser(body), -1, nil
+	}
+}
+
+// encodeJSONBody marshals req into a JSON body. It returns the body
+// reader plus, when the codec satisfies BodyEncoder, the pooled buffer
+// that backs it — callers MUST return that buffer to the pool via
+// putReqBuf once the request is done. The buffer return is exposed
+// directly (instead of a closure) so encodeJSONBody allocates nothing
+// on the pooled path beyond the codec's own internal allocations.
+//
+// The {} fast path used for nil/nil-pointer requests bypasses the pool
+// entirely; the 2-byte literal isn't worth the contention overhead.
+func encodeJSONBody(codec Codec, req any) (io.Reader, *bytes.Buffer, error) {
 	if req == nil || isNilPointer(req) {
-		return bytes.NewBufferString("{}"), nil
+		return bytes.NewBufferString("{}"), nil, nil
+	}
+	if enc, ok := codec.(BodyEncoder); ok {
+		buf := reqBufPool.Get().(*bytes.Buffer)
+		buf.Reset()
+		if err := enc.MarshalTo(buf, req); err != nil {
+			putReqBuf(buf)
+			return nil, nil, &ParseError{Err: err}
+		}
+		return buf, buf, nil
 	}
 	data, err := codec.Marshal(req)
 	if err != nil {
-		return nil, &ParseError{Err: err}
+		return nil, nil, &ParseError{Err: err}
 	}
-	return bytes.NewReader(data), nil
+	return bytes.NewReader(data), nil, nil
 }
 
 // decodeResult unmarshals raw into Result[Resp] and translates non-OK
