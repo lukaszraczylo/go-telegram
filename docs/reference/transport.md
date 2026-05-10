@@ -154,7 +154,7 @@ type Updater interface {
 ```
 
 <a name="WebhookOption"></a>
-## type [WebhookOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L38>)
+## type [WebhookOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L57>)
 
 WebhookOption configures a WebhookServer at construction time.
 
@@ -163,7 +163,7 @@ type WebhookOption func(*webhookOptions)
 ```
 
 <a name="WithBufferSize"></a>
-### func [WithBufferSize](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L46>)
+### func [WithBufferSize](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L65>)
 
 ```go
 func WithBufferSize(n int) WebhookOption
@@ -172,7 +172,7 @@ func WithBufferSize(n int) WebhookOption
 WithBufferSize sets the size of the updates channel buffer. Default is 64.
 
 <a name="WebhookServer"></a>
-## type [WebhookServer](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L24-L35>)
+## type [WebhookServer](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L43-L54>)
 
 WebhookServer implements Updater by exposing an http.Handler that receives updates from Telegram. It can be mounted on the user's own HTTP server \(via ServeHTTP\) or run standalone \(via ListenAndServe\).
 
@@ -185,7 +185,7 @@ type WebhookServer struct {
 ```
 
 <a name="NewWebhookServer"></a>
-### func [NewWebhookServer](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L52>)
+### func [NewWebhookServer](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L71>)
 
 ```go
 func NewWebhookServer(b *client.Bot, opts ...WebhookOption) *WebhookServer
@@ -194,7 +194,7 @@ func NewWebhookServer(b *client.Bot, opts ...WebhookOption) *WebhookServer
 NewWebhookServer constructs a WebhookServer with default buffer size \(64\). Use WithBufferSize to override.
 
 <a name="WebhookServer.ListenAndServe"></a>
-### func \(\*WebhookServer\) [ListenAndServe](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L150>)
+### func \(\*WebhookServer\) [ListenAndServe](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L168>)
 
 ```go
 func (w *WebhookServer) ListenAndServe(ctx context.Context, addr string) error
@@ -203,7 +203,7 @@ func (w *WebhookServer) ListenAndServe(ctx context.Context, addr string) error
 ListenAndServe starts an HTTP server on addr and blocks until Stop is called \(which triggers Shutdown with the caller's context\) or the server returns an error other than http.ErrServerClosed. Callers must invoke Stop\(ctx\) to cleanly shut down the server; the ctx passed here is only used as the server's base context for incoming requests.
 
 <a name="WebhookServer.Run"></a>
-### func \(\*WebhookServer\) [Run](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L71>)
+### func \(\*WebhookServer\) [Run](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L90>)
 
 ```go
 func (w *WebhookServer) Run(ctx context.Context) error
@@ -212,7 +212,7 @@ func (w *WebhookServer) Run(ctx context.Context) error
 Run implements Updater. It blocks until Stop is called or ctx is cancelled. If the server has not been started via ListenAndServe, Run only watches for shutdown — the user is expected to mount ServeHTTP on their own router.
 
 <a name="WebhookServer.ServeHTTP"></a>
-### func \(\*WebhookServer\) [ServeHTTP](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L97>)
+### func \(\*WebhookServer\) [ServeHTTP](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L116>)
 
 ```go
 func (w *WebhookServer) ServeHTTP(rw http.ResponseWriter, r *http.Request)
@@ -221,7 +221,7 @@ func (w *WebhookServer) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 ServeHTTP implements http.Handler. Telegram POSTs each update as JSON to this endpoint. Non\-POST requests get 405; bad bodies get 400; secret token mismatches get 401.
 
 <a name="WebhookServer.Stop"></a>
-### func \(\*WebhookServer\) [Stop](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L83>)
+### func \(\*WebhookServer\) [Stop](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L102>)
 
 ```go
 func (w *WebhookServer) Stop(ctx context.Context) error
@@ -230,7 +230,7 @@ func (w *WebhookServer) Stop(ctx context.Context) error
 Stop implements Updater.
 
 <a name="WebhookServer.Updates"></a>
-### func \(\*WebhookServer\) [Updates](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L65>)
+### func \(\*WebhookServer\) [Updates](<https://github.com/lukaszraczylo/go-telegram/blob/main/transport/webhook.go#L84>)
 
 ```go
 func (w *WebhookServer) Updates() <-chan api.Update

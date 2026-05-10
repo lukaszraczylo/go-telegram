@@ -13,6 +13,7 @@ Package dispatch provides a typed router for Telegram updates. It consumes any t
 - [Variables](<#variables>)
 - [type Context](<#Context>)
   - [func NewContext\(ctx context.Context, b \*client.Bot, u \*api.Update\) \*Context](<#NewContext>)
+  - [func \(c \*Context\) Set\(key string, val any\)](<#Context.Set>)
 - [type Filter](<#Filter>)
   - [func All\[T any\]\(filters ...Filter\[T\]\) Filter\[T\]](<#All>)
   - [func Any\[T any\]\(filters ...Filter\[T\]\) Filter\[T\]](<#Any>)
@@ -90,7 +91,7 @@ var ErrEndGroups = errors.New("dispatch: end groups")
 ```
 
 <a name="Context"></a>
-## type [Context](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/context.go#L29-L34>)
+## type [Context](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/context.go#L41-L49>)
 
 Context bundles the per\-update state every handler receives.
 
@@ -100,31 +101,45 @@ Bot is the API client. Handlers reply by calling api.SendMessage\(c.Ctx, c.Bot, 
 
 Update is the raw update; payload\-typed handlers also receive a narrowed pointer to one of its sub\-fields.
 
-Values is a per\-update bag matchers populate. Conventional keys:
+Command, CommandArgs and RegexMatch are populated by the router for the matching route kind; they replace the previous "command", "command\_args" and "regex\_match" entries in Values, which were the only conventional keys. Values remains for user\-defined custom keys.
 
-```
-"command":      string, the matched bot command (e.g. "/start")
-"command_args": string, everything after the command
-"regex_match":  []string, regex sub-matches when OnText matches
-```
+Command is the matched bot command \(e.g. "/start"\); empty when the route is not a command match.
+
+CommandArgs is everything after the command; empty when no command matched or the command had no trailing text.
+
+RegexMatch is the regex sub\-matches when an OnText/OnCallback regex route matched; nil otherwise.
+
+Values is lazily allocated for user\-defined keys. Handlers that don't write pay no allocation. Reads against a nil map return the zero value. Writers must use Set instead of indexing the map directly.
 
 ```go
 type Context struct {
-    Ctx    context.Context
-    Bot    *client.Bot
-    Update *api.Update
-    Values map[string]any
+    Ctx         context.Context
+    Bot         *client.Bot
+    Update      *api.Update
+    Command     string
+    CommandArgs string
+    RegexMatch  []string
+    Values      map[string]any
 }
 ```
 
 <a name="NewContext"></a>
-### func [NewContext](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/context.go#L38>)
+### func [NewContext](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/context.go#L53>)
 
 ```go
 func NewContext(ctx context.Context, b *client.Bot, u *api.Update) *Context
 ```
 
 NewContext constructs a Context. Used by Router internally; exposed for custom test harnesses.
+
+<a name="Context.Set"></a>
+### func \(\*Context\) [Set](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/context.go#L60>)
+
+```go
+func (c *Context) Set(key string, val any)
+```
+
+Set writes key/val into Values, allocating the map on first use. Use this instead of \`c.Values\[k\] = v\` so the no\-write path stays allocation\-free.
 
 <a name="Filter"></a>
 ## type [Filter](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/filter.go#L9>)

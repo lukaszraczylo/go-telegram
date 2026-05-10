@@ -80,7 +80,7 @@ var (
 ```
 
 <a name="Call"></a>
-## func [Call](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/call.go#L25>)
+## func [Call](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/call.go#L53>)
 
 ```go
 func Call[Req any, Resp any](ctx context.Context, b *Bot, method string, req Req) (Resp, error)
@@ -93,7 +93,7 @@ It is generic over both request and response types. Methods with no parameters m
 Call is exported because the api package \(which lives outside this one\) invokes it from generated method wrappers. User code should not normally call it directly — use the typed wrappers in package api instead.
 
 <a name="CallRaw"></a>
-## func [CallRaw](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/call.go#L74>)
+## func [CallRaw](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/call.go#L104>)
 
 ```go
 func CallRaw[Req any](ctx context.Context, b *Bot, method string, req Req) (json.RawMessage, error)
@@ -296,7 +296,7 @@ type Logger interface {
 ```
 
 <a name="MultipartFile"></a>
-## type [MultipartFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/multipart.go#L27-L31>)
+## type [MultipartFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/multipart.go#L28-L32>)
 
 MultipartFile describes a single file part in a multipart upload.
 
