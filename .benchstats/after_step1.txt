@@ -1,0 +1,17 @@
+After: static-header-slices + bool-fast-path
+goos: darwin
+goarch: arm64
+pkg: github.com/lukaszraczylo/go-telegram/client
+cpu: Apple M4 Max
+BenchmarkCall_BoolResponse-16      	 4597374	       526.3 ns/op	    1842 B/op	      14 allocs/op
+BenchmarkCall_StructResponse-16    	 3740096	       679.6 ns/op	    1973 B/op	      16 allocs/op
+BenchmarkEncodeJSONBody-16         	41997352	        58.35 ns/op	      96 B/op	       2 allocs/op
+BenchmarkDecodeResult_Bool-16      	863273641	         2.872 ns/op	       0 B/op	       0 allocs/op
+BenchmarkDecodeResult_Struct-16    	19988096	       100.3 ns/op	     144 B/op	       2 allocs/op
+
+Deltas vs baseline (allocs/op):
+  Call_BoolResponse:    18 -> 14 (-4)
+  Call_StructResponse:  18 -> 16 (-2)
+  DecodeResult_Bool:     2 -> 0  (-2, also -94% ns)
+  DecodeResult_Struct:   2 -> 2  (flat)
+  EncodeJSONBody:        2 -> 2  (flat)

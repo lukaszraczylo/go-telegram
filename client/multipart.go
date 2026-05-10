@@ -69,7 +69,7 @@ func callMultipart[Resp any](ctx context.Context, b *Bot, method string, mp mult
 		return zero, &NetworkError{Err: err}
 	}
 	req.Header.Set("Content-Type", mw.FormDataContentType())
-	req.Header.Set("Accept", "application/json")
+	req.Header["Accept"] = headerJSONValue
 
 	resp, err := b.http.Do(req)
 	if err != nil {
@@ -125,7 +125,7 @@ func callMultipartRaw(ctx context.Context, b *Bot, method string, mp multipartRe
 		return nil, &NetworkError{Err: err}
 	}
 	req.Header.Set("Content-Type", mw.FormDataContentType())
-	req.Header.Set("Accept", "application/json")
+	req.Header["Accept"] = headerJSONValue
 
 	resp, err := b.http.Do(req)
 	if err != nil {

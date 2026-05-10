@@ -10,6 +10,12 @@ import (
 	"reflect"
 )
 
+var (
+	headerJSONValue = []string{"application/json"}
+	rawOKTrueBody   = []byte(`{"ok":true,"result":true}`)
+	rawOKFalseBody  = []byte(`{"ok":true,"result":false}`)
+)
+
 // Call is the single point through which every Telegram Bot API method
 // invocation flows. It marshals the request, signs the URL with the bot
 // token, dispatches via HTTPDoer, decodes the Result envelope, and
@@ -44,8 +50,8 @@ func Call[Req any, Resp any](ctx context.Context, b *Bot, method string, req Req
 	if err != nil {
 		return zero, &NetworkError{Err: err}
 	}
-	httpReq.Header.Set("Content-Type", "application/json")
-	httpReq.Header.Set("Accept", "application/json")
+	httpReq.Header["Content-Type"] = headerJSONValue
+	httpReq.Header["Accept"] = headerJSONValue
 
 	resp, err := b.http.Do(httpReq)
 	if err != nil {
@@ -91,8 +97,8 @@ func CallRaw[Req any](ctx context.Context, b *Bot, method string, req Req) (json
 	if err != nil {
 		return nil, &NetworkError{Err: err}
 	}
-	httpReq.Header.Set("Content-Type", "application/json")
-	httpReq.Header.Set("Accept", "application/json")
+	httpReq.Header["Content-Type"] = headerJSONValue
+	httpReq.Header["Accept"] = headerJSONValue
 
 	resp, err := b.http.Do(httpReq)
 	if err != nil {
@@ -139,8 +145,22 @@ func encodeJSONBody(codec Codec, req any) (io.Reader, error) {
 
 // decodeResult unmarshals raw into Result[Resp] and translates non-OK
 // responses into *APIError.
+//
+// Bool fast path: ~60% of Telegram methods return bool. The Telegram API
+// emits the result envelope with no whitespace, so a byte-equality check
+// against the two canonical bodies skips the generic Unmarshal entirely.
+// Anything that doesn't match exactly (e.g. responses with extra fields,
+// errors) falls through to the slow path.
 func decodeResult[Resp any](codec Codec, raw []byte) (Resp, error) {
 	var zero Resp
+	if _, isBool := any(zero).(bool); isBool {
+		switch {
+		case bytes.Equal(raw, rawOKTrueBody):
+			return any(true).(Resp), nil
+		case bytes.Equal(raw, rawOKFalseBody):
+			return any(false).(Resp), nil
+		}
+	}
 	var env Result[Resp]
 	if err := codec.Unmarshal(raw, &env); err != nil {
 		return zero, &ParseError{Err: err, Body: copyBody(raw)}
