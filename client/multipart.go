@@ -1,6 +1,7 @@
 package client
 
 import (
+	"bytes"
 	"context"
 	"github.com/goccy/go-json"
 	"io"
@@ -81,12 +82,14 @@ func callMultipart[Resp any](ctx context.Context, b *Bot, method string, mp mult
 	}
 	defer func() { _ = resp.Body.Close() }()
 
-	raw, err := io.ReadAll(resp.Body)
-	if err != nil {
+	buf := respBufPool.Get().(*bytes.Buffer)
+	buf.Reset()
+	defer putRespBuf(buf)
+	if _, err := buf.ReadFrom(resp.Body); err != nil {
 		_ = pr.CloseWithError(err)
 		return zero, &NetworkError{Err: err}
 	}
-	return decodeResult[Resp](b.codec, raw)
+	return decodeResult[Resp](b.codec, buf.Bytes())
 }
 
 // callMultipartRaw is callMultipart's sibling that returns the raw result

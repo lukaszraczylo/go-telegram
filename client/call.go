@@ -8,13 +8,35 @@ import (
 	"io"
 	"net/http"
 	"reflect"
+	"sync"
 )
 
 var (
 	headerJSONValue = []string{"application/json"}
 	rawOKTrueBody   = []byte(`{"ok":true,"result":true}`)
 	rawOKFalseBody  = []byte(`{"ok":true,"result":false}`)
+
+	// respBufPool reuses *bytes.Buffer for response body reads. Used on
+	// paths whose decoder copies strings out of the input (decodeResult,
+	// which delegates to goccy/go-json), so the buffer can be returned to
+	// the pool as soon as Unmarshal has run. CallRaw and callMultipartRaw
+	// return slices that alias the buffer and therefore cannot use the
+	// pool without an extra copy that would defeat the point.
+	respBufPool = sync.Pool{New: func() any { return new(bytes.Buffer) }}
 )
+
+// maxPooledBufCap caps the buffer size returned to respBufPool. Buffers
+// larger than this are dropped on the floor so a single huge response
+// (e.g. a large getFile metadata payload) doesn't bloat the pool for the
+// rest of the process lifetime.
+const maxPooledBufCap = 64 * 1024
+
+func putRespBuf(buf *bytes.Buffer) {
+	if buf.Cap() > maxPooledBufCap {
+		return
+	}
+	respBufPool.Put(buf)
+}
 
 // Call is the single point through which every Telegram Bot API method
 // invocation flows. It marshals the request, signs the URL with the bot
@@ -63,12 +85,14 @@ func Call[Req any, Resp any](ctx context.Context, b *Bot, method string, req Req
 	}
 	defer func() { _ = resp.Body.Close() }()
 
-	raw, err := io.ReadAll(resp.Body)
-	if err != nil {
+	buf := respBufPool.Get().(*bytes.Buffer)
+	buf.Reset()
+	defer putRespBuf(buf)
+	if _, err := buf.ReadFrom(resp.Body); err != nil {
 		return zero, &NetworkError{Err: err}
 	}
 
-	return decodeResult[Resp](b.codec, raw)
+	return decodeResult[Resp](b.codec, buf.Bytes())
 }
 
 // CallRaw is like Call but returns the raw JSON of the result field
