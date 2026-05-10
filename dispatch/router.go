@@ -300,6 +300,25 @@ func (r *Router) OnPurchasedPaidMedia(h Handler[*api.PaidMediaPurchased]) {
 // serial (legacy) behaviour.
 //
 // Run waits for all in-flight handlers to finish before returning.
+// Process runs a single update through the router's middleware and handler
+// chain synchronously. Entry point for callers sourcing updates outside the
+// standard transport.Updater flow — custom webhook frameworks, message-bus
+// consumers, or tests driving the router without spinning up Run.
+//
+// Honours the router's global middleware (Use) but bypasses the concurrency
+// semaphore wired up by Run; the caller controls parallelism.
+func (r *Router) Process(ctx context.Context, u *api.Update) error {
+	if u == nil {
+		return nil
+	}
+	root := r.dispatch
+	for i := len(r.globalMW) - 1; i >= 0; i-- {
+		root = r.globalMW[i](root)
+	}
+	c := NewContext(ctx, r.bot, u)
+	return root(c, u)
+}
+
 func (r *Router) Run(ctx context.Context, u transport.Updater) error {
 	runErr := make(chan error, 1)
 	go func() { runErr <- u.Run(ctx) }()
