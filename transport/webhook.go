@@ -6,6 +6,7 @@
 package transport
 
 import (
+	"bytes"
 	"context"
 	"crypto/subtle"
 	"errors"
@@ -17,6 +18,24 @@ import (
 	"github.com/lukaszraczylo/go-telegram/api"
 	"github.com/lukaszraczylo/go-telegram/client"
 )
+
+// webhookBufPool reuses *bytes.Buffer for incoming webhook bodies.
+// Webhook payloads are typically a single Telegram Update (commonly
+// 1-8 KiB), so a buffer that has grown once will satisfy most
+// subsequent requests with no additional allocation.
+var webhookBufPool = sync.Pool{New: func() any { return new(bytes.Buffer) }}
+
+// maxWebhookBufCap caps the buffer size returned to webhookBufPool so
+// a rare oversized update doesn't permanently bloat the pool. Buffers
+// larger than this are dropped on the floor.
+const maxWebhookBufCap = 256 * 1024
+
+func putWebhookBuf(buf *bytes.Buffer) {
+	if buf.Cap() > maxWebhookBufCap {
+		return
+	}
+	webhookBufPool.Put(buf)
+}
 
 // WebhookServer implements Updater by exposing an http.Handler that
 // receives updates from Telegram. It can be mounted on the user's own
@@ -108,28 +127,27 @@ func (w *WebhookServer) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 	w.handlers.Add(1)
 	defer w.handlers.Done()
+
+	const maxBody = 1 << 20 // 1 MiB cap on body
+	r.Body = http.MaxBytesReader(rw, r.Body, maxBody)
 	defer func() { _ = r.Body.Close() }()
 
-	const max = 1 << 20 // 1 MiB cap on body
-	buf := make([]byte, 0, 1024)
-	tmp := make([]byte, 4096)
-	for {
-		n, err := r.Body.Read(tmp)
-		if n > 0 {
-			buf = append(buf, tmp[:n]...)
-			if len(buf) > max {
-				rw.WriteHeader(http.StatusRequestEntityTooLarge)
-				return
-			}
+	buf := webhookBufPool.Get().(*bytes.Buffer)
+	buf.Reset()
+	defer putWebhookBuf(buf)
+	if _, err := buf.ReadFrom(r.Body); err != nil {
+		var maxErr *http.MaxBytesError
+		if errors.As(err, &maxErr) {
+			rw.WriteHeader(http.StatusRequestEntityTooLarge)
+			return
 		}
-		if errors.Is(err, http.ErrBodyReadAfterClose) || err != nil {
-			break
-		}
+		rw.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	var u api.Update
 	codec := w.Bot.Codec()
-	if err := codec.Unmarshal(buf, &u); err != nil {
+	if err := codec.Unmarshal(buf.Bytes(), &u); err != nil {
 		rw.WriteHeader(http.StatusBadRequest)
 		return
 	}

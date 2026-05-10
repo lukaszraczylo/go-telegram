@@ -1,0 +1,30 @@
+After: static-headers + bool-fast-path + lazy-Values + typed-fields + resp-buffer-pool + webhook-pool
+goos: darwin
+goarch: arm64
+cpu: Apple M4 Max
+
+pkg: github.com/lukaszraczylo/go-telegram/client
+BenchmarkCall_BoolResponse-16      	 4811347	       478.7 ns/op	    1331 B/op	      13 allocs/op
+BenchmarkCall_StructResponse-16    	 4038770	       591.6 ns/op	    1462 B/op	      15 allocs/op
+BenchmarkEncodeJSONBody-16         	47025052	        51.30 ns/op	      96 B/op	       2 allocs/op
+BenchmarkDecodeResult_Bool-16      	853161562	         2.824 ns/op	       0 B/op	       0 allocs/op
+BenchmarkDecodeResult_Struct-16    	26811634	        88.80 ns/op	     144 B/op	       2 allocs/op
+
+pkg: github.com/lukaszraczylo/go-telegram/transport
+BenchmarkWebhook_ServeHTTP-16    	 1204390	      2020 ns/op	    7648 B/op	      23 allocs/op
+
+pkg: github.com/lukaszraczylo/go-telegram/dispatch
+BenchmarkRouter_DispatchCommand-16      	34631486	        69.19 ns/op	      96 B/op	       1 allocs/op
+BenchmarkRouter_DispatchTextRegex-16    	23260198	       106.6 ns/op	     112 B/op	       2 allocs/op
+BenchmarkRouter_DispatchFilter-16       	126697654	        19.03 ns/op	      96 B/op	       1 allocs/op
+BenchmarkRouter_NewContext-16           	1000000000	         1.600 ns/op	       0 B/op	       0 allocs/op
+BenchmarkExtractCommand-16              	27345622	        87.25 ns/op	       0 B/op	       0 allocs/op
+
+Cumulative deltas vs baseline:
+  Call_BoolResponse:    634ns / 18 allocs / 1957B   ->  479ns / 13 / 1331B   (-24% / -5  / -626B)
+  Call_StructResponse:  665ns / 18 allocs / 2005B   ->  592ns / 15 / 1462B   (-11% / -3  / -543B)
+  DecodeResult_Bool:     50ns /  2 allocs /   80B   -> 2.8ns /  0 /    0B
+  Webhook_ServeHTTP:   2564ns / 24 allocs / 12707B  -> 2020ns / 23 / 7648B   (-21% / -1  / -5059B)
+  DispatchCommand:      153ns /  5 allocs /  416B   ->   69ns /  1 /   96B   (-55% / -4  / -320B)
+  DispatchTextRegex:    181ns /  5 allocs /  428B   ->  107ns /  2 /  112B   (-41% / -3  / -316B)
+  DispatchFilter:        32ns /  2 allocs /   96B   ->   19ns /  1 /   96B   (-41% / -1)
