@@ -215,6 +215,24 @@ func (b *Bot) buildRequest(ctx context.Context, method string, body io.Reader) (
 	return req.WithContext(ctx), nil
 }
 
+// bufferReadCloser exposes a *bytes.Buffer as io.ReadCloser without going
+// through io.NopCloser. Keeping the concrete *bytes.Buffer accessible lets
+// alternative HTTPDoers (e.g. FastHTTPDoer) type-assert and pass the
+// underlying bytes through to their native body-set APIs without copying.
+type bufferReadCloser struct {
+	*bytes.Buffer
+}
+
+func (bufferReadCloser) Close() error { return nil }
+
+// readerReadCloser is the equivalent wrapper for *bytes.Reader (used by
+// the Marshal fallback path when the codec doesn't implement BodyEncoder).
+type readerReadCloser struct {
+	*bytes.Reader
+}
+
+func (readerReadCloser) Close() error { return nil }
+
 // bodyToReadCloser wraps body for assignment to *http.Request.Body. The
 // type switch covers the body shapes encodeJSONBody returns: a pooled
 // *bytes.Buffer (BodyEncoder path or {} fast path) or a *bytes.Reader
@@ -226,16 +244,16 @@ func bodyToReadCloser(body io.Reader) (io.ReadCloser, int64, func() (io.ReadClos
 	case *bytes.Buffer:
 		buf := v.Bytes()
 		length := int64(len(buf))
-		return io.NopCloser(v), length, func() (io.ReadCloser, error) {
-			return io.NopCloser(bytes.NewReader(buf)), nil
+		return bufferReadCloser{v}, length, func() (io.ReadCloser, error) {
+			return readerReadCloser{bytes.NewReader(buf)}, nil
 		}
 	case *bytes.Reader:
 		length := int64(v.Len())
 		// Snapshot the reader's current data so GetBody returns a fresh one.
 		snapshot := *v
-		return io.NopCloser(v), length, func() (io.ReadCloser, error) {
+		return readerReadCloser{v}, length, func() (io.ReadCloser, error) {
 			s := snapshot
-			return io.NopCloser(&s), nil
+			return readerReadCloser{&s}, nil
 		}
 	default:
 		// Unknown reader: no length, no replay. Should not happen with the

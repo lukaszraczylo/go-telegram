@@ -20,7 +20,7 @@
 
 - **Webhook decode** (small Update): ours is **12–20% faster** than every competitor and ties telego for the lowest alloc count (11).
 - **Large Update unmarshal** (entities + reply markup + photo array): ours is **17–34% faster** with the lowest ns/op of all six. telego edges us on alloc count (31 vs 34) at the cost of ~17% more time.
-- **API call round-trip** (mock HTTP server): telego wins (35.8 µs / 48 allocs) thanks to its `application/x-www-form-urlencoded` shortcut on simple methods; ours is **second** (39.8 µs / 102 allocs) and beats gotba, telebot, gobot.
+- **API call round-trip** (mock HTTP server): telego wins on allocs (35.8 µs / 48 allocs) because it uses fasthttp by default. We default to `net/http` (102 allocs / 39.8 µs); with the opt-in `client.NewFastHTTPDoer` we drop to 56 allocs / 6.6 KiB — within 8 of telego while keeping `*http.Request` semantics (RetryDoer, middleware, generated tests).
 - **Dispatcher routing** (20 handlers, last matches): ours is **2.5–2.8× faster than telebot and gobot** (98 ns vs 271 / 246 ns).
 
 ## How to read these numbers
@@ -67,16 +67,19 @@ Build params → POST to local `httptest.Server` returning `{"ok":true,"result":
 
 | Lib | sec/op | B/op | allocs/op |
 |-----|--------|------|-----------|
-| ours | 39.83 µs ±4% | 11.09 KiB | 102 |
+| ours (default `net/http`) | 39.83 µs ±4% | 11.09 KiB | 102 |
+| ours (opt-in `fasthttp`) | *time TBD on quiet box* | **6.62 KiB** | **56** |
 | gotba | 42.03 µs ±4% | 10.97 KiB | 125 |
 | telebot | 43.41 µs ±1% | 13.15 KiB | 139 |
 | gobot | 61.19 µs ±1% | 13.50 KiB | 176 |
-| **telego** | **35.84 µs ±1%** | **6.547 KiB** | **48** |
+| **telego** (uses fasthttp) | **35.84 µs ±1%** | **6.547 KiB** | **48** |
 | echotron | *skipped — see below* | — | — |
 
 **Notes.**
-- telego wins by sending requests as `application/x-www-form-urlencoded` form data (cheaper than JSON marshal+upload for small payloads), plus an aggressive request-pool. We send JSON over `multipart/form-data` only when needed; for the JSON case our cost lands between gotba and telego.
-- Our request path runs through a manually-constructed `*http.Request` with a pre-parsed base URL (cached on `*Bot`), and request bodies are stream-encoded into a pooled `*bytes.Buffer` via the optional `BodyEncoder` codec extension. Together those skip the `url.Parse` + `*http.Request` bookkeeping that `http.NewRequestWithContext` runs on every call.
+- The headline alloc gap to telego turned out to be transport choice: telego defaults to [`fasthttp`](https://github.com/valyala/fasthttp), which pools requests/responses and skips most of `net/http`'s bookkeeping. Most of the other libs (and us, by default) use `net/http`.
+- We ship an opt-in fasthttp doer (`client.NewFastHTTPDoer`). Plug it via `client.WithHTTPClient(client.NewFastHTTPDoer())` and per-call allocs drop from 102 to **56** — within 8 of telego despite still going through our `*http.Request`-based `HTTPDoer` interface (kept that way so `RetryDoer`, custom transports, observability middleware, and the 1428 generated tests all keep working).
+- The default stays `net/http` because fasthttp is HTTP/1.1-only, can't be composed with the `RoundTripper` middleware ecosystem, and most users don't have the throughput to notice. Bots making thousands of API calls/sec should opt in.
+- Our `net/http` request path is already minimised: manually-constructed `*http.Request` with a pre-parsed base URL (cached on `*Bot`), and request bodies stream-encoded into a pooled `*bytes.Buffer` via the optional `BodyEncoder` codec extension. Those skip the `url.Parse` + `*http.Request` bookkeeping that `http.NewRequestWithContext` runs on every call.
 - gobot's higher cost comes from per-call goroutine + channel plumbing in its dispatcher path even when called directly.
 - **echotron skip:** echotron ships built-in dual-level rate limiting (30 req/s global, 20 req/min per chat) on its unexported `lclient` field. The setters that disable it (`SetGlobalRequestLimit`, `SetChatRequestLimit`) are methods on the unexported type with no public accessor through the `API` value, so the limiter cannot be bypassed without monkey-patching. A naive run produces ~3 s/op driven entirely by the per-chat token bucket — measuring rate limiting, not the library. We skip rather than publish a misleading number. The rate limiter is a feature of echotron and worth knowing about; it just makes a microbench unfair.
 

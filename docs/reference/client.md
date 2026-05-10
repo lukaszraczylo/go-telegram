@@ -32,6 +32,12 @@ Package client provides HTTP client primitives for the Telegram Bot API.
   - [func \(DefaultCodec\) Marshal\(v any\) \(\[\]byte, error\)](<#DefaultCodec.Marshal>)
   - [func \(DefaultCodec\) MarshalTo\(w io.Writer, v any\) error](<#DefaultCodec.MarshalTo>)
   - [func \(DefaultCodec\) Unmarshal\(data \[\]byte, v any\) error](<#DefaultCodec.Unmarshal>)
+- [type FastHTTPDoer](<#FastHTTPDoer>)
+  - [func NewFastHTTPDoer\(opts ...FastHTTPDoerOption\) \*FastHTTPDoer](<#NewFastHTTPDoer>)
+  - [func \(d \*FastHTTPDoer\) Do\(req \*http.Request\) \(\*http.Response, error\)](<#FastHTTPDoer.Do>)
+- [type FastHTTPDoerOption](<#FastHTTPDoerOption>)
+  - [func WithFastHTTPClient\(c \*fasthttp.Client\) FastHTTPDoerOption](<#WithFastHTTPClient>)
+  - [func WithFastHTTPReadTimeout\(t time.Duration\) FastHTTPDoerOption](<#WithFastHTTPReadTimeout>)
 - [type HTTPDoer](<#HTTPDoer>)
 - [type Logger](<#Logger>)
 - [type MultipartFile](<#MultipartFile>)
@@ -291,6 +297,72 @@ func (DefaultCodec) Unmarshal(data []byte, v any) error
 ```
 
 Unmarshal calls json.Unmarshal.
+
+<a name="FastHTTPDoer"></a>
+## type [FastHTTPDoer](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/fasthttp_doer.go#L26-L32>)
+
+FastHTTPDoer is an HTTPDoer backed by github.com/valyala/fasthttp. It trades net/http compatibility \(and HTTP/2 support\) for substantially fewer allocations per request — fasthttp pools its Request and Response objects and uses a zero\-allocation HTTP/1.1 parser.
+
+Use it for high\-throughput bots when GC pressure matters and you don't need HTTP/2 or any net/http\-only middleware \(RoundTripper composition, the OpenTelemetry httptrace family, etc.\):
+
+```
+bot := client.New(token, client.WithHTTPClient(client.NewFastHTTPDoer()))
+```
+
+Wrap with RetryDoer the same way you would the default doer.
+
+```go
+type FastHTTPDoer struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a name="NewFastHTTPDoer"></a>
+### func [NewFastHTTPDoer](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/fasthttp_doer.go#L52>)
+
+```go
+func NewFastHTTPDoer(opts ...FastHTTPDoerOption) *FastHTTPDoer
+```
+
+NewFastHTTPDoer constructs a FastHTTPDoer with sensible defaults.
+
+<a name="FastHTTPDoer.Do"></a>
+### func \(\*FastHTTPDoer\) [Do](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/fasthttp_doer.go#L75>)
+
+```go
+func (d *FastHTTPDoer) Do(req *http.Request) (*http.Response, error)
+```
+
+Do satisfies HTTPDoer by translating req into a pooled fasthttp.Request, dispatching it, and returning a \*http.Response whose Body releases the pooled fasthttp.Response when Close is called.
+
+The conversion is intentionally minimal: URL goes via req.URL.RequestURI\(\) \+ Host \(avoids re\-parsing\), header values move byte\-for\-byte, and the body is taken straight from req.Body. \*bytes.Buffer / \*bytes.Reader are recognised so we can pass the underlying bytes without io.ReadAll.
+
+<a name="FastHTTPDoerOption"></a>
+## type [FastHTTPDoerOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/fasthttp_doer.go#L35>)
+
+FastHTTPDoerOption configures a FastHTTPDoer.
+
+```go
+type FastHTTPDoerOption func(*FastHTTPDoer)
+```
+
+<a name="WithFastHTTPClient"></a>
+### func [WithFastHTTPClient](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/fasthttp_doer.go#L40>)
+
+```go
+func WithFastHTTPClient(c *fasthttp.Client) FastHTTPDoerOption
+```
+
+WithFastHTTPClient swaps in a pre\-configured \*fasthttp.Client. Useful for sharing a connection pool across multiple bots or applying custom dial / TLS configuration.
+
+<a name="WithFastHTTPReadTimeout"></a>
+### func [WithFastHTTPReadTimeout](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/fasthttp_doer.go#L47>)
+
+```go
+func WithFastHTTPReadTimeout(t time.Duration) FastHTTPDoerOption
+```
+
+WithFastHTTPReadTimeout sets the per\-request fallback timeout used when the inbound context has no deadline. Long\-poll callers should pass a value larger than the long\-poll timeout.
 
 <a name="HTTPDoer"></a>
 ## type [HTTPDoer](<https://github.com/lukaszraczylo/go-telegram/blob/main/client/httpclient.go#L13-L15>)

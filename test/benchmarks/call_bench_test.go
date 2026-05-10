@@ -28,11 +28,36 @@ import (
 // Telegram-format token (digits:[\w-]{35}). telego enforces this format on construction.
 const benchToken = "1234567890:ABCDEFGHIJKLMNOPQRSTUVWXYZ_ab123456"
 
-// BenchmarkCall_ours — lukaszraczylo/go-telegram.
+// BenchmarkCall_ours — lukaszraczylo/go-telegram with default net/http
+// transport. Most users land here.
 func BenchmarkCall_ours(b *testing.B) {
 	srv := shared.NewMockServer()
 	defer srv.Close()
 	bot := client.New(benchToken, client.WithBaseURL(srv.URL))
+	ctx := context.Background()
+	b.ReportAllocs()
+	b.ResetTimer()
+	for b.Loop() {
+		_, err := api.SendMessage(ctx, bot, &api.SendMessageParams{
+			ChatID: api.ChatIDFromInt(42),
+			Text:   "hello",
+		})
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+// BenchmarkCall_ours_fasthttp — lukaszraczylo/go-telegram with the
+// opt-in fasthttp transport (client.NewFastHTTPDoer). Apples-to-apples
+// against telego, which also runs on fasthttp by default.
+func BenchmarkCall_ours_fasthttp(b *testing.B) {
+	srv := shared.NewMockServer()
+	defer srv.Close()
+	bot := client.New(benchToken,
+		client.WithBaseURL(srv.URL),
+		client.WithHTTPClient(client.NewFastHTTPDoer()),
+	)
 	ctx := context.Background()
 	b.ReportAllocs()
 	b.ResetTimer()

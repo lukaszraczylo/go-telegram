@@ -328,8 +328,11 @@ Apples-to-apples micro-benchmarks against the five most-starred Go Telegram libr
 |------|---------|--------------|
 | Webhook decode (small Update) | **ours** — 1.83 µs / 11 allocs | 1st of 6 |
 | Large Update unmarshal (unions + reply markup) | **ours** — 6.73 µs / 34 allocs | 1st of 6 |
-| `sendMessage` round-trip (mock server) | telego — 35.8 µs / 48 allocs | 2nd of 5 |
+| `sendMessage` round-trip — `net/http` default | telego — 35.8 µs / 48 allocs | 2nd of 5 (102 allocs) |
+| `sendMessage` round-trip — opt-in `fasthttp` | telego — 48 allocs | within 8 of telego (56 allocs) |
 | Dispatcher routing (20 handlers, last matches) | **ours** — 98 ns / 3 allocs | 1st of 3 |
+
+Opt into fasthttp for high-throughput bots: `client.WithHTTPClient(client.NewFastHTTPDoer())`. Trade-off: HTTP/1.1 only, no `RoundTripper` middleware composition.
 
 Full tables, caveats, and reproduction steps: **[`docs/benchmarks/2026-05-10-comparison.md`](docs/benchmarks/2026-05-10-comparison.md)**.
 
