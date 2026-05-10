@@ -1,0 +1,19 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/lukaszraczylo/go-telegram/client
+cpu: Apple M4 Max
+BenchmarkCall_BoolResponse-16      	 1875306	       633.9 ns/op	    1957 B/op	      18 allocs/op
+BenchmarkCall_StructResponse-16    	 1805024	       665.2 ns/op	    2005 B/op	      18 allocs/op
+BenchmarkEncodeJSONBody-16         	23345811	        51.55 ns/op	      96 B/op	       2 allocs/op
+BenchmarkDecodeResult_Bool-16      	23832240	        50.37 ns/op	      80 B/op	       2 allocs/op
+BenchmarkDecodeResult_Struct-16    	13511192	        92.64 ns/op	     144 B/op	       2 allocs/op
+
+pkg: github.com/lukaszraczylo/go-telegram/transport
+BenchmarkWebhook_ServeHTTP-16    	  465798	      2564 ns/op	   12707 B/op	      24 allocs/op
+
+pkg: github.com/lukaszraczylo/go-telegram/dispatch
+BenchmarkRouter_DispatchCommand-16      	 7303522	       152.7 ns/op	     416 B/op	       5 allocs/op
+BenchmarkRouter_DispatchTextRegex-16    	 6740305	       180.5 ns/op	     428 B/op	       5 allocs/op
+BenchmarkRouter_DispatchFilter-16       	39479149	        32.18 ns/op	      96 B/op	       2 allocs/op
+BenchmarkRouter_NewContext-16           	208260764	         5.790 ns/op	       0 B/op	       0 allocs/op
+BenchmarkExtractCommand-16              	12988816	        92.69 ns/op	       0 B/op	       0 allocs/op
