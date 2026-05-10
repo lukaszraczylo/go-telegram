@@ -317,6 +317,24 @@ r.OnCommand("/cmd", named.Handler())
 
 </details>
 
+## Benchmarks
+
+Apples-to-apples micro-benchmarks against the five most-starred Go Telegram libraries (`go-telegram-bot-api`, `telebot.v3`, `go-telegram/bot`, `telego`, `echotron`) live under [`test/benchmarks/`](test/benchmarks/) as a separate Go module.
+
+<details>
+<summary>Results — Apple M4 Max · darwin/arm64 · go1.26.2</summary>
+
+| Path | Fastest | Our position |
+|------|---------|--------------|
+| Webhook decode (small Update) | **ours** — 1.74 µs / 11 allocs | 1st of 6 |
+| Large Update unmarshal (unions + reply markup) | **ours** — 6.67 µs / 34 allocs | 1st of 6 |
+| `sendMessage` round-trip (mock server) | telego — 36.3 µs / 48 allocs | 2nd of 5 |
+| Dispatcher routing (20 handlers, last matches) | **ours** — 101 ns / 3 allocs | 1st of 3 |
+
+Full tables, caveats, and reproduction steps: **[`docs/benchmarks/2026-05-10-comparison.md`](docs/benchmarks/2026-05-10-comparison.md)**.
+
+</details>
+
 ## Keeping up with Telegram
 
 When Telegram ships a new Bot API version, regenerating the whole library is one command:

@@ -62,6 +62,7 @@ Package dispatch provides a typed router for Telegram updates. It consumes any t
   - [func \(r \*Router\) OnRemovedChatBoost\(h Handler\[\*api.ChatBoostRemoved\]\)](<#Router.OnRemovedChatBoost>)
   - [func \(r \*Router\) OnShippingQuery\(h Handler\[\*api.ShippingQuery\]\)](<#Router.OnShippingQuery>)
   - [func \(r \*Router\) OnText\(pattern string, h Handler\[\*api.Message\]\)](<#Router.OnText>)
+  - [func \(r \*Router\) Process\(ctx context.Context, u \*api.Update\) error](<#Router.Process>)
   - [func \(r \*Router\) Run\(ctx context.Context, u transport.Updater\) error](<#Router.Run>)
   - [func \(r \*Router\) Use\(mw Middleware\[\*api.Update\]\)](<#Router.Use>)
 - [type RouterOption](<#RouterOption>)
@@ -600,18 +601,29 @@ OnText registers a handler for messages whose Text matches the regex.
 
 Panics at registration time if pattern is not a valid regular expression.
 
-<a name="Router.Run"></a>
-### func \(\*Router\) [Run](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L303>)
+<a name="Router.Process"></a>
+### func \(\*Router\) [Process](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L310>)
 
 ```go
-func (r *Router) Run(ctx context.Context, u transport.Updater) error
+func (r *Router) Process(ctx context.Context, u *api.Update) error
 ```
 
 Run consumes the Updater and dispatches each update. It blocks until the Updater's channel is closed or ctx is cancelled.
 
 By default updates are processed concurrently \(up to WithMaxConcurrency\(50\) goroutines\). Handlers for different updates may therefore run simultaneously; shared state must be protected. Pass WithMaxConcurrency\(0\) to New to restore serial \(legacy\) behaviour.
 
-Run waits for all in\-flight handlers to finish before returning.
+Run waits for all in\-flight handlers to finish before returning. Process runs a single update through the router's middleware and handler chain synchronously. Entry point for callers sourcing updates outside the standard transport.Updater flow — custom webhook frameworks, message\-bus consumers, or tests driving the router without spinning up Run.
+
+Honours the router's global middleware \(Use\) but bypasses the concurrency semaphore wired up by Run; the caller controls parallelism.
+
+<a name="Router.Run"></a>
+### func \(\*Router\) [Run](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L322>)
+
+```go
+func (r *Router) Run(ctx context.Context, u transport.Updater) error
+```
+
+
 
 <a name="Router.Use"></a>
 ### func \(\*Router\) [Use](<https://github.com/lukaszraczylo/go-telegram/blob/main/dispatch/router.go#L141>)

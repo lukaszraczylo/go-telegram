@@ -24,6 +24,9 @@ coverage.html
 .env
 .env.local
 
+# Superpowers brainstorm/spec scratch — never commit
+docs/superpowers/
+
 # Stray binaries at repo root from `go build ./cmd/...` or `go run` artefacts.
 # Listed explicitly (not via /* glob) so source dirs are never accidentally ignored.
 /echo
