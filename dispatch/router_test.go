@@ -52,7 +52,7 @@ func TestRouter_OnCommandMatches(t *testing.T) {
 	r := New(b)
 	hit := make(chan string, 1)
 	r.OnCommand("/start", func(c *Context, m *api.Message) error {
-		hit <- c.Values["command"].(string)
+		hit <- c.Command
 		return nil
 	})
 
@@ -82,7 +82,7 @@ func TestRouter_OnText(t *testing.T) {
 	r := New(client.New("t"))
 	hit := make(chan []string, 1)
 	r.OnText(`^hello (\w+)$`, func(c *Context, m *api.Message) error {
-		hit <- c.Values["regex_match"].([]string)
+		hit <- c.RegexMatch
 		return nil
 	})
 
@@ -164,10 +164,7 @@ func TestRouter_NonASCIICommand(t *testing.T) {
 	r := New(client.New("t"))
 	hit := make(chan [2]string, 1)
 	r.OnCommand("/старт", func(c *Context, m *api.Message) error {
-		hit <- [2]string{
-			c.Values["command"].(string),
-			c.Values["command_args"].(string),
-		}
+		hit <- [2]string{c.Command, c.CommandArgs}
 		return nil
 	})
 
@@ -180,16 +177,15 @@ func TestRouter_NonASCIICommand(t *testing.T) {
 	require.Equal(t, "аргумент", got[1])
 }
 
-// TestRouter_CommandValuesNotLeakedOnNoMatch verifies that c.Values["command"]
-// is not set when a command entity is present but no route matches, so a
+// TestRouter_CommandValuesNotLeakedOnNoMatch verifies that c.Command is
+// empty when a command entity is present but no route matches, so a
 // subsequent text handler doesn't see stale values.
 func TestRouter_CommandValuesNotLeakedOnNoMatch(t *testing.T) {
 	r := New(client.New("t"))
 	// Register a text handler that should fire as fallback.
 	leaked := make(chan bool, 1)
 	r.OnText(`.*`, func(c *Context, m *api.Message) error {
-		_, hasCmd := c.Values["command"]
-		leaked <- hasCmd
+		leaked <- c.Command != ""
 		return nil
 	})
 	// No OnCommand registered, so the command entity won't match any route.

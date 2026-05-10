@@ -42,7 +42,7 @@ const (
 func makeCtx(bot *client.Bot, upd *api.Update, extra map[string]any) *dispatch.Context {
 	c := dispatch.NewContext(context.Background(), bot, upd)
 	for k, v := range extra {
-		c.Values[k] = v
+		c.Set(k, v)
 	}
 	return c
 }
@@ -82,7 +82,9 @@ func TestHandleStart_SendsInitialKeyboard(t *testing.T) {
 
 func callbackCtx(bot *client.Bot, q *api.CallbackQuery, groups []string) *dispatch.Context {
 	upd := &api.Update{UpdateID: 1, CallbackQuery: q}
-	return makeCtx(bot, upd, map[string]any{"regex_match": groups})
+	c := makeCtx(bot, upd, nil)
+	c.RegexMatch = groups
+	return c
 }
 
 func callbackQuery(data string, msgID int64, chatID int64) *api.CallbackQuery {

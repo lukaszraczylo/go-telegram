@@ -467,8 +467,8 @@ func (r *Router) handleMessage(c *Context, m *api.Message) error {
 	if cmd, args, ok := extractCommand(m); ok {
 		for _, route := range r.commands {
 			if route.cmd == cmd {
-				c.Values["command"] = cmd
-				c.Values["command_args"] = args
+				c.Command = cmd
+				c.CommandArgs = args
 				return route.handler(c, m)
 			}
 		}
@@ -477,7 +477,7 @@ func (r *Router) handleMessage(c *Context, m *api.Message) error {
 	if m.Text != "" {
 		for _, route := range r.texts {
 			if subs := route.re.FindStringSubmatch(m.Text); subs != nil {
-				c.Values["regex_match"] = subs
+				c.RegexMatch = subs
 				return route.handler(c, m)
 			}
 		}
@@ -495,7 +495,7 @@ func (r *Router) handleMessage(c *Context, m *api.Message) error {
 func (r *Router) handleCallback(c *Context, q *api.CallbackQuery) error {
 	for _, route := range r.callbacks {
 		if subs := route.re.FindStringSubmatch(q.Data); subs != nil {
-			c.Values["regex_match"] = subs
+			c.RegexMatch = subs
 			return route.handler(c, q)
 		}
 	}

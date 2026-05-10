@@ -21,7 +21,7 @@ func handleStart(c *dispatch.Context, m *api.Message) error {
 }
 
 func handleCallback(c *dispatch.Context, q *api.CallbackQuery) error {
-	groups := c.Values["regex_match"].([]string)
+	groups := c.RegexMatch
 	current, _ := strconv.Atoi(groups[1])
 	if groups[2] == "inc" {
 		current++

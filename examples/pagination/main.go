@@ -111,8 +111,7 @@ func main() {
 
 	// page:<n> callbacks — edit message in-place.
 	router.OnCallback(`^page:(\d+)$`, func(c *dispatch.Context, q *api.CallbackQuery) error {
-		groups := c.Values["regex_match"].([]string)
-		page, _ := strconv.Atoi(groups[1])
+		page, _ := strconv.Atoi(c.RegexMatch[1])
 
 		// Acknowledge the tap first.
 		_, _ = api.AnswerCallbackQuery(c.Ctx, c.Bot, &api.AnswerCallbackQueryParams{

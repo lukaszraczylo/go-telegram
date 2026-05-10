@@ -1,0 +1,27 @@
+After: static-headers + bool-fast-path + lazy-Values + typed-fields
+goos: darwin
+goarch: arm64
+cpu: Apple M4 Max
+
+pkg: github.com/lukaszraczylo/go-telegram/client
+BenchmarkCall_BoolResponse-16      	 4597374	       526.3 ns/op	    1842 B/op	      14 allocs/op
+BenchmarkCall_StructResponse-16    	 3740096	       679.6 ns/op	    1973 B/op	      16 allocs/op
+BenchmarkEncodeJSONBody-16         	41997352	        58.35 ns/op	      96 B/op	       2 allocs/op
+BenchmarkDecodeResult_Bool-16      	863273641	         2.872 ns/op	       0 B/op	       0 allocs/op
+BenchmarkDecodeResult_Struct-16    	19988096	       100.3 ns/op	     144 B/op	       2 allocs/op
+
+pkg: github.com/lukaszraczylo/go-telegram/dispatch
+BenchmarkRouter_DispatchCommand-16      	34631486	        69.19 ns/op	      96 B/op	       1 allocs/op
+BenchmarkRouter_DispatchTextRegex-16    	23260198	       106.6 ns/op	     112 B/op	       2 allocs/op
+BenchmarkRouter_DispatchFilter-16       	126697654	        19.03 ns/op	      96 B/op	       1 allocs/op
+BenchmarkRouter_NewContext-16           	1000000000	         1.600 ns/op	       0 B/op	       0 allocs/op
+BenchmarkExtractCommand-16              	27345622	        87.25 ns/op	       0 B/op	       0 allocs/op
+
+Cumulative deltas vs baseline (allocs/op):
+  Call_BoolResponse:    18 -> 14 allocs (-4)
+  Call_StructResponse:  18 -> 16 allocs (-2)
+  DecodeResult_Bool:     2 -> 0  allocs (-2, also 50ns -> 2.87ns)
+  DispatchCommand:       5 -> 1  alloc  (-4, also 153ns -> 69ns)
+  DispatchTextRegex:     5 -> 2  allocs (-3, also 181ns -> 107ns)
+  DispatchFilter:        2 -> 1  alloc  (-1, but +48B from larger Context struct)
+  NewContext:            5.79ns -> 1.60ns (-72%)

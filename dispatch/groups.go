@@ -138,8 +138,8 @@ func (r *Router) runGroupHandlers(c *Context, m *api.Message, g int) (matched bo
 			if route.group != g || route.cmd != cmd {
 				continue
 			}
-			c.Values["command"] = cmd
-			c.Values["command_args"] = args
+			c.Command = cmd
+			c.CommandArgs = args
 			if err := route.handler(c, m); err != nil {
 				if errors.Is(err, ErrContinueGroups) {
 					continue
@@ -159,7 +159,7 @@ func (r *Router) runGroupHandlers(c *Context, m *api.Message, g int) (matched bo
 			if subs == nil {
 				continue
 			}
-			c.Values["regex_match"] = subs
+			c.RegexMatch = subs
 			if err := route.handler(c, m); err != nil {
 				if errors.Is(err, ErrContinueGroups) {
 					continue
