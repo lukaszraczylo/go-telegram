@@ -258,7 +258,7 @@ jobs:
 
       - name: Run GoReleaser
         if: github.event_name != 'workflow_dispatch' || inputs.dry-run-release == false
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@v7
         with:
           distribution: goreleaser
           version: '~> v2'
