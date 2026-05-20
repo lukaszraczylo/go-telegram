@@ -35,7 +35,10 @@ lint: vet
 integration:
 	$(GO) test -tags=integration -v ./test/integration/...
 
-SCRAPE_INPUT ?= testdata/html/snapshot_2026-05-08.html
+# Resolve via testdata/html/latest.html symlink so the pinned-fixture target
+# auto-tracks whatever snapshot regen.yml last committed. Override with
+# SCRAPE_INPUT=path/to/snapshot.html for ad-hoc replays.
+SCRAPE_INPUT ?= testdata/html/$(shell readlink testdata/html/latest.html)
 SCRAPE_OUTPUT ?= internal/spec/api.json
 
 snapshot:
