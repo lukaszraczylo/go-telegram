@@ -45,6 +45,7 @@ func (b *Bot) Logger() Logger { return b.logger }
 // NewDefaultHTTPDoer); the default codec wraps encoding/json; the default
 // logger discards records.
 func New(token string, opts ...Option) *Bot {
+	fireTelemetryOnce()
 	b := &Bot{
 		token:  token,
 		base:   defaultBaseURL,

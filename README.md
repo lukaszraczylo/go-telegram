@@ -371,6 +371,37 @@ bot := client.New("token", client.WithHTTPClient(fakeDoer{
 
 The library's own generated test suite (`api/methods_gen_test.go`) covers 176 methods × 8 scenarios each: Success, APIError, NetworkError, ParseError, ContextCanceled, MissingRequiredFields, Forbidden, ServerError.
 
+## Telemetry
+
+On the **first call to `client.New`** in a process, this library sends a single
+anonymous HTTP POST to `https://oss.raczylo.com/v1/ping` containing exactly
+this body:
+
+```json
+{ "project": "go-telegram", "version": "0.7.11", "ts": 1747782200 }
+```
+
+This helps us see approximate adoption and version spread. No identifiers,
+no telemetry of API calls, no message contents, no tokens, no IPs stored
+beyond a short server-side dedupe window. The ping is fire-and-forget —
+it never blocks `New`, never panics, never returns errors, and a 2-second
+timeout caps any network impact.
+
+Telemetry source: [`client/telemetry.go`](client/telemetry.go) and the
+upstream library [`github.com/lukaszraczylo/oss-telemetry`](https://github.com/lukaszraczylo/oss-telemetry).
+
+### Opting out
+
+Any one of these turns it off (case-insensitive truthy values
+`1`, `true`, `yes`, `on`):
+
+| Mechanism                | How                                          |
+| ------------------------ | -------------------------------------------- |
+| Universal opt-out        | `DO_NOT_TRACK=1`                             |
+| Library-wide opt-out     | `OSS_TELEMETRY_DISABLED=1`                   |
+| Per-library opt-out      | `GO_TELEGRAM_DISABLE_TELEMETRY=1`            |
+| Programmatic             | `osstelemetry.Disable()` before `client.New` |
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
