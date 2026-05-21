@@ -373,34 +373,17 @@ The library's own generated test suite (`api/methods_gen_test.go`) covers 176 me
 
 ## Telemetry
 
-On the **first call to `client.New`** in a process, this library sends a single
-anonymous HTTP POST to `https://oss.raczylo.com/v1/ping` containing exactly
-this body:
+On the **first call to `client.New`** in a process, this library sends a
+single anonymous adoption ping — project name, version, timestamp; no
+identifiers, no message contents, no API call metadata. Fire-and-forget
+with a 2-second timeout; cannot block `New` or panic.
 
-```json
-{ "project": "go-telegram", "version": "0.7.11", "ts": 1747782200 }
-```
+Local source: [`client/telemetry.go`](client/telemetry.go). Upstream
+implementation, exact wire format, and full opt-out documentation:
+**[oss-telemetry — Disabling telemetry](https://github.com/lukaszraczylo/oss-telemetry#disabling-telemetry)**.
 
-This helps us see approximate adoption and version spread. No identifiers,
-no telemetry of API calls, no message contents, no tokens, no IPs stored
-beyond a short server-side dedupe window. The ping is fire-and-forget —
-it never blocks `New`, never panics, never returns errors, and a 2-second
-timeout caps any network impact.
-
-Telemetry source: [`client/telemetry.go`](client/telemetry.go) and the
-upstream library [`github.com/lukaszraczylo/oss-telemetry`](https://github.com/lukaszraczylo/oss-telemetry).
-
-### Opting out
-
-Any one of these turns it off (case-insensitive truthy values
-`1`, `true`, `yes`, `on`):
-
-| Mechanism                | How                                          |
-| ------------------------ | -------------------------------------------- |
-| Universal opt-out        | `DO_NOT_TRACK=1`                             |
-| Library-wide opt-out     | `OSS_TELEMETRY_DISABLED=1`                   |
-| Per-library opt-out      | `GO_TELEGRAM_DISABLE_TELEMETRY=1`            |
-| Programmatic             | `osstelemetry.Disable()` before `client.New` |
+Quick opt-out: set any of `DO_NOT_TRACK=1`, `OSS_TELEMETRY_DISABLED=1`,
+or `GO_TELEGRAM_DISABLE_TELEMETRY=1`.
 
 ## Contributing
 
