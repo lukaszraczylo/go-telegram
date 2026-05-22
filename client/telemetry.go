@@ -28,6 +28,6 @@ var telemetryOnce sync.Once
 // See README §Telemetry for the full disclosure.
 func fireTelemetryOnce() {
 	telemetryOnce.Do(func() {
-		telemetry.Send("go-telegram", Version)
+		telemetry.SendForModule("go-telegram", "github.com/lukaszraczylo/go-telegram", Version)
 	})
 }
