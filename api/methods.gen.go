@@ -2483,6 +2483,40 @@ func DeclineChatJoinRequest(ctx context.Context, b *client.Bot, p *DeclineChatJo
 	return client.Call[*DeclineChatJoinRequestParams, bool](ctx, b, "declineChatJoinRequest", p)
 }
 
+// AnswerChatJoinRequestQueryParams is the parameter set for AnswerChatJoinRequestQuery.
+//
+// Use this method to process a received chat join request query. Returns True on success.
+type AnswerChatJoinRequestQueryParams struct {
+	// Unique identifier of the join request query
+	ChatJoinRequestQueryID string `json:"chat_join_request_query_id"`
+	// Result of the query. Must be either “approve” to allow the user to join the chat, “decline” to disallow the user to join the chat, or “queue” to leave the decision to other administrators.
+	Result Result `json:"result"`
+}
+
+// AnswerChatJoinRequestQuery calls the answerChatJoinRequestQuery Telegram Bot API method.
+//
+// Use this method to process a received chat join request query. Returns True on success.
+func AnswerChatJoinRequestQuery(ctx context.Context, b *client.Bot, p *AnswerChatJoinRequestQueryParams) (bool, error) {
+	return client.Call[*AnswerChatJoinRequestQueryParams, bool](ctx, b, "answerChatJoinRequestQuery", p)
+}
+
+// SendChatJoinRequestWebAppParams is the parameter set for SendChatJoinRequestWebApp.
+//
+// Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Returns True on success.
+type SendChatJoinRequestWebAppParams struct {
+	// Unique identifier of the join request query
+	ChatJoinRequestQueryID string `json:"chat_join_request_query_id"`
+	// The URL of the Mini App to be opened
+	WebAppURL string `json:"web_app_url"`
+}
+
+// SendChatJoinRequestWebApp calls the sendChatJoinRequestWebApp Telegram Bot API method.
+//
+// Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Returns True on success.
+func SendChatJoinRequestWebApp(ctx context.Context, b *client.Bot, p *SendChatJoinRequestWebAppParams) (bool, error) {
+	return client.Call[*SendChatJoinRequestWebAppParams, bool](ctx, b, "sendChatJoinRequestWebApp", p)
+}
+
 // SetChatPhotoParams is the parameter set for SetChatPhoto.
 //
 // Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
@@ -4004,7 +4038,7 @@ func SavePreparedKeyboardButton(ctx context.Context, b *client.Bot, p *SavePrepa
 
 // EditMessageTextParams is the parameter set for EditMessageText.
 //
-// Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+// Use this method to edit text, rich and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 type EditMessageTextParams struct {
 	// Unique identifier of the business connection on behalf of which the message to be edited was sent
 	BusinessConnectionID string `json:"business_connection_id,omitempty"`
@@ -4014,21 +4048,23 @@ type EditMessageTextParams struct {
 	MessageID *int64 `json:"message_id,omitempty"`
 	// Required if chat_id and message_id are not specified. Identifier of the inline message.
 	InlineMessageID string `json:"inline_message_id,omitempty"`
-	// New text of the message, 1-4096 characters after entities parsing
-	Text string `json:"text"`
+	// New text of the message, 1-4096 characters after entity parsing; required if rich_message isn't specified
+	Text string `json:"text,omitempty"`
 	// Mode for parsing entities in the message text. See formatting options for more details.
 	ParseMode ParseMode `json:"parse_mode,omitempty"`
 	// A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
 	Entities []MessageEntity `json:"entities,omitempty"`
 	// Link preview generation options for the message
 	LinkPreviewOptions *LinkPreviewOptions `json:"link_preview_options,omitempty"`
+	// New rich content of the message; required if text isn't specified
+	RichMessage *InputRichMessage `json:"rich_message,omitempty"`
 	// A JSON-serialized object for an inline keyboard
 	ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
 }
 
 // EditMessageText calls the editMessageText Telegram Bot API method.
 //
-// Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+// Use this method to edit text, rich and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 func EditMessageText(ctx context.Context, b *client.Bot, p *EditMessageTextParams) (*MessageOrBool, error) {
 	return client.Call[*EditMessageTextParams, *MessageOrBool](ctx, b, "editMessageText", p)
 }
@@ -4066,7 +4102,7 @@ func EditMessageCaption(ctx context.Context, b *client.Bot, p *EditMessageCaptio
 
 // EditMessageMediaParams is the parameter set for EditMessageMedia.
 //
-// Use this method to edit animation, audio, document, live photo, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+// Use this method to edit animation, audio, document, live photo, photo, or video messages, or to replace a text or a rich message with a media. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 type EditMessageMediaParams struct {
 	// Unique identifier of the business connection on behalf of which the message to be edited was sent
 	BusinessConnectionID string `json:"business_connection_id,omitempty"`
@@ -4121,7 +4157,7 @@ func (p *EditMessageMediaParams) MultipartFiles() []client.MultipartFile {
 
 // EditMessageMedia calls the editMessageMedia Telegram Bot API method.
 //
-// Use this method to edit animation, audio, document, live photo, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+// Use this method to edit animation, audio, document, live photo, photo, or video messages, or to replace a text or a rich message with a media. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 func EditMessageMedia(ctx context.Context, b *client.Bot, p *EditMessageMediaParams) (*MessageOrBool, error) {
 	return client.Call[*EditMessageMediaParams, *MessageOrBool](ctx, b, "editMessageMedia", p)
 }
@@ -4793,6 +4829,64 @@ type DeleteStickerSetParams struct {
 // Use this method to delete a sticker set that was created by the bot. Returns True on success.
 func DeleteStickerSet(ctx context.Context, b *client.Bot, p *DeleteStickerSetParams) (bool, error) {
 	return client.Call[*DeleteStickerSetParams, bool](ctx, b, "deleteStickerSet", p)
+}
+
+// SendRichMessageParams is the parameter set for SendRichMessage.
+//
+// Use this method to send rich messages. If the message contains a block with a media element, then the bot must have the right to send the media to the chat. On success, the sent Message is returned.
+type SendRichMessageParams struct {
+	// Unique identifier of the business connection on behalf of which the message will be sent
+	BusinessConnectionID string `json:"business_connection_id,omitempty"`
+	// Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username
+	ChatID ChatID `json:"chat_id"`
+	// Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
+	MessageThreadID *int64 `json:"message_thread_id,omitempty"`
+	// Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+	DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+	// The message to be sent
+	RichMessage InputRichMessage `json:"rich_message"`
+	// Sends the message silently. Users will receive a notification with no sound.
+	DisableNotification *bool `json:"disable_notification,omitempty"`
+	// Protects the contents of the sent message from forwarding and saving
+	ProtectContent *bool `json:"protect_content,omitempty"`
+	// Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.
+	AllowPaidBroadcast *bool `json:"allow_paid_broadcast,omitempty"`
+	// Unique identifier of the message effect to be added to the message; for private chats only
+	MessageEffectID string `json:"message_effect_id,omitempty"`
+	// A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+	SuggestedPostParameters *SuggestedPostParameters `json:"suggested_post_parameters,omitempty"`
+	// Description of the message to reply to
+	ReplyParameters *ReplyParameters `json:"reply_parameters,omitempty"`
+	// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user.
+	ReplyMarkup any `json:"reply_markup,omitempty"`
+}
+
+// SendRichMessage calls the sendRichMessage Telegram Bot API method.
+//
+// Use this method to send rich messages. If the message contains a block with a media element, then the bot must have the right to send the media to the chat. On success, the sent Message is returned.
+func SendRichMessage(ctx context.Context, b *client.Bot, p *SendRichMessageParams) (*Message, error) {
+	return client.Call[*SendRichMessageParams, *Message](ctx, b, "sendRichMessage", p)
+}
+
+// SendRichMessageDraftParams is the parameter set for SendRichMessageDraft.
+//
+// Use this method to stream a partial rich message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the output is finalized, you must call sendRichMessage with the complete message to persist it in the user's chat. Returns True on success.
+type SendRichMessageDraftParams struct {
+	// Unique identifier for the target private chat
+	ChatID int64 `json:"chat_id"`
+	// Unique identifier for the target message thread
+	MessageThreadID *int64 `json:"message_thread_id,omitempty"`
+	// Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.
+	DraftID int64 `json:"draft_id"`
+	// The partial message to be streamed
+	RichMessage InputRichMessage `json:"rich_message"`
+}
+
+// SendRichMessageDraft calls the sendRichMessageDraft Telegram Bot API method.
+//
+// Use this method to stream a partial rich message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the output is finalized, you must call sendRichMessage with the complete message to persist it in the user's chat. Returns True on success.
+func SendRichMessageDraft(ctx context.Context, b *client.Bot, p *SendRichMessageDraftParams) (bool, error) {
+	return client.Call[*SendRichMessageDraftParams, bool](ctx, b, "sendRichMessageDraft", p)
 }
 
 // AnswerInlineQueryParams is the parameter set for AnswerInlineQuery.

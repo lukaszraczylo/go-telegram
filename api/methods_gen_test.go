@@ -7427,6 +7427,294 @@ func Test_DeclineChatJoinRequest_ServerError(t *testing.T) {
 	require.True(t, ae.IsRetryable(), "5xx must be retryable")
 }
 
+func Test_AnswerChatJoinRequestQuery_Success(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.MatchedBy(func(r *http.Request) bool {
+		return strings.HasSuffix(r.URL.Path, "/answerChatJoinRequestQuery")
+	})).Return(genTestResp(200, `{"ok":true,"result":true}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &AnswerChatJoinRequestQueryParams{
+		ChatJoinRequestQueryID: "test_value",
+		Result:                 ResultApprove,
+	}
+	_, err := AnswerChatJoinRequestQuery(context.Background(), bot, params)
+	require.NoError(t, err)
+}
+
+func Test_AnswerChatJoinRequestQuery_APIError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":429,"description":"Too Many Requests","parameters":{"retry_after":1}}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &AnswerChatJoinRequestQueryParams{
+		ChatJoinRequestQueryID: "test_value",
+		Result:                 ResultApprove,
+	}
+	_, err := AnswerChatJoinRequestQuery(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 429, ae.Code)
+	require.True(t, ae.IsRetryable())
+}
+
+func Test_AnswerChatJoinRequestQuery_NetworkError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, errors.New("dial tcp: timeout"))
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &AnswerChatJoinRequestQueryParams{
+		ChatJoinRequestQueryID: "test_value",
+		Result:                 ResultApprove,
+	}
+	_, err := AnswerChatJoinRequestQuery(context.Background(), bot, params)
+	require.Error(t, err)
+	var ne *client.NetworkError
+	require.ErrorAs(t, err, &ne)
+}
+
+func Test_AnswerChatJoinRequestQuery_ParseError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(genTestResp(200, `not json`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &AnswerChatJoinRequestQueryParams{
+		ChatJoinRequestQueryID: "test_value",
+		Result:                 ResultApprove,
+	}
+	_, err := AnswerChatJoinRequestQuery(context.Background(), bot, params)
+	require.Error(t, err)
+	var pe *client.ParseError
+	require.ErrorAs(t, err, &pe)
+}
+
+func Test_AnswerChatJoinRequestQuery_ContextCanceled(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, context.Canceled).Maybe()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &AnswerChatJoinRequestQueryParams{
+		ChatJoinRequestQueryID: "test_value",
+		Result:                 ResultApprove,
+	}
+	_, err := AnswerChatJoinRequestQuery(ctx, bot, params)
+	require.Error(t, err)
+	require.ErrorIs(t, err, context.Canceled)
+}
+
+// Test_AnswerChatJoinRequestQuery_MissingRequiredFields exercises Telegram's server-side
+// validation: when a required field is omitted, Telegram returns 400 with
+// a description like "Bad Request: <field> is empty". The library must
+// surface this as *APIError with the ErrBadRequest sentinel.
+func Test_AnswerChatJoinRequestQuery_MissingRequiredFields(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":400,"description":"Bad Request: chat_id is empty"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	// Send a Params with all required fields zeroed — simulates a caller
+	// that forgot to populate them. The bot library marshals as-is and
+	// surfaces Telegram's 400 reply.
+	_, err := AnswerChatJoinRequestQuery(context.Background(), bot, &AnswerChatJoinRequestQueryParams{})
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 400, ae.Code)
+	require.True(t, errors.Is(err, client.ErrBadRequest))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_AnswerChatJoinRequestQuery_Forbidden exercises the 403 path (bot blocked by user,
+// removed from chat, etc.). The library must surface the ErrForbidden
+// sentinel.
+func Test_AnswerChatJoinRequestQuery_Forbidden(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &AnswerChatJoinRequestQueryParams{
+		ChatJoinRequestQueryID: "test_value",
+		Result:                 ResultApprove,
+	}
+	_, err := AnswerChatJoinRequestQuery(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 403, ae.Code)
+	require.True(t, errors.Is(err, client.ErrForbidden))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_AnswerChatJoinRequestQuery_ServerError exercises the 5xx path. The library must
+// classify these as retryable so RetryDoer / user retry logic kicks in.
+func Test_AnswerChatJoinRequestQuery_ServerError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":500,"description":"Internal server error"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &AnswerChatJoinRequestQueryParams{
+		ChatJoinRequestQueryID: "test_value",
+		Result:                 ResultApprove,
+	}
+	_, err := AnswerChatJoinRequestQuery(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 500, ae.Code)
+	require.True(t, ae.IsRetryable(), "5xx must be retryable")
+}
+
+func Test_SendChatJoinRequestWebApp_Success(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.MatchedBy(func(r *http.Request) bool {
+		return strings.HasSuffix(r.URL.Path, "/sendChatJoinRequestWebApp")
+	})).Return(genTestResp(200, `{"ok":true,"result":true}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendChatJoinRequestWebAppParams{
+		ChatJoinRequestQueryID: "test_value",
+		WebAppURL:              "test_value",
+	}
+	_, err := SendChatJoinRequestWebApp(context.Background(), bot, params)
+	require.NoError(t, err)
+}
+
+func Test_SendChatJoinRequestWebApp_APIError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":429,"description":"Too Many Requests","parameters":{"retry_after":1}}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendChatJoinRequestWebAppParams{
+		ChatJoinRequestQueryID: "test_value",
+		WebAppURL:              "test_value",
+	}
+	_, err := SendChatJoinRequestWebApp(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 429, ae.Code)
+	require.True(t, ae.IsRetryable())
+}
+
+func Test_SendChatJoinRequestWebApp_NetworkError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, errors.New("dial tcp: timeout"))
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendChatJoinRequestWebAppParams{
+		ChatJoinRequestQueryID: "test_value",
+		WebAppURL:              "test_value",
+	}
+	_, err := SendChatJoinRequestWebApp(context.Background(), bot, params)
+	require.Error(t, err)
+	var ne *client.NetworkError
+	require.ErrorAs(t, err, &ne)
+}
+
+func Test_SendChatJoinRequestWebApp_ParseError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(genTestResp(200, `not json`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendChatJoinRequestWebAppParams{
+		ChatJoinRequestQueryID: "test_value",
+		WebAppURL:              "test_value",
+	}
+	_, err := SendChatJoinRequestWebApp(context.Background(), bot, params)
+	require.Error(t, err)
+	var pe *client.ParseError
+	require.ErrorAs(t, err, &pe)
+}
+
+func Test_SendChatJoinRequestWebApp_ContextCanceled(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, context.Canceled).Maybe()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendChatJoinRequestWebAppParams{
+		ChatJoinRequestQueryID: "test_value",
+		WebAppURL:              "test_value",
+	}
+	_, err := SendChatJoinRequestWebApp(ctx, bot, params)
+	require.Error(t, err)
+	require.ErrorIs(t, err, context.Canceled)
+}
+
+// Test_SendChatJoinRequestWebApp_MissingRequiredFields exercises Telegram's server-side
+// validation: when a required field is omitted, Telegram returns 400 with
+// a description like "Bad Request: <field> is empty". The library must
+// surface this as *APIError with the ErrBadRequest sentinel.
+func Test_SendChatJoinRequestWebApp_MissingRequiredFields(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":400,"description":"Bad Request: chat_id is empty"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	// Send a Params with all required fields zeroed — simulates a caller
+	// that forgot to populate them. The bot library marshals as-is and
+	// surfaces Telegram's 400 reply.
+	_, err := SendChatJoinRequestWebApp(context.Background(), bot, &SendChatJoinRequestWebAppParams{})
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 400, ae.Code)
+	require.True(t, errors.Is(err, client.ErrBadRequest))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_SendChatJoinRequestWebApp_Forbidden exercises the 403 path (bot blocked by user,
+// removed from chat, etc.). The library must surface the ErrForbidden
+// sentinel.
+func Test_SendChatJoinRequestWebApp_Forbidden(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendChatJoinRequestWebAppParams{
+		ChatJoinRequestQueryID: "test_value",
+		WebAppURL:              "test_value",
+	}
+	_, err := SendChatJoinRequestWebApp(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 403, ae.Code)
+	require.True(t, errors.Is(err, client.ErrForbidden))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_SendChatJoinRequestWebApp_ServerError exercises the 5xx path. The library must
+// classify these as retryable so RetryDoer / user retry logic kicks in.
+func Test_SendChatJoinRequestWebApp_ServerError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":500,"description":"Internal server error"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendChatJoinRequestWebAppParams{
+		ChatJoinRequestQueryID: "test_value",
+		WebAppURL:              "test_value",
+	}
+	_, err := SendChatJoinRequestWebApp(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 500, ae.Code)
+	require.True(t, ae.IsRetryable(), "5xx must be retryable")
+}
+
 func Test_SetChatPhoto_Success(t *testing.T) {
 	m := &genTestMockDoer{}
 	m.On("Do", mock.MatchedBy(func(r *http.Request) bool {
@@ -18587,9 +18875,7 @@ func Test_EditMessageText_Success(t *testing.T) {
 	})).Return(genTestResp(200, `{"ok":true,"result":true}`), nil)
 
 	bot := client.New("test:token", client.WithHTTPClient(m))
-	params := &EditMessageTextParams{
-		Text: "test_value",
-	}
+	params := &EditMessageTextParams{}
 	_, err := EditMessageText(context.Background(), bot, params)
 	require.NoError(t, err)
 }
@@ -18600,9 +18886,7 @@ func Test_EditMessageText_APIError(t *testing.T) {
 		genTestResp(200, `{"ok":false,"error_code":429,"description":"Too Many Requests","parameters":{"retry_after":1}}`), nil)
 
 	bot := client.New("test:token", client.WithHTTPClient(m))
-	params := &EditMessageTextParams{
-		Text: "test_value",
-	}
+	params := &EditMessageTextParams{}
 	_, err := EditMessageText(context.Background(), bot, params)
 	require.Error(t, err)
 	var ae *client.APIError
@@ -18616,9 +18900,7 @@ func Test_EditMessageText_NetworkError(t *testing.T) {
 	m.On("Do", mock.Anything).Return(nil, errors.New("dial tcp: timeout"))
 
 	bot := client.New("test:token", client.WithHTTPClient(m))
-	params := &EditMessageTextParams{
-		Text: "test_value",
-	}
+	params := &EditMessageTextParams{}
 	_, err := EditMessageText(context.Background(), bot, params)
 	require.Error(t, err)
 	var ne *client.NetworkError
@@ -18630,9 +18912,7 @@ func Test_EditMessageText_ParseError(t *testing.T) {
 	m.On("Do", mock.Anything).Return(genTestResp(200, `not json`), nil)
 
 	bot := client.New("test:token", client.WithHTTPClient(m))
-	params := &EditMessageTextParams{
-		Text: "test_value",
-	}
+	params := &EditMessageTextParams{}
 	_, err := EditMessageText(context.Background(), bot, params)
 	require.Error(t, err)
 	var pe *client.ParseError
@@ -18647,9 +18927,7 @@ func Test_EditMessageText_ContextCanceled(t *testing.T) {
 	cancel()
 
 	bot := client.New("test:token", client.WithHTTPClient(m))
-	params := &EditMessageTextParams{
-		Text: "test_value",
-	}
+	params := &EditMessageTextParams{}
 	_, err := EditMessageText(ctx, bot, params)
 	require.Error(t, err)
 	require.ErrorIs(t, err, context.Canceled)
@@ -18686,9 +18964,7 @@ func Test_EditMessageText_Forbidden(t *testing.T) {
 		genTestResp(200, `{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}`), nil)
 
 	bot := client.New("test:token", client.WithHTTPClient(m))
-	params := &EditMessageTextParams{
-		Text: "test_value",
-	}
+	params := &EditMessageTextParams{}
 	_, err := EditMessageText(context.Background(), bot, params)
 	require.Error(t, err)
 	var ae *client.APIError
@@ -18706,9 +18982,7 @@ func Test_EditMessageText_ServerError(t *testing.T) {
 		genTestResp(200, `{"ok":false,"error_code":500,"description":"Internal server error"}`), nil)
 
 	bot := client.New("test:token", client.WithHTTPClient(m))
-	params := &EditMessageTextParams{
-		Text: "test_value",
-	}
+	params := &EditMessageTextParams{}
 	_, err := EditMessageText(context.Background(), bot, params)
 	require.Error(t, err)
 	var ae *client.APIError
@@ -22823,6 +23097,301 @@ func Test_DeleteStickerSet_ServerError(t *testing.T) {
 		Name: "test_value",
 	}
 	_, err := DeleteStickerSet(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 500, ae.Code)
+	require.True(t, ae.IsRetryable(), "5xx must be retryable")
+}
+
+func Test_SendRichMessage_Success(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.MatchedBy(func(r *http.Request) bool {
+		return strings.HasSuffix(r.URL.Path, "/sendRichMessage")
+	})).Return(genTestResp(200, `{"ok":true,"result":{}}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageParams{
+		ChatID:      ChatIDFromInt(123),
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessage(context.Background(), bot, params)
+	require.NoError(t, err)
+}
+
+func Test_SendRichMessage_APIError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":429,"description":"Too Many Requests","parameters":{"retry_after":1}}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageParams{
+		ChatID:      ChatIDFromInt(123),
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessage(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 429, ae.Code)
+	require.True(t, ae.IsRetryable())
+}
+
+func Test_SendRichMessage_NetworkError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, errors.New("dial tcp: timeout"))
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageParams{
+		ChatID:      ChatIDFromInt(123),
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessage(context.Background(), bot, params)
+	require.Error(t, err)
+	var ne *client.NetworkError
+	require.ErrorAs(t, err, &ne)
+}
+
+func Test_SendRichMessage_ParseError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(genTestResp(200, `not json`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageParams{
+		ChatID:      ChatIDFromInt(123),
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessage(context.Background(), bot, params)
+	require.Error(t, err)
+	var pe *client.ParseError
+	require.ErrorAs(t, err, &pe)
+}
+
+func Test_SendRichMessage_ContextCanceled(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, context.Canceled).Maybe()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageParams{
+		ChatID:      ChatIDFromInt(123),
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessage(ctx, bot, params)
+	require.Error(t, err)
+	require.ErrorIs(t, err, context.Canceled)
+}
+
+// Test_SendRichMessage_MissingRequiredFields exercises Telegram's server-side
+// validation: when a required field is omitted, Telegram returns 400 with
+// a description like "Bad Request: <field> is empty". The library must
+// surface this as *APIError with the ErrBadRequest sentinel.
+func Test_SendRichMessage_MissingRequiredFields(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":400,"description":"Bad Request: chat_id is empty"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	// Send a Params with all required fields zeroed — simulates a caller
+	// that forgot to populate them. The bot library marshals as-is and
+	// surfaces Telegram's 400 reply.
+	_, err := SendRichMessage(context.Background(), bot, &SendRichMessageParams{})
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 400, ae.Code)
+	require.True(t, errors.Is(err, client.ErrBadRequest))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_SendRichMessage_Forbidden exercises the 403 path (bot blocked by user,
+// removed from chat, etc.). The library must surface the ErrForbidden
+// sentinel.
+func Test_SendRichMessage_Forbidden(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageParams{
+		ChatID:      ChatIDFromInt(123),
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessage(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 403, ae.Code)
+	require.True(t, errors.Is(err, client.ErrForbidden))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_SendRichMessage_ServerError exercises the 5xx path. The library must
+// classify these as retryable so RetryDoer / user retry logic kicks in.
+func Test_SendRichMessage_ServerError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":500,"description":"Internal server error"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageParams{
+		ChatID:      ChatIDFromInt(123),
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessage(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 500, ae.Code)
+	require.True(t, ae.IsRetryable(), "5xx must be retryable")
+}
+
+func Test_SendRichMessageDraft_Success(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.MatchedBy(func(r *http.Request) bool {
+		return strings.HasSuffix(r.URL.Path, "/sendRichMessageDraft")
+	})).Return(genTestResp(200, `{"ok":true,"result":true}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageDraftParams{
+		ChatID:      42,
+		DraftID:     42,
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessageDraft(context.Background(), bot, params)
+	require.NoError(t, err)
+}
+
+func Test_SendRichMessageDraft_APIError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":429,"description":"Too Many Requests","parameters":{"retry_after":1}}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageDraftParams{
+		ChatID:      42,
+		DraftID:     42,
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessageDraft(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 429, ae.Code)
+	require.True(t, ae.IsRetryable())
+}
+
+func Test_SendRichMessageDraft_NetworkError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, errors.New("dial tcp: timeout"))
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageDraftParams{
+		ChatID:      42,
+		DraftID:     42,
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessageDraft(context.Background(), bot, params)
+	require.Error(t, err)
+	var ne *client.NetworkError
+	require.ErrorAs(t, err, &ne)
+}
+
+func Test_SendRichMessageDraft_ParseError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(genTestResp(200, `not json`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageDraftParams{
+		ChatID:      42,
+		DraftID:     42,
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessageDraft(context.Background(), bot, params)
+	require.Error(t, err)
+	var pe *client.ParseError
+	require.ErrorAs(t, err, &pe)
+}
+
+func Test_SendRichMessageDraft_ContextCanceled(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, context.Canceled).Maybe()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageDraftParams{
+		ChatID:      42,
+		DraftID:     42,
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessageDraft(ctx, bot, params)
+	require.Error(t, err)
+	require.ErrorIs(t, err, context.Canceled)
+}
+
+// Test_SendRichMessageDraft_MissingRequiredFields exercises Telegram's server-side
+// validation: when a required field is omitted, Telegram returns 400 with
+// a description like "Bad Request: <field> is empty". The library must
+// surface this as *APIError with the ErrBadRequest sentinel.
+func Test_SendRichMessageDraft_MissingRequiredFields(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":400,"description":"Bad Request: chat_id is empty"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	// Send a Params with all required fields zeroed — simulates a caller
+	// that forgot to populate them. The bot library marshals as-is and
+	// surfaces Telegram's 400 reply.
+	_, err := SendRichMessageDraft(context.Background(), bot, &SendRichMessageDraftParams{})
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 400, ae.Code)
+	require.True(t, errors.Is(err, client.ErrBadRequest))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_SendRichMessageDraft_Forbidden exercises the 403 path (bot blocked by user,
+// removed from chat, etc.). The library must surface the ErrForbidden
+// sentinel.
+func Test_SendRichMessageDraft_Forbidden(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageDraftParams{
+		ChatID:      42,
+		DraftID:     42,
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessageDraft(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 403, ae.Code)
+	require.True(t, errors.Is(err, client.ErrForbidden))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_SendRichMessageDraft_ServerError exercises the 5xx path. The library must
+// classify these as retryable so RetryDoer / user retry logic kicks in.
+func Test_SendRichMessageDraft_ServerError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":500,"description":"Internal server error"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &SendRichMessageDraftParams{
+		ChatID:      42,
+		DraftID:     42,
+		RichMessage: InputRichMessage{},
+	}
+	_, err := SendRichMessageDraft(context.Background(), bot, params)
 	require.Error(t, err)
 	var ae *client.APIError
 	require.ErrorAs(t, err, &ae)

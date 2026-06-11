@@ -48,7 +48,7 @@ func Test_{{$mName}}_Success(t *testing.T) {
 	{{- if .Params}}
 	params := &{{$mName}}Params{
 		{{- range .Params}}{{if .Required}}
-		{{.Name}}: {{sentinelValue .}},{{end}}
+		{{.Name}}: {{sentinelValue $m.Name .}},{{end}}
 		{{- end}}
 	}
 	_, err := {{$mName}}(context.Background(), bot, params)
@@ -67,7 +67,7 @@ func Test_{{$mName}}_APIError(t *testing.T) {
 	{{- if .Params}}
 	params := &{{$mName}}Params{
 		{{- range .Params}}{{if .Required}}
-		{{.Name}}: {{sentinelValue .}},{{end}}
+		{{.Name}}: {{sentinelValue $m.Name .}},{{end}}
 		{{- end}}
 	}
 	_, err := {{$mName}}(context.Background(), bot, params)
@@ -89,7 +89,7 @@ func Test_{{$mName}}_NetworkError(t *testing.T) {
 	{{- if .Params}}
 	params := &{{$mName}}Params{
 		{{- range .Params}}{{if .Required}}
-		{{.Name}}: {{sentinelValue .}},{{end}}
+		{{.Name}}: {{sentinelValue $m.Name .}},{{end}}
 		{{- end}}
 	}
 	_, err := {{$mName}}(context.Background(), bot, params)
@@ -109,7 +109,7 @@ func Test_{{$mName}}_ParseError(t *testing.T) {
 	{{- if .Params}}
 	params := &{{$mName}}Params{
 		{{- range .Params}}{{if .Required}}
-		{{.Name}}: {{sentinelValue .}},{{end}}
+		{{.Name}}: {{sentinelValue $m.Name .}},{{end}}
 		{{- end}}
 	}
 	_, err := {{$mName}}(context.Background(), bot, params)
@@ -132,7 +132,7 @@ func Test_{{$mName}}_ContextCanceled(t *testing.T) {
 	{{- if .Params}}
 	params := &{{$mName}}Params{
 		{{- range .Params}}{{if .Required}}
-		{{.Name}}: {{sentinelValue .}},{{end}}
+		{{.Name}}: {{sentinelValue $m.Name .}},{{end}}
 		{{- end}}
 	}
 	_, err := {{$mName}}(ctx, bot, params)
@@ -177,7 +177,7 @@ func Test_{{$mName}}_Forbidden(t *testing.T) {
 	{{- if .Params}}
 	params := &{{$mName}}Params{
 		{{- range .Params}}{{if .Required}}
-		{{.Name}}: {{sentinelValue .}},{{end}}
+		{{.Name}}: {{sentinelValue $m.Name .}},{{end}}
 		{{- end}}
 	}
 	_, err := {{$mName}}(context.Background(), bot, params)
@@ -203,7 +203,7 @@ func Test_{{$mName}}_ServerError(t *testing.T) {
 	{{- if .Params}}
 	params := &{{$mName}}Params{
 		{{- range .Params}}{{if .Required}}
-		{{.Name}}: {{sentinelValue .}},{{end}}
+		{{.Name}}: {{sentinelValue $m.Name .}},{{end}}
 		{{- end}}
 	}
 	_, err := {{$mName}}(context.Background(), bot, params)

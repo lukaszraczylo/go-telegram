@@ -26,15 +26,21 @@ type enumPlan struct {
 }
 
 // enumKey identifies a single Field occurrence so the emitter can look
-// up the enum name later. Parent is "" for method params (the method
-// doesn't share a Go type with the field).
+// up the enum name later. Parent is the type name for struct fields and
+// methodEnumParent(name) for method params, so two methods sharing a
+// param name never alias each other's enum (or non-enum) fields.
 func enumKey(parent, fieldName string) string { return parent + "::" + fieldName }
+
+// methodEnumParent is the enum-plan key parent for a method's params.
+// The "method:" prefix keeps it disjoint from type names.
+func methodEnumParent(methodName string) string { return "method:" + methodName }
 
 // planEnums walks the IR, decides on enum names, deduplicates, and
 // returns an enumPlan. All scraper-marked enum fields are covered.
 func planEnums(api *spec.API) *enumPlan {
 	type ref struct {
-		parent    string
+		parent    string // naming parent ("" for method params)
+		keyParent string // byField key parent (methodEnumParent(...) for method params)
 		fieldName string
 		jsonName  string
 		values    []string
@@ -52,7 +58,7 @@ func planEnums(api *spec.API) *enumPlan {
 	}
 
 	var refs []ref
-	collect := func(parent string, fields []spec.Field) {
+	collect := func(parent, keyParent string, fields []spec.Field) {
 		for _, f := range fields {
 			if len(f.EnumValues) == 0 {
 				continue
@@ -62,6 +68,7 @@ func planEnums(api *spec.API) *enumPlan {
 			}
 			refs = append(refs, ref{
 				parent:    parent,
+				keyParent: keyParent,
 				fieldName: f.Name,
 				jsonName:  f.JSONName,
 				values:    f.EnumValues,
@@ -70,13 +77,15 @@ func planEnums(api *spec.API) *enumPlan {
 		}
 	}
 	for _, t := range api.Types {
-		collect(t.Name, t.Fields)
+		collect(t.Name, t.Name, t.Fields)
 	}
 	for _, m := range api.Methods {
-		// Method params have no shared Go parent type, so we pass "" as
-		// the parent. The default-name heuristic still produces the
-		// right answer for ParseMode-style enums.
-		collect("", m.Params)
+		// Method params have no shared Go parent type, so the naming
+		// parent is "" (the default-name heuristic still produces the
+		// right answer for ParseMode-style enums), but the byField key
+		// is method-scoped so a same-named non-enum param on another
+		// method can never pick up this enum.
+		collect("", methodEnumParent(m.Name), m.Params)
 	}
 
 	// candidate name per ref (before collision resolution)
@@ -196,7 +205,7 @@ func planEnums(api *spec.API) *enumPlan {
 	}
 	for i, r := range refs {
 		name := groups[r.valueKey].name
-		plan.byField[enumKey(r.parent, r.fieldName)] = name
+		plan.byField[enumKey(r.keyParent, r.fieldName)] = name
 		_ = i
 	}
 	for vk, g := range groups {
@@ -389,6 +398,18 @@ func (p *enumPlan) FieldEnum(parent, fieldName string) string {
 	return p.byField[enumKey(parent, fieldName)]
 }
 
+// ConstFor returns the collision-resolved constant identifier for value
+// within the named enum declaration. Falls back to the plain constName
+// when the declaration is unknown (unit tests with partial plans).
+func (p *enumPlan) ConstFor(enumName, value string) string {
+	if p != nil {
+		if d, ok := p.decls[enumName]; ok {
+			return d.ConstName(value)
+		}
+	}
+	return constName(enumName, value)
+}
+
 // defaultEnumName picks an initial Go enum name for a field. parse_mode
 // fields collapse to the canonical "ParseMode"; otherwise the name is
 // parent + PascalCase(jsonName).
@@ -404,6 +425,48 @@ func defaultEnumName(parent, jsonName, fieldName string) string {
 // "image/jpeg" → "ImageOfJpeg".
 func constName(enumName, value string) string {
 	return enumName + valuePascal(value)
+}
+
+// ConstName returns the constant identifier for value within this enum,
+// resolving case-collisions between values that Pascal-case to the same
+// identifier (e.g. RichBlockListItem.type values "a" and "A"). Colliding
+// values get a Lower/Upper prefix on the value part based on the case of
+// the value's first letter; any residual collision gets a numeric suffix.
+func (e enumDecl) ConstName(value string) string {
+	counts := map[string]int{}
+	for _, v := range e.Values {
+		counts[constName(e.Name, v)]++
+	}
+	plain := constName(e.Name, value)
+	if counts[plain] <= 1 {
+		return plain
+	}
+	cased := e.Name + casePrefix(value) + valuePascal(value)
+	// Residual collision (same value text repeated, or Lower/Upper still
+	// ambiguous): append the value's 1-based position for determinism.
+	casedCounts := map[string]int{}
+	pos := 0
+	for i, v := range e.Values {
+		if counts[constName(e.Name, v)] > 1 {
+			casedCounts[e.Name+casePrefix(v)+valuePascal(v)]++
+		}
+		if v == value {
+			pos = i + 1
+		}
+	}
+	if casedCounts[cased] > 1 {
+		return cased + itoa(pos)
+	}
+	return cased
+}
+
+// casePrefix distinguishes case-colliding enum values: "Lower" when the
+// value starts with a lowercase letter, "Upper" otherwise.
+func casePrefix(v string) string {
+	if v != "" && v[0] >= 'a' && v[0] <= 'z' {
+		return "Lower"
+	}
+	return "Upper"
 }
 
 func valuePascal(v string) string {

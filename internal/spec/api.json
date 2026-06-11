@@ -1,5 +1,5 @@
 {
-  "version": "10.0",
+  "version": "10.1",
   "types": [
     {
       "name": "Update",
@@ -494,6 +494,15 @@
             "name": "bool"
           },
           "doc": "Optional. True, if other bots can be created to be controlled by the bot. Returned only in getMe."
+        },
+        {
+          "name": "SupportsJoinRequestQueries",
+          "json_name": "supports_join_request_queries",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the bot supports join request queries and can be assigned to process them. Returned only in getMe."
         }
       ]
     },
@@ -1062,6 +1071,15 @@
             "name": "int64"
           },
           "doc": "Optional. The number of Telegram Stars a general user has to pay to send a message to the chat"
+        },
+        {
+          "name": "GuardBot",
+          "json_name": "guard_bot",
+          "type": {
+            "kind": "named",
+            "name": "User"
+          },
+          "doc": "Optional. The bot that processes join request queries in the chat. The field is only available to chat administrators."
         }
       ]
     },
@@ -1398,6 +1416,15 @@
             "name": "string"
           },
           "doc": "Optional. Unique identifier of the message effect added to the message"
+        },
+        {
+          "name": "RichMessage",
+          "json_name": "rich_message",
+          "type": {
+            "kind": "named",
+            "name": "RichMessage"
+          },
+          "doc": "Optional. Message is a rich formatted message"
         },
         {
           "name": "Animation",
@@ -3845,6 +3872,22 @@
       ]
     },
     {
+      "name": "Link",
+      "doc": "Represents an HTTP link.",
+      "fields": [
+        {
+          "name": "URL",
+          "json_name": "url",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "URL of the link"
+        }
+      ]
+    },
+    {
       "name": "PollMedia",
       "doc": "At most one of the optional fields can be present in any given object.",
       "fields": [
@@ -3874,6 +3917,15 @@
             "name": "Document"
           },
           "doc": "Optional. Media is a general file, information about the file; currently, can't be received in a poll option"
+        },
+        {
+          "name": "Link",
+          "json_name": "link",
+          "type": {
+            "kind": "named",
+            "name": "Link"
+          },
+          "doc": "Optional. The HTTP link attached to the poll option"
         },
         {
           "name": "LivePhoto",
@@ -3953,6 +4005,7 @@
       "doc": "This object represents the content of a poll option to be sent. It should be one of",
       "one_of": [
         "InputMediaAnimation",
+        "InputMediaLink",
         "InputMediaLivePhoto",
         "InputMediaLocation",
         "InputMediaPhoto",
@@ -8047,7 +8100,7 @@
             "name": "bool"
           },
           "required": true,
-          "doc": "True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues"
+          "doc": "True, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway winners, invoices, locations and venues"
         },
         {
           "name": "CanSendAudios",
@@ -8340,6 +8393,15 @@
             "name": "ChatInviteLink"
           },
           "doc": "Optional. Chat invite link that was used by the user to send the join request"
+        },
+        {
+          "name": "QueryID",
+          "json_name": "query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Optional. Identifier of the join request query. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds."
         }
       ]
     },
@@ -8354,7 +8416,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues"
+          "doc": "Optional. True, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway winners, invoices, locations and venues"
         },
         {
           "name": "CanSendAudios",
@@ -11770,6 +11832,35 @@
       ]
     },
     {
+      "name": "InputMediaLink",
+      "doc": "Represents an HTTP link to be sent.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the result, must be link",
+          "enum_values": [
+            "link"
+          ]
+        },
+        {
+          "name": "URL",
+          "json_name": "url",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "HTTP URL of the link"
+        }
+      ]
+    },
+    {
       "name": "InputMediaLivePhoto",
       "doc": "Represents a live photo to be sent.",
       "fields": [
@@ -12940,6 +13031,2013 @@
             }
           },
           "doc": "Optional. List of 0-20 search keywords for the sticker with total length of up to 64 characters. For “regular” and “custom_emoji” stickers only."
+        }
+      ]
+    },
+    {
+      "name": "RichMessage",
+      "doc": "Rich formatted message.",
+      "fields": [
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "RichBlock"
+            }
+          },
+          "required": true,
+          "doc": "Content of the message"
+        },
+        {
+          "name": "IsRtl",
+          "json_name": "is_rtl",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the rich message must be shown right-to-left"
+        }
+      ]
+    },
+    {
+      "name": "InputRichMessage",
+      "doc": "Describes a rich message to be sent. Exactly one of the fields html or markdown must be used.",
+      "fields": [
+        {
+          "name": "HTML",
+          "json_name": "html",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Optional. Content of the rich message to send described using HTML formatting. See rich message formatting options for more details."
+        },
+        {
+          "name": "Markdown",
+          "json_name": "markdown",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Optional. Content of the rich message to send described using Markdown formatting. See rich message formatting options for more details."
+        },
+        {
+          "name": "IsRtl",
+          "json_name": "is_rtl",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. Pass True if the rich message must be shown right-to-left"
+        },
+        {
+          "name": "SkipEntityDetection",
+          "json_name": "skip_entity_detection",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. Pass True to skip automatic detection of entities (e.g., URLs, email addresses, username mentions, hashtags, cashtags, bot commands, or phone numbers) in the text"
+        }
+      ]
+    },
+    {
+      "name": "RichText",
+      "doc": "This object represents a rich formatted text. Currently, it can be either a String for plain text, an Array of RichText, or any of the following types:",
+      "one_of": [
+        "RichTextBold",
+        "RichTextItalic",
+        "RichTextUnderline",
+        "RichTextStrikethrough",
+        "RichTextSpoiler",
+        "RichTextDateTime",
+        "RichTextTextMention",
+        "RichTextSubscript",
+        "RichTextSuperscript",
+        "RichTextMarked",
+        "RichTextCode",
+        "RichTextCustomEmoji",
+        "RichTextMathematicalExpression",
+        "RichTextUrl",
+        "RichTextEmailAddress",
+        "RichTextPhoneNumber",
+        "RichTextBankCardNumber",
+        "RichTextMention",
+        "RichTextHashtag",
+        "RichTextCashtag",
+        "RichTextBotCommand",
+        "RichTextAnchor",
+        "RichTextAnchorLink",
+        "RichTextReference",
+        "RichTextReferenceLink"
+      ]
+    },
+    {
+      "name": "RichTextBold",
+      "doc": "A bold text.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “bold”",
+          "enum_values": [
+            "bold"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        }
+      ]
+    },
+    {
+      "name": "RichTextItalic",
+      "doc": "An italicized text.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “italic”",
+          "enum_values": [
+            "italic"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        }
+      ]
+    },
+    {
+      "name": "RichTextUnderline",
+      "doc": "An underlined text.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “underline”",
+          "enum_values": [
+            "underline"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        }
+      ]
+    },
+    {
+      "name": "RichTextStrikethrough",
+      "doc": "A strikethrough text.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “strikethrough”",
+          "enum_values": [
+            "strikethrough"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        }
+      ]
+    },
+    {
+      "name": "RichTextSpoiler",
+      "doc": "A text covered by a spoiler.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “spoiler”",
+          "enum_values": [
+            "spoiler"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        }
+      ]
+    },
+    {
+      "name": "RichTextDateTime",
+      "doc": "Formatted date and time.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “date_time”",
+          "enum_values": [
+            "date_time"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        },
+        {
+          "name": "UnixTime",
+          "json_name": "unix_time",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "The Unix time associated with the entity"
+        },
+        {
+          "name": "DateTimeFormat",
+          "json_name": "date_time_format",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The string that defines the formatting of the date and time. See date-time entity formatting for more details."
+        }
+      ]
+    },
+    {
+      "name": "RichTextTextMention",
+      "doc": "A mention of a Telegram user by their identifier.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “text_mention”",
+          "enum_values": [
+            "text_mention"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        },
+        {
+          "name": "User",
+          "json_name": "user",
+          "type": {
+            "kind": "named",
+            "name": "User"
+          },
+          "required": true,
+          "doc": "The mentioned user"
+        }
+      ]
+    },
+    {
+      "name": "RichTextSubscript",
+      "doc": "A subscript text.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “subscript”",
+          "enum_values": [
+            "subscript"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        }
+      ]
+    },
+    {
+      "name": "RichTextSuperscript",
+      "doc": "A superscript text.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “superscript”",
+          "enum_values": [
+            "superscript"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        }
+      ]
+    },
+    {
+      "name": "RichTextMarked",
+      "doc": "A marked text.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “marked”",
+          "enum_values": [
+            "marked"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        }
+      ]
+    },
+    {
+      "name": "RichTextCode",
+      "doc": "A monowidth text.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “code”",
+          "enum_values": [
+            "code"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        }
+      ]
+    },
+    {
+      "name": "RichTextCustomEmoji",
+      "doc": "A custom emoji.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “custom_emoji”",
+          "enum_values": [
+            "custom_emoji"
+          ]
+        },
+        {
+          "name": "CustomEmojiID",
+          "json_name": "custom_emoji_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Unique identifier of the custom emoji. Use getCustomEmojiStickers to get full information about the sticker."
+        },
+        {
+          "name": "AlternativeText",
+          "json_name": "alternative_text",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Alternative emoji for the custom emoji"
+        }
+      ]
+    },
+    {
+      "name": "RichTextMathematicalExpression",
+      "doc": "A mathematical expression.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “mathematical_expression”",
+          "enum_values": [
+            "mathematical_expression"
+          ]
+        },
+        {
+          "name": "Expression",
+          "json_name": "expression",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The expression in LaTeX format"
+        }
+      ]
+    },
+    {
+      "name": "RichTextUrl",
+      "doc": "A text with a link.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “url”",
+          "enum_values": [
+            "url"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        },
+        {
+          "name": "URL",
+          "json_name": "url",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "URL of the link"
+        }
+      ]
+    },
+    {
+      "name": "RichTextEmailAddress",
+      "doc": "A text with an email address.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “email_address”",
+          "enum_values": [
+            "email_address"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        },
+        {
+          "name": "EmailAddress",
+          "json_name": "email_address",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The email address"
+        }
+      ]
+    },
+    {
+      "name": "RichTextPhoneNumber",
+      "doc": "A text with a phone number.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “phone_number”",
+          "enum_values": [
+            "phone_number"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        },
+        {
+          "name": "PhoneNumber",
+          "json_name": "phone_number",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The phone number"
+        }
+      ]
+    },
+    {
+      "name": "RichTextBankCardNumber",
+      "doc": "A text with a bank card number.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “bank_card_number”",
+          "enum_values": [
+            "bank_card_number"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        },
+        {
+          "name": "BankCardNumber",
+          "json_name": "bank_card_number",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The bank card number"
+        }
+      ]
+    },
+    {
+      "name": "RichTextMention",
+      "doc": "A mention by a username.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “mention”",
+          "enum_values": [
+            "mention"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        },
+        {
+          "name": "Username",
+          "json_name": "username",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The username"
+        }
+      ]
+    },
+    {
+      "name": "RichTextHashtag",
+      "doc": "A hashtag.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “hashtag”",
+          "enum_values": [
+            "hashtag"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        },
+        {
+          "name": "Hashtag",
+          "json_name": "hashtag",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The hashtag"
+        }
+      ]
+    },
+    {
+      "name": "RichTextCashtag",
+      "doc": "A cashtag.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “cashtag”",
+          "enum_values": [
+            "cashtag"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        },
+        {
+          "name": "Cashtag",
+          "json_name": "cashtag",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The cashtag"
+        }
+      ]
+    },
+    {
+      "name": "RichTextBotCommand",
+      "doc": "A bot command.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “bot_command”",
+          "enum_values": [
+            "bot_command"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The text"
+        },
+        {
+          "name": "BotCommand",
+          "json_name": "bot_command",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The bot command"
+        }
+      ]
+    },
+    {
+      "name": "RichTextAnchor",
+      "doc": "An anchor.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “anchor”",
+          "enum_values": [
+            "anchor"
+          ]
+        },
+        {
+          "name": "Name",
+          "json_name": "name",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The name of the anchor"
+        }
+      ]
+    },
+    {
+      "name": "RichTextAnchorLink",
+      "doc": "A link to an anchor.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “anchor_link”",
+          "enum_values": [
+            "anchor_link"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The link text"
+        },
+        {
+          "name": "AnchorName",
+          "json_name": "anchor_name",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The name of the anchor. If the name is empty, then the link brings back to the top of the message."
+        }
+      ]
+    },
+    {
+      "name": "RichTextReference",
+      "doc": "A reference.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “reference”",
+          "enum_values": [
+            "reference"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the reference"
+        },
+        {
+          "name": "Name",
+          "json_name": "name",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The name of the reference"
+        }
+      ]
+    },
+    {
+      "name": "RichTextReferenceLink",
+      "doc": "A link to a reference.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the rich text, always “reference_link”",
+          "enum_values": [
+            "reference_link"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "The link text"
+        },
+        {
+          "name": "ReferenceName",
+          "json_name": "reference_name",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The name of the reference"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockCaption",
+      "doc": "Caption of a rich formatted block.",
+      "fields": [
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Block caption"
+        },
+        {
+          "name": "Credit",
+          "json_name": "credit",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "doc": "Optional. Block credit which corresponds to the HTML tag <cite>"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockTableCell",
+      "doc": "Cell in a table.",
+      "fields": [
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "doc": "Optional. Text in the cell. If omitted, then the cell is invisible."
+        },
+        {
+          "name": "IsHeader",
+          "json_name": "is_header",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the cell is a header cell"
+        },
+        {
+          "name": "Colspan",
+          "json_name": "colspan",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "Optional. The number of columns the cell spans if it is bigger than 1"
+        },
+        {
+          "name": "Rowspan",
+          "json_name": "rowspan",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "Optional. The number of rows the cell spans if it is bigger than 1"
+        },
+        {
+          "name": "Align",
+          "json_name": "align",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Horizontal cell content alignment. Currently, must be one of “left”, “center”, or “right”.",
+          "enum_values": [
+            "left",
+            "center",
+            "right"
+          ]
+        },
+        {
+          "name": "Valign",
+          "json_name": "valign",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Vertical cell content alignment. Currently, must be one of “top”, “middle”, or “bottom”.",
+          "enum_values": [
+            "top",
+            "middle",
+            "bottom"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "RichBlockListItem",
+      "doc": "An item of a list.",
+      "fields": [
+        {
+          "name": "Label",
+          "json_name": "label",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Label of the item"
+        },
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "RichBlock"
+            }
+          },
+          "required": true,
+          "doc": "The content of the item"
+        },
+        {
+          "name": "HasCheckbox",
+          "json_name": "has_checkbox",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the item has a checkbox"
+        },
+        {
+          "name": "IsChecked",
+          "json_name": "is_checked",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the item has a checked checkbox"
+        },
+        {
+          "name": "Value",
+          "json_name": "value",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "Optional. For ordered lists, the numeric value of the item label"
+        },
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Optional. For ordered lists, the type of the item label; must be one of “a” for lowercase letters, “A” for uppercase letters, “i” for lowercase Roman numerals, “I” for uppercase Roman numerals, or “1” for decimal numbers",
+          "enum_values": [
+            "a",
+            "A",
+            "i",
+            "I",
+            "1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "RichBlock",
+      "doc": "This object represents a block in a rich formatted message. Currently, it can be any of the following types:",
+      "one_of": [
+        "RichBlockParagraph",
+        "RichBlockSectionHeading",
+        "RichBlockPreformatted",
+        "RichBlockFooter",
+        "RichBlockDivider",
+        "RichBlockMathematicalExpression",
+        "RichBlockAnchor",
+        "RichBlockList",
+        "RichBlockBlockQuotation",
+        "RichBlockPullQuotation",
+        "RichBlockCollage",
+        "RichBlockSlideshow",
+        "RichBlockTable",
+        "RichBlockDetails",
+        "RichBlockMap",
+        "RichBlockAnimation",
+        "RichBlockAudio",
+        "RichBlockPhoto",
+        "RichBlockVideo",
+        "RichBlockVoiceNote",
+        "RichBlockThinking"
+      ]
+    },
+    {
+      "name": "RichBlockParagraph",
+      "doc": "A text paragraph, corresponding to the HTML tag <p>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “paragraph”",
+          "enum_values": [
+            "paragraph"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockSectionHeading",
+      "doc": "A section heading, corresponding to the HTML tags <h1>, <h2>, <h3>, <h4>, <h5>, or <h6>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “heading”",
+          "enum_values": [
+            "heading"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block"
+        },
+        {
+          "name": "Size",
+          "json_name": "size",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Relative size of the text font; 1-6, 1 is the largest, 6 is the smallest"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockPreformatted",
+      "doc": "A preformatted text block, corresponding to the nested HTML tags <pre> and <code>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “pre”",
+          "enum_values": [
+            "pre"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block"
+        },
+        {
+          "name": "Language",
+          "json_name": "language",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Optional. The programming language of the text"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockFooter",
+      "doc": "A footer, corresponding to the HTML tag <footer>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “footer”",
+          "enum_values": [
+            "footer"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockDivider",
+      "doc": "A divider, corresponding to the HTML tag <hr/>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “divider”",
+          "enum_values": [
+            "divider"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "RichBlockMathematicalExpression",
+      "doc": "A block with a mathematical expression in LaTeX format, corresponding to the custom HTML tag <tg-math-block>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “mathematical_expression”",
+          "enum_values": [
+            "mathematical_expression"
+          ]
+        },
+        {
+          "name": "Expression",
+          "json_name": "expression",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The mathematical expression in LaTeX format"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockAnchor",
+      "doc": "A block with an anchor, corresponding to the HTML tag <a> with the attribute name.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “anchor”",
+          "enum_values": [
+            "anchor"
+          ]
+        },
+        {
+          "name": "Name",
+          "json_name": "name",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The name of the anchor"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockList",
+      "doc": "A list of blocks, corresponding to the HTML tag <ul> or <ol> with multiple nested tags <li>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “list”",
+          "enum_values": [
+            "list"
+          ]
+        },
+        {
+          "name": "Items",
+          "json_name": "items",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "RichBlockListItem"
+            }
+          },
+          "required": true,
+          "doc": "Items of the list"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockBlockQuotation",
+      "doc": "A block quotation, corresponding to the HTML tag <blockquote>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “blockquote”",
+          "enum_values": [
+            "blockquote"
+          ]
+        },
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "RichBlock"
+            }
+          },
+          "required": true,
+          "doc": "Content of the block"
+        },
+        {
+          "name": "Credit",
+          "json_name": "credit",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "doc": "Optional. Credit of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockPullQuotation",
+      "doc": "A quotation with centered text, loosely corresponding to the HTML tag <aside>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “pullquote”",
+          "enum_values": [
+            "pullquote"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block"
+        },
+        {
+          "name": "Credit",
+          "json_name": "credit",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "doc": "Optional. Credit of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockCollage",
+      "doc": "A collage, corresponding to the custom HTML tag <tg-collage>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “collage”",
+          "enum_values": [
+            "collage"
+          ]
+        },
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "RichBlock"
+            }
+          },
+          "required": true,
+          "doc": "Elements of the collage"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockSlideshow",
+      "doc": "A slideshow, corresponding to the custom HTML tag <tg-slideshow>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “slideshow”",
+          "enum_values": [
+            "slideshow"
+          ]
+        },
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "RichBlock"
+            }
+          },
+          "required": true,
+          "doc": "Elements of the slideshow"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockTable",
+      "doc": "A table, corresponding to the HTML tag <table>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “table”",
+          "enum_values": [
+            "table"
+          ]
+        },
+        {
+          "name": "Cells",
+          "json_name": "cells",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "array",
+              "elem_type": {
+                "kind": "named",
+                "name": "RichBlockTableCell"
+              }
+            }
+          },
+          "required": true,
+          "doc": "Cells of the table"
+        },
+        {
+          "name": "IsBordered",
+          "json_name": "is_bordered",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the table has borders"
+        },
+        {
+          "name": "IsStriped",
+          "json_name": "is_striped",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the table is striped"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "doc": "Optional. Caption of the table"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockDetails",
+      "doc": "An expandable block for details disclosure, corresponding to the HTML tag <details>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “details”",
+          "enum_values": [
+            "details"
+          ]
+        },
+        {
+          "name": "Summary",
+          "json_name": "summary",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Always shown summary of the block"
+        },
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "RichBlock"
+            }
+          },
+          "required": true,
+          "doc": "Content of the block"
+        },
+        {
+          "name": "IsOpen",
+          "json_name": "is_open",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the content of the block is visible by default"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockMap",
+      "doc": "A block with a map, corresponding to the custom HTML tag <tg-map>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “map”",
+          "enum_values": [
+            "map"
+          ]
+        },
+        {
+          "name": "Location",
+          "json_name": "location",
+          "type": {
+            "kind": "named",
+            "name": "Location"
+          },
+          "required": true,
+          "doc": "Location of the center of the map"
+        },
+        {
+          "name": "Zoom",
+          "json_name": "zoom",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Map zoom level; 13-20"
+        },
+        {
+          "name": "Width",
+          "json_name": "width",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Expected width of the map"
+        },
+        {
+          "name": "Height",
+          "json_name": "height",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Expected height of the map"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockAnimation",
+      "doc": "A block with an animation, corresponding to the HTML tag <video>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “animation”",
+          "enum_values": [
+            "animation"
+          ]
+        },
+        {
+          "name": "Animation",
+          "json_name": "animation",
+          "type": {
+            "kind": "named",
+            "name": "Animation"
+          },
+          "required": true,
+          "doc": "The animation"
+        },
+        {
+          "name": "HasSpoiler",
+          "json_name": "has_spoiler",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the media preview is covered by a spoiler animation"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockAudio",
+      "doc": "A block with a music file, corresponding to the HTML tag <audio>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “audio”",
+          "enum_values": [
+            "audio"
+          ]
+        },
+        {
+          "name": "Audio",
+          "json_name": "audio",
+          "type": {
+            "kind": "named",
+            "name": "Audio"
+          },
+          "required": true,
+          "doc": "The audio"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockPhoto",
+      "doc": "A block with a photo, corresponding to the HTML tag <photo>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “photo”",
+          "enum_values": [
+            "photo"
+          ]
+        },
+        {
+          "name": "Photo",
+          "json_name": "photo",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "PhotoSize"
+            }
+          },
+          "required": true,
+          "doc": "Available sizes of the photo"
+        },
+        {
+          "name": "HasSpoiler",
+          "json_name": "has_spoiler",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the media preview is covered by a spoiler animation"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockVideo",
+      "doc": "A block with a video, corresponding to the HTML tag <video>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “video”",
+          "enum_values": [
+            "video"
+          ]
+        },
+        {
+          "name": "Video",
+          "json_name": "video",
+          "type": {
+            "kind": "named",
+            "name": "Video"
+          },
+          "required": true,
+          "doc": "The video"
+        },
+        {
+          "name": "HasSpoiler",
+          "json_name": "has_spoiler",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the media preview is covered by a spoiler animation"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockVoiceNote",
+      "doc": "A block with a voice note, corresponding to the HTML tag <audio>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “voice_note”",
+          "enum_values": [
+            "voice_note"
+          ]
+        },
+        {
+          "name": "VoiceNote",
+          "json_name": "voice_note",
+          "type": {
+            "kind": "named",
+            "name": "Voice"
+          },
+          "required": true,
+          "doc": "The voice note"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "RichBlockThinking",
+      "doc": "A block with a “Thinking…” placeholder, corresponding to the custom HTML tag <tg-thinking>. The block may be used only in sendRichMessageDraft, therefore it can't be received in messages. See https://t.me/addemoji/AIActions for examples of custom emoji, which are recommended for usage in the block.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “thinking”",
+          "enum_values": [
+            "thinking"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji, which are recommended for usage in the block."
         }
       ]
     },
@@ -15469,9 +17567,10 @@
     },
     {
       "name": "InputMessageContent",
-      "doc": "This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following 5 types:",
+      "doc": "This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following types:",
       "one_of": [
         "InputTextMessageContent",
+        "InputRichMessageContent",
         "InputLocationMessageContent",
         "InputVenueMessageContent",
         "InputContactMessageContent",
@@ -15526,6 +17625,22 @@
             "name": "LinkPreviewOptions"
           },
           "doc": "Optional. Link preview generation options for the message"
+        }
+      ]
+    },
+    {
+      "name": "InputRichMessageContent",
+      "doc": "Represents the content of a rich message to be sent as the result of an inline query.",
+      "fields": [
+        {
+          "name": "RichMessage",
+          "json_name": "rich_message",
+          "type": {
+            "kind": "named",
+            "name": "InputRichMessage"
+          },
+          "required": true,
+          "doc": "The message to be sent"
         }
       ]
     },
@@ -22902,6 +25017,71 @@
       }
     },
     {
+      "name": "answerChatJoinRequestQuery",
+      "doc": "Use this method to process a received chat join request query. Returns True on success.",
+      "params": [
+        {
+          "name": "ChatJoinRequestQueryID",
+          "json_name": "chat_join_request_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Unique identifier of the join request query"
+        },
+        {
+          "name": "Result",
+          "json_name": "result",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Result of the query. Must be either “approve” to allow the user to join the chat, “decline” to disallow the user to join the chat, or “queue” to leave the decision to other administrators.",
+          "enum_values": [
+            "approve",
+            "decline",
+            "queue"
+          ]
+        }
+      ],
+      "returns": {
+        "kind": "primitive",
+        "name": "bool"
+      }
+    },
+    {
+      "name": "sendChatJoinRequestWebApp",
+      "doc": "Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Returns True on success.",
+      "params": [
+        {
+          "name": "ChatJoinRequestQueryID",
+          "json_name": "chat_join_request_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Unique identifier of the join request query"
+        },
+        {
+          "name": "WebAppURL",
+          "json_name": "web_app_url",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The URL of the Mini App to be opened"
+        }
+      ],
+      "returns": {
+        "kind": "primitive",
+        "name": "bool"
+      }
+    },
+    {
       "name": "setChatPhoto",
       "doc": "Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.",
       "params": [
@@ -25821,7 +28001,7 @@
     },
     {
       "name": "editMessageText",
-      "doc": "Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.",
+      "doc": "Use this method to edit text, rich and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.",
       "params": [
         {
           "name": "BusinessConnectionID",
@@ -25869,8 +28049,7 @@
             "kind": "primitive",
             "name": "string"
           },
-          "required": true,
-          "doc": "New text of the message, 1-4096 characters after entities parsing"
+          "doc": "New text of the message, 1-4096 characters after entity parsing; required if rich_message isn't specified"
         },
         {
           "name": "ParseMode",
@@ -25906,6 +28085,15 @@
             "name": "LinkPreviewOptions"
           },
           "doc": "Link preview generation options for the message"
+        },
+        {
+          "name": "RichMessage",
+          "json_name": "rich_message",
+          "type": {
+            "kind": "named",
+            "name": "InputRichMessage"
+          },
+          "doc": "New rich content of the message; required if text isn't specified"
         },
         {
           "name": "ReplyMarkup",
@@ -26026,7 +28214,7 @@
     },
     {
       "name": "editMessageMedia",
-      "doc": "Use this method to edit animation, audio, document, live photo, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.",
+      "doc": "Use this method to edit animation, audio, document, live photo, photo, or video messages, or to replace a text or a rich message with a media. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.",
       "params": [
         {
           "name": "BusinessConnectionID",
@@ -27343,6 +29531,183 @@
           },
           "required": true,
           "doc": "Sticker set name"
+        }
+      ],
+      "returns": {
+        "kind": "primitive",
+        "name": "bool"
+      }
+    },
+    {
+      "name": "sendRichMessage",
+      "doc": "Use this method to send rich messages. If the message contains a block with a media element, then the bot must have the right to send the media to the chat. On success, the sent Message is returned.",
+      "params": [
+        {
+          "name": "BusinessConnectionID",
+          "json_name": "business_connection_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Unique identifier of the business connection on behalf of which the message will be sent"
+        },
+        {
+          "name": "ChatID",
+          "json_name": "chat_id",
+          "type": {
+            "kind": "oneOf",
+            "variants": [
+              "int64",
+              "string"
+            ]
+          },
+          "required": true,
+          "doc": "Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username"
+        },
+        {
+          "name": "MessageThreadID",
+          "json_name": "message_thread_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only"
+        },
+        {
+          "name": "DirectMessagesTopicID",
+          "json_name": "direct_messages_topic_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
+        },
+        {
+          "name": "RichMessage",
+          "json_name": "rich_message",
+          "type": {
+            "kind": "named",
+            "name": "InputRichMessage"
+          },
+          "required": true,
+          "doc": "The message to be sent"
+        },
+        {
+          "name": "DisableNotification",
+          "json_name": "disable_notification",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Sends the message silently. Users will receive a notification with no sound."
+        },
+        {
+          "name": "ProtectContent",
+          "json_name": "protect_content",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Protects the contents of the sent message from forwarding and saving"
+        },
+        {
+          "name": "AllowPaidBroadcast",
+          "json_name": "allow_paid_broadcast",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance."
+        },
+        {
+          "name": "MessageEffectID",
+          "json_name": "message_effect_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Unique identifier of the message effect to be added to the message; for private chats only"
+        },
+        {
+          "name": "SuggestedPostParameters",
+          "json_name": "suggested_post_parameters",
+          "type": {
+            "kind": "named",
+            "name": "SuggestedPostParameters"
+          },
+          "doc": "A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined."
+        },
+        {
+          "name": "ReplyParameters",
+          "json_name": "reply_parameters",
+          "type": {
+            "kind": "named",
+            "name": "ReplyParameters"
+          },
+          "doc": "Description of the message to reply to"
+        },
+        {
+          "name": "ReplyMarkup",
+          "json_name": "reply_markup",
+          "type": {
+            "kind": "oneOf",
+            "variants": [
+              "InlineKeyboardMarkup",
+              "ReplyKeyboardMarkup",
+              "ReplyKeyboardRemove",
+              "ForceReply"
+            ]
+          },
+          "doc": "Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user."
+        }
+      ],
+      "returns": {
+        "kind": "named",
+        "name": "Message"
+      }
+    },
+    {
+      "name": "sendRichMessageDraft",
+      "doc": "Use this method to stream a partial rich message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the output is finalized, you must call sendRichMessage with the complete message to persist it in the user's chat. Returns True on success.",
+      "params": [
+        {
+          "name": "ChatID",
+          "json_name": "chat_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Unique identifier for the target private chat"
+        },
+        {
+          "name": "MessageThreadID",
+          "json_name": "message_thread_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "Unique identifier for the target message thread"
+        },
+        {
+          "name": "DraftID",
+          "json_name": "draft_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated."
+        },
+        {
+          "name": "RichMessage",
+          "json_name": "rich_message",
+          "type": {
+            "kind": "named",
+            "name": "InputRichMessage"
+          },
+          "required": true,
+          "doc": "The partial message to be streamed"
         }
       ],
       "returns": {

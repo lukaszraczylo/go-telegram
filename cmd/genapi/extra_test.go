@@ -574,7 +574,7 @@ func TestSentinelForField(t *testing.T) {
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			got := sentinelForField(c.field, unionTypes, nil)
+			got := sentinelForField("testMethod", c.field, unionTypes, nil)
 			require.Contains(t, got, c.contains, "sentinelForField for %q", c.name)
 		})
 	}

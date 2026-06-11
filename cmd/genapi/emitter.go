@@ -420,7 +420,7 @@ func funcs(plan *enumPlan) template.FuncMap {
 			return goField(plan, parent, f)
 		},
 		"goFieldP": func(methodName string, f spec.Field) string {
-			return goFieldX(plan, "", title(methodName)+"Params", f)
+			return goFieldX(plan, methodEnumParent(methodName), title(methodName)+"Params", f)
 		},
 		"docComment":  docComment,
 		"isOptional":  func(f spec.Field) bool { return !f.Required },
@@ -432,7 +432,7 @@ func funcs(plan *enumPlan) template.FuncMap {
 			return multipartFieldEntry(plan, parent, f)
 		},
 		"multipartFieldEntryP": func(methodName string, f spec.Field) string {
-			return multipartFieldEntryX(plan, "", title(methodName)+"Params", f)
+			return multipartFieldEntryX(plan, methodEnumParent(methodName), title(methodName)+"Params", f)
 		},
 		"multipartFileEntry": multipartFileEntry,
 		"returnGoType":       returnGoType,
@@ -915,15 +915,15 @@ func buildUnionTypeSet(api *spec.API) map[string]bool {
 // used in generated test param literals. plan supplies typed-enum names
 // so a method-param sentinel for a ParseMode field becomes a typed
 // constant rather than a magic string.
-func makeSentinelValue(unionTypes map[string]bool, plan *enumPlan) func(spec.Field) string {
-	return func(f spec.Field) string {
-		return sentinelForField(f, unionTypes, plan)
+func makeSentinelValue(unionTypes map[string]bool, plan *enumPlan) func(string, spec.Field) string {
+	return func(methodName string, f spec.Field) string {
+		return sentinelForField(methodName, f, unionTypes, plan)
 	}
 }
 
-func sentinelForField(f spec.Field, unionTypes map[string]bool, plan *enumPlan) string {
-	if name := plan.FieldEnum("", f.Name); name != "" && len(f.EnumValues) > 0 {
-		return constName(name, f.EnumValues[0])
+func sentinelForField(methodName string, f spec.Field, unionTypes map[string]bool, plan *enumPlan) string {
+	if name := plan.FieldEnum(methodEnumParent(methodName), f.Name); name != "" && len(f.EnumValues) > 0 {
+		return plan.ConstFor(name, f.EnumValues[0])
 	}
 	tr := f.Type
 	switch tr.Kind {

@@ -8,6 +8,6 @@ package api
 type {{$e.Name}} string
 
 const (
-{{range $v := $e.Values}}	{{enumConstName $e.Name $v}} {{$e.Name}} = {{printf "%q" $v}}
+{{range $v := $e.Values}}	{{$e.ConstName $v}} {{$e.Name}} = {{printf "%q" $v}}
 {{end}})
 {{end}}

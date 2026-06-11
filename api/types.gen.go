@@ -130,6 +130,8 @@ type User struct {
 	AllowsUsersToCreateTopics *bool `json:"allows_users_to_create_topics,omitempty"`
 	// Optional. True, if other bots can be created to be controlled by the bot. Returned only in getMe.
 	CanManageBots *bool `json:"can_manage_bots,omitempty"`
+	// Optional. True, if the bot supports join request queries and can be assigned to process them. Returned only in getMe.
+	SupportsJoinRequestQueries *bool `json:"supports_join_request_queries,omitempty"`
 }
 
 // This object represents a chat.
@@ -256,6 +258,8 @@ type ChatFullInfo struct {
 	UniqueGiftColors *UniqueGiftColors `json:"unique_gift_colors,omitempty"`
 	// Optional. The number of Telegram Stars a general user has to pay to send a message to the chat
 	PaidMessageStarCount *int64 `json:"paid_message_star_count,omitempty"`
+	// Optional. The bot that processes join request queries in the chat. The field is only available to chat administrators.
+	GuardBot *User `json:"guard_bot,omitempty"`
 }
 
 // UnmarshalJSON decodes ChatFullInfo by dispatching union-typed fields
@@ -364,6 +368,8 @@ type Message struct {
 	SuggestedPostInfo *SuggestedPostInfo `json:"suggested_post_info,omitempty"`
 	// Optional. Unique identifier of the message effect added to the message
 	EffectID string `json:"effect_id,omitempty"`
+	// Optional. Message is a rich formatted message
+	RichMessage *RichMessage `json:"rich_message,omitempty"`
 	// Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set.
 	Animation *Animation `json:"animation,omitempty"`
 	// Optional. Message is an audio file, information about the file
@@ -1293,6 +1299,12 @@ type Dice struct {
 	Value int64 `json:"value"`
 }
 
+// Represents an HTTP link.
+type Link struct {
+	// URL of the link
+	URL string `json:"url"`
+}
+
 // At most one of the optional fields can be present in any given object.
 type PollMedia struct {
 	// Optional. Media is an animation, information about the animation
@@ -1301,6 +1313,8 @@ type PollMedia struct {
 	Audio *Audio `json:"audio,omitempty"`
 	// Optional. Media is a general file, information about the file; currently, can't be received in a poll option
 	Document *Document `json:"document,omitempty"`
+	// Optional. The HTTP link attached to the poll option
+	Link *Link `json:"link,omitempty"`
 	// Optional. Media is a live photo, information about the live photo
 	LivePhoto *LivePhoto `json:"live_photo,omitempty"`
 	// Optional. Media is a shared location, information about the location
@@ -1356,6 +1370,7 @@ func (*InputMediaVideo) isInputPollMedia() {}
 // InputPollOptionMedia is a union type. The following concrete variants implement
 // it:
 //   - InputMediaAnimation
+//   - InputMediaLink
 //   - InputMediaLivePhoto
 //   - InputMediaLocation
 //   - InputMediaPhoto
@@ -1368,6 +1383,9 @@ type InputPollOptionMedia interface{ isInputPollOptionMedia() }
 
 // isInputPollOptionMedia is the marker method that makes InputMediaAnimation implement InputPollOptionMedia.
 func (*InputMediaAnimation) isInputPollOptionMedia() {}
+
+// isInputPollOptionMedia is the marker method that makes InputMediaLink implement InputPollOptionMedia.
+func (*InputMediaLink) isInputPollOptionMedia() {}
 
 // isInputPollOptionMedia is the marker method that makes InputMediaLivePhoto implement InputPollOptionMedia.
 func (*InputMediaLivePhoto) isInputPollOptionMedia() {}
@@ -2933,7 +2951,7 @@ type ChatMemberRestricted struct {
 	User User `json:"user"`
 	// True, if the user is a member of the chat at the moment of the request
 	IsMember bool `json:"is_member"`
-	// True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
+	// True, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway winners, invoices, locations and venues
 	CanSendMessages bool `json:"can_send_messages"`
 	// True, if the user is allowed to send audios
 	CanSendAudios bool `json:"can_send_audios"`
@@ -3049,11 +3067,13 @@ type ChatJoinRequest struct {
 	Bio string `json:"bio,omitempty"`
 	// Optional. Chat invite link that was used by the user to send the join request
 	InviteLink *ChatInviteLink `json:"invite_link,omitempty"`
+	// Optional. Identifier of the join request query. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds.
+	QueryID string `json:"query_id,omitempty"`
 }
 
 // Describes actions that a non-administrator user is allowed to take in a chat.
 type ChatPermissions struct {
-	// Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
+	// Optional. True, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway winners, invoices, locations and venues
 	CanSendMessages *bool `json:"can_send_messages,omitempty"`
 	// Optional. True, if the user is allowed to send audios
 	CanSendAudios *bool `json:"can_send_audios,omitempty"`
@@ -4822,6 +4842,30 @@ func (v *InputMediaDocument) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// Represents an HTTP link to be sent.
+type InputMediaLink struct {
+	// Type of the result, must be link
+	Type InputPollOptionMediaType `json:"type"`
+	// HTTP URL of the link
+	URL string `json:"url"`
+}
+
+// MarshalJSON encodes InputMediaLink with the discriminator field
+// "type" forced to "link".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputMediaLink) MarshalJSON() ([]byte, error) {
+	type alias InputMediaLink
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "link",
+		alias: (*alias)(v),
+	})
+}
+
 // Represents a live photo to be sent.
 type InputMediaLivePhoto struct {
 	// Type of the result, must be live_photo
@@ -5342,6 +5386,1440 @@ type InputSticker struct {
 	MaskPosition *MaskPosition `json:"mask_position,omitempty"`
 	// Optional. List of 0-20 search keywords for the sticker with total length of up to 64 characters. For “regular” and “custom_emoji” stickers only.
 	Keywords []string `json:"keywords,omitempty"`
+}
+
+// Rich formatted message.
+type RichMessage struct {
+	// Content of the message
+	Blocks []RichBlock `json:"blocks"`
+	// Optional. True, if the rich message must be shown right-to-left
+	IsRtl *bool `json:"is_rtl,omitempty"`
+}
+
+// Describes a rich message to be sent. Exactly one of the fields html or markdown must be used.
+type InputRichMessage struct {
+	// Optional. Content of the rich message to send described using HTML formatting. See rich message formatting options for more details.
+	HTML string `json:"html,omitempty"`
+	// Optional. Content of the rich message to send described using Markdown formatting. See rich message formatting options for more details.
+	Markdown string `json:"markdown,omitempty"`
+	// Optional. Pass True if the rich message must be shown right-to-left
+	IsRtl *bool `json:"is_rtl,omitempty"`
+	// Optional. Pass True to skip automatic detection of entities (e.g., URLs, email addresses, username mentions, hashtags, cashtags, bot commands, or phone numbers) in the text
+	SkipEntityDetection *bool `json:"skip_entity_detection,omitempty"`
+}
+
+// RichText is a union type. The following concrete variants implement
+// it:
+//   - RichTextBold
+//   - RichTextItalic
+//   - RichTextUnderline
+//   - RichTextStrikethrough
+//   - RichTextSpoiler
+//   - RichTextDateTime
+//   - RichTextTextMention
+//   - RichTextSubscript
+//   - RichTextSuperscript
+//   - RichTextMarked
+//   - RichTextCode
+//   - RichTextCustomEmoji
+//   - RichTextMathematicalExpression
+//   - RichTextUrl
+//   - RichTextEmailAddress
+//   - RichTextPhoneNumber
+//   - RichTextBankCardNumber
+//   - RichTextMention
+//   - RichTextHashtag
+//   - RichTextCashtag
+//   - RichTextBotCommand
+//   - RichTextAnchor
+//   - RichTextAnchorLink
+//   - RichTextReference
+//   - RichTextReferenceLink
+//
+// This object represents a rich formatted text. Currently, it can be either a String for plain text, an Array of RichText, or any of the following types:
+type RichText interface{ isRichText() }
+
+// isRichText is the marker method that makes RichTextBold implement RichText.
+func (*RichTextBold) isRichText() {}
+
+// isRichText is the marker method that makes RichTextItalic implement RichText.
+func (*RichTextItalic) isRichText() {}
+
+// isRichText is the marker method that makes RichTextUnderline implement RichText.
+func (*RichTextUnderline) isRichText() {}
+
+// isRichText is the marker method that makes RichTextStrikethrough implement RichText.
+func (*RichTextStrikethrough) isRichText() {}
+
+// isRichText is the marker method that makes RichTextSpoiler implement RichText.
+func (*RichTextSpoiler) isRichText() {}
+
+// isRichText is the marker method that makes RichTextDateTime implement RichText.
+func (*RichTextDateTime) isRichText() {}
+
+// isRichText is the marker method that makes RichTextTextMention implement RichText.
+func (*RichTextTextMention) isRichText() {}
+
+// isRichText is the marker method that makes RichTextSubscript implement RichText.
+func (*RichTextSubscript) isRichText() {}
+
+// isRichText is the marker method that makes RichTextSuperscript implement RichText.
+func (*RichTextSuperscript) isRichText() {}
+
+// isRichText is the marker method that makes RichTextMarked implement RichText.
+func (*RichTextMarked) isRichText() {}
+
+// isRichText is the marker method that makes RichTextCode implement RichText.
+func (*RichTextCode) isRichText() {}
+
+// isRichText is the marker method that makes RichTextCustomEmoji implement RichText.
+func (*RichTextCustomEmoji) isRichText() {}
+
+// isRichText is the marker method that makes RichTextMathematicalExpression implement RichText.
+func (*RichTextMathematicalExpression) isRichText() {}
+
+// isRichText is the marker method that makes RichTextUrl implement RichText.
+func (*RichTextUrl) isRichText() {}
+
+// isRichText is the marker method that makes RichTextEmailAddress implement RichText.
+func (*RichTextEmailAddress) isRichText() {}
+
+// isRichText is the marker method that makes RichTextPhoneNumber implement RichText.
+func (*RichTextPhoneNumber) isRichText() {}
+
+// isRichText is the marker method that makes RichTextBankCardNumber implement RichText.
+func (*RichTextBankCardNumber) isRichText() {}
+
+// isRichText is the marker method that makes RichTextMention implement RichText.
+func (*RichTextMention) isRichText() {}
+
+// isRichText is the marker method that makes RichTextHashtag implement RichText.
+func (*RichTextHashtag) isRichText() {}
+
+// isRichText is the marker method that makes RichTextCashtag implement RichText.
+func (*RichTextCashtag) isRichText() {}
+
+// isRichText is the marker method that makes RichTextBotCommand implement RichText.
+func (*RichTextBotCommand) isRichText() {}
+
+// isRichText is the marker method that makes RichTextAnchor implement RichText.
+func (*RichTextAnchor) isRichText() {}
+
+// isRichText is the marker method that makes RichTextAnchorLink implement RichText.
+func (*RichTextAnchorLink) isRichText() {}
+
+// isRichText is the marker method that makes RichTextReference implement RichText.
+func (*RichTextReference) isRichText() {}
+
+// isRichText is the marker method that makes RichTextReferenceLink implement RichText.
+func (*RichTextReferenceLink) isRichText() {}
+
+// A bold text.
+type RichTextBold struct {
+	// Type of the rich text, always “bold”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichTextBold with the discriminator field
+// "type" forced to "bold".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextBold) MarshalJSON() ([]byte, error) {
+	type alias RichTextBold
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "bold",
+		alias: (*alias)(v),
+	})
+}
+
+// An italicized text.
+type RichTextItalic struct {
+	// Type of the rich text, always “italic”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichTextItalic with the discriminator field
+// "type" forced to "italic".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextItalic) MarshalJSON() ([]byte, error) {
+	type alias RichTextItalic
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "italic",
+		alias: (*alias)(v),
+	})
+}
+
+// An underlined text.
+type RichTextUnderline struct {
+	// Type of the rich text, always “underline”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichTextUnderline with the discriminator field
+// "type" forced to "underline".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextUnderline) MarshalJSON() ([]byte, error) {
+	type alias RichTextUnderline
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "underline",
+		alias: (*alias)(v),
+	})
+}
+
+// A strikethrough text.
+type RichTextStrikethrough struct {
+	// Type of the rich text, always “strikethrough”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichTextStrikethrough with the discriminator field
+// "type" forced to "strikethrough".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextStrikethrough) MarshalJSON() ([]byte, error) {
+	type alias RichTextStrikethrough
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "strikethrough",
+		alias: (*alias)(v),
+	})
+}
+
+// A text covered by a spoiler.
+type RichTextSpoiler struct {
+	// Type of the rich text, always “spoiler”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichTextSpoiler with the discriminator field
+// "type" forced to "spoiler".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextSpoiler) MarshalJSON() ([]byte, error) {
+	type alias RichTextSpoiler
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "spoiler",
+		alias: (*alias)(v),
+	})
+}
+
+// Formatted date and time.
+type RichTextDateTime struct {
+	// Type of the rich text, always “date_time”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+	// The Unix time associated with the entity
+	UnixTime int64 `json:"unix_time"`
+	// The string that defines the formatting of the date and time. See date-time entity formatting for more details.
+	DateTimeFormat string `json:"date_time_format"`
+}
+
+// MarshalJSON encodes RichTextDateTime with the discriminator field
+// "type" forced to "date_time".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextDateTime) MarshalJSON() ([]byte, error) {
+	type alias RichTextDateTime
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "date_time",
+		alias: (*alias)(v),
+	})
+}
+
+// A mention of a Telegram user by their identifier.
+type RichTextTextMention struct {
+	// Type of the rich text, always “text_mention”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+	// The mentioned user
+	User User `json:"user"`
+}
+
+// MarshalJSON encodes RichTextTextMention with the discriminator field
+// "type" forced to "text_mention".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextTextMention) MarshalJSON() ([]byte, error) {
+	type alias RichTextTextMention
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "text_mention",
+		alias: (*alias)(v),
+	})
+}
+
+// A subscript text.
+type RichTextSubscript struct {
+	// Type of the rich text, always “subscript”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichTextSubscript with the discriminator field
+// "type" forced to "subscript".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextSubscript) MarshalJSON() ([]byte, error) {
+	type alias RichTextSubscript
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "subscript",
+		alias: (*alias)(v),
+	})
+}
+
+// A superscript text.
+type RichTextSuperscript struct {
+	// Type of the rich text, always “superscript”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichTextSuperscript with the discriminator field
+// "type" forced to "superscript".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextSuperscript) MarshalJSON() ([]byte, error) {
+	type alias RichTextSuperscript
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "superscript",
+		alias: (*alias)(v),
+	})
+}
+
+// A marked text.
+type RichTextMarked struct {
+	// Type of the rich text, always “marked”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichTextMarked with the discriminator field
+// "type" forced to "marked".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextMarked) MarshalJSON() ([]byte, error) {
+	type alias RichTextMarked
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "marked",
+		alias: (*alias)(v),
+	})
+}
+
+// A monowidth text.
+type RichTextCode struct {
+	// Type of the rich text, always “code”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichTextCode with the discriminator field
+// "type" forced to "code".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextCode) MarshalJSON() ([]byte, error) {
+	type alias RichTextCode
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "code",
+		alias: (*alias)(v),
+	})
+}
+
+// A custom emoji.
+type RichTextCustomEmoji struct {
+	// Type of the rich text, always “custom_emoji”
+	Type RichTextType `json:"type"`
+	// Unique identifier of the custom emoji. Use getCustomEmojiStickers to get full information about the sticker.
+	CustomEmojiID string `json:"custom_emoji_id"`
+	// Alternative emoji for the custom emoji
+	AlternativeText string `json:"alternative_text"`
+}
+
+// MarshalJSON encodes RichTextCustomEmoji with the discriminator field
+// "type" forced to "custom_emoji".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextCustomEmoji) MarshalJSON() ([]byte, error) {
+	type alias RichTextCustomEmoji
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "custom_emoji",
+		alias: (*alias)(v),
+	})
+}
+
+// A mathematical expression.
+type RichTextMathematicalExpression struct {
+	// Type of the rich text, always “mathematical_expression”
+	Type RichTextType `json:"type"`
+	// The expression in LaTeX format
+	Expression string `json:"expression"`
+}
+
+// MarshalJSON encodes RichTextMathematicalExpression with the discriminator field
+// "type" forced to "mathematical_expression".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextMathematicalExpression) MarshalJSON() ([]byte, error) {
+	type alias RichTextMathematicalExpression
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "mathematical_expression",
+		alias: (*alias)(v),
+	})
+}
+
+// A text with a link.
+type RichTextUrl struct {
+	// Type of the rich text, always “url”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+	// URL of the link
+	URL string `json:"url"`
+}
+
+// MarshalJSON encodes RichTextUrl with the discriminator field
+// "type" forced to "url".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextUrl) MarshalJSON() ([]byte, error) {
+	type alias RichTextUrl
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "url",
+		alias: (*alias)(v),
+	})
+}
+
+// A text with an email address.
+type RichTextEmailAddress struct {
+	// Type of the rich text, always “email_address”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+	// The email address
+	EmailAddress string `json:"email_address"`
+}
+
+// MarshalJSON encodes RichTextEmailAddress with the discriminator field
+// "type" forced to "email_address".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextEmailAddress) MarshalJSON() ([]byte, error) {
+	type alias RichTextEmailAddress
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "email_address",
+		alias: (*alias)(v),
+	})
+}
+
+// A text with a phone number.
+type RichTextPhoneNumber struct {
+	// Type of the rich text, always “phone_number”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+	// The phone number
+	PhoneNumber string `json:"phone_number"`
+}
+
+// MarshalJSON encodes RichTextPhoneNumber with the discriminator field
+// "type" forced to "phone_number".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextPhoneNumber) MarshalJSON() ([]byte, error) {
+	type alias RichTextPhoneNumber
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "phone_number",
+		alias: (*alias)(v),
+	})
+}
+
+// A text with a bank card number.
+type RichTextBankCardNumber struct {
+	// Type of the rich text, always “bank_card_number”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+	// The bank card number
+	BankCardNumber string `json:"bank_card_number"`
+}
+
+// MarshalJSON encodes RichTextBankCardNumber with the discriminator field
+// "type" forced to "bank_card_number".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextBankCardNumber) MarshalJSON() ([]byte, error) {
+	type alias RichTextBankCardNumber
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "bank_card_number",
+		alias: (*alias)(v),
+	})
+}
+
+// A mention by a username.
+type RichTextMention struct {
+	// Type of the rich text, always “mention”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+	// The username
+	Username string `json:"username"`
+}
+
+// MarshalJSON encodes RichTextMention with the discriminator field
+// "type" forced to "mention".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextMention) MarshalJSON() ([]byte, error) {
+	type alias RichTextMention
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "mention",
+		alias: (*alias)(v),
+	})
+}
+
+// A hashtag.
+type RichTextHashtag struct {
+	// Type of the rich text, always “hashtag”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+	// The hashtag
+	Hashtag string `json:"hashtag"`
+}
+
+// MarshalJSON encodes RichTextHashtag with the discriminator field
+// "type" forced to "hashtag".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextHashtag) MarshalJSON() ([]byte, error) {
+	type alias RichTextHashtag
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "hashtag",
+		alias: (*alias)(v),
+	})
+}
+
+// A cashtag.
+type RichTextCashtag struct {
+	// Type of the rich text, always “cashtag”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+	// The cashtag
+	Cashtag string `json:"cashtag"`
+}
+
+// MarshalJSON encodes RichTextCashtag with the discriminator field
+// "type" forced to "cashtag".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextCashtag) MarshalJSON() ([]byte, error) {
+	type alias RichTextCashtag
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "cashtag",
+		alias: (*alias)(v),
+	})
+}
+
+// A bot command.
+type RichTextBotCommand struct {
+	// Type of the rich text, always “bot_command”
+	Type RichTextType `json:"type"`
+	// The text
+	Text RichText `json:"text"`
+	// The bot command
+	BotCommand string `json:"bot_command"`
+}
+
+// MarshalJSON encodes RichTextBotCommand with the discriminator field
+// "type" forced to "bot_command".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextBotCommand) MarshalJSON() ([]byte, error) {
+	type alias RichTextBotCommand
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "bot_command",
+		alias: (*alias)(v),
+	})
+}
+
+// An anchor.
+type RichTextAnchor struct {
+	// Type of the rich text, always “anchor”
+	Type RichTextType `json:"type"`
+	// The name of the anchor
+	Name string `json:"name"`
+}
+
+// MarshalJSON encodes RichTextAnchor with the discriminator field
+// "type" forced to "anchor".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextAnchor) MarshalJSON() ([]byte, error) {
+	type alias RichTextAnchor
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "anchor",
+		alias: (*alias)(v),
+	})
+}
+
+// A link to an anchor.
+type RichTextAnchorLink struct {
+	// Type of the rich text, always “anchor_link”
+	Type RichTextType `json:"type"`
+	// The link text
+	Text RichText `json:"text"`
+	// The name of the anchor. If the name is empty, then the link brings back to the top of the message.
+	AnchorName string `json:"anchor_name"`
+}
+
+// MarshalJSON encodes RichTextAnchorLink with the discriminator field
+// "type" forced to "anchor_link".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextAnchorLink) MarshalJSON() ([]byte, error) {
+	type alias RichTextAnchorLink
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "anchor_link",
+		alias: (*alias)(v),
+	})
+}
+
+// A reference.
+type RichTextReference struct {
+	// Type of the rich text, always “reference”
+	Type RichTextType `json:"type"`
+	// Text of the reference
+	Text RichText `json:"text"`
+	// The name of the reference
+	Name string `json:"name"`
+}
+
+// MarshalJSON encodes RichTextReference with the discriminator field
+// "type" forced to "reference".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextReference) MarshalJSON() ([]byte, error) {
+	type alias RichTextReference
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "reference",
+		alias: (*alias)(v),
+	})
+}
+
+// A link to a reference.
+type RichTextReferenceLink struct {
+	// Type of the rich text, always “reference_link”
+	Type RichTextType `json:"type"`
+	// The link text
+	Text RichText `json:"text"`
+	// The name of the reference
+	ReferenceName string `json:"reference_name"`
+}
+
+// MarshalJSON encodes RichTextReferenceLink with the discriminator field
+// "type" forced to "reference_link".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextReferenceLink) MarshalJSON() ([]byte, error) {
+	type alias RichTextReferenceLink
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "reference_link",
+		alias: (*alias)(v),
+	})
+}
+
+// Caption of a rich formatted block.
+type RichBlockCaption struct {
+	// Block caption
+	Text RichText `json:"text"`
+	// Optional. Block credit which corresponds to the HTML tag <cite>
+	Credit RichText `json:"credit,omitempty"`
+}
+
+// Cell in a table.
+type RichBlockTableCell struct {
+	// Optional. Text in the cell. If omitted, then the cell is invisible.
+	Text RichText `json:"text,omitempty"`
+	// Optional. True, if the cell is a header cell
+	IsHeader *bool `json:"is_header,omitempty"`
+	// Optional. The number of columns the cell spans if it is bigger than 1
+	Colspan *int64 `json:"colspan,omitempty"`
+	// Optional. The number of rows the cell spans if it is bigger than 1
+	Rowspan *int64 `json:"rowspan,omitempty"`
+	// Horizontal cell content alignment. Currently, must be one of “left”, “center”, or “right”.
+	Align RichBlockTableCellAlign `json:"align"`
+	// Vertical cell content alignment. Currently, must be one of “top”, “middle”, or “bottom”.
+	Valign RichBlockTableCellValign `json:"valign"`
+}
+
+// An item of a list.
+type RichBlockListItem struct {
+	// Label of the item
+	Label string `json:"label"`
+	// The content of the item
+	Blocks []RichBlock `json:"blocks"`
+	// Optional. True, if the item has a checkbox
+	HasCheckbox *bool `json:"has_checkbox,omitempty"`
+	// Optional. True, if the item has a checked checkbox
+	IsChecked *bool `json:"is_checked,omitempty"`
+	// Optional. For ordered lists, the numeric value of the item label
+	Value *int64 `json:"value,omitempty"`
+	// Optional. For ordered lists, the type of the item label; must be one of “a” for lowercase letters, “A” for uppercase letters, “i” for lowercase Roman numerals, “I” for uppercase Roman numerals, or “1” for decimal numbers
+	Type RichBlockListItemType `json:"type,omitempty"`
+}
+
+// RichBlock is a union type. The following concrete variants implement
+// it:
+//   - RichBlockParagraph
+//   - RichBlockSectionHeading
+//   - RichBlockPreformatted
+//   - RichBlockFooter
+//   - RichBlockDivider
+//   - RichBlockMathematicalExpression
+//   - RichBlockAnchor
+//   - RichBlockList
+//   - RichBlockBlockQuotation
+//   - RichBlockPullQuotation
+//   - RichBlockCollage
+//   - RichBlockSlideshow
+//   - RichBlockTable
+//   - RichBlockDetails
+//   - RichBlockMap
+//   - RichBlockAnimation
+//   - RichBlockAudio
+//   - RichBlockPhoto
+//   - RichBlockVideo
+//   - RichBlockVoiceNote
+//   - RichBlockThinking
+//
+// This object represents a block in a rich formatted message. Currently, it can be any of the following types:
+type RichBlock interface{ isRichBlock() }
+
+// isRichBlock is the marker method that makes RichBlockParagraph implement RichBlock.
+func (*RichBlockParagraph) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockSectionHeading implement RichBlock.
+func (*RichBlockSectionHeading) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockPreformatted implement RichBlock.
+func (*RichBlockPreformatted) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockFooter implement RichBlock.
+func (*RichBlockFooter) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockDivider implement RichBlock.
+func (*RichBlockDivider) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockMathematicalExpression implement RichBlock.
+func (*RichBlockMathematicalExpression) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockAnchor implement RichBlock.
+func (*RichBlockAnchor) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockList implement RichBlock.
+func (*RichBlockList) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockBlockQuotation implement RichBlock.
+func (*RichBlockBlockQuotation) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockPullQuotation implement RichBlock.
+func (*RichBlockPullQuotation) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockCollage implement RichBlock.
+func (*RichBlockCollage) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockSlideshow implement RichBlock.
+func (*RichBlockSlideshow) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockTable implement RichBlock.
+func (*RichBlockTable) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockDetails implement RichBlock.
+func (*RichBlockDetails) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockMap implement RichBlock.
+func (*RichBlockMap) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockAnimation implement RichBlock.
+func (*RichBlockAnimation) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockAudio implement RichBlock.
+func (*RichBlockAudio) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockPhoto implement RichBlock.
+func (*RichBlockPhoto) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockVideo implement RichBlock.
+func (*RichBlockVideo) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockVoiceNote implement RichBlock.
+func (*RichBlockVoiceNote) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockThinking implement RichBlock.
+func (*RichBlockThinking) isRichBlock() {}
+
+// A text paragraph, corresponding to the HTML tag <p>.
+type RichBlockParagraph struct {
+	// Type of the block, always “paragraph”
+	Type RichBlockType `json:"type"`
+	// Text of the block
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichBlockParagraph with the discriminator field
+// "type" forced to "paragraph".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockParagraph) MarshalJSON() ([]byte, error) {
+	type alias RichBlockParagraph
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "paragraph",
+		alias: (*alias)(v),
+	})
+}
+
+// A section heading, corresponding to the HTML tags <h1>, <h2>, <h3>, <h4>, <h5>, or <h6>.
+type RichBlockSectionHeading struct {
+	// Type of the block, always “heading”
+	Type RichBlockType `json:"type"`
+	// Text of the block
+	Text RichText `json:"text"`
+	// Relative size of the text font; 1-6, 1 is the largest, 6 is the smallest
+	Size int64 `json:"size"`
+}
+
+// MarshalJSON encodes RichBlockSectionHeading with the discriminator field
+// "type" forced to "heading".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockSectionHeading) MarshalJSON() ([]byte, error) {
+	type alias RichBlockSectionHeading
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "heading",
+		alias: (*alias)(v),
+	})
+}
+
+// A preformatted text block, corresponding to the nested HTML tags <pre> and <code>.
+type RichBlockPreformatted struct {
+	// Type of the block, always “pre”
+	Type RichBlockType `json:"type"`
+	// Text of the block
+	Text RichText `json:"text"`
+	// Optional. The programming language of the text
+	Language string `json:"language,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockPreformatted with the discriminator field
+// "type" forced to "pre".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockPreformatted) MarshalJSON() ([]byte, error) {
+	type alias RichBlockPreformatted
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "pre",
+		alias: (*alias)(v),
+	})
+}
+
+// A footer, corresponding to the HTML tag <footer>.
+type RichBlockFooter struct {
+	// Type of the block, always “footer”
+	Type RichBlockType `json:"type"`
+	// Text of the block
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichBlockFooter with the discriminator field
+// "type" forced to "footer".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockFooter) MarshalJSON() ([]byte, error) {
+	type alias RichBlockFooter
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "footer",
+		alias: (*alias)(v),
+	})
+}
+
+// A divider, corresponding to the HTML tag <hr/>.
+type RichBlockDivider struct {
+	// Type of the block, always “divider”
+	Type RichBlockType `json:"type"`
+}
+
+// MarshalJSON encodes RichBlockDivider with the discriminator field
+// "type" forced to "divider".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockDivider) MarshalJSON() ([]byte, error) {
+	type alias RichBlockDivider
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "divider",
+		alias: (*alias)(v),
+	})
+}
+
+// A block with a mathematical expression in LaTeX format, corresponding to the custom HTML tag <tg-math-block>.
+type RichBlockMathematicalExpression struct {
+	// Type of the block, always “mathematical_expression”
+	Type RichBlockType `json:"type"`
+	// The mathematical expression in LaTeX format
+	Expression string `json:"expression"`
+}
+
+// MarshalJSON encodes RichBlockMathematicalExpression with the discriminator field
+// "type" forced to "mathematical_expression".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockMathematicalExpression) MarshalJSON() ([]byte, error) {
+	type alias RichBlockMathematicalExpression
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "mathematical_expression",
+		alias: (*alias)(v),
+	})
+}
+
+// A block with an anchor, corresponding to the HTML tag <a> with the attribute name.
+type RichBlockAnchor struct {
+	// Type of the block, always “anchor”
+	Type RichBlockType `json:"type"`
+	// The name of the anchor
+	Name string `json:"name"`
+}
+
+// MarshalJSON encodes RichBlockAnchor with the discriminator field
+// "type" forced to "anchor".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockAnchor) MarshalJSON() ([]byte, error) {
+	type alias RichBlockAnchor
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "anchor",
+		alias: (*alias)(v),
+	})
+}
+
+// A list of blocks, corresponding to the HTML tag <ul> or <ol> with multiple nested tags <li>.
+type RichBlockList struct {
+	// Type of the block, always “list”
+	Type RichBlockType `json:"type"`
+	// Items of the list
+	Items []RichBlockListItem `json:"items"`
+}
+
+// MarshalJSON encodes RichBlockList with the discriminator field
+// "type" forced to "list".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockList) MarshalJSON() ([]byte, error) {
+	type alias RichBlockList
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "list",
+		alias: (*alias)(v),
+	})
+}
+
+// A block quotation, corresponding to the HTML tag <blockquote>.
+type RichBlockBlockQuotation struct {
+	// Type of the block, always “blockquote”
+	Type RichBlockType `json:"type"`
+	// Content of the block
+	Blocks []RichBlock `json:"blocks"`
+	// Optional. Credit of the block
+	Credit RichText `json:"credit,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockBlockQuotation with the discriminator field
+// "type" forced to "blockquote".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockBlockQuotation) MarshalJSON() ([]byte, error) {
+	type alias RichBlockBlockQuotation
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "blockquote",
+		alias: (*alias)(v),
+	})
+}
+
+// A quotation with centered text, loosely corresponding to the HTML tag <aside>.
+type RichBlockPullQuotation struct {
+	// Type of the block, always “pullquote”
+	Type RichBlockType `json:"type"`
+	// Text of the block
+	Text RichText `json:"text"`
+	// Optional. Credit of the block
+	Credit RichText `json:"credit,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockPullQuotation with the discriminator field
+// "type" forced to "pullquote".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockPullQuotation) MarshalJSON() ([]byte, error) {
+	type alias RichBlockPullQuotation
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "pullquote",
+		alias: (*alias)(v),
+	})
+}
+
+// A collage, corresponding to the custom HTML tag <tg-collage>.
+type RichBlockCollage struct {
+	// Type of the block, always “collage”
+	Type RichBlockType `json:"type"`
+	// Elements of the collage
+	Blocks []RichBlock `json:"blocks"`
+	// Optional. Caption of the block
+	Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockCollage with the discriminator field
+// "type" forced to "collage".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockCollage) MarshalJSON() ([]byte, error) {
+	type alias RichBlockCollage
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "collage",
+		alias: (*alias)(v),
+	})
+}
+
+// A slideshow, corresponding to the custom HTML tag <tg-slideshow>.
+type RichBlockSlideshow struct {
+	// Type of the block, always “slideshow”
+	Type RichBlockType `json:"type"`
+	// Elements of the slideshow
+	Blocks []RichBlock `json:"blocks"`
+	// Optional. Caption of the block
+	Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockSlideshow with the discriminator field
+// "type" forced to "slideshow".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockSlideshow) MarshalJSON() ([]byte, error) {
+	type alias RichBlockSlideshow
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "slideshow",
+		alias: (*alias)(v),
+	})
+}
+
+// A table, corresponding to the HTML tag <table>.
+type RichBlockTable struct {
+	// Type of the block, always “table”
+	Type RichBlockType `json:"type"`
+	// Cells of the table
+	Cells [][]RichBlockTableCell `json:"cells"`
+	// Optional. True, if the table has borders
+	IsBordered *bool `json:"is_bordered,omitempty"`
+	// Optional. True, if the table is striped
+	IsStriped *bool `json:"is_striped,omitempty"`
+	// Optional. Caption of the table
+	Caption RichText `json:"caption,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockTable with the discriminator field
+// "type" forced to "table".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockTable) MarshalJSON() ([]byte, error) {
+	type alias RichBlockTable
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "table",
+		alias: (*alias)(v),
+	})
+}
+
+// An expandable block for details disclosure, corresponding to the HTML tag <details>.
+type RichBlockDetails struct {
+	// Type of the block, always “details”
+	Type RichBlockType `json:"type"`
+	// Always shown summary of the block
+	Summary RichText `json:"summary"`
+	// Content of the block
+	Blocks []RichBlock `json:"blocks"`
+	// Optional. True, if the content of the block is visible by default
+	IsOpen *bool `json:"is_open,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockDetails with the discriminator field
+// "type" forced to "details".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockDetails) MarshalJSON() ([]byte, error) {
+	type alias RichBlockDetails
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "details",
+		alias: (*alias)(v),
+	})
+}
+
+// A block with a map, corresponding to the custom HTML tag <tg-map>.
+type RichBlockMap struct {
+	// Type of the block, always “map”
+	Type RichBlockType `json:"type"`
+	// Location of the center of the map
+	Location Location `json:"location"`
+	// Map zoom level; 13-20
+	Zoom int64 `json:"zoom"`
+	// Expected width of the map
+	Width int64 `json:"width"`
+	// Expected height of the map
+	Height int64 `json:"height"`
+	// Optional. Caption of the block
+	Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockMap with the discriminator field
+// "type" forced to "map".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockMap) MarshalJSON() ([]byte, error) {
+	type alias RichBlockMap
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "map",
+		alias: (*alias)(v),
+	})
+}
+
+// A block with an animation, corresponding to the HTML tag <video>.
+type RichBlockAnimation struct {
+	// Type of the block, always “animation”
+	Type RichBlockType `json:"type"`
+	// The animation
+	Animation Animation `json:"animation"`
+	// Optional. True, if the media preview is covered by a spoiler animation
+	HasSpoiler *bool `json:"has_spoiler,omitempty"`
+	// Optional. Caption of the block
+	Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockAnimation with the discriminator field
+// "type" forced to "animation".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockAnimation) MarshalJSON() ([]byte, error) {
+	type alias RichBlockAnimation
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "animation",
+		alias: (*alias)(v),
+	})
+}
+
+// A block with a music file, corresponding to the HTML tag <audio>.
+type RichBlockAudio struct {
+	// Type of the block, always “audio”
+	Type RichBlockType `json:"type"`
+	// The audio
+	Audio Audio `json:"audio"`
+	// Optional. Caption of the block
+	Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockAudio with the discriminator field
+// "type" forced to "audio".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockAudio) MarshalJSON() ([]byte, error) {
+	type alias RichBlockAudio
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "audio",
+		alias: (*alias)(v),
+	})
+}
+
+// A block with a photo, corresponding to the HTML tag <photo>.
+type RichBlockPhoto struct {
+	// Type of the block, always “photo”
+	Type RichBlockType `json:"type"`
+	// Available sizes of the photo
+	Photo []PhotoSize `json:"photo"`
+	// Optional. True, if the media preview is covered by a spoiler animation
+	HasSpoiler *bool `json:"has_spoiler,omitempty"`
+	// Optional. Caption of the block
+	Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockPhoto with the discriminator field
+// "type" forced to "photo".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockPhoto) MarshalJSON() ([]byte, error) {
+	type alias RichBlockPhoto
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "photo",
+		alias: (*alias)(v),
+	})
+}
+
+// A block with a video, corresponding to the HTML tag <video>.
+type RichBlockVideo struct {
+	// Type of the block, always “video”
+	Type RichBlockType `json:"type"`
+	// The video
+	Video Video `json:"video"`
+	// Optional. True, if the media preview is covered by a spoiler animation
+	HasSpoiler *bool `json:"has_spoiler,omitempty"`
+	// Optional. Caption of the block
+	Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockVideo with the discriminator field
+// "type" forced to "video".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockVideo) MarshalJSON() ([]byte, error) {
+	type alias RichBlockVideo
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "video",
+		alias: (*alias)(v),
+	})
+}
+
+// A block with a voice note, corresponding to the HTML tag <audio>.
+type RichBlockVoiceNote struct {
+	// Type of the block, always “voice_note”
+	Type RichBlockType `json:"type"`
+	// The voice note
+	VoiceNote Voice `json:"voice_note"`
+	// Optional. Caption of the block
+	Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockVoiceNote with the discriminator field
+// "type" forced to "voice_note".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockVoiceNote) MarshalJSON() ([]byte, error) {
+	type alias RichBlockVoiceNote
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "voice_note",
+		alias: (*alias)(v),
+	})
+}
+
+// A block with a “Thinking…” placeholder, corresponding to the custom HTML tag <tg-thinking>. The block may be used only in sendRichMessageDraft, therefore it can't be received in messages. See https://t.me/addemoji/AIActions for examples of custom emoji, which are recommended for usage in the block.
+type RichBlockThinking struct {
+	// Type of the block, always “thinking”
+	Type RichBlockType `json:"type"`
+	// Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji, which are recommended for usage in the block.
+	Text RichText `json:"text"`
+}
+
+// MarshalJSON encodes RichBlockThinking with the discriminator field
+// "type" forced to "thinking".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockThinking) MarshalJSON() ([]byte, error) {
+	type alias RichBlockThinking
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "thinking",
+		alias: (*alias)(v),
+	})
 }
 
 // This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
@@ -6307,16 +7785,20 @@ func (v *InlineQueryResultCachedAudio) MarshalJSON() ([]byte, error) {
 // InputMessageContent is a union type. The following concrete variants implement
 // it:
 //   - InputTextMessageContent
+//   - InputRichMessageContent
 //   - InputLocationMessageContent
 //   - InputVenueMessageContent
 //   - InputContactMessageContent
 //   - InputInvoiceMessageContent
 //
-// This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following 5 types:
+// This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following types:
 type InputMessageContent interface{ isInputMessageContent() }
 
 // isInputMessageContent is the marker method that makes InputTextMessageContent implement InputMessageContent.
 func (*InputTextMessageContent) isInputMessageContent() {}
+
+// isInputMessageContent is the marker method that makes InputRichMessageContent implement InputMessageContent.
+func (*InputRichMessageContent) isInputMessageContent() {}
 
 // isInputMessageContent is the marker method that makes InputLocationMessageContent implement InputMessageContent.
 func (*InputLocationMessageContent) isInputMessageContent() {}
@@ -6340,6 +7822,12 @@ type InputTextMessageContent struct {
 	Entities []MessageEntity `json:"entities,omitempty"`
 	// Optional. Link preview generation options for the message
 	LinkPreviewOptions *LinkPreviewOptions `json:"link_preview_options,omitempty"`
+}
+
+// Represents the content of a rich message to be sent as the result of an inline query.
+type InputRichMessageContent struct {
+	// The message to be sent
+	RichMessage InputRichMessage `json:"rich_message"`
 }
 
 // Represents the content of a location message to be sent as the result of an inline query.

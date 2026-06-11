@@ -158,6 +158,7 @@ type InputPollOptionMediaType string
 
 const (
 	InputPollOptionMediaTypeAnimation InputPollOptionMediaType = "animation"
+	InputPollOptionMediaTypeLink      InputPollOptionMediaType = "link"
 	InputPollOptionMediaTypeLivePhoto InputPollOptionMediaType = "live_photo"
 	InputPollOptionMediaTypeLocation  InputPollOptionMediaType = "location"
 	InputPollOptionMediaTypePhoto     InputPollOptionMediaType = "photo"
@@ -357,12 +358,102 @@ const (
 	RefundedPaymentCurrencyXTR RefundedPaymentCurrency = "XTR"
 )
 
+type Result string
+
+const (
+	ResultApprove Result = "approve"
+	ResultDecline Result = "decline"
+	ResultQueue   Result = "queue"
+)
+
 type RevenueWithdrawalStateKind string
 
 const (
 	RevenueWithdrawalStateKindPending   RevenueWithdrawalStateKind = "pending"
 	RevenueWithdrawalStateKindSucceeded RevenueWithdrawalStateKind = "succeeded"
 	RevenueWithdrawalStateKindFailed    RevenueWithdrawalStateKind = "failed"
+)
+
+type RichBlockListItemType string
+
+const (
+	RichBlockListItemTypeLowerA RichBlockListItemType = "a"
+	RichBlockListItemTypeUpperA RichBlockListItemType = "A"
+	RichBlockListItemTypeLowerI RichBlockListItemType = "i"
+	RichBlockListItemTypeUpperI RichBlockListItemType = "I"
+	RichBlockListItemType1      RichBlockListItemType = "1"
+)
+
+type RichBlockTableCellAlign string
+
+const (
+	RichBlockTableCellAlignLeft   RichBlockTableCellAlign = "left"
+	RichBlockTableCellAlignCenter RichBlockTableCellAlign = "center"
+	RichBlockTableCellAlignRight  RichBlockTableCellAlign = "right"
+)
+
+type RichBlockTableCellValign string
+
+const (
+	RichBlockTableCellValignTop    RichBlockTableCellValign = "top"
+	RichBlockTableCellValignMiddle RichBlockTableCellValign = "middle"
+	RichBlockTableCellValignBottom RichBlockTableCellValign = "bottom"
+)
+
+type RichBlockType string
+
+const (
+	RichBlockTypeParagraph              RichBlockType = "paragraph"
+	RichBlockTypeHeading                RichBlockType = "heading"
+	RichBlockTypePre                    RichBlockType = "pre"
+	RichBlockTypeFooter                 RichBlockType = "footer"
+	RichBlockTypeDivider                RichBlockType = "divider"
+	RichBlockTypeMathematicalExpression RichBlockType = "mathematical_expression"
+	RichBlockTypeAnchor                 RichBlockType = "anchor"
+	RichBlockTypeList                   RichBlockType = "list"
+	RichBlockTypeBlockquote             RichBlockType = "blockquote"
+	RichBlockTypePullquote              RichBlockType = "pullquote"
+	RichBlockTypeCollage                RichBlockType = "collage"
+	RichBlockTypeSlideshow              RichBlockType = "slideshow"
+	RichBlockTypeTable                  RichBlockType = "table"
+	RichBlockTypeDetails                RichBlockType = "details"
+	RichBlockTypeMap                    RichBlockType = "map"
+	RichBlockTypeAnimation              RichBlockType = "animation"
+	RichBlockTypeAudio                  RichBlockType = "audio"
+	RichBlockTypePhoto                  RichBlockType = "photo"
+	RichBlockTypeVideo                  RichBlockType = "video"
+	RichBlockTypeVoiceNote              RichBlockType = "voice_note"
+	RichBlockTypeThinking               RichBlockType = "thinking"
+)
+
+type RichTextType string
+
+const (
+	RichTextTypeBold                   RichTextType = "bold"
+	RichTextTypeItalic                 RichTextType = "italic"
+	RichTextTypeUnderline              RichTextType = "underline"
+	RichTextTypeStrikethrough          RichTextType = "strikethrough"
+	RichTextTypeSpoiler                RichTextType = "spoiler"
+	RichTextTypeDateTime               RichTextType = "date_time"
+	RichTextTypeTextMention            RichTextType = "text_mention"
+	RichTextTypeSubscript              RichTextType = "subscript"
+	RichTextTypeSuperscript            RichTextType = "superscript"
+	RichTextTypeMarked                 RichTextType = "marked"
+	RichTextTypeCode                   RichTextType = "code"
+	RichTextTypeCustomEmoji            RichTextType = "custom_emoji"
+	RichTextTypeMathematicalExpression RichTextType = "mathematical_expression"
+	RichTextTypeURL                    RichTextType = "url"
+	RichTextTypeEmailAddress           RichTextType = "email_address"
+	RichTextTypePhoneNumber            RichTextType = "phone_number"
+	RichTextTypeBankCardNumber         RichTextType = "bank_card_number"
+	RichTextTypeMention                RichTextType = "mention"
+	RichTextTypeHashtag                RichTextType = "hashtag"
+	RichTextTypeCashtag                RichTextType = "cashtag"
+	RichTextTypeBotCommand             RichTextType = "bot_command"
+	RichTextTypeAnchor                 RichTextType = "anchor"
+	RichTextTypeAnchorLink             RichTextType = "anchor_link"
+	RichTextTypeReference              RichTextType = "reference"
+	RichTextTypeReferenceLink          RichTextType = "reference_link"
 )
 
 type StickerType string
