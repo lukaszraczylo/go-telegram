@@ -5910,7 +5910,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.",
+          "doc": "Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.",
           "enum_values": [
             "XTR",
             "TON"
@@ -5923,7 +5923,7 @@
             "kind": "primitive",
             "name": "int64"
           },
-          "doc": "Optional. The amount of the currency that was received by the channel in nanotoncoins; for payments in toncoins only"
+          "doc": "Optional. The amount of the currency that was received by the channel in nanograms; for payments in TON grams only"
         },
         {
           "name": "StarAmount",
@@ -6304,7 +6304,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for toncoins.",
+          "doc": "Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for TON grams.",
           "enum_values": [
             "XTR",
             "TON"
@@ -6318,7 +6318,7 @@
             "name": "int64"
           },
           "required": true,
-          "doc": "The amount of the currency that will be paid for the post in the smallest units of the currency, i.e. Telegram Stars or nanotoncoins. Currently, price in Telegram Stars must be between 5 and 100000, and price in nanotoncoins must be between 10000000 and 10000000000000."
+          "doc": "The amount of the currency that will be paid for the post in the smallest units of the currency, i.e. Telegram Stars or nanograms. Currently, price in Telegram Stars must be between 5 and 100000, and price in nanograms must be between 10000000 and 10000000000000."
         }
       ]
     },
@@ -8401,7 +8401,7 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Identifier of the join request query. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds."
+          "doc": "Optional. Identifier of the join request query; for bots assigned to process join request only. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds."
         }
       ]
     },
@@ -10098,7 +10098,7 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.",
+          "doc": "Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.",
           "enum_values": [
             "XTR",
             "TON"
@@ -10111,7 +10111,7 @@
             "kind": "primitive",
             "name": "int64"
           },
-          "doc": "Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanotoncoins"
+          "doc": "Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanograms"
         },
         {
           "name": "OwnedGiftID",
@@ -11543,7 +11543,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be animation",
+          "doc": "Type of the media, must be animation",
           "enum_values": [
             "animation"
           ]
@@ -11661,7 +11661,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be audio",
+          "doc": "Type of the media, must be audio",
           "enum_values": [
             "audio"
           ]
@@ -11761,7 +11761,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be document",
+          "doc": "Type of the media, must be document",
           "enum_values": [
             "document"
           ]
@@ -11843,7 +11843,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be link",
+          "doc": "Type of the media, must be link",
           "enum_values": [
             "link"
           ]
@@ -11872,7 +11872,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be live_photo",
+          "doc": "Type of the media, must be live_photo",
           "enum_values": [
             "live_photo"
           ]
@@ -11964,7 +11964,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be location",
+          "doc": "Type of the media, must be location",
           "enum_values": [
             "location"
           ]
@@ -12012,7 +12012,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be photo",
+          "doc": "Type of the media, must be photo",
           "enum_values": [
             "photo"
           ]
@@ -12094,7 +12094,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be sticker",
+          "doc": "Type of the media, must be sticker",
           "enum_values": [
             "sticker"
           ]
@@ -12132,7 +12132,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be venue",
+          "doc": "Type of the media, must be venue",
           "enum_values": [
             "venue"
           ]
@@ -12227,7 +12227,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be video",
+          "doc": "Type of the media, must be video",
           "enum_values": [
             "video"
           ]
@@ -14879,7 +14879,7 @@
     },
     {
       "name": "RichBlockPhoto",
-      "doc": "A block with a photo, corresponding to the HTML tag <photo>.",
+      "doc": "A block with a photo, corresponding to the HTML tag <img>.",
       "fields": [
         {
           "name": "Type",
@@ -23857,7 +23857,7 @@
             "name": "int64"
           },
           "required": true,
-          "doc": "Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier are animated."
+          "doc": "Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated."
         },
         {
           "name": "Text",
@@ -25053,7 +25053,7 @@
     },
     {
       "name": "sendChatJoinRequestWebApp",
-      "doc": "Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Returns True on success.",
+      "doc": "Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Call answerChatJoinRequestQuery to resolve the join request query based on the user interaction with the Mini App. Returns True on success.",
       "params": [
         {
           "name": "ChatJoinRequestQueryID",
@@ -28263,7 +28263,7 @@
             "name": "InputMedia"
           },
           "required": true,
-          "doc": "A JSON-serialized object for a new media content of the message"
+          "doc": "A JSON-serialized object for the new media content of the message"
         },
         {
           "name": "ReplyMarkup",
@@ -29549,7 +29549,7 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Unique identifier of the business connection on behalf of which the message will be sent"
+          "doc": "Unique identifier of the business connection on behalf of which the message will be sent. Bot can send rich messages on behalf of a business account only if the corresponding user can send rich messages."
         },
         {
           "name": "ChatID",

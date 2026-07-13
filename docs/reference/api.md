@@ -1687,7 +1687,7 @@ func SendChatJoinRequestWebApp(ctx context.Context, b *client.Bot, p *SendChatJo
 
 SendChatJoinRequestWebApp calls the sendChatJoinRequestWebApp Telegram Bot API method.
 
-Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Returns True on success.
+Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Call answerChatJoinRequestQuery to resolve the join request query based on the user interaction with the Mini App. Returns True on success.
 
 <a name="SendGift"></a>
 ## func [SendGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3451>)
@@ -3931,7 +3931,7 @@ type ChatJoinRequest struct {
     Bio string `json:"bio,omitempty"`
     // Optional. Chat invite link that was used by the user to send the join request
     InviteLink *ChatInviteLink `json:"invite_link,omitempty"`
-    // Optional. Identifier of the join request query. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds.
+    // Optional. Identifier of the join request query; for bots assigned to process join request only. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds.
     QueryID string `json:"query_id,omitempty"`
 }
 ```
@@ -5309,7 +5309,7 @@ type EditMessageMediaParams struct {
     MessageID *int64 `json:"message_id,omitempty"`
     // Required if chat_id and message_id are not specified. Identifier of the inline message.
     InlineMessageID string `json:"inline_message_id,omitempty"`
-    // A JSON-serialized object for a new media content of the message
+    // A JSON-serialized object for the new media content of the message
     Media InputMedia `json:"media"`
     // A JSON-serialized object for a new inline keyboard
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -7874,7 +7874,7 @@ Represents an animation file \(GIF or H.264/MPEG\-4 AVC video without sound\) to
 
 ```go
 type InputMediaAnimation struct {
-    // Type of the result, must be animation
+    // Type of the media, must be animation
     Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -7915,7 +7915,7 @@ Represents an audio file to be treated as music to be sent.
 
 ```go
 type InputMediaAudio struct {
-    // Type of the result, must be audio
+    // Type of the media, must be audio
     Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -7952,7 +7952,7 @@ Represents a general file to be sent.
 
 ```go
 type InputMediaDocument struct {
-    // Type of the result, must be document
+    // Type of the media, must be document
     Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -7985,7 +7985,7 @@ Represents an HTTP link to be sent.
 
 ```go
 type InputMediaLink struct {
-    // Type of the result, must be link
+    // Type of the media, must be link
     Type InputPollOptionMediaType `json:"type"`
     // HTTP URL of the link
     URL string `json:"url"`
@@ -8008,7 +8008,7 @@ Represents a live photo to be sent.
 
 ```go
 type InputMediaLivePhoto struct {
-    // Type of the result, must be live_photo
+    // Type of the media, must be live_photo
     Type InputMediaType `json:"type"`
     // Video of the live photo to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
     Media string `json:"media"`
@@ -8043,7 +8043,7 @@ Represents a location to be sent.
 
 ```go
 type InputMediaLocation struct {
-    // Type of the result, must be location
+    // Type of the media, must be location
     Type InputPollOptionMediaType `json:"type"`
     // Latitude of the location
     Latitude float64 `json:"latitude"`
@@ -8070,7 +8070,7 @@ Represents a photo to be sent.
 
 ```go
 type InputMediaPhoto struct {
-    // Type of the result, must be photo
+    // Type of the media, must be photo
     Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -8103,7 +8103,7 @@ Represents a sticker file to be sent.
 
 ```go
 type InputMediaSticker struct {
-    // Type of the result, must be sticker
+    // Type of the media, must be sticker
     Type InputPollOptionMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a .WEBP sticker from the Internet, or pass “attach://<file_attach_name>” to upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -8150,7 +8150,7 @@ Represents a venue to be sent.
 
 ```go
 type InputMediaVenue struct {
-    // Type of the result, must be venue
+    // Type of the media, must be venue
     Type InputPollOptionMediaType `json:"type"`
     // Latitude of the location
     Latitude float64 `json:"latitude"`
@@ -8187,7 +8187,7 @@ Represents a video to be sent.
 
 ```go
 type InputMediaVideo struct {
-    // Type of the result, must be video
+    // Type of the media, must be video
     Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -12622,7 +12622,7 @@ MarshalJSON encodes RichBlockParagraph with the discriminator field "type" force
 <a name="RichBlockPhoto"></a>
 ## type [RichBlockPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6720-L6729>)
 
-A block with a photo, corresponding to the HTML tag \<photo\>.
+A block with a photo, corresponding to the HTML tag \<img\>.
 
 ```go
 type RichBlockPhoto struct {
@@ -13869,7 +13869,7 @@ type SendChatActionParams struct {
 
 SendChatJoinRequestWebAppParams is the parameter set for SendChatJoinRequestWebApp.
 
-Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Returns True on success.
+Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Call answerChatJoinRequestQuery to resolve the join request query based on the user interaction with the Mini App. Returns True on success.
 
 ```go
 type SendChatJoinRequestWebAppParams struct {
@@ -14384,7 +14384,7 @@ type SendMessageDraftParams struct {
     ChatID int64 `json:"chat_id"`
     // Unique identifier for the target message thread
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
-    // Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier are animated.
+    // Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.
     DraftID int64 `json:"draft_id"`
     // Text of the message to be sent, 0-4096 characters after entities parsing. Pass an empty text to show a “Thinking…” placeholder.
     Text string `json:"text,omitempty"`
@@ -14692,7 +14692,7 @@ Use this method to send rich messages. If the message contains a block with a me
 
 ```go
 type SendRichMessageParams struct {
-    // Unique identifier of the business connection on behalf of which the message will be sent
+    // Unique identifier of the business connection on behalf of which the message will be sent. Bot can send rich messages on behalf of a business account only if the corresponding user can send rich messages.
     BusinessConnectionID string `json:"business_connection_id,omitempty"`
     // Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username
     ChatID ChatID `json:"chat_id"`
@@ -16511,9 +16511,9 @@ Describes a service message about a successful payment for a suggested post.
 type SuggestedPostPaid struct {
     // Optional. Message containing the suggested post. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
     SuggestedPostMessage *Message `json:"suggested_post_message,omitempty"`
-    // Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.
+    // Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.
     Currency SuggestedPostPaidCurrency `json:"currency"`
-    // Optional. The amount of the currency that was received by the channel in nanotoncoins; for payments in toncoins only
+    // Optional. The amount of the currency that was received by the channel in nanograms; for payments in TON grams only
     Amount *int64 `json:"amount,omitempty"`
     // Optional. The amount of Telegram Stars that was received by the channel; for payments in Telegram Stars only
     StarAmount *StarAmount `json:"star_amount,omitempty"`
@@ -16559,9 +16559,9 @@ Describes the price of a suggested post.
 
 ```go
 type SuggestedPostPrice struct {
-    // Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for toncoins.
+    // Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for TON grams.
     Currency SuggestedPostPaidCurrency `json:"currency"`
-    // The amount of the currency that will be paid for the post in the smallest units of the currency, i.e. Telegram Stars or nanotoncoins. Currently, price in Telegram Stars must be between 5 and 100000, and price in nanotoncoins must be between 10000000 and 10000000000000.
+    // The amount of the currency that will be paid for the post in the smallest units of the currency, i.e. Telegram Stars or nanograms. Currently, price in Telegram Stars must be between 5 and 100000, and price in nanograms must be between 10000000 and 10000000000000.
     Amount int64 `json:"amount"`
 }
 ```
@@ -17090,9 +17090,9 @@ type UniqueGiftInfo struct {
     Gift UniqueGift `json:"gift"`
     // Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, “resale” for gifts bought from other users, “gifted_upgrade” for upgrades purchased after the gift was sent, or “offer” for gifts bought or sold through gift purchase offers.
     Origin UniqueGiftInfoOrigin `json:"origin"`
-    // Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.
+    // Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.
     LastResaleCurrency SuggestedPostPaidCurrency `json:"last_resale_currency,omitempty"`
-    // Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanotoncoins
+    // Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanograms
     LastResaleAmount *int64 `json:"last_resale_amount,omitempty"`
     // Optional. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts
     OwnedGiftID string `json:"owned_gift_id,omitempty"`

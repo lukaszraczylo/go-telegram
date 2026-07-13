@@ -1985,7 +1985,7 @@ type SendMessageDraftParams struct {
 	ChatID int64 `json:"chat_id"`
 	// Unique identifier for the target message thread
 	MessageThreadID *int64 `json:"message_thread_id,omitempty"`
-	// Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier are animated.
+	// Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.
 	DraftID int64 `json:"draft_id"`
 	// Text of the message to be sent, 0-4096 characters after entities parsing. Pass an empty text to show a “Thinking…” placeholder.
 	Text string `json:"text,omitempty"`
@@ -2502,7 +2502,7 @@ func AnswerChatJoinRequestQuery(ctx context.Context, b *client.Bot, p *AnswerCha
 
 // SendChatJoinRequestWebAppParams is the parameter set for SendChatJoinRequestWebApp.
 //
-// Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Returns True on success.
+// Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Call answerChatJoinRequestQuery to resolve the join request query based on the user interaction with the Mini App. Returns True on success.
 type SendChatJoinRequestWebAppParams struct {
 	// Unique identifier of the join request query
 	ChatJoinRequestQueryID string `json:"chat_join_request_query_id"`
@@ -2512,7 +2512,7 @@ type SendChatJoinRequestWebAppParams struct {
 
 // SendChatJoinRequestWebApp calls the sendChatJoinRequestWebApp Telegram Bot API method.
 //
-// Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Returns True on success.
+// Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Call answerChatJoinRequestQuery to resolve the join request query based on the user interaction with the Mini App. Returns True on success.
 func SendChatJoinRequestWebApp(ctx context.Context, b *client.Bot, p *SendChatJoinRequestWebAppParams) (bool, error) {
 	return client.Call[*SendChatJoinRequestWebAppParams, bool](ctx, b, "sendChatJoinRequestWebApp", p)
 }
@@ -4112,7 +4112,7 @@ type EditMessageMediaParams struct {
 	MessageID *int64 `json:"message_id,omitempty"`
 	// Required if chat_id and message_id are not specified. Identifier of the inline message.
 	InlineMessageID string `json:"inline_message_id,omitempty"`
-	// A JSON-serialized object for a new media content of the message
+	// A JSON-serialized object for the new media content of the message
 	Media InputMedia `json:"media"`
 	// A JSON-serialized object for a new inline keyboard
 	ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -4835,7 +4835,7 @@ func DeleteStickerSet(ctx context.Context, b *client.Bot, p *DeleteStickerSetPar
 //
 // Use this method to send rich messages. If the message contains a block with a media element, then the bot must have the right to send the media to the chat. On success, the sent Message is returned.
 type SendRichMessageParams struct {
-	// Unique identifier of the business connection on behalf of which the message will be sent
+	// Unique identifier of the business connection on behalf of which the message will be sent. Bot can send rich messages on behalf of a business account only if the corresponding user can send rich messages.
 	BusinessConnectionID string `json:"business_connection_id,omitempty"`
 	// Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username
 	ChatID ChatID `json:"chat_id"`
