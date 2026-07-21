@@ -26,7 +26,7 @@ func handleEcho(c *dispatch.Context, m *api.Message) error {
 	_, err := api.SendMessage(c.Ctx, c.Bot, &api.SendMessageParams{
 		ChatID:          api.ChatIDFromInt(m.Chat.ID),
 		Text:            m.Text,
-		ReplyParameters: &api.ReplyParameters{MessageID: m.MessageID},
+		ReplyParameters: &api.ReplyParameters{MessageID: &m.MessageID},
 	})
 	return err
 }

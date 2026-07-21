@@ -38,6 +38,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [func DeleteBusinessMessages\(ctx context.Context, b \*client.Bot, p \*DeleteBusinessMessagesParams\) \(bool, error\)](<#DeleteBusinessMessages>)
 - [func DeleteChatPhoto\(ctx context.Context, b \*client.Bot, p \*DeleteChatPhotoParams\) \(bool, error\)](<#DeleteChatPhoto>)
 - [func DeleteChatStickerSet\(ctx context.Context, b \*client.Bot, p \*DeleteChatStickerSetParams\) \(bool, error\)](<#DeleteChatStickerSet>)
+- [func DeleteEphemeralMessage\(ctx context.Context, b \*client.Bot, p \*DeleteEphemeralMessageParams\) \(bool, error\)](<#DeleteEphemeralMessage>)
 - [func DeleteForumTopic\(ctx context.Context, b \*client.Bot, p \*DeleteForumTopicParams\) \(bool, error\)](<#DeleteForumTopic>)
 - [func DeleteMessage\(ctx context.Context, b \*client.Bot, p \*DeleteMessageParams\) \(bool, error\)](<#DeleteMessage>)
 - [func DeleteMessageReaction\(ctx context.Context, b \*client.Bot, p \*DeleteMessageReactionParams\) \(bool, error\)](<#DeleteMessageReaction>)
@@ -48,6 +49,10 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [func DeleteStory\(ctx context.Context, b \*client.Bot, p \*DeleteStoryParams\) \(bool, error\)](<#DeleteStory>)
 - [func DeleteWebhook\(ctx context.Context, b \*client.Bot, p \*DeleteWebhookParams\) \(bool, error\)](<#DeleteWebhook>)
 - [func DownloadFileByPath\(ctx context.Context, b \*client.Bot, filePath string\) \(io.ReadCloser, error\)](<#DownloadFileByPath>)
+- [func EditEphemeralMessageCaption\(ctx context.Context, b \*client.Bot, p \*EditEphemeralMessageCaptionParams\) \(bool, error\)](<#EditEphemeralMessageCaption>)
+- [func EditEphemeralMessageMedia\(ctx context.Context, b \*client.Bot, p \*EditEphemeralMessageMediaParams\) \(bool, error\)](<#EditEphemeralMessageMedia>)
+- [func EditEphemeralMessageReplyMarkup\(ctx context.Context, b \*client.Bot, p \*EditEphemeralMessageReplyMarkupParams\) \(bool, error\)](<#EditEphemeralMessageReplyMarkup>)
+- [func EditEphemeralMessageText\(ctx context.Context, b \*client.Bot, p \*EditEphemeralMessageTextParams\) \(bool, error\)](<#EditEphemeralMessageText>)
 - [func EditForumTopic\(ctx context.Context, b \*client.Bot, p \*EditForumTopicParams\) \(bool, error\)](<#EditForumTopic>)
 - [func EditGeneralForumTopic\(ctx context.Context, b \*client.Bot, p \*EditGeneralForumTopicParams\) \(bool, error\)](<#EditGeneralForumTopic>)
 - [func EditUserStarSubscription\(ctx context.Context, b \*client.Bot, p \*EditUserStarSubscriptionParams\) \(bool, error\)](<#EditUserStarSubscription>)
@@ -185,6 +190,8 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func GetMyName\(ctx context.Context, b \*client.Bot, p \*GetMyNameParams\) \(\*BotName, error\)](<#GetMyName>)
 - [type BotShortDescription](<#BotShortDescription>)
   - [func GetMyShortDescription\(ctx context.Context, b \*client.Bot, p \*GetMyShortDescriptionParams\) \(\*BotShortDescription, error\)](<#GetMyShortDescription>)
+- [type BotSubscriptionUpdated](<#BotSubscriptionUpdated>)
+- [type BotSubscriptionUpdatedState](<#BotSubscriptionUpdatedState>)
 - [type BusinessBotRights](<#BusinessBotRights>)
 - [type BusinessConnection](<#BusinessConnection>)
   - [func GetBusinessConnection\(ctx context.Context, b \*client.Bot, p \*GetBusinessConnectionParams\) \(\*BusinessConnection, error\)](<#GetBusinessConnection>)
@@ -267,6 +274,9 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type CloseForumTopicParams](<#CloseForumTopicParams>)
 - [type CloseGeneralForumTopicParams](<#CloseGeneralForumTopicParams>)
 - [type CloseParams](<#CloseParams>)
+- [type Community](<#Community>)
+- [type CommunityChatAdded](<#CommunityChatAdded>)
+- [type CommunityChatRemoved](<#CommunityChatRemoved>)
 - [type Contact](<#Contact>)
 - [type ConvertGiftToStarsParams](<#ConvertGiftToStarsParams>)
 - [type CopyMessageParams](<#CopyMessageParams>)
@@ -283,6 +293,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type DeleteBusinessMessagesParams](<#DeleteBusinessMessagesParams>)
 - [type DeleteChatPhotoParams](<#DeleteChatPhotoParams>)
 - [type DeleteChatStickerSetParams](<#DeleteChatStickerSetParams>)
+- [type DeleteEphemeralMessageParams](<#DeleteEphemeralMessageParams>)
 - [type DeleteForumTopicParams](<#DeleteForumTopicParams>)
 - [type DeleteMessageParams](<#DeleteMessageParams>)
 - [type DeleteMessageReactionParams](<#DeleteMessageReactionParams>)
@@ -299,6 +310,13 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type Document](<#Document>)
 - [type EditChatInviteLinkParams](<#EditChatInviteLinkParams>)
 - [type EditChatSubscriptionInviteLinkParams](<#EditChatSubscriptionInviteLinkParams>)
+- [type EditEphemeralMessageCaptionParams](<#EditEphemeralMessageCaptionParams>)
+- [type EditEphemeralMessageMediaParams](<#EditEphemeralMessageMediaParams>)
+  - [func \(p \*EditEphemeralMessageMediaParams\) HasFile\(\) bool](<#EditEphemeralMessageMediaParams.HasFile>)
+  - [func \(p \*EditEphemeralMessageMediaParams\) MultipartFields\(\) map\[string\]string](<#EditEphemeralMessageMediaParams.MultipartFields>)
+  - [func \(p \*EditEphemeralMessageMediaParams\) MultipartFiles\(\) \[\]client.MultipartFile](<#EditEphemeralMessageMediaParams.MultipartFiles>)
+- [type EditEphemeralMessageReplyMarkupParams](<#EditEphemeralMessageReplyMarkupParams>)
+- [type EditEphemeralMessageTextParams](<#EditEphemeralMessageTextParams>)
 - [type EditForumTopicParams](<#EditForumTopicParams>)
 - [type EditGeneralForumTopicParams](<#EditGeneralForumTopicParams>)
 - [type EditMessageCaptionParams](<#EditMessageCaptionParams>)
@@ -458,6 +476,8 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
   - [func \(v \*InputMediaVenue\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputMediaVenue.MarshalJSON>)
 - [type InputMediaVideo](<#InputMediaVideo>)
   - [func \(v \*InputMediaVideo\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputMediaVideo.MarshalJSON>)
+- [type InputMediaVoiceNote](<#InputMediaVoiceNote>)
+- [type InputMediaVoiceNoteType](<#InputMediaVoiceNoteType>)
 - [type InputMessageContent](<#InputMessageContent>)
 - [type InputPaidMedia](<#InputPaidMedia>)
 - [type InputPaidMediaLivePhoto](<#InputPaidMediaLivePhoto>)
@@ -478,8 +498,54 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 - [type InputProfilePhotoStatic](<#InputProfilePhotoStatic>)
   - [func \(v \*InputProfilePhotoStatic\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputProfilePhotoStatic.MarshalJSON>)
 - [type InputProfilePhotoType](<#InputProfilePhotoType>)
+- [type InputRichBlock](<#InputRichBlock>)
+- [type InputRichBlockAnchor](<#InputRichBlockAnchor>)
+  - [func \(v \*InputRichBlockAnchor\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockAnchor.MarshalJSON>)
+- [type InputRichBlockAnimation](<#InputRichBlockAnimation>)
+  - [func \(v \*InputRichBlockAnimation\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockAnimation.MarshalJSON>)
+- [type InputRichBlockAudio](<#InputRichBlockAudio>)
+  - [func \(v \*InputRichBlockAudio\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockAudio.MarshalJSON>)
+- [type InputRichBlockBlockQuotation](<#InputRichBlockBlockQuotation>)
+  - [func \(v \*InputRichBlockBlockQuotation\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockBlockQuotation.MarshalJSON>)
+- [type InputRichBlockCollage](<#InputRichBlockCollage>)
+  - [func \(v \*InputRichBlockCollage\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockCollage.MarshalJSON>)
+- [type InputRichBlockDetails](<#InputRichBlockDetails>)
+  - [func \(v \*InputRichBlockDetails\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockDetails.MarshalJSON>)
+- [type InputRichBlockDivider](<#InputRichBlockDivider>)
+  - [func \(v \*InputRichBlockDivider\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockDivider.MarshalJSON>)
+- [type InputRichBlockFooter](<#InputRichBlockFooter>)
+  - [func \(v \*InputRichBlockFooter\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockFooter.MarshalJSON>)
+- [type InputRichBlockList](<#InputRichBlockList>)
+  - [func \(v \*InputRichBlockList\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockList.MarshalJSON>)
+- [type InputRichBlockListItem](<#InputRichBlockListItem>)
+- [type InputRichBlockMap](<#InputRichBlockMap>)
+  - [func \(v \*InputRichBlockMap\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockMap.MarshalJSON>)
+- [type InputRichBlockMathematicalExpression](<#InputRichBlockMathematicalExpression>)
+  - [func \(v \*InputRichBlockMathematicalExpression\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockMathematicalExpression.MarshalJSON>)
+- [type InputRichBlockParagraph](<#InputRichBlockParagraph>)
+  - [func \(v \*InputRichBlockParagraph\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockParagraph.MarshalJSON>)
+- [type InputRichBlockPhoto](<#InputRichBlockPhoto>)
+  - [func \(v \*InputRichBlockPhoto\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockPhoto.MarshalJSON>)
+- [type InputRichBlockPreformatted](<#InputRichBlockPreformatted>)
+  - [func \(v \*InputRichBlockPreformatted\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockPreformatted.MarshalJSON>)
+- [type InputRichBlockPullQuotation](<#InputRichBlockPullQuotation>)
+  - [func \(v \*InputRichBlockPullQuotation\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockPullQuotation.MarshalJSON>)
+- [type InputRichBlockSectionHeading](<#InputRichBlockSectionHeading>)
+  - [func \(v \*InputRichBlockSectionHeading\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockSectionHeading.MarshalJSON>)
+- [type InputRichBlockSlideshow](<#InputRichBlockSlideshow>)
+  - [func \(v \*InputRichBlockSlideshow\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockSlideshow.MarshalJSON>)
+- [type InputRichBlockTable](<#InputRichBlockTable>)
+  - [func \(v \*InputRichBlockTable\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockTable.MarshalJSON>)
+- [type InputRichBlockThinking](<#InputRichBlockThinking>)
+  - [func \(v \*InputRichBlockThinking\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockThinking.MarshalJSON>)
+- [type InputRichBlockType](<#InputRichBlockType>)
+- [type InputRichBlockVideo](<#InputRichBlockVideo>)
+  - [func \(v \*InputRichBlockVideo\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockVideo.MarshalJSON>)
+- [type InputRichBlockVoiceNote](<#InputRichBlockVoiceNote>)
+  - [func \(v \*InputRichBlockVoiceNote\) MarshalJSON\(\) \(\[\]byte, error\)](<#InputRichBlockVoiceNote.MarshalJSON>)
 - [type InputRichMessage](<#InputRichMessage>)
 - [type InputRichMessageContent](<#InputRichMessageContent>)
+- [type InputRichMessageMedia](<#InputRichMessageMedia>)
 - [type InputSticker](<#InputSticker>)
 - [type InputStickerFormat](<#InputStickerFormat>)
 - [type InputStoryContent](<#InputStoryContent>)
@@ -1043,7 +1109,7 @@ Package api contains the Telegram Bot API object types and method wrappers, gene
 
 
 <a name="AddStickerToSet"></a>
-## func [AddStickerToSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4626>)
+## func [AddStickerToSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4879>)
 
 ```go
 func AddStickerToSet(ctx context.Context, b *client.Bot, p *AddStickerToSetParams) (bool, error)
@@ -1054,7 +1120,7 @@ AddStickerToSet calls the addStickerToSet Telegram Bot API method.
 Use this method to add a new sticker to a set created by the bot. Emoji sticker sets can have up to 200 stickers. Other sticker sets can have up to 120 stickers. Returns True on success.
 
 <a name="AnswerCallbackQuery"></a>
-## func [AnswerCallbackQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3053>)
+## func [AnswerCallbackQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3149>)
 
 ```go
 func AnswerCallbackQuery(ctx context.Context, b *client.Bot, p *AnswerCallbackQueryParams) (bool, error)
@@ -1065,7 +1131,7 @@ AnswerCallbackQuery calls the answerCallbackQuery Telegram Bot API method.
 Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned. Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via @BotFather and accept the terms. Otherwise, you may use links like t.me/your\_bot?start=XXXX that open your bot with a parameter.
 
 <a name="AnswerChatJoinRequestQuery"></a>
-## func [AnswerChatJoinRequestQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2499>)
+## func [AnswerChatJoinRequestQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2595>)
 
 ```go
 func AnswerChatJoinRequestQuery(ctx context.Context, b *client.Bot, p *AnswerChatJoinRequestQueryParams) (bool, error)
@@ -1076,7 +1142,7 @@ AnswerChatJoinRequestQuery calls the answerChatJoinRequestQuery Telegram Bot API
 Use this method to process a received chat join request query. Returns True on success.
 
 <a name="AnswerInlineQuery"></a>
-## func [AnswerInlineQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4913>)
+## func [AnswerInlineQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5166>)
 
 ```go
 func AnswerInlineQuery(ctx context.Context, b *client.Bot, p *AnswerInlineQueryParams) (bool, error)
@@ -1087,7 +1153,7 @@ AnswerInlineQuery calls the answerInlineQuery Telegram Bot API method.
 Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
 
 <a name="AnswerPreCheckoutQuery"></a>
-## func [AnswerPreCheckoutQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5085>)
+## func [AnswerPreCheckoutQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5338>)
 
 ```go
 func AnswerPreCheckoutQuery(ctx context.Context, b *client.Bot, p *AnswerPreCheckoutQueryParams) (bool, error)
@@ -1098,7 +1164,7 @@ AnswerPreCheckoutQuery calls the answerPreCheckoutQuery Telegram Bot API method.
 Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre\_checkout\_query. Use this method to respond to such pre\-checkout queries. On success, True is returned. Note: The Bot API must receive an answer within 10 seconds after the pre\-checkout query was sent.
 
 <a name="AnswerShippingQuery"></a>
-## func [AnswerShippingQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5066>)
+## func [AnswerShippingQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5319>)
 
 ```go
 func AnswerShippingQuery(ctx context.Context, b *client.Bot, p *AnswerShippingQueryParams) (bool, error)
@@ -1109,7 +1175,7 @@ AnswerShippingQuery calls the answerShippingQuery Telegram Bot API method.
 If you sent an invoice requesting a shipping address and the parameter is\_flexible was specified, the Bot API will send an Update with a shipping\_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
 
 <a name="ApproveChatJoinRequest"></a>
-## func [ApproveChatJoinRequest](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2465>)
+## func [ApproveChatJoinRequest](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2561>)
 
 ```go
 func ApproveChatJoinRequest(ctx context.Context, b *client.Bot, p *ApproveChatJoinRequestParams) (bool, error)
@@ -1120,7 +1186,7 @@ ApproveChatJoinRequest calls the approveChatJoinRequest Telegram Bot API method.
 Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can\_invite\_users administrator right. Returns True on success.
 
 <a name="ApproveSuggestedPost"></a>
-## func [ApproveSuggestedPost](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4305>)
+## func [ApproveSuggestedPost](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4529>)
 
 ```go
 func ApproveSuggestedPost(ctx context.Context, b *client.Bot, p *ApproveSuggestedPostParams) (bool, error)
@@ -1131,7 +1197,7 @@ ApproveSuggestedPost calls the approveSuggestedPost Telegram Bot API method.
 Use this method to approve a suggested post in a direct messages chat. The bot must have the 'can\_post\_messages' administrator right in the corresponding channel chat. Returns True on success.
 
 <a name="BanChatMember"></a>
-## func [BanChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2142>)
+## func [BanChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2238>)
 
 ```go
 func BanChatMember(ctx context.Context, b *client.Bot, p *BanChatMemberParams) (bool, error)
@@ -1142,7 +1208,7 @@ BanChatMember calls the banChatMember Telegram Bot API method.
 Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
 
 <a name="BanChatSenderChat"></a>
-## func [BanChatSenderChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2290>)
+## func [BanChatSenderChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2386>)
 
 ```go
 func BanChatSenderChat(ctx context.Context, b *client.Bot, p *BanChatSenderChatParams) (bool, error)
@@ -1164,7 +1230,7 @@ Close calls the close Telegram Bot API method.
 Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched. Returns True on success. Requires no parameters.
 
 <a name="CloseForumTopic"></a>
-## func [CloseForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2885>)
+## func [CloseForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2981>)
 
 ```go
 func CloseForumTopic(ctx context.Context, b *client.Bot, p *CloseForumTopicParams) (bool, error)
@@ -1175,7 +1241,7 @@ CloseForumTopic calls the closeForumTopic Telegram Bot API method.
 Use this method to close an open topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can\_manage\_topics administrator rights, unless it is the creator of the topic. Returns True on success.
 
 <a name="CloseGeneralForumTopic"></a>
-## func [CloseGeneralForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2968>)
+## func [CloseGeneralForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3064>)
 
 ```go
 func CloseGeneralForumTopic(ctx context.Context, b *client.Bot, p *CloseGeneralForumTopicParams) (bool, error)
@@ -1186,7 +1252,7 @@ CloseGeneralForumTopic calls the closeGeneralForumTopic Telegram Bot API method.
 Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can\_manage\_topics administrator rights. Returns True on success.
 
 <a name="ConvertGiftToStars"></a>
-## func [ConvertGiftToStars](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3834>)
+## func [ConvertGiftToStars](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3930>)
 
 ```go
 func ConvertGiftToStars(ctx context.Context, b *client.Bot, p *ConvertGiftToStarsParams) (bool, error)
@@ -1197,7 +1263,7 @@ ConvertGiftToStars calls the convertGiftToStars Telegram Bot API method.
 Converts a given regular gift to Telegram Stars. Requires the can\_convert\_gifts\_to\_stars business bot right. Returns True on success.
 
 <a name="CreateInvoiceLink"></a>
-## func [CreateInvoiceLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5045>)
+## func [CreateInvoiceLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5298>)
 
 ```go
 func CreateInvoiceLink(ctx context.Context, b *client.Bot, p *CreateInvoiceLinkParams) (string, error)
@@ -1208,7 +1274,7 @@ CreateInvoiceLink calls the createInvoiceLink Telegram Bot API method.
 Use this method to create a link for an invoice. Returns the created invoice link as String on success.
 
 <a name="CreateNewStickerSet"></a>
-## func [CreateNewStickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4607>)
+## func [CreateNewStickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4860>)
 
 ```go
 func CreateNewStickerSet(ctx context.Context, b *client.Bot, p *CreateNewStickerSetParams) (bool, error)
@@ -1219,7 +1285,7 @@ CreateNewStickerSet calls the createNewStickerSet Telegram Bot API method.
 Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. Returns True on success.
 
 <a name="DeclineChatJoinRequest"></a>
-## func [DeclineChatJoinRequest](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2482>)
+## func [DeclineChatJoinRequest](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2578>)
 
 ```go
 func DeclineChatJoinRequest(ctx context.Context, b *client.Bot, p *DeclineChatJoinRequestParams) (bool, error)
@@ -1230,7 +1296,7 @@ DeclineChatJoinRequest calls the declineChatJoinRequest Telegram Bot API method.
 Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can\_invite\_users administrator right. Returns True on success.
 
 <a name="DeclineSuggestedPost"></a>
-## func [DeclineSuggestedPost](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4324>)
+## func [DeclineSuggestedPost](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4548>)
 
 ```go
 func DeclineSuggestedPost(ctx context.Context, b *client.Bot, p *DeclineSuggestedPostParams) (bool, error)
@@ -1241,7 +1307,7 @@ DeclineSuggestedPost calls the declineSuggestedPost Telegram Bot API method.
 Use this method to decline a suggested post in a direct messages chat. The bot must have the 'can\_manage\_direct\_messages' administrator right in the corresponding channel chat. Returns True on success.
 
 <a name="DeleteAllMessageReactions"></a>
-## func [DeleteAllMessageReactions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4398>)
+## func [DeleteAllMessageReactions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4641>)
 
 ```go
 func DeleteAllMessageReactions(ctx context.Context, b *client.Bot, p *DeleteAllMessageReactionsParams) (bool, error)
@@ -1252,7 +1318,7 @@ DeleteAllMessageReactions calls the deleteAllMessageReactions Telegram Bot API m
 Use this method to remove up to 10000 recent reactions in a group or a supergroup chat added by a given user or chat. The bot must have the 'can\_delete\_messages' administrator right in the chat. Returns True on success.
 
 <a name="DeleteBusinessMessages"></a>
-## func [DeleteBusinessMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3576>)
+## func [DeleteBusinessMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3672>)
 
 ```go
 func DeleteBusinessMessages(ctx context.Context, b *client.Bot, p *DeleteBusinessMessagesParams) (bool, error)
@@ -1263,7 +1329,7 @@ DeleteBusinessMessages calls the deleteBusinessMessages Telegram Bot API method.
 Delete messages on behalf of a business account. Requires the can\_delete\_sent\_messages business bot right to delete messages sent by the bot itself, or the can\_delete\_all\_messages business bot right to delete any message. Returns True on success.
 
 <a name="DeleteChatPhoto"></a>
-## func [DeleteChatPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2576>)
+## func [DeleteChatPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2672>)
 
 ```go
 func DeleteChatPhoto(ctx context.Context, b *client.Bot, p *DeleteChatPhotoParams) (bool, error)
@@ -1274,7 +1340,7 @@ DeleteChatPhoto calls the deleteChatPhoto Telegram Bot API method.
 Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
 
 <a name="DeleteChatStickerSet"></a>
-## func [DeleteChatStickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2813>)
+## func [DeleteChatStickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2909>)
 
 ```go
 func DeleteChatStickerSet(ctx context.Context, b *client.Bot, p *DeleteChatStickerSetParams) (bool, error)
@@ -1284,8 +1350,19 @@ DeleteChatStickerSet calls the deleteChatStickerSet Telegram Bot API method.
 
 Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field can\_set\_sticker\_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
 
+<a name="DeleteEphemeralMessage"></a>
+## func [DeleteEphemeralMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4601>)
+
+```go
+func DeleteEphemeralMessage(ctx context.Context, b *client.Bot, p *DeleteEphemeralMessageParams) (bool, error)
+```
+
+DeleteEphemeralMessage calls the deleteEphemeralMessage Telegram Bot API method.
+
+Use this method to delete an ephemeral message. Note that it is not guaranteed that the user will receive the message deletion event, especially if they are offline. Returns True on success.
+
 <a name="DeleteForumTopic"></a>
-## func [DeleteForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2919>)
+## func [DeleteForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3015>)
 
 ```go
 func DeleteForumTopic(ctx context.Context, b *client.Bot, p *DeleteForumTopicParams) (bool, error)
@@ -1296,7 +1373,7 @@ DeleteForumTopic calls the deleteForumTopic Telegram Bot API method.
 Use this method to delete a forum topic along with all its messages in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the can\_delete\_messages administrator rights. Returns True on success.
 
 <a name="DeleteMessage"></a>
-## func [DeleteMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4341>)
+## func [DeleteMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4565>)
 
 ```go
 func DeleteMessage(ctx context.Context, b *client.Bot, p *DeleteMessageParams) (bool, error)
@@ -1307,7 +1384,7 @@ DeleteMessage calls the deleteMessage Telegram Bot API method.
 Use this method to delete a message, including service messages, with the following limitations:\- A message can only be deleted if it was sent less than 48 hours ago.\- Service messages about a supergroup, channel, or forum topic creation can't be deleted.\- A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.\- Bots can delete outgoing messages in private chats, groups, and supergroups.\- Bots can delete incoming messages in private chats.\- Bots granted can\_post\_messages permissions can delete outgoing messages in channels.\- If the bot is an administrator of a group, it can delete any message there.\- If the bot has can\_delete\_messages administrator right in a supergroup or a channel, it can delete any message there.\- If the bot has can\_manage\_direct\_messages administrator right in a channel, it can delete any message in the corresponding direct messages chat.Returns True on success.
 
 <a name="DeleteMessageReaction"></a>
-## func [DeleteMessageReaction](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4379>)
+## func [DeleteMessageReaction](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4622>)
 
 ```go
 func DeleteMessageReaction(ctx context.Context, b *client.Bot, p *DeleteMessageReactionParams) (bool, error)
@@ -1318,7 +1395,7 @@ DeleteMessageReaction calls the deleteMessageReaction Telegram Bot API method.
 Use this method to remove a reaction from a message in a group or a supergroup chat. The bot must have the 'can\_delete\_messages' administrator right in the chat. Returns True on success.
 
 <a name="DeleteMessages"></a>
-## func [DeleteMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4358>)
+## func [DeleteMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4582>)
 
 ```go
 func DeleteMessages(ctx context.Context, b *client.Bot, p *DeleteMessagesParams) (bool, error)
@@ -1329,7 +1406,7 @@ DeleteMessages calls the deleteMessages Telegram Bot API method.
 Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped. Returns True on success.
 
 <a name="DeleteMyCommands"></a>
-## func [DeleteMyCommands](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3202>)
+## func [DeleteMyCommands](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3298>)
 
 ```go
 func DeleteMyCommands(ctx context.Context, b *client.Bot, p *DeleteMyCommandsParams) (bool, error)
@@ -1340,7 +1417,7 @@ DeleteMyCommands calls the deleteMyCommands Telegram Bot API method.
 Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users. Returns True on success.
 
 <a name="DeleteStickerFromSet"></a>
-## func [DeleteStickerFromSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4658>)
+## func [DeleteStickerFromSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4911>)
 
 ```go
 func DeleteStickerFromSet(ctx context.Context, b *client.Bot, p *DeleteStickerFromSetParams) (bool, error)
@@ -1351,7 +1428,7 @@ DeleteStickerFromSet calls the deleteStickerFromSet Telegram Bot API method.
 Use this method to delete a sticker from a set created by the bot. Returns True on success.
 
 <a name="DeleteStickerSet"></a>
-## func [DeleteStickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4830>)
+## func [DeleteStickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5083>)
 
 ```go
 func DeleteStickerSet(ctx context.Context, b *client.Bot, p *DeleteStickerSetParams) (bool, error)
@@ -1362,7 +1439,7 @@ DeleteStickerSet calls the deleteStickerSet Telegram Bot API method.
 Use this method to delete a sticker set that was created by the bot. Returns True on success.
 
 <a name="DeleteStory"></a>
-## func [DeleteStory](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3976>)
+## func [DeleteStory](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4072>)
 
 ```go
 func DeleteStory(ctx context.Context, b *client.Bot, p *DeleteStoryParams) (bool, error)
@@ -1392,8 +1469,52 @@ func DownloadFileByPath(ctx context.Context, b *client.Bot, filePath string) (io
 
 DownloadFileByPath fetches a file by its file\_path \(typically obtained from a prior File response\). Useful when the caller already has a \*File and wants to skip the GetFile round\-trip.
 
+<a name="EditEphemeralMessageCaption"></a>
+## func [EditEphemeralMessageCaption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4489>)
+
+```go
+func EditEphemeralMessageCaption(ctx context.Context, b *client.Bot, p *EditEphemeralMessageCaptionParams) (bool, error)
+```
+
+EditEphemeralMessageCaption calls the editEphemeralMessageCaption Telegram Bot API method.
+
+Use this method to edit the caption of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+
+<a name="EditEphemeralMessageMedia"></a>
+## func [EditEphemeralMessageMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4462>)
+
+```go
+func EditEphemeralMessageMedia(ctx context.Context, b *client.Bot, p *EditEphemeralMessageMediaParams) (bool, error)
+```
+
+EditEphemeralMessageMedia calls the editEphemeralMessageMedia Telegram Bot API method.
+
+Use this method to edit the media of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+
+<a name="EditEphemeralMessageReplyMarkup"></a>
+## func [EditEphemeralMessageReplyMarkup](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4510>)
+
+```go
+func EditEphemeralMessageReplyMarkup(ctx context.Context, b *client.Bot, p *EditEphemeralMessageReplyMarkupParams) (bool, error)
+```
+
+EditEphemeralMessageReplyMarkup calls the editEphemeralMessageReplyMarkup Telegram Bot API method.
+
+Use this method to edit only the reply markup of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+
+<a name="EditEphemeralMessageText"></a>
+## func [EditEphemeralMessageText](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4411>)
+
+```go
+func EditEphemeralMessageText(ctx context.Context, b *client.Bot, p *EditEphemeralMessageTextParams) (bool, error)
+```
+
+EditEphemeralMessageText calls the editEphemeralMessageText Telegram Bot API method.
+
+Use this method to edit an ephemeral text message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+
 <a name="EditForumTopic"></a>
-## func [EditForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2868>)
+## func [EditForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2964>)
 
 ```go
 func EditForumTopic(ctx context.Context, b *client.Bot, p *EditForumTopicParams) (bool, error)
@@ -1404,7 +1525,7 @@ EditForumTopic calls the editForumTopic Telegram Bot API method.
 Use this method to edit name and icon of a topic in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the can\_manage\_topics administrator rights, unless it is the creator of the topic. Returns True on success.
 
 <a name="EditGeneralForumTopic"></a>
-## func [EditGeneralForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2953>)
+## func [EditGeneralForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3049>)
 
 ```go
 func EditGeneralForumTopic(ctx context.Context, b *client.Bot, p *EditGeneralForumTopicParams) (bool, error)
@@ -1415,7 +1536,7 @@ EditGeneralForumTopic calls the editGeneralForumTopic Telegram Bot API method.
 Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can\_manage\_topics administrator rights. Returns True on success.
 
 <a name="EditUserStarSubscription"></a>
-## func [EditUserStarSubscription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5151>)
+## func [EditUserStarSubscription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5404>)
 
 ```go
 func EditUserStarSubscription(ctx context.Context, b *client.Bot, p *EditUserStarSubscriptionParams) (bool, error)
@@ -1426,7 +1547,7 @@ EditUserStarSubscription calls the editUserStarSubscription Telegram Bot API met
 Allows the bot to cancel or re\-enable extension of a subscription paid in Telegram Stars. Returns True on success.
 
 <a name="ExportChatInviteLink"></a>
-## func [ExportChatInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2343>)
+## func [ExportChatInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2439>)
 
 ```go
 func ExportChatInviteLink(ctx context.Context, b *client.Bot, p *ExportChatInviteLinkParams) (string, error)
@@ -1437,7 +1558,7 @@ ExportChatInviteLink calls the exportChatInviteLink Telegram Bot API method.
 Use this method to generate a new primary invite link for a chat; any previously generated primary link is revoked. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the new invite link as String on success. Note: Each administrator in a chat generates their own invite links. Bots can't use invite links generated by other administrators. If you want your bot to work with invite links, it will need to generate its own link using exportChatInviteLink or by calling the getChat method. If your bot needs to generate a new primary invite link replacing its previous one, use exportChatInviteLink again.
 
 <a name="GetChatMemberCount"></a>
-## func [GetChatMemberCount](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2743>)
+## func [GetChatMemberCount](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2839>)
 
 ```go
 func GetChatMemberCount(ctx context.Context, b *client.Bot, p *GetChatMemberCountParams) (int64, error)
@@ -1445,10 +1566,10 @@ func GetChatMemberCount(ctx context.Context, b *client.Bot, p *GetChatMemberCoun
 
 GetChatMemberCount calls the getChatMemberCount Telegram Bot API method.
 
-Use this method to get the number of members in a chat. Returns Int on success.
+Use this method to get the number of members in a chat. Returns Integer on success.
 
 <a name="GetManagedBotToken"></a>
-## func [GetManagedBotToken](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3117>)
+## func [GetManagedBotToken](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3213>)
 
 ```go
 func GetManagedBotToken(ctx context.Context, b *client.Bot, p *GetManagedBotTokenParams) (string, error)
@@ -1459,7 +1580,7 @@ GetManagedBotToken calls the getManagedBotToken Telegram Bot API method.
 Use this method to get the token of a managed bot. Returns the token as String on success.
 
 <a name="GiftPremiumSubscription"></a>
-## func [GiftPremiumSubscription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3476>)
+## func [GiftPremiumSubscription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3572>)
 
 ```go
 func GiftPremiumSubscription(ctx context.Context, b *client.Bot, p *GiftPremiumSubscriptionParams) (bool, error)
@@ -1470,7 +1591,7 @@ GiftPremiumSubscription calls the giftPremiumSubscription Telegram Bot API metho
 Gifts a Telegram Premium subscription to the given user. Returns True on success.
 
 <a name="HideGeneralForumTopic"></a>
-## func [HideGeneralForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2998>)
+## func [HideGeneralForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3094>)
 
 ```go
 func HideGeneralForumTopic(ctx context.Context, b *client.Bot, p *HideGeneralForumTopicParams) (bool, error)
@@ -1481,7 +1602,7 @@ HideGeneralForumTopic calls the hideGeneralForumTopic Telegram Bot API method.
 Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can\_manage\_topics administrator rights. The topic will be automatically closed if it was open. Returns True on success.
 
 <a name="LeaveChat"></a>
-## func [LeaveChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2680>)
+## func [LeaveChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2776>)
 
 ```go
 func LeaveChat(ctx context.Context, b *client.Bot, p *LeaveChatParams) (bool, error)
@@ -1503,7 +1624,7 @@ LogOut calls the logOut Telegram Bot API method.
 Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes. Returns True on success. Requires no parameters.
 
 <a name="PinChatMessage"></a>
-## func [PinChatMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2631>)
+## func [PinChatMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2727>)
 
 ```go
 func PinChatMessage(ctx context.Context, b *client.Bot, p *PinChatMessageParams) (bool, error)
@@ -1514,7 +1635,7 @@ PinChatMessage calls the pinChatMessage Telegram Bot API method.
 Use this method to add a message to the list of pinned messages in a chat. In private chats and channel direct messages chats, all non\-service messages can be pinned. Conversely, the bot must be an administrator with the 'can\_pin\_messages' right or the 'can\_edit\_messages' right to pin messages in groups and channels respectively. Returns True on success.
 
 <a name="PromoteChatMember"></a>
-## func [PromoteChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2235>)
+## func [PromoteChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2331>)
 
 ```go
 func PromoteChatMember(ctx context.Context, b *client.Bot, p *PromoteChatMemberParams) (bool, error)
@@ -1547,7 +1668,7 @@ Limit: api.Ptr(n)
 ```
 
 <a name="ReadBusinessMessage"></a>
-## func [ReadBusinessMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3559>)
+## func [ReadBusinessMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3655>)
 
 ```go
 func ReadBusinessMessage(ctx context.Context, b *client.Bot, p *ReadBusinessMessageParams) (bool, error)
@@ -1558,7 +1679,7 @@ ReadBusinessMessage calls the readBusinessMessage Telegram Bot API method.
 Marks incoming message as read on behalf of a business account. Requires the can\_read\_messages business bot right. Returns True on success.
 
 <a name="RefundStarPayment"></a>
-## func [RefundStarPayment](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5132>)
+## func [RefundStarPayment](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5385>)
 
 ```go
 func RefundStarPayment(ctx context.Context, b *client.Bot, p *RefundStarPaymentParams) (bool, error)
@@ -1569,7 +1690,7 @@ RefundStarPayment calls the refundStarPayment Telegram Bot API method.
 Refunds a successful payment in Telegram Stars. Returns True on success.
 
 <a name="RemoveBusinessAccountProfilePhoto"></a>
-## func [RemoveBusinessAccountProfilePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3665>)
+## func [RemoveBusinessAccountProfilePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3761>)
 
 ```go
 func RemoveBusinessAccountProfilePhoto(ctx context.Context, b *client.Bot, p *RemoveBusinessAccountProfilePhotoParams) (bool, error)
@@ -1580,7 +1701,7 @@ RemoveBusinessAccountProfilePhoto calls the removeBusinessAccountProfilePhoto Te
 Removes the current profile photo of a managed business account. Requires the can\_edit\_profile\_photo business bot right. Returns True on success.
 
 <a name="RemoveChatVerification"></a>
-## func [RemoveChatVerification](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3540>)
+## func [RemoveChatVerification](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3636>)
 
 ```go
 func RemoveChatVerification(ctx context.Context, b *client.Bot, p *RemoveChatVerificationParams) (bool, error)
@@ -1591,7 +1712,7 @@ RemoveChatVerification calls the removeChatVerification Telegram Bot API method.
 Removes verification from a chat that is currently verified on behalf of the organization represented by the bot. Returns True on success.
 
 <a name="RemoveMyProfilePhoto"></a>
-## func [RemoveMyProfilePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3343>)
+## func [RemoveMyProfilePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3439>)
 
 ```go
 func RemoveMyProfilePhoto(ctx context.Context, b *client.Bot, p *RemoveMyProfilePhotoParams) (bool, error)
@@ -1602,7 +1723,7 @@ RemoveMyProfilePhoto calls the removeMyProfilePhoto Telegram Bot API method.
 Removes the profile photo of the bot. Requires no parameters. Returns True on success.
 
 <a name="RemoveUserVerification"></a>
-## func [RemoveUserVerification](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3525>)
+## func [RemoveUserVerification](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3621>)
 
 ```go
 func RemoveUserVerification(ctx context.Context, b *client.Bot, p *RemoveUserVerificationParams) (bool, error)
@@ -1613,7 +1734,7 @@ RemoveUserVerification calls the removeUserVerification Telegram Bot API method.
 Removes verification from a user who is currently verified on behalf of the organization represented by the bot. Returns True on success.
 
 <a name="ReopenForumTopic"></a>
-## func [ReopenForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2902>)
+## func [ReopenForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2998>)
 
 ```go
 func ReopenForumTopic(ctx context.Context, b *client.Bot, p *ReopenForumTopicParams) (bool, error)
@@ -1624,7 +1745,7 @@ ReopenForumTopic calls the reopenForumTopic Telegram Bot API method.
 Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can\_manage\_topics administrator rights, unless it is the creator of the topic. Returns True on success.
 
 <a name="ReopenGeneralForumTopic"></a>
-## func [ReopenGeneralForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2983>)
+## func [ReopenGeneralForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3079>)
 
 ```go
 func ReopenGeneralForumTopic(ctx context.Context, b *client.Bot, p *ReopenGeneralForumTopicParams) (bool, error)
@@ -1635,7 +1756,7 @@ ReopenGeneralForumTopic calls the reopenGeneralForumTopic Telegram Bot API metho
 Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can\_manage\_topics administrator rights. The topic will be automatically unhidden if it was hidden. Returns True on success.
 
 <a name="ReplaceManagedBotToken"></a>
-## func [ReplaceManagedBotToken](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3132>)
+## func [ReplaceManagedBotToken](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3228>)
 
 ```go
 func ReplaceManagedBotToken(ctx context.Context, b *client.Bot, p *ReplaceManagedBotTokenParams) (string, error)
@@ -1646,7 +1767,7 @@ ReplaceManagedBotToken calls the replaceManagedBotToken Telegram Bot API method.
 Use this method to revoke the current token of a managed bot and generate a new one. Returns the new token as String on success.
 
 <a name="ReplaceStickerInSet"></a>
-## func [ReplaceStickerInSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4679>)
+## func [ReplaceStickerInSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4932>)
 
 ```go
 func ReplaceStickerInSet(ctx context.Context, b *client.Bot, p *ReplaceStickerInSetParams) (bool, error)
@@ -1657,7 +1778,7 @@ ReplaceStickerInSet calls the replaceStickerInSet Telegram Bot API method.
 Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to calling deleteStickerFromSet, then addStickerToSet, then setStickerPositionInSet. Returns True on success.
 
 <a name="RestrictChatMember"></a>
-## func [RestrictChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2184>)
+## func [RestrictChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2280>)
 
 ```go
 func RestrictChatMember(ctx context.Context, b *client.Bot, p *RestrictChatMemberParams) (bool, error)
@@ -1668,7 +1789,7 @@ RestrictChatMember calls the restrictChatMember Telegram Bot API method.
 Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate administrator rights. Pass True for all permissions to lift restrictions from a user. Returns True on success.
 
 <a name="SendChatAction"></a>
-## func [SendChatAction](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2026>)
+## func [SendChatAction](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2122>)
 
 ```go
 func SendChatAction(ctx context.Context, b *client.Bot, p *SendChatActionParams) (bool, error)
@@ -1679,7 +1800,7 @@ SendChatAction calls the sendChatAction Telegram Bot API method.
 Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less \(when a message arrives from your bot, Telegram clients clear its typing status\). Returns True on success. Example: The ImageBot needs some time to process a request and upload the image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may use sendChatAction with action = upload\_photo. The user will see a “sending photo” status for the bot. We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.
 
 <a name="SendChatJoinRequestWebApp"></a>
-## func [SendChatJoinRequestWebApp](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2516>)
+## func [SendChatJoinRequestWebApp](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2612>)
 
 ```go
 func SendChatJoinRequestWebApp(ctx context.Context, b *client.Bot, p *SendChatJoinRequestWebAppParams) (bool, error)
@@ -1687,10 +1808,10 @@ func SendChatJoinRequestWebApp(ctx context.Context, b *client.Bot, p *SendChatJo
 
 SendChatJoinRequestWebApp calls the sendChatJoinRequestWebApp Telegram Bot API method.
 
-Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Returns True on success.
+Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Call answerChatJoinRequestQuery to resolve the join request query based on the user interaction with the Mini App. Returns True on success.
 
 <a name="SendGift"></a>
-## func [SendGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3451>)
+## func [SendGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3547>)
 
 ```go
 func SendGift(ctx context.Context, b *client.Bot, p *SendGiftParams) (bool, error)
@@ -1701,7 +1822,7 @@ SendGift calls the sendGift Telegram Bot API method.
 Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver. Returns True on success.
 
 <a name="SendMessageDraft"></a>
-## func [SendMessageDraft](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2001>)
+## func [SendMessageDraft](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2097>)
 
 ```go
 func SendMessageDraft(ctx context.Context, b *client.Bot, p *SendMessageDraftParams) (bool, error)
@@ -1712,7 +1833,7 @@ SendMessageDraft calls the sendMessageDraft Telegram Bot API method.
 Use this method to stream a partial message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30\-second preview \- once the output is finalized, you must call sendMessage with the complete message to persist it in the user's chat. Returns True on success.
 
 <a name="SendRichMessageDraft"></a>
-## func [SendRichMessageDraft](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4888>)
+## func [SendRichMessageDraft](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5141>)
 
 ```go
 func SendRichMessageDraft(ctx context.Context, b *client.Bot, p *SendRichMessageDraftParams) (bool, error)
@@ -1723,7 +1844,7 @@ SendRichMessageDraft calls the sendRichMessageDraft Telegram Bot API method.
 Use this method to stream a partial rich message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30\-second preview \- once the output is finalized, you must call sendRichMessage with the complete message to persist it in the user's chat. Returns True on success.
 
 <a name="SetBusinessAccountBio"></a>
-## func [SetBusinessAccountBio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3629>)
+## func [SetBusinessAccountBio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3725>)
 
 ```go
 func SetBusinessAccountBio(ctx context.Context, b *client.Bot, p *SetBusinessAccountBioParams) (bool, error)
@@ -1734,7 +1855,7 @@ SetBusinessAccountBio calls the setBusinessAccountBio Telegram Bot API method.
 Changes the bio of a managed business account. Requires the can\_change\_bio business bot right. Returns True on success.
 
 <a name="SetBusinessAccountGiftSettings"></a>
-## func [SetBusinessAccountGiftSettings](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3684>)
+## func [SetBusinessAccountGiftSettings](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3780>)
 
 ```go
 func SetBusinessAccountGiftSettings(ctx context.Context, b *client.Bot, p *SetBusinessAccountGiftSettingsParams) (bool, error)
@@ -1745,7 +1866,7 @@ SetBusinessAccountGiftSettings calls the setBusinessAccountGiftSettings Telegram
 Changes the privacy settings pertaining to incoming gifts in a managed business account. Requires the can\_change\_gift\_settings business bot right. Returns True on success.
 
 <a name="SetBusinessAccountName"></a>
-## func [SetBusinessAccountName](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3595>)
+## func [SetBusinessAccountName](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3691>)
 
 ```go
 func SetBusinessAccountName(ctx context.Context, b *client.Bot, p *SetBusinessAccountNameParams) (bool, error)
@@ -1756,7 +1877,7 @@ SetBusinessAccountName calls the setBusinessAccountName Telegram Bot API method.
 Changes the first and last name of a managed business account. Requires the can\_change\_name business bot right. Returns True on success.
 
 <a name="SetBusinessAccountProfilePhoto"></a>
-## func [SetBusinessAccountProfilePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3648>)
+## func [SetBusinessAccountProfilePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3744>)
 
 ```go
 func SetBusinessAccountProfilePhoto(ctx context.Context, b *client.Bot, p *SetBusinessAccountProfilePhotoParams) (bool, error)
@@ -1767,7 +1888,7 @@ SetBusinessAccountProfilePhoto calls the setBusinessAccountProfilePhoto Telegram
 Changes the profile photo of a managed business account. Requires the can\_edit\_profile\_photo business bot right. Returns True on success.
 
 <a name="SetBusinessAccountUsername"></a>
-## func [SetBusinessAccountUsername](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3612>)
+## func [SetBusinessAccountUsername](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3708>)
 
 ```go
 func SetBusinessAccountUsername(ctx context.Context, b *client.Bot, p *SetBusinessAccountUsernameParams) (bool, error)
@@ -1778,7 +1899,7 @@ SetBusinessAccountUsername calls the setBusinessAccountUsername Telegram Bot API
 Changes the username of a managed business account. Requires the can\_change\_username business bot right. Returns True on success.
 
 <a name="SetChatAdministratorCustomTitle"></a>
-## func [SetChatAdministratorCustomTitle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2254>)
+## func [SetChatAdministratorCustomTitle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2350>)
 
 ```go
 func SetChatAdministratorCustomTitle(ctx context.Context, b *client.Bot, p *SetChatAdministratorCustomTitleParams) (bool, error)
@@ -1789,7 +1910,7 @@ SetChatAdministratorCustomTitle calls the setChatAdministratorCustomTitle Telegr
 Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on success.
 
 <a name="SetChatDescription"></a>
-## func [SetChatDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2610>)
+## func [SetChatDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2706>)
 
 ```go
 func SetChatDescription(ctx context.Context, b *client.Bot, p *SetChatDescriptionParams) (bool, error)
@@ -1800,7 +1921,7 @@ SetChatDescription calls the setChatDescription Telegram Bot API method.
 Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
 
 <a name="SetChatMemberTag"></a>
-## func [SetChatMemberTag](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2273>)
+## func [SetChatMemberTag](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2369>)
 
 ```go
 func SetChatMemberTag(ctx context.Context, b *client.Bot, p *SetChatMemberTagParams) (bool, error)
@@ -1811,7 +1932,7 @@ SetChatMemberTag calls the setChatMemberTag Telegram Bot API method.
 Use this method to set a tag for a regular member in a group or a supergroup. The bot must be an administrator in the chat for this to work and must have the can\_manage\_tags administrator right. Returns True on success.
 
 <a name="SetChatMenuButton"></a>
-## func [SetChatMenuButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3360>)
+## func [SetChatMenuButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3456>)
 
 ```go
 func SetChatMenuButton(ctx context.Context, b *client.Bot, p *SetChatMenuButtonParams) (bool, error)
@@ -1822,7 +1943,7 @@ SetChatMenuButton calls the setChatMenuButton Telegram Bot API method.
 Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.
 
 <a name="SetChatPermissions"></a>
-## func [SetChatPermissions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2326>)
+## func [SetChatPermissions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2422>)
 
 ```go
 func SetChatPermissions(ctx context.Context, b *client.Bot, p *SetChatPermissionsParams) (bool, error)
@@ -1833,7 +1954,7 @@ SetChatPermissions calls the setChatPermissions Telegram Bot API method.
 Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can\_restrict\_members administrator rights. Returns True on success.
 
 <a name="SetChatPhoto"></a>
-## func [SetChatPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2561>)
+## func [SetChatPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2657>)
 
 ```go
 func SetChatPhoto(ctx context.Context, b *client.Bot, p *SetChatPhotoParams) (bool, error)
@@ -1844,7 +1965,7 @@ SetChatPhoto calls the setChatPhoto Telegram Bot API method.
 Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
 
 <a name="SetChatStickerSet"></a>
-## func [SetChatStickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2798>)
+## func [SetChatStickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2894>)
 
 ```go
 func SetChatStickerSet(ctx context.Context, b *client.Bot, p *SetChatStickerSetParams) (bool, error)
@@ -1855,7 +1976,7 @@ SetChatStickerSet calls the setChatStickerSet Telegram Bot API method.
 Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field can\_set\_sticker\_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
 
 <a name="SetChatTitle"></a>
-## func [SetChatTitle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2593>)
+## func [SetChatTitle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2689>)
 
 ```go
 func SetChatTitle(ctx context.Context, b *client.Bot, p *SetChatTitleParams) (bool, error)
@@ -1866,7 +1987,7 @@ SetChatTitle calls the setChatTitle Telegram Bot API method.
 Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
 
 <a name="SetCustomEmojiStickerSetThumbnail"></a>
-## func [SetCustomEmojiStickerSetThumbnail](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4815>)
+## func [SetCustomEmojiStickerSetThumbnail](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5068>)
 
 ```go
 func SetCustomEmojiStickerSetThumbnail(ctx context.Context, b *client.Bot, p *SetCustomEmojiStickerSetThumbnailParams) (bool, error)
@@ -1877,7 +1998,7 @@ SetCustomEmojiStickerSetThumbnail calls the setCustomEmojiStickerSetThumbnail Te
 Use this method to set the thumbnail of a custom emoji sticker set. Returns True on success.
 
 <a name="SetManagedBotAccessSettings"></a>
-## func [SetManagedBotAccessSettings](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3166>)
+## func [SetManagedBotAccessSettings](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3262>)
 
 ```go
 func SetManagedBotAccessSettings(ctx context.Context, b *client.Bot, p *SetManagedBotAccessSettingsParams) (bool, error)
@@ -1888,7 +2009,7 @@ SetManagedBotAccessSettings calls the setManagedBotAccessSettings Telegram Bot A
 Use this method to change the access settings of a managed bot. Returns True on success.
 
 <a name="SetMessageReaction"></a>
-## func [SetMessageReaction](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2047>)
+## func [SetMessageReaction](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2143>)
 
 ```go
 func SetMessageReaction(ctx context.Context, b *client.Bot, p *SetMessageReactionParams) (bool, error)
@@ -1899,7 +2020,7 @@ SetMessageReaction calls the setMessageReaction Telegram Bot API method.
 Use this method to change the chosen reactions on a message. Service messages of some types can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Bots can't use paid reactions. Returns True on success.
 
 <a name="SetMyCommands"></a>
-## func [SetMyCommands](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3185>)
+## func [SetMyCommands](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3281>)
 
 ```go
 func SetMyCommands(ctx context.Context, b *client.Bot, p *SetMyCommandsParams) (bool, error)
@@ -1910,7 +2031,7 @@ SetMyCommands calls the setMyCommands Telegram Bot API method.
 Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
 
 <a name="SetMyDefaultAdministratorRights"></a>
-## func [SetMyDefaultAdministratorRights](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3396>)
+## func [SetMyDefaultAdministratorRights](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3492>)
 
 ```go
 func SetMyDefaultAdministratorRights(ctx context.Context, b *client.Bot, p *SetMyDefaultAdministratorRightsParams) (bool, error)
@@ -1921,7 +2042,7 @@ SetMyDefaultAdministratorRights calls the setMyDefaultAdministratorRights Telegr
 Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot. Returns True on success.
 
 <a name="SetMyDescription"></a>
-## func [SetMyDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3268>)
+## func [SetMyDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3364>)
 
 ```go
 func SetMyDescription(ctx context.Context, b *client.Bot, p *SetMyDescriptionParams) (bool, error)
@@ -1932,7 +2053,7 @@ SetMyDescription calls the setMyDescription Telegram Bot API method.
 Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns True on success.
 
 <a name="SetMyName"></a>
-## func [SetMyName](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3236>)
+## func [SetMyName](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3332>)
 
 ```go
 func SetMyName(ctx context.Context, b *client.Bot, p *SetMyNameParams) (bool, error)
@@ -1943,7 +2064,7 @@ SetMyName calls the setMyName Telegram Bot API method.
 Use this method to change the bot's name. Returns True on success.
 
 <a name="SetMyProfilePhoto"></a>
-## func [SetMyProfilePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3330>)
+## func [SetMyProfilePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3426>)
 
 ```go
 func SetMyProfilePhoto(ctx context.Context, b *client.Bot, p *SetMyProfilePhotoParams) (bool, error)
@@ -1954,7 +2075,7 @@ SetMyProfilePhoto calls the setMyProfilePhoto Telegram Bot API method.
 Changes the profile photo of the bot. Returns True on success.
 
 <a name="SetMyShortDescription"></a>
-## func [SetMyShortDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3300>)
+## func [SetMyShortDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3396>)
 
 ```go
 func SetMyShortDescription(ctx context.Context, b *client.Bot, p *SetMyShortDescriptionParams) (bool, error)
@@ -1965,7 +2086,7 @@ SetMyShortDescription calls the setMyShortDescription Telegram Bot API method.
 Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot. Returns True on success.
 
 <a name="SetPassportDataErrors"></a>
-## func [SetPassportDataErrors](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5170>)
+## func [SetPassportDataErrors](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5423>)
 
 ```go
 func SetPassportDataErrors(ctx context.Context, b *client.Bot, p *SetPassportDataErrorsParams) (bool, error)
@@ -1976,7 +2097,7 @@ SetPassportDataErrors calls the setPassportDataErrors Telegram Bot API method.
 Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re\-submit their Passport to you until the errors are fixed \(the contents of the field for which you returned the error must change\). Returns True on success. Use this if the data submitted by the user doesn't satisfy the standards your service requires for any reason. For example, if a birthday date seems invalid, a submitted document is blurry, a scan shows evidence of tampering, etc. Supply some details in the error message to make sure the user knows how to correct the issues.
 
 <a name="SetStickerEmojiList"></a>
-## func [SetStickerEmojiList](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4696>)
+## func [SetStickerEmojiList](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4949>)
 
 ```go
 func SetStickerEmojiList(ctx context.Context, b *client.Bot, p *SetStickerEmojiListParams) (bool, error)
@@ -1987,7 +2108,7 @@ SetStickerEmojiList calls the setStickerEmojiList Telegram Bot API method.
 Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
 
 <a name="SetStickerKeywords"></a>
-## func [SetStickerKeywords](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4713>)
+## func [SetStickerKeywords](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4966>)
 
 ```go
 func SetStickerKeywords(ctx context.Context, b *client.Bot, p *SetStickerKeywordsParams) (bool, error)
@@ -1998,7 +2119,7 @@ SetStickerKeywords calls the setStickerKeywords Telegram Bot API method.
 Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
 
 <a name="SetStickerMaskPosition"></a>
-## func [SetStickerMaskPosition](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4730>)
+## func [SetStickerMaskPosition](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4983>)
 
 ```go
 func SetStickerMaskPosition(ctx context.Context, b *client.Bot, p *SetStickerMaskPositionParams) (bool, error)
@@ -2009,7 +2130,7 @@ SetStickerMaskPosition calls the setStickerMaskPosition Telegram Bot API method.
 Use this method to change the mask position of a mask sticker. The sticker must belong to a sticker set that was created by the bot. Returns True on success.
 
 <a name="SetStickerPositionInSet"></a>
-## func [SetStickerPositionInSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4643>)
+## func [SetStickerPositionInSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4896>)
 
 ```go
 func SetStickerPositionInSet(ctx context.Context, b *client.Bot, p *SetStickerPositionInSetParams) (bool, error)
@@ -2020,7 +2141,7 @@ SetStickerPositionInSet calls the setStickerPositionInSet Telegram Bot API metho
 Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
 
 <a name="SetStickerSetThumbnail"></a>
-## func [SetStickerSetThumbnail](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4798>)
+## func [SetStickerSetThumbnail](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5051>)
 
 ```go
 func SetStickerSetThumbnail(ctx context.Context, b *client.Bot, p *SetStickerSetThumbnailParams) (bool, error)
@@ -2031,7 +2152,7 @@ SetStickerSetThumbnail calls the setStickerSetThumbnail Telegram Bot API method.
 Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set. Returns True on success.
 
 <a name="SetStickerSetTitle"></a>
-## func [SetStickerSetTitle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4747>)
+## func [SetStickerSetTitle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5000>)
 
 ```go
 func SetStickerSetTitle(ctx context.Context, b *client.Bot, p *SetStickerSetTitleParams) (bool, error)
@@ -2042,7 +2163,7 @@ SetStickerSetTitle calls the setStickerSetTitle Telegram Bot API method.
 Use this method to set the title of a created sticker set. Returns True on success.
 
 <a name="SetUserEmojiStatus"></a>
-## func [SetUserEmojiStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2104>)
+## func [SetUserEmojiStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2200>)
 
 ```go
 func SetUserEmojiStatus(ctx context.Context, b *client.Bot, p *SetUserEmojiStatusParams) (bool, error)
@@ -2064,7 +2185,7 @@ SetWebhook calls the setWebhook Telegram Bot API method.
 Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON\-serialized Update. In case of an unsuccessful request \(a request with response HTTP status code different from 2XY\), we will repeat the request and give up after a reasonable amount of attempts. Returns True on success. If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter secret\_token. If specified, the request will contain a header “X\-Telegram\-Bot\-Api\-Secret\-Token” with the secret token as content. Notes1. You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.2. To use a self\-signed certificate, you need to upload your public key certificate using certificate parameter. Please upload as InputFile, sending a String will not work.3. Ports currently supported for webhooks: 443, 80, 88, 8443. If you're having any trouble setting up webhooks, please check out this amazing guide to webhooks.
 
 <a name="TransferBusinessAccountStars"></a>
-## func [TransferBusinessAccountStars](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3716>)
+## func [TransferBusinessAccountStars](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3812>)
 
 ```go
 func TransferBusinessAccountStars(ctx context.Context, b *client.Bot, p *TransferBusinessAccountStarsParams) (bool, error)
@@ -2075,7 +2196,7 @@ TransferBusinessAccountStars calls the transferBusinessAccountStars Telegram Bot
 Transfers Telegram Stars from the business account balance to the bot's balance. Requires the can\_transfer\_stars business bot right. Returns True on success.
 
 <a name="TransferGift"></a>
-## func [TransferGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3876>)
+## func [TransferGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3972>)
 
 ```go
 func TransferGift(ctx context.Context, b *client.Bot, p *TransferGiftParams) (bool, error)
@@ -2086,7 +2207,7 @@ TransferGift calls the transferGift Telegram Bot API method.
 Transfers an owned unique gift to another user. Requires the can\_transfer\_and\_upgrade\_gifts business bot right. Requires can\_transfer\_stars business bot right if the transfer is paid. Returns True on success.
 
 <a name="UnbanChatMember"></a>
-## func [UnbanChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2161>)
+## func [UnbanChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2257>)
 
 ```go
 func UnbanChatMember(ctx context.Context, b *client.Bot, p *UnbanChatMemberParams) (bool, error)
@@ -2097,7 +2218,7 @@ UnbanChatMember calls the unbanChatMember Telegram Bot API method.
 Use this method to unban a previously banned user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be removed from the chat. If you don't want this, use the parameter only\_if\_banned. Returns True on success.
 
 <a name="UnbanChatSenderChat"></a>
-## func [UnbanChatSenderChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2307>)
+## func [UnbanChatSenderChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2403>)
 
 ```go
 func UnbanChatSenderChat(ctx context.Context, b *client.Bot, p *UnbanChatSenderChatParams) (bool, error)
@@ -2108,7 +2229,7 @@ UnbanChatSenderChat calls the unbanChatSenderChat Telegram Bot API method.
 Use this method to unban a previously banned channel chat in a supergroup or channel. The bot must be an administrator for this to work and must have the appropriate administrator rights. Returns True on success.
 
 <a name="UnhideGeneralForumTopic"></a>
-## func [UnhideGeneralForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3013>)
+## func [UnhideGeneralForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3109>)
 
 ```go
 func UnhideGeneralForumTopic(ctx context.Context, b *client.Bot, p *UnhideGeneralForumTopicParams) (bool, error)
@@ -2119,7 +2240,7 @@ UnhideGeneralForumTopic calls the unhideGeneralForumTopic Telegram Bot API metho
 Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can\_manage\_topics administrator rights. Returns True on success.
 
 <a name="UnpinAllChatMessages"></a>
-## func [UnpinAllChatMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2665>)
+## func [UnpinAllChatMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2761>)
 
 ```go
 func UnpinAllChatMessages(ctx context.Context, b *client.Bot, p *UnpinAllChatMessagesParams) (bool, error)
@@ -2130,7 +2251,7 @@ UnpinAllChatMessages calls the unpinAllChatMessages Telegram Bot API method.
 Use this method to clear the list of pinned messages in a chat. In private chats and channel direct messages chats, no additional rights are required to unpin all pinned messages. Conversely, the bot must be an administrator with the 'can\_pin\_messages' right or the 'can\_edit\_messages' right to unpin all pinned messages in groups and channels respectively. Returns True on success.
 
 <a name="UnpinAllForumTopicMessages"></a>
-## func [UnpinAllForumTopicMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2936>)
+## func [UnpinAllForumTopicMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3032>)
 
 ```go
 func UnpinAllForumTopicMessages(ctx context.Context, b *client.Bot, p *UnpinAllForumTopicMessagesParams) (bool, error)
@@ -2141,7 +2262,7 @@ UnpinAllForumTopicMessages calls the unpinAllForumTopicMessages Telegram Bot API
 Use this method to clear the list of pinned messages in a forum topic in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the can\_pin\_messages administrator right in the supergroup. Returns True on success.
 
 <a name="UnpinAllGeneralForumTopicMessages"></a>
-## func [UnpinAllGeneralForumTopicMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3028>)
+## func [UnpinAllGeneralForumTopicMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3124>)
 
 ```go
 func UnpinAllGeneralForumTopicMessages(ctx context.Context, b *client.Bot, p *UnpinAllGeneralForumTopicMessagesParams) (bool, error)
@@ -2152,7 +2273,7 @@ UnpinAllGeneralForumTopicMessages calls the unpinAllGeneralForumTopicMessages Te
 Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can\_pin\_messages administrator right in the supergroup. Returns True on success.
 
 <a name="UnpinChatMessage"></a>
-## func [UnpinChatMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2650>)
+## func [UnpinChatMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2746>)
 
 ```go
 func UnpinChatMessage(ctx context.Context, b *client.Bot, p *UnpinChatMessageParams) (bool, error)
@@ -2163,7 +2284,7 @@ UnpinChatMessage calls the unpinChatMessage Telegram Bot API method.
 Use this method to remove a message from the list of pinned messages in a chat. In private chats and channel direct messages chats, all messages can be unpinned. Conversely, the bot must be an administrator with the 'can\_pin\_messages' right or the 'can\_edit\_messages' right to unpin messages in groups and channels respectively. Returns True on success.
 
 <a name="UpgradeGift"></a>
-## func [UpgradeGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3855>)
+## func [UpgradeGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3951>)
 
 ```go
 func UpgradeGift(ctx context.Context, b *client.Bot, p *UpgradeGiftParams) (bool, error)
@@ -2174,7 +2295,7 @@ UpgradeGift calls the upgradeGift Telegram Bot API method.
 Upgrades a given regular gift to a unique gift. Requires the can\_transfer\_and\_upgrade\_gifts business bot right. Additionally requires the can\_transfer\_stars business bot right if the upgrade is paid. Returns True on success.
 
 <a name="VerifyChat"></a>
-## func [VerifyChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3510>)
+## func [VerifyChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3606>)
 
 ```go
 func VerifyChat(ctx context.Context, b *client.Bot, p *VerifyChatParams) (bool, error)
@@ -2185,7 +2306,7 @@ VerifyChat calls the verifyChat Telegram Bot API method.
 Verifies a chat on behalf of the organization which is represented by the bot. Returns True on success.
 
 <a name="VerifyUser"></a>
-## func [VerifyUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3493>)
+## func [VerifyUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3589>)
 
 ```go
 func VerifyUser(ctx context.Context, b *client.Bot, p *VerifyUserParams) (bool, error)
@@ -2196,7 +2317,7 @@ VerifyUser calls the verifyUser Telegram Bot API method.
 Verifies a user on behalf of the organization which is represented by the bot. Returns True on success.
 
 <a name="AcceptedGiftTypes"></a>
-## type [AcceptedGiftTypes](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4039-L4050>)
+## type [AcceptedGiftTypes](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4081-L4092>)
 
 This object describes the types of gifts that can be gifted to a user or a chat.
 
@@ -2216,7 +2337,7 @@ type AcceptedGiftTypes struct {
 ```
 
 <a name="AddStickerToSetParams"></a>
-## type [AddStickerToSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4614-L4621>)
+## type [AddStickerToSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4867-L4874>)
 
 AddStickerToSetParams is the parameter set for AddStickerToSet.
 
@@ -2234,7 +2355,7 @@ type AddStickerToSetParams struct {
 ```
 
 <a name="AffiliateInfo"></a>
-## type [AffiliateInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8191-L8202>)
+## type [AffiliateInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8909-L8920>)
 
 Contains information about the affiliate that received a commission via this transaction.
 
@@ -2254,7 +2375,7 @@ type AffiliateInfo struct {
 ```
 
 <a name="Animation"></a>
-## type [Animation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L931-L950>)
+## type [Animation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L945-L964>)
 
 This object represents an animation file \(GIF or H.264/MPEG\-4 AVC video without sound\).
 
@@ -2282,7 +2403,7 @@ type Animation struct {
 ```
 
 <a name="AnswerCallbackQueryParams"></a>
-## type [AnswerCallbackQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3036-L3047>)
+## type [AnswerCallbackQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3132-L3143>)
 
 AnswerCallbackQueryParams is the parameter set for AnswerCallbackQuery.
 
@@ -2294,7 +2415,7 @@ type AnswerCallbackQueryParams struct {
     CallbackQueryID string `json:"callback_query_id"`
     // Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters.
     Text string `json:"text,omitempty"`
-    // If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false.
+    // If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to False.
     ShowAlert *bool `json:"show_alert,omitempty"`
     // URL that will be opened by the user's client. If you have created a Game and accepted the conditions via @BotFather, specify the URL that opens your game - note that this will only work if the query comes from a callback_game button.Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
     URL string `json:"url,omitempty"`
@@ -2304,7 +2425,7 @@ type AnswerCallbackQueryParams struct {
 ```
 
 <a name="AnswerChatJoinRequestQueryParams"></a>
-## type [AnswerChatJoinRequestQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2489-L2494>)
+## type [AnswerChatJoinRequestQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2585-L2590>)
 
 AnswerChatJoinRequestQueryParams is the parameter set for AnswerChatJoinRequestQuery.
 
@@ -2320,7 +2441,7 @@ type AnswerChatJoinRequestQueryParams struct {
 ```
 
 <a name="AnswerGuestQueryParams"></a>
-## type [AnswerGuestQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3060-L3065>)
+## type [AnswerGuestQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3156-L3161>)
 
 AnswerGuestQueryParams is the parameter set for AnswerGuestQuery.
 
@@ -2336,7 +2457,7 @@ type AnswerGuestQueryParams struct {
 ```
 
 <a name="AnswerInlineQueryParams"></a>
-## type [AnswerInlineQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4895-L4908>)
+## type [AnswerInlineQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5148-L5161>)
 
 AnswerInlineQueryParams is the parameter set for AnswerInlineQuery.
 
@@ -2346,7 +2467,7 @@ Use this method to send answers to an inline query. On success, True is returned
 type AnswerInlineQueryParams struct {
     // Unique identifier for the answered query
     InlineQueryID string `json:"inline_query_id"`
-    // A JSON-serialized array of results for the inline query
+    // A JSON-serialized Array of results for the inline query
     Results []InlineQueryResult `json:"results"`
     // The maximum amount of time in seconds that the result of the inline query may be cached on the server. Defaults to 300.
     CacheTime *int64 `json:"cache_time,omitempty"`
@@ -2360,7 +2481,7 @@ type AnswerInlineQueryParams struct {
 ```
 
 <a name="AnswerPreCheckoutQueryParams"></a>
-## type [AnswerPreCheckoutQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5073-L5080>)
+## type [AnswerPreCheckoutQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5326-L5333>)
 
 AnswerPreCheckoutQueryParams is the parameter set for AnswerPreCheckoutQuery.
 
@@ -2378,7 +2499,7 @@ type AnswerPreCheckoutQueryParams struct {
 ```
 
 <a name="AnswerShippingQueryParams"></a>
-## type [AnswerShippingQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5052-L5061>)
+## type [AnswerShippingQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5305-L5314>)
 
 AnswerShippingQueryParams is the parameter set for AnswerShippingQuery.
 
@@ -2390,7 +2511,7 @@ type AnswerShippingQueryParams struct {
     ShippingQueryID string `json:"shipping_query_id"`
     // Pass True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
     Ok  bool `json:"ok"`
-    // Required if ok is True. A JSON-serialized array of available shipping options.
+    // Required if ok is True. A JSON-serialized Array of available shipping options.
     ShippingOptions []ShippingOption `json:"shipping_options,omitempty"`
     // Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. “Sorry, delivery to your desired address is unavailable”). Telegram will display this message to the user.
     ErrorMessage string `json:"error_message,omitempty"`
@@ -2398,7 +2519,7 @@ type AnswerShippingQueryParams struct {
 ```
 
 <a name="AnswerWebAppQueryParams"></a>
-## type [AnswerWebAppQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3983-L3988>)
+## type [AnswerWebAppQueryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4079-L4084>)
 
 AnswerWebAppQueryParams is the parameter set for AnswerWebAppQuery.
 
@@ -2414,7 +2535,7 @@ type AnswerWebAppQueryParams struct {
 ```
 
 <a name="ApproveChatJoinRequestParams"></a>
-## type [ApproveChatJoinRequestParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2455-L2460>)
+## type [ApproveChatJoinRequestParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2551-L2556>)
 
 ApproveChatJoinRequestParams is the parameter set for ApproveChatJoinRequest.
 
@@ -2430,7 +2551,7 @@ type ApproveChatJoinRequestParams struct {
 ```
 
 <a name="ApproveSuggestedPostParams"></a>
-## type [ApproveSuggestedPostParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4293-L4300>)
+## type [ApproveSuggestedPostParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4517-L4524>)
 
 ApproveSuggestedPostParams is the parameter set for ApproveSuggestedPost.
 
@@ -2448,7 +2569,7 @@ type ApproveSuggestedPostParams struct {
 ```
 
 <a name="Audio"></a>
-## type [Audio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L953-L972>)
+## type [Audio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L967-L986>)
 
 This object represents an audio file to be treated as music by the Telegram clients.
 
@@ -2476,7 +2597,7 @@ type Audio struct {
 ```
 
 <a name="BackgroundFill"></a>
-## type [BackgroundFill](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1733>)
+## type [BackgroundFill](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1739>)
 
 BackgroundFill is a union type. The following concrete variants implement it:
 
@@ -2493,7 +2614,7 @@ type BackgroundFill interface {
 ```
 
 <a name="UnmarshalBackgroundFill"></a>
-### func [UnmarshalBackgroundFill](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1746>)
+### func [UnmarshalBackgroundFill](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1752>)
 
 ```go
 func UnmarshalBackgroundFill(data []byte) (BackgroundFill, error)
@@ -2502,7 +2623,7 @@ func UnmarshalBackgroundFill(data []byte) (BackgroundFill, error)
 UnmarshalBackgroundFill decodes a BackgroundFill from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
 <a name="BackgroundFillFreeformGradient"></a>
-## type [BackgroundFillFreeformGradient](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1823-L1828>)
+## type [BackgroundFillFreeformGradient](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1829-L1834>)
 
 The background is a freeform gradient that rotates after every message in the chat.
 
@@ -2516,7 +2637,7 @@ type BackgroundFillFreeformGradient struct {
 ```
 
 <a name="BackgroundFillFreeformGradient.MarshalJSON"></a>
-### func \(\*BackgroundFillFreeformGradient\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1835>)
+### func \(\*BackgroundFillFreeformGradient\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1841>)
 
 ```go
 func (v *BackgroundFillFreeformGradient) MarshalJSON() ([]byte, error)
@@ -2525,7 +2646,7 @@ func (v *BackgroundFillFreeformGradient) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BackgroundFillFreeformGradient with the discriminator field "type" forced to "freeform\_gradient". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BackgroundFillGradient"></a>
-## type [BackgroundFillGradient](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1795-L1804>)
+## type [BackgroundFillGradient](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1801-L1810>)
 
 The background is a gradient fill.
 
@@ -2543,7 +2664,7 @@ type BackgroundFillGradient struct {
 ```
 
 <a name="BackgroundFillGradient.MarshalJSON"></a>
-### func \(\*BackgroundFillGradient\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1811>)
+### func \(\*BackgroundFillGradient\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1817>)
 
 ```go
 func (v *BackgroundFillGradient) MarshalJSON() ([]byte, error)
@@ -2552,7 +2673,7 @@ func (v *BackgroundFillGradient) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BackgroundFillGradient with the discriminator field "type" forced to "gradient". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BackgroundFillSolid"></a>
-## type [BackgroundFillSolid](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1771-L1776>)
+## type [BackgroundFillSolid](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1777-L1782>)
 
 The background is filled using the selected color.
 
@@ -2566,7 +2687,7 @@ type BackgroundFillSolid struct {
 ```
 
 <a name="BackgroundFillSolid.MarshalJSON"></a>
-### func \(\*BackgroundFillSolid\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1783>)
+### func \(\*BackgroundFillSolid\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1789>)
 
 ```go
 func (v *BackgroundFillSolid) MarshalJSON() ([]byte, error)
@@ -2594,7 +2715,7 @@ const (
 ```
 
 <a name="BackgroundType"></a>
-## type [BackgroundType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1854>)
+## type [BackgroundType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1860>)
 
 BackgroundType is a union type. The following concrete variants implement it:
 
@@ -2612,7 +2733,7 @@ type BackgroundType interface {
 ```
 
 <a name="UnmarshalBackgroundType"></a>
-### func [UnmarshalBackgroundType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1870>)
+### func [UnmarshalBackgroundType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1876>)
 
 ```go
 func UnmarshalBackgroundType(data []byte) (BackgroundType, error)
@@ -2621,7 +2742,7 @@ func UnmarshalBackgroundType(data []byte) (BackgroundType, error)
 UnmarshalBackgroundType decodes a BackgroundType from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
 <a name="BackgroundTypeChatTheme"></a>
-## type [BackgroundTypeChatTheme](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2033-L2038>)
+## type [BackgroundTypeChatTheme](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2039-L2044>)
 
 The background is taken directly from a built\-in chat theme.
 
@@ -2635,7 +2756,7 @@ type BackgroundTypeChatTheme struct {
 ```
 
 <a name="BackgroundTypeChatTheme.MarshalJSON"></a>
-### func \(\*BackgroundTypeChatTheme\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2045>)
+### func \(\*BackgroundTypeChatTheme\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2051>)
 
 ```go
 func (v *BackgroundTypeChatTheme) MarshalJSON() ([]byte, error)
@@ -2644,7 +2765,7 @@ func (v *BackgroundTypeChatTheme) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BackgroundTypeChatTheme with the discriminator field "type" forced to "chat\_theme". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BackgroundTypeFill"></a>
-## type [BackgroundTypeFill](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1897-L1904>)
+## type [BackgroundTypeFill](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1903-L1910>)
 
 The background is automatically filled based on the selected colors.
 
@@ -2660,7 +2781,7 @@ type BackgroundTypeFill struct {
 ```
 
 <a name="BackgroundTypeFill.MarshalJSON"></a>
-### func \(\*BackgroundTypeFill\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1911>)
+### func \(\*BackgroundTypeFill\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1917>)
 
 ```go
 func (v *BackgroundTypeFill) MarshalJSON() ([]byte, error)
@@ -2669,7 +2790,7 @@ func (v *BackgroundTypeFill) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BackgroundTypeFill with the discriminator field "type" forced to "fill". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BackgroundTypeFill.UnmarshalJSON"></a>
-### func \(\*BackgroundTypeFill\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1924>)
+### func \(\*BackgroundTypeFill\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1930>)
 
 ```go
 func (m *BackgroundTypeFill) UnmarshalJSON(data []byte) error
@@ -2698,7 +2819,7 @@ const (
 ```
 
 <a name="BackgroundTypePattern"></a>
-## type [BackgroundTypePattern](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1977-L1990>)
+## type [BackgroundTypePattern](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1983-L1996>)
 
 The background is a .PNG or .TGV \(gzipped subset of SVG with MIME type “application/x\-tgwallpattern”\) pattern to be combined with the background fill chosen by the user.
 
@@ -2720,7 +2841,7 @@ type BackgroundTypePattern struct {
 ```
 
 <a name="BackgroundTypePattern.MarshalJSON"></a>
-### func \(\*BackgroundTypePattern\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1997>)
+### func \(\*BackgroundTypePattern\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2003>)
 
 ```go
 func (v *BackgroundTypePattern) MarshalJSON() ([]byte, error)
@@ -2729,7 +2850,7 @@ func (v *BackgroundTypePattern) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BackgroundTypePattern with the discriminator field "type" forced to "pattern". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BackgroundTypePattern.UnmarshalJSON"></a>
-### func \(\*BackgroundTypePattern\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2010>)
+### func \(\*BackgroundTypePattern\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2016>)
 
 ```go
 func (m *BackgroundTypePattern) UnmarshalJSON(data []byte) error
@@ -2738,7 +2859,7 @@ func (m *BackgroundTypePattern) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes BackgroundTypePattern by dispatching union\-typed fields \(Fill\) through their concrete UnmarshalXxx helpers.
 
 <a name="BackgroundTypeWallpaper"></a>
-## type [BackgroundTypeWallpaper](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1947-L1958>)
+## type [BackgroundTypeWallpaper](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1953-L1964>)
 
 The background is a wallpaper in the JPEG format.
 
@@ -2758,7 +2879,7 @@ type BackgroundTypeWallpaper struct {
 ```
 
 <a name="BackgroundTypeWallpaper.MarshalJSON"></a>
-### func \(\*BackgroundTypeWallpaper\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1965>)
+### func \(\*BackgroundTypeWallpaper\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1971>)
 
 ```go
 func (v *BackgroundTypeWallpaper) MarshalJSON() ([]byte, error)
@@ -2767,7 +2888,7 @@ func (v *BackgroundTypeWallpaper) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BackgroundTypeWallpaper with the discriminator field "type" forced to "wallpaper". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BanChatMemberParams"></a>
-## type [BanChatMemberParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2128-L2137>)
+## type [BanChatMemberParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2224-L2233>)
 
 BanChatMemberParams is the parameter set for BanChatMember.
 
@@ -2787,7 +2908,7 @@ type BanChatMemberParams struct {
 ```
 
 <a name="BanChatSenderChatParams"></a>
-## type [BanChatSenderChatParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2280-L2285>)
+## type [BanChatSenderChatParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2376-L2381>)
 
 BanChatSenderChatParams is the parameter set for BanChatSenderChat.
 
@@ -2803,7 +2924,7 @@ type BanChatSenderChatParams struct {
 ```
 
 <a name="Birthdate"></a>
-## type [Birthdate](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3111-L3118>)
+## type [Birthdate](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3153-L3160>)
 
 Describes the birthdate of a user.
 
@@ -2819,7 +2940,7 @@ type Birthdate struct {
 ```
 
 <a name="BotAccessSettings"></a>
-## type [BotAccessSettings](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4031-L4036>)
+## type [BotAccessSettings](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4073-L4078>)
 
 This object describes the access settings of a bot.
 
@@ -2833,7 +2954,7 @@ type BotAccessSettings struct {
 ```
 
 <a name="GetManagedBotAccessSettings"></a>
-### func [GetManagedBotAccessSettings](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3147>)
+### func [GetManagedBotAccessSettings](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3243>)
 
 ```go
 func GetManagedBotAccessSettings(ctx context.Context, b *client.Bot, p *GetManagedBotAccessSettingsParams) (*BotAccessSettings, error)
@@ -2844,7 +2965,7 @@ GetManagedBotAccessSettings calls the getManagedBotAccessSettings Telegram Bot A
 Use this method to get the access settings of a managed bot. Returns a BotAccessSettings object on success.
 
 <a name="BotCommand"></a>
-## type [BotCommand](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4061-L4066>)
+## type [BotCommand](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4103-L4110>)
 
 This object represents a bot command.
 
@@ -2854,11 +2975,13 @@ type BotCommand struct {
     Command string `json:"command"`
     // Description of the command; 1-256 characters
     Description string `json:"description"`
+    // Optional. True, if the command sends an ephemeral message, which can be seen only by the sender of the message and the bot
+    IsEphemeral *bool `json:"is_ephemeral,omitempty"`
 }
 ```
 
 <a name="GetMyCommands"></a>
-### func [GetMyCommands](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3219>)
+### func [GetMyCommands](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3315>)
 
 ```go
 func GetMyCommands(ctx context.Context, b *client.Bot, p *GetMyCommandsParams) ([]BotCommand, error)
@@ -2869,7 +2992,7 @@ GetMyCommands calls the getMyCommands Telegram Bot API method.
 Use this method to get the current list of the bot's commands for the given scope and user language. Returns an Array of BotCommand objects. If commands aren't set, an empty list is returned.
 
 <a name="BotCommandScope"></a>
-## type [BotCommandScope](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4079>)
+## type [BotCommandScope](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4123>)
 
 BotCommandScope is a union type. The following concrete variants implement it:
 
@@ -2890,7 +3013,7 @@ type BotCommandScope interface {
 ```
 
 <a name="BotCommandScopeAllChatAdministrators"></a>
-## type [BotCommandScopeAllChatAdministrators](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4169-L4172>)
+## type [BotCommandScopeAllChatAdministrators](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4213-L4216>)
 
 Represents the scope of bot commands, covering all group and supergroup chat administrators.
 
@@ -2902,7 +3025,7 @@ type BotCommandScopeAllChatAdministrators struct {
 ```
 
 <a name="BotCommandScopeAllChatAdministrators.MarshalJSON"></a>
-### func \(\*BotCommandScopeAllChatAdministrators\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4179>)
+### func \(\*BotCommandScopeAllChatAdministrators\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4223>)
 
 ```go
 func (v *BotCommandScopeAllChatAdministrators) MarshalJSON() ([]byte, error)
@@ -2911,7 +3034,7 @@ func (v *BotCommandScopeAllChatAdministrators) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BotCommandScopeAllChatAdministrators with the discriminator field "type" forced to "all\_chat\_administrators". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BotCommandScopeAllGroupChats"></a>
-## type [BotCommandScopeAllGroupChats](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4147-L4150>)
+## type [BotCommandScopeAllGroupChats](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4191-L4194>)
 
 Represents the scope of bot commands, covering all group and supergroup chats.
 
@@ -2923,7 +3046,7 @@ type BotCommandScopeAllGroupChats struct {
 ```
 
 <a name="BotCommandScopeAllGroupChats.MarshalJSON"></a>
-### func \(\*BotCommandScopeAllGroupChats\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4157>)
+### func \(\*BotCommandScopeAllGroupChats\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4201>)
 
 ```go
 func (v *BotCommandScopeAllGroupChats) MarshalJSON() ([]byte, error)
@@ -2932,7 +3055,7 @@ func (v *BotCommandScopeAllGroupChats) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BotCommandScopeAllGroupChats with the discriminator field "type" forced to "all\_group\_chats". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BotCommandScopeAllPrivateChats"></a>
-## type [BotCommandScopeAllPrivateChats](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4125-L4128>)
+## type [BotCommandScopeAllPrivateChats](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4169-L4172>)
 
 Represents the scope of bot commands, covering all private chats.
 
@@ -2944,7 +3067,7 @@ type BotCommandScopeAllPrivateChats struct {
 ```
 
 <a name="BotCommandScopeAllPrivateChats.MarshalJSON"></a>
-### func \(\*BotCommandScopeAllPrivateChats\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4135>)
+### func \(\*BotCommandScopeAllPrivateChats\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4179>)
 
 ```go
 func (v *BotCommandScopeAllPrivateChats) MarshalJSON() ([]byte, error)
@@ -2953,7 +3076,7 @@ func (v *BotCommandScopeAllPrivateChats) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BotCommandScopeAllPrivateChats with the discriminator field "type" forced to "all\_private\_chats". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BotCommandScopeChat"></a>
-## type [BotCommandScopeChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4191-L4196>)
+## type [BotCommandScopeChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4235-L4240>)
 
 Represents the scope of bot commands, covering a specific chat.
 
@@ -2967,7 +3090,7 @@ type BotCommandScopeChat struct {
 ```
 
 <a name="BotCommandScopeChat.MarshalJSON"></a>
-### func \(\*BotCommandScopeChat\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4203>)
+### func \(\*BotCommandScopeChat\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4247>)
 
 ```go
 func (v *BotCommandScopeChat) MarshalJSON() ([]byte, error)
@@ -2976,7 +3099,7 @@ func (v *BotCommandScopeChat) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BotCommandScopeChat with the discriminator field "type" forced to "chat". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BotCommandScopeChatAdministrators"></a>
-## type [BotCommandScopeChatAdministrators](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4215-L4220>)
+## type [BotCommandScopeChatAdministrators](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4259-L4264>)
 
 Represents the scope of bot commands, covering all administrators of a specific group or supergroup chat.
 
@@ -2990,7 +3113,7 @@ type BotCommandScopeChatAdministrators struct {
 ```
 
 <a name="BotCommandScopeChatAdministrators.MarshalJSON"></a>
-### func \(\*BotCommandScopeChatAdministrators\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4227>)
+### func \(\*BotCommandScopeChatAdministrators\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4271>)
 
 ```go
 func (v *BotCommandScopeChatAdministrators) MarshalJSON() ([]byte, error)
@@ -2999,7 +3122,7 @@ func (v *BotCommandScopeChatAdministrators) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BotCommandScopeChatAdministrators with the discriminator field "type" forced to "chat\_administrators". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BotCommandScopeChatMember"></a>
-## type [BotCommandScopeChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4239-L4246>)
+## type [BotCommandScopeChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4283-L4290>)
 
 Represents the scope of bot commands, covering a specific member of a group or supergroup chat.
 
@@ -3015,7 +3138,7 @@ type BotCommandScopeChatMember struct {
 ```
 
 <a name="BotCommandScopeChatMember.MarshalJSON"></a>
-### func \(\*BotCommandScopeChatMember\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4253>)
+### func \(\*BotCommandScopeChatMember\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4297>)
 
 ```go
 func (v *BotCommandScopeChatMember) MarshalJSON() ([]byte, error)
@@ -3024,7 +3147,7 @@ func (v *BotCommandScopeChatMember) MarshalJSON() ([]byte, error)
 MarshalJSON encodes BotCommandScopeChatMember with the discriminator field "type" forced to "chat\_member". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="BotCommandScopeDefault"></a>
-## type [BotCommandScopeDefault](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4103-L4106>)
+## type [BotCommandScopeDefault](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4147-L4150>)
 
 Represents the default scope of bot commands. Default commands are used if no commands with a narrower scope are specified for the user.
 
@@ -3036,7 +3159,7 @@ type BotCommandScopeDefault struct {
 ```
 
 <a name="BotCommandScopeDefault.MarshalJSON"></a>
-### func \(\*BotCommandScopeDefault\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4113>)
+### func \(\*BotCommandScopeDefault\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4157>)
 
 ```go
 func (v *BotCommandScopeDefault) MarshalJSON() ([]byte, error)
@@ -3068,7 +3191,7 @@ const (
 ```
 
 <a name="BotDescription"></a>
-## type [BotDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4271-L4274>)
+## type [BotDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4315-L4318>)
 
 This object represents the bot's description.
 
@@ -3080,7 +3203,7 @@ type BotDescription struct {
 ```
 
 <a name="GetMyDescription"></a>
-### func [GetMyDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3283>)
+### func [GetMyDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3379>)
 
 ```go
 func GetMyDescription(ctx context.Context, b *client.Bot, p *GetMyDescriptionParams) (*BotDescription, error)
@@ -3091,7 +3214,7 @@ GetMyDescription calls the getMyDescription Telegram Bot API method.
 Use this method to get the current bot description for the given user language. Returns BotDescription on success.
 
 <a name="BotName"></a>
-## type [BotName](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4265-L4268>)
+## type [BotName](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4309-L4312>)
 
 This object represents the bot's name.
 
@@ -3103,7 +3226,7 @@ type BotName struct {
 ```
 
 <a name="GetMyName"></a>
-### func [GetMyName](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3251>)
+### func [GetMyName](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3347>)
 
 ```go
 func GetMyName(ctx context.Context, b *client.Bot, p *GetMyNameParams) (*BotName, error)
@@ -3114,7 +3237,7 @@ GetMyName calls the getMyName Telegram Bot API method.
 Use this method to get the current bot name for the given user language. Returns BotName on success.
 
 <a name="BotShortDescription"></a>
-## type [BotShortDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4277-L4280>)
+## type [BotShortDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4321-L4324>)
 
 This object represents the bot's short description.
 
@@ -3126,7 +3249,7 @@ type BotShortDescription struct {
 ```
 
 <a name="GetMyShortDescription"></a>
-### func [GetMyShortDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3315>)
+### func [GetMyShortDescription](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3411>)
 
 ```go
 func GetMyShortDescription(ctx context.Context, b *client.Bot, p *GetMyShortDescriptionParams) (*BotShortDescription, error)
@@ -3136,8 +3259,43 @@ GetMyShortDescription calls the getMyShortDescription Telegram Bot API method.
 
 Use this method to get the current bot short description for the given user language. Returns BotShortDescription on success.
 
+<a name="BotSubscriptionUpdated"></a>
+## type [BotSubscriptionUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1645-L1652>)
+
+This object contains information about changes to a user payment subscription toward the current bot.
+
+```go
+type BotSubscriptionUpdated struct {
+    // User who subscribed for payments toward the bot
+    User User `json:"user"`
+    // Bot-specified invoice payload
+    InvoicePayload string `json:"invoice_payload"`
+    // The new state of the subscription. Currently, it can be one of “canceled” if the user canceled the subscription, “active” if the user re-enabled a previously canceled subscription, or “failed” if payment for the subscription failed.
+    State BotSubscriptionUpdatedState `json:"state"`
+}
+```
+
+<a name="BotSubscriptionUpdatedState"></a>
+## type [BotSubscriptionUpdatedState](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L36>)
+
+
+
+```go
+type BotSubscriptionUpdatedState string
+```
+
+<a name="BotSubscriptionUpdatedStateCanceled"></a>
+
+```go
+const (
+    BotSubscriptionUpdatedStateCanceled BotSubscriptionUpdatedState = "canceled"
+    BotSubscriptionUpdatedStateActive   BotSubscriptionUpdatedState = "active"
+    BotSubscriptionUpdatedStateFailed   BotSubscriptionUpdatedState = "failed"
+)
+```
+
 <a name="BusinessBotRights"></a>
-## type [BusinessBotRights](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4618-L4647>)
+## type [BusinessBotRights](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4662-L4691>)
 
 Represents the rights of a business bot.
 
@@ -3175,7 +3333,7 @@ type BusinessBotRights struct {
 ```
 
 <a name="BusinessConnection"></a>
-## type [BusinessConnection](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4650-L4663>)
+## type [BusinessConnection](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4694-L4707>)
 
 Describes the connection of the bot with a business account.
 
@@ -3197,7 +3355,7 @@ type BusinessConnection struct {
 ```
 
 <a name="GetBusinessConnection"></a>
-### func [GetBusinessConnection](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3102>)
+### func [GetBusinessConnection](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3198>)
 
 ```go
 func GetBusinessConnection(ctx context.Context, b *client.Bot, p *GetBusinessConnectionParams) (*BusinessConnection, error)
@@ -3208,7 +3366,7 @@ GetBusinessConnection calls the getBusinessConnection Telegram Bot API method.
 Use this method to get information about the connection of the bot with a business account. Returns a BusinessConnection object on success.
 
 <a name="BusinessIntro"></a>
-## type [BusinessIntro](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3121-L3128>)
+## type [BusinessIntro](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3163-L3170>)
 
 Contains information about the start page settings of a Telegram Business account.
 
@@ -3224,7 +3382,7 @@ type BusinessIntro struct {
 ```
 
 <a name="BusinessLocation"></a>
-## type [BusinessLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3131-L3136>)
+## type [BusinessLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3173-L3178>)
 
 Contains information about the location of a Telegram Business account.
 
@@ -3238,7 +3396,7 @@ type BusinessLocation struct {
 ```
 
 <a name="BusinessMessagesDeleted"></a>
-## type [BusinessMessagesDeleted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4666-L4673>)
+## type [BusinessMessagesDeleted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4710-L4717>)
 
 This object is received when messages are deleted from a connected business account.
 
@@ -3254,7 +3412,7 @@ type BusinessMessagesDeleted struct {
 ```
 
 <a name="BusinessOpeningHours"></a>
-## type [BusinessOpeningHours](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3147-L3152>)
+## type [BusinessOpeningHours](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3189-L3194>)
 
 Describes the opening hours of a business.
 
@@ -3268,7 +3426,7 @@ type BusinessOpeningHours struct {
 ```
 
 <a name="BusinessOpeningHoursInterval"></a>
-## type [BusinessOpeningHoursInterval](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3139-L3144>)
+## type [BusinessOpeningHoursInterval](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3181-L3186>)
 
 Describes an interval of time during which a business is open.
 
@@ -3282,7 +3440,7 @@ type BusinessOpeningHoursInterval struct {
 ```
 
 <a name="CallbackGame"></a>
-## type [CallbackGame](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8931-L8932>)
+## type [CallbackGame](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9649-L9650>)
 
 A placeholder, currently holds no information. Use BotFather to set up your game.
 
@@ -3292,7 +3450,7 @@ type CallbackGame struct {
 ```
 
 <a name="CallbackQuery"></a>
-## type [CallbackQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2581-L2596>)
+## type [CallbackQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2615-L2630>)
 
 This object represents an incoming callback query from a callback button in an inline keyboard. If the button that originated the query was attached to a message sent by the bot, the field message will be present. If the button was attached to a message sent via the bot \(in inline mode\), the field inline\_message\_id will be present. Exactly one of the fields data or game\_short\_name will be present. NOTE: After the user presses a callback button, Telegram clients will display a progress bar until you call answerCallbackQuery. It is, therefore, necessary to react by calling answerCallbackQuery even if no notification to the user is needed \(e.g., without specifying any of the optional parameters\).
 
@@ -3316,7 +3474,7 @@ type CallbackQuery struct {
 ```
 
 <a name="CallbackQuery.UnmarshalJSON"></a>
-### func \(\*CallbackQuery\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2600>)
+### func \(\*CallbackQuery\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2634>)
 
 ```go
 func (m *CallbackQuery) UnmarshalJSON(data []byte) error
@@ -3325,7 +3483,7 @@ func (m *CallbackQuery) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes CallbackQuery by dispatching union\-typed fields \(Message\) through their concrete UnmarshalXxx helpers.
 
 <a name="Chat"></a>
-## type [Chat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L138-L155>)
+## type [Chat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L140-L157>)
 
 This object represents a chat.
 
@@ -3351,7 +3509,7 @@ type Chat struct {
 ```
 
 <a name="ChatAdministratorRights"></a>
-## type [ChatAdministratorRights](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2673-L2708>)
+## type [ChatAdministratorRights](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2715-L2750>)
 
 Represents the rights of an administrator in a chat.
 
@@ -3389,13 +3547,13 @@ type ChatAdministratorRights struct {
     CanManageTopics *bool `json:"can_manage_topics,omitempty"`
     // Optional. True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only
     CanManageDirectMessages *bool `json:"can_manage_direct_messages,omitempty"`
-    // Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted defaults to the value of can_pin_messages.
+    // Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted, defaults to the value of can_pin_messages.
     CanManageTags *bool `json:"can_manage_tags,omitempty"`
 }
 ```
 
 <a name="GetMyDefaultAdministratorRights"></a>
-### func [GetMyDefaultAdministratorRights](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3411>)
+### func [GetMyDefaultAdministratorRights](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3507>)
 
 ```go
 func GetMyDefaultAdministratorRights(ctx context.Context, b *client.Bot, p *GetMyDefaultAdministratorRightsParams) (*ChatAdministratorRights, error)
@@ -3406,7 +3564,7 @@ GetMyDefaultAdministratorRights calls the getMyDefaultAdministratorRights Telegr
 Use this method to get the current default administrator rights of the bot. Returns ChatAdministratorRights on success.
 
 <a name="ChatBackground"></a>
-## type [ChatBackground](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2057-L2060>)
+## type [ChatBackground](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2063-L2066>)
 
 This object represents a chat background.
 
@@ -3418,7 +3576,7 @@ type ChatBackground struct {
 ```
 
 <a name="ChatBackground.UnmarshalJSON"></a>
-### func \(\*ChatBackground\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2064>)
+### func \(\*ChatBackground\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2070>)
 
 ```go
 func (m *ChatBackground) UnmarshalJSON(data []byte) error
@@ -3427,7 +3585,7 @@ func (m *ChatBackground) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes ChatBackground by dispatching union\-typed fields \(Type\) through their concrete UnmarshalXxx helpers.
 
 <a name="ChatBoost"></a>
-## type [ChatBoost](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4520-L4529>)
+## type [ChatBoost](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4564-L4573>)
 
 This object contains information about a chat boost.
 
@@ -3445,7 +3603,7 @@ type ChatBoost struct {
 ```
 
 <a name="ChatBoost.UnmarshalJSON"></a>
-### func \(\*ChatBoost\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4533>)
+### func \(\*ChatBoost\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4577>)
 
 ```go
 func (m *ChatBoost) UnmarshalJSON(data []byte) error
@@ -3454,7 +3612,7 @@ func (m *ChatBoost) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes ChatBoost by dispatching union\-typed fields \(Source\) through their concrete UnmarshalXxx helpers.
 
 <a name="ChatBoostAdded"></a>
-## type [ChatBoostAdded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1721-L1724>)
+## type [ChatBoostAdded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1727-L1730>)
 
 This object represents a service message about a user boosting a chat.
 
@@ -3466,7 +3624,7 @@ type ChatBoostAdded struct {
 ```
 
 <a name="ChatBoostRemoved"></a>
-## type [ChatBoostRemoved](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4564-L4573>)
+## type [ChatBoostRemoved](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4608-L4617>)
 
 This object represents a boost removed from a chat.
 
@@ -3484,7 +3642,7 @@ type ChatBoostRemoved struct {
 ```
 
 <a name="ChatBoostRemoved.UnmarshalJSON"></a>
-### func \(\*ChatBoostRemoved\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4577>)
+### func \(\*ChatBoostRemoved\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4621>)
 
 ```go
 func (m *ChatBoostRemoved) UnmarshalJSON(data []byte) error
@@ -3493,7 +3651,7 @@ func (m *ChatBoostRemoved) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes ChatBoostRemoved by dispatching union\-typed fields \(Source\) through their concrete UnmarshalXxx helpers.
 
 <a name="ChatBoostSource"></a>
-## type [ChatBoostSource](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4404>)
+## type [ChatBoostSource](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4448>)
 
 ChatBoostSource is a union type. The following concrete variants implement it:
 
@@ -3510,7 +3668,7 @@ type ChatBoostSource interface {
 ```
 
 <a name="UnmarshalChatBoostSource"></a>
-### func [UnmarshalChatBoostSource](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4417>)
+### func [UnmarshalChatBoostSource](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4461>)
 
 ```go
 func UnmarshalChatBoostSource(data []byte) (ChatBoostSource, error)
@@ -3519,7 +3677,7 @@ func UnmarshalChatBoostSource(data []byte) (ChatBoostSource, error)
 UnmarshalChatBoostSource decodes a ChatBoostSource from JSON by inspecting the "source" field and dispatching to the correct concrete type.
 
 <a name="ChatBoostSourceGiftCode"></a>
-## type [ChatBoostSourceGiftCode](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4466-L4471>)
+## type [ChatBoostSourceGiftCode](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4510-L4515>)
 
 The boost was obtained by the creation of Telegram Premium gift codes to boost a chat. Each such code boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
 
@@ -3533,7 +3691,7 @@ type ChatBoostSourceGiftCode struct {
 ```
 
 <a name="ChatBoostSourceGiftCode.MarshalJSON"></a>
-### func \(\*ChatBoostSourceGiftCode\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4478>)
+### func \(\*ChatBoostSourceGiftCode\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4522>)
 
 ```go
 func (v *ChatBoostSourceGiftCode) MarshalJSON() ([]byte, error)
@@ -3542,7 +3700,7 @@ func (v *ChatBoostSourceGiftCode) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ChatBoostSourceGiftCode with the discriminator field "source" forced to "gift\_code". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ChatBoostSourceGiveaway"></a>
-## type [ChatBoostSourceGiveaway](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4490-L4501>)
+## type [ChatBoostSourceGiveaway](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4534-L4545>)
 
 The boost was obtained by the creation of a Telegram Premium or a Telegram Star giveaway. This boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription for Telegram Premium giveaways and prize\_star\_count / 500 times for one year for Telegram Star giveaways.
 
@@ -3562,7 +3720,7 @@ type ChatBoostSourceGiveaway struct {
 ```
 
 <a name="ChatBoostSourceGiveaway.MarshalJSON"></a>
-### func \(\*ChatBoostSourceGiveaway\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4508>)
+### func \(\*ChatBoostSourceGiveaway\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4552>)
 
 ```go
 func (v *ChatBoostSourceGiveaway) MarshalJSON() ([]byte, error)
@@ -3571,7 +3729,7 @@ func (v *ChatBoostSourceGiveaway) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ChatBoostSourceGiveaway with the discriminator field "source" forced to "giveaway". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ChatBoostSourceKind"></a>
-## type [ChatBoostSourceKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L36>)
+## type [ChatBoostSourceKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L44>)
 
 
 
@@ -3590,7 +3748,7 @@ const (
 ```
 
 <a name="ChatBoostSourcePremium"></a>
-## type [ChatBoostSourcePremium](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4442-L4447>)
+## type [ChatBoostSourcePremium](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4486-L4491>)
 
 The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium subscription to another user.
 
@@ -3604,7 +3762,7 @@ type ChatBoostSourcePremium struct {
 ```
 
 <a name="ChatBoostSourcePremium.MarshalJSON"></a>
-### func \(\*ChatBoostSourcePremium\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4454>)
+### func \(\*ChatBoostSourcePremium\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4498>)
 
 ```go
 func (v *ChatBoostSourcePremium) MarshalJSON() ([]byte, error)
@@ -3613,7 +3771,7 @@ func (v *ChatBoostSourcePremium) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ChatBoostSourcePremium with the discriminator field "source" forced to "premium". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ChatBoostUpdated"></a>
-## type [ChatBoostUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4556-L4561>)
+## type [ChatBoostUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4600-L4605>)
 
 This object represents a boost added to a chat or changed.
 
@@ -3627,7 +3785,7 @@ type ChatBoostUpdated struct {
 ```
 
 <a name="ChatFullInfo"></a>
-## type [ChatFullInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L158-L263>)
+## type [ChatFullInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L160-L267>)
 
 This object contains full information about a chat.
 
@@ -3737,11 +3895,13 @@ type ChatFullInfo struct {
     PaidMessageStarCount *int64 `json:"paid_message_star_count,omitempty"`
     // Optional. The bot that processes join request queries in the chat. The field is only available to chat administrators.
     GuardBot *User `json:"guard_bot,omitempty"`
+    // Optional. The Community to which the chat belongs
+    Community *Community `json:"community,omitempty"`
 }
 ```
 
 <a name="GetChat"></a>
-### func [GetChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2695>)
+### func [GetChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2791>)
 
 ```go
 func GetChat(ctx context.Context, b *client.Bot, p *GetChatParams) (*ChatFullInfo, error)
@@ -3752,7 +3912,7 @@ GetChat calls the getChat Telegram Bot API method.
 Use this method to get up\-to\-date information about the chat. Returns a ChatFullInfo object on success.
 
 <a name="ChatFullInfo.UnmarshalJSON"></a>
-### func \(\*ChatFullInfo\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L267>)
+### func \(\*ChatFullInfo\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L271>)
 
 ```go
 func (m *ChatFullInfo) UnmarshalJSON(data []byte) error
@@ -3826,7 +3986,7 @@ func (c *ChatID) UnmarshalJSON(data []byte) error
 UnmarshalJSON accepts either a JSON number or a JSON string.
 
 <a name="ChatInviteLink"></a>
-## type [ChatInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2647-L2670>)
+## type [ChatInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2689-L2712>)
 
 Represents an invite link for a chat.
 
@@ -3858,7 +4018,7 @@ type ChatInviteLink struct {
 ```
 
 <a name="CreateChatInviteLink"></a>
-### func [CreateChatInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2366>)
+### func [CreateChatInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2462>)
 
 ```go
 func CreateChatInviteLink(ctx context.Context, b *client.Bot, p *CreateChatInviteLinkParams) (*ChatInviteLink, error)
@@ -3869,7 +4029,7 @@ CreateChatInviteLink calls the createChatInviteLink Telegram Bot API method.
 Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method revokeChatInviteLink. Returns the new invite link as ChatInviteLink object.
 
 <a name="CreateChatSubscriptionInviteLink"></a>
-### func [CreateChatSubscriptionInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2412>)
+### func [CreateChatSubscriptionInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2508>)
 
 ```go
 func CreateChatSubscriptionInviteLink(ctx context.Context, b *client.Bot, p *CreateChatSubscriptionInviteLinkParams) (*ChatInviteLink, error)
@@ -3880,7 +4040,7 @@ CreateChatSubscriptionInviteLink calls the createChatSubscriptionInviteLink Tele
 Use this method to create a subscription invite link for a channel chat. The bot must have the can\_invite\_users administrator rights. The link can be edited using the method editChatSubscriptionInviteLink or revoked using the method revokeChatInviteLink. Returns the new invite link as a ChatInviteLink object.
 
 <a name="EditChatInviteLink"></a>
-### func [EditChatInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2391>)
+### func [EditChatInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2487>)
 
 ```go
 func EditChatInviteLink(ctx context.Context, b *client.Bot, p *EditChatInviteLinkParams) (*ChatInviteLink, error)
@@ -3891,7 +4051,7 @@ EditChatInviteLink calls the editChatInviteLink Telegram Bot API method.
 Use this method to edit a non\-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the edited invite link as a ChatInviteLink object.
 
 <a name="EditChatSubscriptionInviteLink"></a>
-### func [EditChatSubscriptionInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2431>)
+### func [EditChatSubscriptionInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2527>)
 
 ```go
 func EditChatSubscriptionInviteLink(ctx context.Context, b *client.Bot, p *EditChatSubscriptionInviteLinkParams) (*ChatInviteLink, error)
@@ -3902,7 +4062,7 @@ EditChatSubscriptionInviteLink calls the editChatSubscriptionInviteLink Telegram
 Use this method to edit a subscription invite link created by the bot. The bot must have the can\_invite\_users administrator rights. Returns the edited invite link as a ChatInviteLink object.
 
 <a name="RevokeChatInviteLink"></a>
-### func [RevokeChatInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2448>)
+### func [RevokeChatInviteLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2544>)
 
 ```go
 func RevokeChatInviteLink(ctx context.Context, b *client.Bot, p *RevokeChatInviteLinkParams) (*ChatInviteLink, error)
@@ -3913,7 +4073,7 @@ RevokeChatInviteLink calls the revokeChatInviteLink Telegram Bot API method.
 Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the revoked invite link as ChatInviteLink object.
 
 <a name="ChatJoinRequest"></a>
-## type [ChatJoinRequest](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3057-L3072>)
+## type [ChatJoinRequest](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3099-L3114>)
 
 Represents a join request sent to a chat.
 
@@ -3931,13 +4091,13 @@ type ChatJoinRequest struct {
     Bio string `json:"bio,omitempty"`
     // Optional. Chat invite link that was used by the user to send the join request
     InviteLink *ChatInviteLink `json:"invite_link,omitempty"`
-    // Optional. Identifier of the join request query. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds.
+    // Optional. Identifier of the join request query; for bots assigned to process join requests only. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds.
     QueryID string `json:"query_id,omitempty"`
 }
 ```
 
 <a name="ChatLocation"></a>
-## type [ChatLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3439-L3444>)
+## type [ChatLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3481-L3486>)
 
 Represents a location to which a chat is connected.
 
@@ -3951,7 +4111,7 @@ type ChatLocation struct {
 ```
 
 <a name="ChatMember"></a>
-## type [ChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2774>)
+## type [ChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2816>)
 
 ChatMember is a union type. The following concrete variants implement it:
 
@@ -3971,7 +4131,7 @@ type ChatMember interface {
 ```
 
 <a name="GetChatAdministrators"></a>
-### func [GetChatAdministrators](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2712>)
+### func [GetChatAdministrators](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2808>)
 
 ```go
 func GetChatAdministrators(ctx context.Context, b *client.Bot, p *GetChatAdministratorsParams) ([]ChatMember, error)
@@ -3982,7 +4142,7 @@ GetChatAdministrators calls the getChatAdministrators Telegram Bot API method.
 Use this method to get a list of administrators in a chat. Returns an Array of ChatMember objects.
 
 <a name="GetChatMember"></a>
-### func [GetChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2760>)
+### func [GetChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2856>)
 
 ```go
 func GetChatMember(ctx context.Context, b *client.Bot, p *GetChatMemberParams) (ChatMember, error)
@@ -3993,7 +4153,7 @@ GetChatMember calls the getChatMember Telegram Bot API method.
 Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if the bot is an administrator in the chat. Returns a ChatMember object on success.
 
 <a name="UnmarshalChatMember"></a>
-### func [UnmarshalChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2796>)
+### func [UnmarshalChatMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2838>)
 
 ```go
 func UnmarshalChatMember(data []byte) (ChatMember, error)
@@ -4002,7 +4162,7 @@ func UnmarshalChatMember(data []byte) (ChatMember, error)
 UnmarshalChatMember decodes a ChatMember from JSON by inspecting the "status" field and dispatching to the correct concrete type.
 
 <a name="ChatMemberAdministrator"></a>
-## type [ChatMemberAdministrator](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2855-L2898>)
+## type [ChatMemberAdministrator](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2897-L2940>)
 
 Represents a chat member that has some additional privileges.
 
@@ -4046,7 +4206,7 @@ type ChatMemberAdministrator struct {
     CanManageTopics *bool `json:"can_manage_topics,omitempty"`
     // Optional. True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only
     CanManageDirectMessages *bool `json:"can_manage_direct_messages,omitempty"`
-    // Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted defaults to the value of can_pin_messages.
+    // Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted, defaults to the value of can_pin_messages.
     CanManageTags *bool `json:"can_manage_tags,omitempty"`
     // Optional. Custom title for this user
     CustomTitle string `json:"custom_title,omitempty"`
@@ -4054,7 +4214,7 @@ type ChatMemberAdministrator struct {
 ```
 
 <a name="ChatMemberAdministrator.MarshalJSON"></a>
-### func \(\*ChatMemberAdministrator\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2905>)
+### func \(\*ChatMemberAdministrator\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2947>)
 
 ```go
 func (v *ChatMemberAdministrator) MarshalJSON() ([]byte, error)
@@ -4063,7 +4223,7 @@ func (v *ChatMemberAdministrator) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ChatMemberAdministrator with the discriminator field "status" forced to "administrator". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ChatMemberBanned"></a>
-## type [ChatMemberBanned](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3031-L3038>)
+## type [ChatMemberBanned](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3073-L3080>)
 
 Represents a chat member that was banned in the chat and can't return to the chat or view chat messages.
 
@@ -4079,7 +4239,7 @@ type ChatMemberBanned struct {
 ```
 
 <a name="ChatMemberBanned.MarshalJSON"></a>
-### func \(\*ChatMemberBanned\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3045>)
+### func \(\*ChatMemberBanned\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3087>)
 
 ```go
 func (v *ChatMemberBanned) MarshalJSON() ([]byte, error)
@@ -4088,7 +4248,7 @@ func (v *ChatMemberBanned) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ChatMemberBanned with the discriminator field "status" forced to "kicked". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ChatMemberLeft"></a>
-## type [ChatMemberLeft](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3007-L3012>)
+## type [ChatMemberLeft](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3049-L3054>)
 
 Represents a chat member that isn't currently a member of the chat, but may join it themselves.
 
@@ -4102,7 +4262,7 @@ type ChatMemberLeft struct {
 ```
 
 <a name="ChatMemberLeft.MarshalJSON"></a>
-### func \(\*ChatMemberLeft\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3019>)
+### func \(\*ChatMemberLeft\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3061>)
 
 ```go
 func (v *ChatMemberLeft) MarshalJSON() ([]byte, error)
@@ -4111,7 +4271,7 @@ func (v *ChatMemberLeft) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ChatMemberLeft with the discriminator field "status" forced to "left". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ChatMemberMember"></a>
-## type [ChatMemberMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2917-L2926>)
+## type [ChatMemberMember](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2959-L2968>)
 
 Represents a chat member that has no additional privileges or restrictions.
 
@@ -4129,7 +4289,7 @@ type ChatMemberMember struct {
 ```
 
 <a name="ChatMemberMember.MarshalJSON"></a>
-### func \(\*ChatMemberMember\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2933>)
+### func \(\*ChatMemberMember\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2975>)
 
 ```go
 func (v *ChatMemberMember) MarshalJSON() ([]byte, error)
@@ -4138,7 +4298,7 @@ func (v *ChatMemberMember) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ChatMemberMember with the discriminator field "status" forced to "member". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ChatMemberOwner"></a>
-## type [ChatMemberOwner](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2827-L2836>)
+## type [ChatMemberOwner](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2869-L2878>)
 
 Represents a chat member that owns the chat and has all administrator privileges.
 
@@ -4156,7 +4316,7 @@ type ChatMemberOwner struct {
 ```
 
 <a name="ChatMemberOwner.MarshalJSON"></a>
-### func \(\*ChatMemberOwner\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2843>)
+### func \(\*ChatMemberOwner\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2885>)
 
 ```go
 func (v *ChatMemberOwner) MarshalJSON() ([]byte, error)
@@ -4165,7 +4325,7 @@ func (v *ChatMemberOwner) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ChatMemberOwner with the discriminator field "status" forced to "creator". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ChatMemberRestricted"></a>
-## type [ChatMemberRestricted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2945-L2988>)
+## type [ChatMemberRestricted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2987-L3030>)
 
 Represents a chat member that is under certain restrictions in the chat. Supergroups only.
 
@@ -4217,7 +4377,7 @@ type ChatMemberRestricted struct {
 ```
 
 <a name="ChatMemberRestricted.MarshalJSON"></a>
-### func \(\*ChatMemberRestricted\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2995>)
+### func \(\*ChatMemberRestricted\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3037>)
 
 ```go
 func (v *ChatMemberRestricted) MarshalJSON() ([]byte, error)
@@ -4226,7 +4386,7 @@ func (v *ChatMemberRestricted) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ChatMemberRestricted with the discriminator field "status" forced to "restricted". The hardcoded value frees callers from setting Status by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ChatMemberStatus"></a>
-## type [ChatMemberStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L44>)
+## type [ChatMemberStatus](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L52>)
 
 
 
@@ -4248,7 +4408,7 @@ const (
 ```
 
 <a name="ChatMemberUpdated"></a>
-## type [ChatMemberUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2711-L2728>)
+## type [ChatMemberUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2753-L2770>)
 
 This object represents changes in the status of a chat member.
 
@@ -4274,7 +4434,7 @@ type ChatMemberUpdated struct {
 ```
 
 <a name="ChatMemberUpdated.UnmarshalJSON"></a>
-### func \(\*ChatMemberUpdated\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2732>)
+### func \(\*ChatMemberUpdated\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2774>)
 
 ```go
 func (m *ChatMemberUpdated) UnmarshalJSON(data []byte) error
@@ -4283,7 +4443,7 @@ func (m *ChatMemberUpdated) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes ChatMemberUpdated by dispatching union\-typed fields \(OldChatMember, NewChatMember\) through their concrete UnmarshalXxx helpers.
 
 <a name="ChatOwnerChanged"></a>
-## type [ChatOwnerChanged](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4606-L4609>)
+## type [ChatOwnerChanged](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4650-L4653>)
 
 Describes a service message about an ownership change in the chat.
 
@@ -4295,7 +4455,7 @@ type ChatOwnerChanged struct {
 ```
 
 <a name="ChatOwnerLeft"></a>
-## type [ChatOwnerLeft](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4600-L4603>)
+## type [ChatOwnerLeft](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4644-L4647>)
 
 Describes a service message about the chat owner leaving the chat.
 
@@ -4307,7 +4467,7 @@ type ChatOwnerLeft struct {
 ```
 
 <a name="ChatPermissions"></a>
-## type [ChatPermissions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3075-L3108>)
+## type [ChatPermissions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3117-L3150>)
 
 Describes actions that a non\-administrator user is allowed to take in a chat.
 
@@ -4343,13 +4503,13 @@ type ChatPermissions struct {
     CanInviteUsers *bool `json:"can_invite_users,omitempty"`
     // Optional. True, if the user is allowed to pin messages. Ignored in public supergroups.
     CanPinMessages *bool `json:"can_pin_messages,omitempty"`
-    // Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages.
+    // Optional. True, if the user is allowed to create forum topics. If omitted, defaults to the value of can_pin_messages.
     CanManageTopics *bool `json:"can_manage_topics,omitempty"`
 }
 ```
 
 <a name="ChatPhoto"></a>
-## type [ChatPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2635-L2644>)
+## type [ChatPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2677-L2686>)
 
 This object represents a chat photo.
 
@@ -4367,7 +4527,7 @@ type ChatPhoto struct {
 ```
 
 <a name="ChatShared"></a>
-## type [ChatShared](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2145-L2156>)
+## type [ChatShared](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2179-L2190>)
 
 This object contains information about a chat that was shared with the bot using a KeyboardButtonRequestChat button.
 
@@ -4387,7 +4547,7 @@ type ChatShared struct {
 ```
 
 <a name="ChatType"></a>
-## type [ChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L55>)
+## type [ChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L63>)
 
 
 
@@ -4407,7 +4567,7 @@ const (
 ```
 
 <a name="Checklist"></a>
-## type [Checklist](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1517-L1528>)
+## type [Checklist](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1531-L1542>)
 
 Describes a checklist.
 
@@ -4427,7 +4587,7 @@ type Checklist struct {
 ```
 
 <a name="ChecklistTask"></a>
-## type [ChecklistTask](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1501-L1514>)
+## type [ChecklistTask](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1515-L1528>)
 
 Describes a task in a checklist.
 
@@ -4449,7 +4609,7 @@ type ChecklistTask struct {
 ```
 
 <a name="ChecklistTasksAdded"></a>
-## type [ChecklistTasksAdded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1569-L1574>)
+## type [ChecklistTasksAdded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2103-L2108>)
 
 Describes a service message about tasks added to a checklist.
 
@@ -4463,7 +4623,7 @@ type ChecklistTasksAdded struct {
 ```
 
 <a name="ChecklistTasksDone"></a>
-## type [ChecklistTasksDone](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1559-L1566>)
+## type [ChecklistTasksDone](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2093-L2100>)
 
 Describes a service message about checklist tasks marked as done or not done.
 
@@ -4479,7 +4639,7 @@ type ChecklistTasksDone struct {
 ```
 
 <a name="ChosenInlineResult"></a>
-## type [ChosenInlineResult](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7927-L7938>)
+## type [ChosenInlineResult](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8645-L8656>)
 
 Represents a result of an inline query that was chosen by the user and sent to their chat partner. Note: It is necessary to enable inline feedback via @BotFather in order to receive these objects in updates.
 
@@ -4499,7 +4659,7 @@ type ChosenInlineResult struct {
 ```
 
 <a name="CloseForumTopicParams"></a>
-## type [CloseForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2875-L2880>)
+## type [CloseForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2971-L2976>)
 
 CloseForumTopicParams is the parameter set for CloseForumTopic.
 
@@ -4515,7 +4675,7 @@ type CloseForumTopicParams struct {
 ```
 
 <a name="CloseGeneralForumTopicParams"></a>
-## type [CloseGeneralForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2960-L2963>)
+## type [CloseGeneralForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3056-L3059>)
 
 CloseGeneralForumTopicParams is the parameter set for CloseGeneralForumTopic.
 
@@ -4540,8 +4700,44 @@ type CloseParams struct {
 }
 ```
 
+<a name="Community"></a>
+## type [Community](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2669-L2674>)
+
+Represents a community \(a group of chats\).
+
+```go
+type Community struct {
+    // Unique identifier for this community. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
+    ID  int64 `json:"id"`
+    // Name of the community
+    Name string `json:"name"`
+}
+```
+
+<a name="CommunityChatAdded"></a>
+## type [CommunityChatAdded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2111-L2114>)
+
+Describes a service message about a chat being added to a community.
+
+```go
+type CommunityChatAdded struct {
+    // The new community to which the chat belongs
+    Community Community `json:"community"`
+}
+```
+
+<a name="CommunityChatRemoved"></a>
+## type [CommunityChatRemoved](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2117-L2118>)
+
+Describes a service message about a chat being removed from a community. Currently holds no information.
+
+```go
+type CommunityChatRemoved struct {
+}
+```
+
 <a name="Contact"></a>
-## type [Contact](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1281-L1292>)
+## type [Contact](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1295-L1306>)
 
 This object represents a phone contact.
 
@@ -4561,7 +4757,7 @@ type Contact struct {
 ```
 
 <a name="ConvertGiftToStarsParams"></a>
-## type [ConvertGiftToStarsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3824-L3829>)
+## type [ConvertGiftToStarsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3920-L3925>)
 
 ConvertGiftToStarsParams is the parameter set for ConvertGiftToStars.
 
@@ -4577,11 +4773,11 @@ type ConvertGiftToStarsParams struct {
 ```
 
 <a name="CopyMessageParams"></a>
-## type [CopyMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L292-L327>)
+## type [CopyMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L296-L331>)
 
 CopyMessageParams is the parameter set for CopyMessage.
 
-Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct\_option\_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct\_option\_ids is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
 
 ```go
 type CopyMessageParams struct {
@@ -4603,7 +4799,7 @@ type CopyMessageParams struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
+    // Pass True if the caption must be shown above the message media. Ignored if a new caption isn't specified.
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Sends the message silently. Users will receive a notification with no sound.
     DisableNotification *bool `json:"disable_notification,omitempty"`
@@ -4623,11 +4819,11 @@ type CopyMessageParams struct {
 ```
 
 <a name="CopyMessagesParams"></a>
-## type [CopyMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L339-L356>)
+## type [CopyMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L343-L360>)
 
 CopyMessagesParams is the parameter set for CopyMessages.
 
-Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct\_option\_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an array of MessageId of the sent messages is returned.
+Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct\_option\_ids is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an Array of MessageId of the sent messages is returned.
 
 ```go
 type CopyMessagesParams struct {
@@ -4651,7 +4847,7 @@ type CopyMessagesParams struct {
 ```
 
 <a name="CopyTextButton"></a>
-## type [CopyTextButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2574-L2577>)
+## type [CopyTextButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2608-L2611>)
 
 This object represents an inline keyboard button that copies specified text to the clipboard.
 
@@ -4663,7 +4859,7 @@ type CopyTextButton struct {
 ```
 
 <a name="CreateChatInviteLinkParams"></a>
-## type [CreateChatInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2350-L2361>)
+## type [CreateChatInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2446-L2457>)
 
 CreateChatInviteLinkParams is the parameter set for CreateChatInviteLink.
 
@@ -4685,7 +4881,7 @@ type CreateChatInviteLinkParams struct {
 ```
 
 <a name="CreateChatSubscriptionInviteLinkParams"></a>
-## type [CreateChatSubscriptionInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2398-L2407>)
+## type [CreateChatSubscriptionInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2494-L2503>)
 
 CreateChatSubscriptionInviteLinkParams is the parameter set for CreateChatSubscriptionInviteLink.
 
@@ -4705,7 +4901,7 @@ type CreateChatSubscriptionInviteLinkParams struct {
 ```
 
 <a name="CreateForumTopicParams"></a>
-## type [CreateForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2833-L2842>)
+## type [CreateForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2929-L2938>)
 
 CreateForumTopicParams is the parameter set for CreateForumTopic.
 
@@ -4725,7 +4921,7 @@ type CreateForumTopicParams struct {
 ```
 
 <a name="CreateInvoiceLinkParams"></a>
-## type [CreateInvoiceLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4995-L5040>)
+## type [CreateInvoiceLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5248-L5293>)
 
 CreateInvoiceLinkParams is the parameter set for CreateInvoiceLink.
 
@@ -4751,7 +4947,7 @@ type CreateInvoiceLinkParams struct {
     SubscriptionPeriod *int64 `json:"subscription_period,omitempty"`
     // The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
     MaxTipAmount *int64 `json:"max_tip_amount,omitempty"`
-    // A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
+    // A JSON-serialized Array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
     SuggestedTipAmounts []int64 `json:"suggested_tip_amounts,omitempty"`
     // JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
     ProviderData string `json:"provider_data,omitempty"`
@@ -4781,7 +4977,7 @@ type CreateInvoiceLinkParams struct {
 ```
 
 <a name="CreateNewStickerSetParams"></a>
-## type [CreateNewStickerSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4589-L4602>)
+## type [CreateNewStickerSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4842-L4855>)
 
 CreateNewStickerSetParams is the parameter set for CreateNewStickerSet.
 
@@ -4805,7 +5001,7 @@ type CreateNewStickerSetParams struct {
 ```
 
 <a name="DeclineChatJoinRequestParams"></a>
-## type [DeclineChatJoinRequestParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2472-L2477>)
+## type [DeclineChatJoinRequestParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2568-L2573>)
 
 DeclineChatJoinRequestParams is the parameter set for DeclineChatJoinRequest.
 
@@ -4821,7 +5017,7 @@ type DeclineChatJoinRequestParams struct {
 ```
 
 <a name="DeclineSuggestedPostParams"></a>
-## type [DeclineSuggestedPostParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4312-L4319>)
+## type [DeclineSuggestedPostParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4536-L4543>)
 
 DeclineSuggestedPostParams is the parameter set for DeclineSuggestedPost.
 
@@ -4839,7 +5035,7 @@ type DeclineSuggestedPostParams struct {
 ```
 
 <a name="DeleteAllMessageReactionsParams"></a>
-## type [DeleteAllMessageReactionsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4386-L4393>)
+## type [DeleteAllMessageReactionsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4629-L4636>)
 
 DeleteAllMessageReactionsParams is the parameter set for DeleteAllMessageReactions.
 
@@ -4857,7 +5053,7 @@ type DeleteAllMessageReactionsParams struct {
 ```
 
 <a name="DeleteBusinessMessagesParams"></a>
-## type [DeleteBusinessMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3566-L3571>)
+## type [DeleteBusinessMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3662-L3667>)
 
 DeleteBusinessMessagesParams is the parameter set for DeleteBusinessMessages.
 
@@ -4873,7 +5069,7 @@ type DeleteBusinessMessagesParams struct {
 ```
 
 <a name="DeleteChatPhotoParams"></a>
-## type [DeleteChatPhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2568-L2571>)
+## type [DeleteChatPhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2664-L2667>)
 
 DeleteChatPhotoParams is the parameter set for DeleteChatPhoto.
 
@@ -4887,7 +5083,7 @@ type DeleteChatPhotoParams struct {
 ```
 
 <a name="DeleteChatStickerSetParams"></a>
-## type [DeleteChatStickerSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2805-L2808>)
+## type [DeleteChatStickerSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2901-L2904>)
 
 DeleteChatStickerSetParams is the parameter set for DeleteChatStickerSet.
 
@@ -4900,8 +5096,26 @@ type DeleteChatStickerSetParams struct {
 }
 ```
 
+<a name="DeleteEphemeralMessageParams"></a>
+## type [DeleteEphemeralMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4589-L4596>)
+
+DeleteEphemeralMessageParams is the parameter set for DeleteEphemeralMessage.
+
+Use this method to delete an ephemeral message. Note that it is not guaranteed that the user will receive the message deletion event, especially if they are offline. Returns True on success.
+
+```go
+type DeleteEphemeralMessageParams struct {
+    // Unique identifier for the target chat or username of the target supergroup in the format @username
+    ChatID ChatID `json:"chat_id"`
+    // Identifier of the user who received the message
+    ReceiverUserID int64 `json:"receiver_user_id"`
+    // Identifier of the ephemeral message to delete
+    EphemeralMessageID int64 `json:"ephemeral_message_id"`
+}
+```
+
 <a name="DeleteForumTopicParams"></a>
-## type [DeleteForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2909-L2914>)
+## type [DeleteForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3005-L3010>)
 
 DeleteForumTopicParams is the parameter set for DeleteForumTopic.
 
@@ -4917,7 +5131,7 @@ type DeleteForumTopicParams struct {
 ```
 
 <a name="DeleteMessageParams"></a>
-## type [DeleteMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4331-L4336>)
+## type [DeleteMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4555-L4560>)
 
 DeleteMessageParams is the parameter set for DeleteMessage.
 
@@ -4933,7 +5147,7 @@ type DeleteMessageParams struct {
 ```
 
 <a name="DeleteMessageReactionParams"></a>
-## type [DeleteMessageReactionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4365-L4374>)
+## type [DeleteMessageReactionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4608-L4617>)
 
 DeleteMessageReactionParams is the parameter set for DeleteMessageReaction.
 
@@ -4953,7 +5167,7 @@ type DeleteMessageReactionParams struct {
 ```
 
 <a name="DeleteMessagesParams"></a>
-## type [DeleteMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4348-L4353>)
+## type [DeleteMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4572-L4577>)
 
 DeleteMessagesParams is the parameter set for DeleteMessages.
 
@@ -4969,7 +5183,7 @@ type DeleteMessagesParams struct {
 ```
 
 <a name="DeleteMyCommandsParams"></a>
-## type [DeleteMyCommandsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3192-L3197>)
+## type [DeleteMyCommandsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3288-L3293>)
 
 DeleteMyCommandsParams is the parameter set for DeleteMyCommands.
 
@@ -4985,7 +5199,7 @@ type DeleteMyCommandsParams struct {
 ```
 
 <a name="DeleteStickerFromSetParams"></a>
-## type [DeleteStickerFromSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4650-L4653>)
+## type [DeleteStickerFromSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4903-L4906>)
 
 DeleteStickerFromSetParams is the parameter set for DeleteStickerFromSet.
 
@@ -4999,7 +5213,7 @@ type DeleteStickerFromSetParams struct {
 ```
 
 <a name="DeleteStickerSetParams"></a>
-## type [DeleteStickerSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4822-L4825>)
+## type [DeleteStickerSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5075-L5078>)
 
 DeleteStickerSetParams is the parameter set for DeleteStickerSet.
 
@@ -5013,7 +5227,7 @@ type DeleteStickerSetParams struct {
 ```
 
 <a name="DeleteStoryParams"></a>
-## type [DeleteStoryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3966-L3971>)
+## type [DeleteStoryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4062-L4067>)
 
 DeleteStoryParams is the parameter set for DeleteStory.
 
@@ -5043,7 +5257,7 @@ type DeleteWebhookParams struct {
 ```
 
 <a name="Dice"></a>
-## type [Dice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1295-L1300>)
+## type [Dice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1309-L1314>)
 
 This object represents an animated emoji that displays a random value.
 
@@ -5079,13 +5293,13 @@ const (
 ```
 
 <a name="DirectMessagePriceChanged"></a>
-## type [DirectMessagePriceChanged](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2197-L2202>)
+## type [DirectMessagePriceChanged](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2231-L2236>)
 
 Describes a service message about a change in the price of direct messages sent to a channel chat.
 
 ```go
 type DirectMessagePriceChanged struct {
-    // True, if direct messages are enabled for the channel chat; false otherwise
+    // True, if direct messages are enabled for the channel chat; False otherwise
     AreDirectMessagesEnabled bool `json:"are_direct_messages_enabled"`
     // Optional. The new number of Telegram Stars that must be paid by users for each direct message sent to the channel. Does not apply to users who have been exempted by administrators. Defaults to 0.
     DirectMessageStarCount *int64 `json:"direct_message_star_count,omitempty"`
@@ -5093,7 +5307,7 @@ type DirectMessagePriceChanged struct {
 ```
 
 <a name="DirectMessagesTopic"></a>
-## type [DirectMessagesTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2359-L2364>)
+## type [DirectMessagesTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2393-L2398>)
 
 Describes a topic of a direct messages chat.
 
@@ -5107,7 +5321,7 @@ type DirectMessagesTopic struct {
 ```
 
 <a name="Document"></a>
-## type [Document](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L975-L988>)
+## type [Document](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L989-L1002>)
 
 This object represents a general file \(as opposed to photos, voice messages and audio files\).
 
@@ -5129,7 +5343,7 @@ type Document struct {
 ```
 
 <a name="EditChatInviteLinkParams"></a>
-## type [EditChatInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2373-L2386>)
+## type [EditChatInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2469-L2482>)
 
 EditChatInviteLinkParams is the parameter set for EditChatInviteLink.
 
@@ -5153,7 +5367,7 @@ type EditChatInviteLinkParams struct {
 ```
 
 <a name="EditChatSubscriptionInviteLinkParams"></a>
-## type [EditChatSubscriptionInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2419-L2426>)
+## type [EditChatSubscriptionInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2515-L2522>)
 
 EditChatSubscriptionInviteLinkParams is the parameter set for EditChatSubscriptionInviteLink.
 
@@ -5170,8 +5384,131 @@ type EditChatSubscriptionInviteLinkParams struct {
 }
 ```
 
+<a name="EditEphemeralMessageCaptionParams"></a>
+## type [EditEphemeralMessageCaptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4469-L4484>)
+
+EditEphemeralMessageCaptionParams is the parameter set for EditEphemeralMessageCaption.
+
+Use this method to edit the caption of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+
+```go
+type EditEphemeralMessageCaptionParams struct {
+    // Unique identifier for the target chat or username of the target supergroup in the format @username
+    ChatID ChatID `json:"chat_id"`
+    // Identifier of the user who received the message
+    ReceiverUserID int64 `json:"receiver_user_id"`
+    // Identifier of the ephemeral message to edit
+    EphemeralMessageID int64 `json:"ephemeral_message_id"`
+    // New caption of the message, 0-1024 characters after entities parsing
+    Caption string `json:"caption,omitempty"`
+    // Mode for parsing entities in the message caption. See formatting options for more details.
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
+    // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+    CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
+    // A JSON-serialized object for an inline keyboard
+    ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+}
+```
+
+<a name="EditEphemeralMessageMediaParams"></a>
+## type [EditEphemeralMessageMediaParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4418-L4429>)
+
+EditEphemeralMessageMediaParams is the parameter set for EditEphemeralMessageMedia.
+
+Use this method to edit the media of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+
+```go
+type EditEphemeralMessageMediaParams struct {
+    // Unique identifier for the target chat or username of the target supergroup in the format @username
+    ChatID ChatID `json:"chat_id"`
+    // Identifier of the user who received the message
+    ReceiverUserID int64 `json:"receiver_user_id"`
+    // Identifier of the ephemeral message to edit
+    EphemeralMessageID int64 `json:"ephemeral_message_id"`
+    // A JSON-serialized object for the new media content of the message. A new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL.
+    Media InputMedia `json:"media"`
+    // A JSON-serialized object for an inline keyboard
+    ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+}
+```
+
+<a name="EditEphemeralMessageMediaParams.HasFile"></a>
+### func \(\*EditEphemeralMessageMediaParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4432>)
+
+```go
+func (p *EditEphemeralMessageMediaParams) HasFile() bool
+```
+
+HasFile reports whether a multipart upload is required.
+
+<a name="EditEphemeralMessageMediaParams.MultipartFields"></a>
+### func \(\*EditEphemeralMessageMediaParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4437>)
+
+```go
+func (p *EditEphemeralMessageMediaParams) MultipartFields() map[string]string
+```
+
+MultipartFields returns the non\-file fields used in the multipart body.
+
+<a name="EditEphemeralMessageMediaParams.MultipartFiles"></a>
+### func \(\*EditEphemeralMessageMediaParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4454>)
+
+```go
+func (p *EditEphemeralMessageMediaParams) MultipartFiles() []client.MultipartFile
+```
+
+MultipartFiles returns the file parts.
+
+<a name="EditEphemeralMessageReplyMarkupParams"></a>
+## type [EditEphemeralMessageReplyMarkupParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4496-L4505>)
+
+EditEphemeralMessageReplyMarkupParams is the parameter set for EditEphemeralMessageReplyMarkup.
+
+Use this method to edit only the reply markup of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+
+```go
+type EditEphemeralMessageReplyMarkupParams struct {
+    // Unique identifier for the target chat or username of the target supergroup in the format @username
+    ChatID ChatID `json:"chat_id"`
+    // Identifier of the user who received the message
+    ReceiverUserID int64 `json:"receiver_user_id"`
+    // Identifier of the ephemeral message to edit
+    EphemeralMessageID int64 `json:"ephemeral_message_id"`
+    // A JSON-serialized object for an inline keyboard
+    ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+}
+```
+
+<a name="EditEphemeralMessageTextParams"></a>
+## type [EditEphemeralMessageTextParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4389-L4406>)
+
+EditEphemeralMessageTextParams is the parameter set for EditEphemeralMessageText.
+
+Use this method to edit an ephemeral text message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+
+```go
+type EditEphemeralMessageTextParams struct {
+    // Unique identifier for the target chat or username of the target supergroup in the format @username
+    ChatID ChatID `json:"chat_id"`
+    // Identifier of the user who received the message
+    ReceiverUserID int64 `json:"receiver_user_id"`
+    // Identifier of the ephemeral message to edit
+    EphemeralMessageID int64 `json:"ephemeral_message_id"`
+    // New text of the message, 1-4096 characters after entity parsing
+    Text string `json:"text"`
+    // Mode for parsing entities in the message text. See formatting options for more details.
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
+    // A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
+    Entities []MessageEntity `json:"entities,omitempty"`
+    // Link preview generation options for the message
+    LinkPreviewOptions *LinkPreviewOptions `json:"link_preview_options,omitempty"`
+    // A JSON-serialized object for an inline keyboard
+    ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+}
+```
+
 <a name="EditForumTopicParams"></a>
-## type [EditForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2854-L2863>)
+## type [EditForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2950-L2959>)
 
 EditForumTopicParams is the parameter set for EditForumTopic.
 
@@ -5191,7 +5528,7 @@ type EditForumTopicParams struct {
 ```
 
 <a name="EditGeneralForumTopicParams"></a>
-## type [EditGeneralForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2943-L2948>)
+## type [EditGeneralForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3039-L3044>)
 
 EditGeneralForumTopicParams is the parameter set for EditGeneralForumTopic.
 
@@ -5207,7 +5544,7 @@ type EditGeneralForumTopicParams struct {
 ```
 
 <a name="EditMessageCaptionParams"></a>
-## type [EditMessageCaptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4075-L4094>)
+## type [EditMessageCaptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4171-L4190>)
 
 EditMessageCaptionParams is the parameter set for EditMessageCaption.
 
@@ -5229,7 +5566,7 @@ type EditMessageCaptionParams struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
+    // Pass True if the caption must be shown above the message media. Supported only for animation, photo and video messages.
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // A JSON-serialized object for an inline keyboard
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -5237,7 +5574,7 @@ type EditMessageCaptionParams struct {
 ```
 
 <a name="EditMessageChecklistParams"></a>
-## type [EditMessageChecklistParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4226-L4237>)
+## type [EditMessageChecklistParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4322-L4333>)
 
 EditMessageChecklistParams is the parameter set for EditMessageChecklist.
 
@@ -5259,7 +5596,7 @@ type EditMessageChecklistParams struct {
 ```
 
 <a name="EditMessageLiveLocationParams"></a>
-## type [EditMessageLiveLocationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4168-L4191>)
+## type [EditMessageLiveLocationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4264-L4287>)
 
 EditMessageLiveLocationParams is the parameter set for EditMessageLiveLocation.
 
@@ -5293,7 +5630,7 @@ type EditMessageLiveLocationParams struct {
 ```
 
 <a name="EditMessageMediaParams"></a>
-## type [EditMessageMediaParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4106-L4119>)
+## type [EditMessageMediaParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4202-L4215>)
 
 EditMessageMediaParams is the parameter set for EditMessageMedia.
 
@@ -5309,7 +5646,7 @@ type EditMessageMediaParams struct {
     MessageID *int64 `json:"message_id,omitempty"`
     // Required if chat_id and message_id are not specified. Identifier of the inline message.
     InlineMessageID string `json:"inline_message_id,omitempty"`
-    // A JSON-serialized object for a new media content of the message
+    // A JSON-serialized object for the new media content of the message
     Media InputMedia `json:"media"`
     // A JSON-serialized object for a new inline keyboard
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -5317,7 +5654,7 @@ type EditMessageMediaParams struct {
 ```
 
 <a name="EditMessageMediaParams.HasFile"></a>
-### func \(\*EditMessageMediaParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4122>)
+### func \(\*EditMessageMediaParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4218>)
 
 ```go
 func (p *EditMessageMediaParams) HasFile() bool
@@ -5326,7 +5663,7 @@ func (p *EditMessageMediaParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="EditMessageMediaParams.MultipartFields"></a>
-### func \(\*EditMessageMediaParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4127>)
+### func \(\*EditMessageMediaParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4223>)
 
 ```go
 func (p *EditMessageMediaParams) MultipartFields() map[string]string
@@ -5335,7 +5672,7 @@ func (p *EditMessageMediaParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="EditMessageMediaParams.MultipartFiles"></a>
-### func \(\*EditMessageMediaParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4153>)
+### func \(\*EditMessageMediaParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4249>)
 
 ```go
 func (p *EditMessageMediaParams) MultipartFiles() []client.MultipartFile
@@ -5344,7 +5681,7 @@ func (p *EditMessageMediaParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="EditMessageReplyMarkupParams"></a>
-## type [EditMessageReplyMarkupParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4249-L4260>)
+## type [EditMessageReplyMarkupParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4345-L4356>)
 
 EditMessageReplyMarkupParams is the parameter set for EditMessageReplyMarkup.
 
@@ -5366,7 +5703,7 @@ type EditMessageReplyMarkupParams struct {
 ```
 
 <a name="EditMessageTextParams"></a>
-## type [EditMessageTextParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4042-L4063>)
+## type [EditMessageTextParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4138-L4159>)
 
 EditMessageTextParams is the parameter set for EditMessageText.
 
@@ -5390,7 +5727,7 @@ type EditMessageTextParams struct {
     Entities []MessageEntity `json:"entities,omitempty"`
     // Link preview generation options for the message
     LinkPreviewOptions *LinkPreviewOptions `json:"link_preview_options,omitempty"`
-    // New rich content of the message; required if text isn't specified
+    // New rich content of the message; required if text isn't specified. Direct upload of new files isn't supported when an inline message is edited.
     RichMessage *InputRichMessage `json:"rich_message,omitempty"`
     // A JSON-serialized object for an inline keyboard
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -5398,7 +5735,7 @@ type EditMessageTextParams struct {
 ```
 
 <a name="EditStoryParams"></a>
-## type [EditStoryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3939-L3954>)
+## type [EditStoryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4035-L4050>)
 
 EditStoryParams is the parameter set for EditStory.
 
@@ -5424,7 +5761,7 @@ type EditStoryParams struct {
 ```
 
 <a name="EditUserStarSubscriptionParams"></a>
-## type [EditUserStarSubscriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5139-L5146>)
+## type [EditUserStarSubscriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5392-L5399>)
 
 EditUserStarSubscriptionParams is the parameter set for EditUserStarSubscription.
 
@@ -5442,7 +5779,7 @@ type EditUserStarSubscriptionParams struct {
 ```
 
 <a name="EncryptedCredentials"></a>
-## type [EncryptedCredentials](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8609-L8616>)
+## type [EncryptedCredentials](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9327-L9334>)
 
 Describes data required for decrypting and authenticating EncryptedPassportElement. See the Telegram Passport Documentation for a complete description of the data decryption and authentication processes.
 
@@ -5458,7 +5795,7 @@ type EncryptedCredentials struct {
 ```
 
 <a name="EncryptedPassportElement"></a>
-## type [EncryptedPassportElement](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8585-L8606>)
+## type [EncryptedPassportElement](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9303-L9324>)
 
 Describes documents or other Telegram Passport elements shared with the bot by the user.
 
@@ -5488,7 +5825,7 @@ type EncryptedPassportElement struct {
 ```
 
 <a name="EncryptedPassportElementType"></a>
-## type [EncryptedPassportElementType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L64>)
+## type [EncryptedPassportElementType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L72>)
 
 
 
@@ -5517,7 +5854,7 @@ const (
 ```
 
 <a name="ExportChatInviteLinkParams"></a>
-## type [ExportChatInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2334-L2337>)
+## type [ExportChatInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2430-L2433>)
 
 ExportChatInviteLinkParams is the parameter set for ExportChatInviteLink.
 
@@ -5531,7 +5868,7 @@ type ExportChatInviteLinkParams struct {
 ```
 
 <a name="ExternalReplyInfo"></a>
-## type [ExternalReplyInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L655-L708>)
+## type [ExternalReplyInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L667-L720>)
 
 This object contains information about a message that is being replied to, which may come from another chat or forum topic.
 
@@ -5593,7 +5930,7 @@ type ExternalReplyInfo struct {
 ```
 
 <a name="ExternalReplyInfo.UnmarshalJSON"></a>
-### func \(\*ExternalReplyInfo\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L712>)
+### func \(\*ExternalReplyInfo\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L724>)
 
 ```go
 func (m *ExternalReplyInfo) UnmarshalJSON(data []byte) error
@@ -5602,7 +5939,7 @@ func (m *ExternalReplyInfo) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes ExternalReplyInfo by dispatching union\-typed fields \(Origin\) through their concrete UnmarshalXxx helpers.
 
 <a name="File"></a>
-## type [File](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2384-L2393>)
+## type [File](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2418-L2427>)
 
 This object represents a file ready to be downloaded. The file can be downloaded via the link https://api.telegram.org/file/bot\<token\>/\<file\_path\>. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile. The maximum file size to download is 20 MB
 
@@ -5633,7 +5970,7 @@ The returned io.ReadCloser must be closed by the caller. The size of the file is
 For files larger than 20 MB, Telegram requires a self\-hosted Bot API server \(default api.telegram.org has a 20 MB limit on getFile\).
 
 <a name="GetFile"></a>
-### func [GetFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2121>)
+### func [GetFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2217>)
 
 ```go
 func GetFile(ctx context.Context, b *client.Bot, p *GetFileParams) (*File, error)
@@ -5644,7 +5981,7 @@ GetFile calls the getFile Telegram Bot API method.
 Use this method to get basic information about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. On success, a File object is returned. The file can then be downloaded via the link https://api.telegram.org/file/bot\<token\>/\<file\_path\>, where \<file\_path\> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again. Note: This function may not preserve the original file name and MIME type. You should save the file's MIME type and name \(if available\) when the File object is received.
 
 <a name="UploadStickerFile"></a>
-### func [UploadStickerFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4582>)
+### func [UploadStickerFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4835>)
 
 ```go
 func UploadStickerFile(ctx context.Context, b *client.Bot, p *UploadStickerFileParams) (*File, error)
@@ -5655,7 +5992,7 @@ UploadStickerFile calls the uploadStickerFile Telegram Bot API method.
 Use this method to upload a file with a sticker for later use in the createNewStickerSet, addStickerToSet, or replaceStickerInSet methods \(the file can be used multiple times\). Returns the uploaded File on success.
 
 <a name="ForceReply"></a>
-## type [ForceReply](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2625-L2632>)
+## type [ForceReply](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2659-L2666>)
 
 Upon receiving a message with this object, Telegram clients will display a reply interface to the user \(act as if the user has selected the bot's message and tapped 'Reply'\). This can be extremely useful if you want to create user\-friendly step\-by\-step interfaces without having to sacrifice privacy mode. Not supported in channels and for messages sent on behalf of a user account. Example: A poll bot for groups runs in privacy mode \(only receives commands, replies to its messages and mentions\). There could be two ways to create a new poll: The last option is definitely more attractive. And if you use ForceReply in your bot's questions, it will receive the user's answers even if it only receives replies, commands and mentions \- without any extra work for the user.
 
@@ -5671,7 +6008,7 @@ type ForceReply struct {
 ```
 
 <a name="ForumTopic"></a>
-## type [ForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3673-L3684>)
+## type [ForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3715-L3726>)
 
 This object represents a forum topic.
 
@@ -5691,7 +6028,7 @@ type ForumTopic struct {
 ```
 
 <a name="CreateForumTopic"></a>
-### func [CreateForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2847>)
+### func [CreateForumTopic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2943>)
 
 ```go
 func CreateForumTopic(ctx context.Context, b *client.Bot, p *CreateForumTopicParams) (*ForumTopic, error)
@@ -5702,7 +6039,7 @@ CreateForumTopic calls the createForumTopic Telegram Bot API method.
 Use this method to create a topic in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the can\_manage\_topics administrator right. Returns information about the created topic as a ForumTopic object.
 
 <a name="ForumTopicClosed"></a>
-## type [ForumTopicClosed](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2099-L2100>)
+## type [ForumTopicClosed](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2133-L2134>)
 
 This object represents a service message about a forum topic closed in the chat. Currently holds no information.
 
@@ -5712,7 +6049,7 @@ type ForumTopicClosed struct {
 ```
 
 <a name="ForumTopicCreated"></a>
-## type [ForumTopicCreated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2087-L2096>)
+## type [ForumTopicCreated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2121-L2130>)
 
 This object represents a service message about a new forum topic created in the chat.
 
@@ -5730,7 +6067,7 @@ type ForumTopicCreated struct {
 ```
 
 <a name="ForumTopicEdited"></a>
-## type [ForumTopicEdited](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2103-L2108>)
+## type [ForumTopicEdited](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2137-L2142>)
 
 This object represents a service message about an edited forum topic.
 
@@ -5744,7 +6081,7 @@ type ForumTopicEdited struct {
 ```
 
 <a name="ForumTopicReopened"></a>
-## type [ForumTopicReopened](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2111-L2112>)
+## type [ForumTopicReopened](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2145-L2146>)
 
 This object represents a service message about a forum topic reopened in the chat. Currently holds no information.
 
@@ -5754,7 +6091,7 @@ type ForumTopicReopened struct {
 ```
 
 <a name="ForwardMessageParams"></a>
-## type [ForwardMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L232-L253>)
+## type [ForwardMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L236-L257>)
 
 ForwardMessageParams is the parameter set for ForwardMessage.
 
@@ -5786,11 +6123,11 @@ type ForwardMessageParams struct {
 ```
 
 <a name="ForwardMessagesParams"></a>
-## type [ForwardMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L265-L280>)
+## type [ForwardMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L269-L284>)
 
 ForwardMessagesParams is the parameter set for ForwardMessages.
 
-Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an array of MessageId of the sent messages is returned.
+Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an Array of MessageId of the sent messages is returned.
 
 ```go
 type ForwardMessagesParams struct {
@@ -5812,7 +6149,7 @@ type ForwardMessagesParams struct {
 ```
 
 <a name="Game"></a>
-## type [Game](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8915-L8928>)
+## type [Game](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9633-L9646>)
 
 This object represents a game. Use BotFather to create and edit games, their short names will act as unique identifiers.
 
@@ -5834,7 +6171,7 @@ type Game struct {
 ```
 
 <a name="GameHighScore"></a>
-## type [GameHighScore](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8936-L8943>)
+## type [GameHighScore](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9654-L9661>)
 
 This object represents one row of the high scores table for a game. And that's about all we've got for now.If you've got any questions, please check out our Bot FAQ »
 
@@ -5850,7 +6187,7 @@ type GameHighScore struct {
 ```
 
 <a name="GetGameHighScores"></a>
-### func [GetGameHighScores](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5253>)
+### func [GetGameHighScores](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5506>)
 
 ```go
 func GetGameHighScores(ctx context.Context, b *client.Bot, p *GetGameHighScoresParams) ([]GameHighScore, error)
@@ -5861,7 +6198,7 @@ GetGameHighScores calls the getGameHighScores Telegram Bot API method.
 Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game. Returns an Array of GameHighScore objects. This method will currently return scores for the target user, plus two of their closest neighbors on each side. Will also return the top three users if the user and their neighbors are not among them. Please note that this behavior is subject to change.
 
 <a name="GeneralForumTopicHidden"></a>
-## type [GeneralForumTopicHidden](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2115-L2116>)
+## type [GeneralForumTopicHidden](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2149-L2150>)
 
 This object represents a service message about General forum topic hidden in the chat. Currently holds no information.
 
@@ -5871,7 +6208,7 @@ type GeneralForumTopicHidden struct {
 ```
 
 <a name="GeneralForumTopicUnhidden"></a>
-## type [GeneralForumTopicUnhidden](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2119-L2120>)
+## type [GeneralForumTopicUnhidden](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2153-L2154>)
 
 This object represents a service message about General forum topic unhidden in the chat. Currently holds no information.
 
@@ -5881,7 +6218,7 @@ type GeneralForumTopicUnhidden struct {
 ```
 
 <a name="GetAvailableGiftsParams"></a>
-## type [GetAvailableGiftsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3418-L3419>)
+## type [GetAvailableGiftsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3514-L3515>)
 
 GetAvailableGiftsParams is the parameter set for GetAvailableGifts.
 
@@ -5893,7 +6230,7 @@ type GetAvailableGiftsParams struct {
 ```
 
 <a name="GetBusinessAccountGiftsParams"></a>
-## type [GetBusinessAccountGiftsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3723-L3746>)
+## type [GetBusinessAccountGiftsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3819-L3842>)
 
 GetBusinessAccountGiftsParams is the parameter set for GetBusinessAccountGifts.
 
@@ -5927,7 +6264,7 @@ type GetBusinessAccountGiftsParams struct {
 ```
 
 <a name="GetBusinessAccountStarBalanceParams"></a>
-## type [GetBusinessAccountStarBalanceParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3691-L3694>)
+## type [GetBusinessAccountStarBalanceParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3787-L3790>)
 
 GetBusinessAccountStarBalanceParams is the parameter set for GetBusinessAccountStarBalance.
 
@@ -5941,7 +6278,7 @@ type GetBusinessAccountStarBalanceParams struct {
 ```
 
 <a name="GetBusinessConnectionParams"></a>
-## type [GetBusinessConnectionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3094-L3097>)
+## type [GetBusinessConnectionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3190-L3193>)
 
 GetBusinessConnectionParams is the parameter set for GetBusinessConnection.
 
@@ -5955,7 +6292,7 @@ type GetBusinessConnectionParams struct {
 ```
 
 <a name="GetChatAdministratorsParams"></a>
-## type [GetChatAdministratorsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2702-L2707>)
+## type [GetChatAdministratorsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2798-L2803>)
 
 GetChatAdministratorsParams is the parameter set for GetChatAdministrators.
 
@@ -5971,7 +6308,7 @@ type GetChatAdministratorsParams struct {
 ```
 
 <a name="GetChatGiftsParams"></a>
-## type [GetChatGiftsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3789-L3812>)
+## type [GetChatGiftsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3885-L3908>)
 
 GetChatGiftsParams is the parameter set for GetChatGifts.
 
@@ -6005,11 +6342,11 @@ type GetChatGiftsParams struct {
 ```
 
 <a name="GetChatMemberCountParams"></a>
-## type [GetChatMemberCountParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2735-L2738>)
+## type [GetChatMemberCountParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2831-L2834>)
 
 GetChatMemberCountParams is the parameter set for GetChatMemberCount.
 
-Use this method to get the number of members in a chat. Returns Int on success.
+Use this method to get the number of members in a chat. Returns Integer on success.
 
 ```go
 type GetChatMemberCountParams struct {
@@ -6019,7 +6356,7 @@ type GetChatMemberCountParams struct {
 ```
 
 <a name="GetChatMemberParams"></a>
-## type [GetChatMemberParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2750-L2755>)
+## type [GetChatMemberParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2846-L2851>)
 
 GetChatMemberParams is the parameter set for GetChatMember.
 
@@ -6035,7 +6372,7 @@ type GetChatMemberParams struct {
 ```
 
 <a name="GetChatMenuButtonParams"></a>
-## type [GetChatMenuButtonParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3367-L3370>)
+## type [GetChatMenuButtonParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3463-L3466>)
 
 GetChatMenuButtonParams is the parameter set for GetChatMenuButton.
 
@@ -6049,7 +6386,7 @@ type GetChatMenuButtonParams struct {
 ```
 
 <a name="GetChatParams"></a>
-## type [GetChatParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2687-L2690>)
+## type [GetChatParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2783-L2786>)
 
 GetChatParams is the parameter set for GetChat.
 
@@ -6063,7 +6400,7 @@ type GetChatParams struct {
 ```
 
 <a name="GetCustomEmojiStickersParams"></a>
-## type [GetCustomEmojiStickersParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4526-L4529>)
+## type [GetCustomEmojiStickersParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4779-L4782>)
 
 GetCustomEmojiStickersParams is the parameter set for GetCustomEmojiStickers.
 
@@ -6077,7 +6414,7 @@ type GetCustomEmojiStickersParams struct {
 ```
 
 <a name="GetFileParams"></a>
-## type [GetFileParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2112-L2115>)
+## type [GetFileParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2208-L2211>)
 
 GetFileParams is the parameter set for GetFile.
 
@@ -6091,7 +6428,7 @@ type GetFileParams struct {
 ```
 
 <a name="GetForumTopicIconStickersParams"></a>
-## type [GetForumTopicIconStickersParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2820-L2821>)
+## type [GetForumTopicIconStickersParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2916-L2917>)
 
 GetForumTopicIconStickersParams is the parameter set for GetForumTopicIconStickers.
 
@@ -6103,7 +6440,7 @@ type GetForumTopicIconStickersParams struct {
 ```
 
 <a name="GetGameHighScoresParams"></a>
-## type [GetGameHighScoresParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5238-L5247>)
+## type [GetGameHighScoresParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5491-L5500>)
 
 GetGameHighScoresParams is the parameter set for GetGameHighScores.
 
@@ -6123,7 +6460,7 @@ type GetGameHighScoresParams struct {
 ```
 
 <a name="GetManagedBotAccessSettingsParams"></a>
-## type [GetManagedBotAccessSettingsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3139-L3142>)
+## type [GetManagedBotAccessSettingsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3235-L3238>)
 
 GetManagedBotAccessSettingsParams is the parameter set for GetManagedBotAccessSettings.
 
@@ -6137,7 +6474,7 @@ type GetManagedBotAccessSettingsParams struct {
 ```
 
 <a name="GetManagedBotTokenParams"></a>
-## type [GetManagedBotTokenParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3109-L3112>)
+## type [GetManagedBotTokenParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3205-L3208>)
 
 GetManagedBotTokenParams is the parameter set for GetManagedBotToken.
 
@@ -6163,7 +6500,7 @@ type GetMeParams struct {
 ```
 
 <a name="GetMyCommandsParams"></a>
-## type [GetMyCommandsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3209-L3214>)
+## type [GetMyCommandsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3305-L3310>)
 
 GetMyCommandsParams is the parameter set for GetMyCommands.
 
@@ -6179,7 +6516,7 @@ type GetMyCommandsParams struct {
 ```
 
 <a name="GetMyDefaultAdministratorRightsParams"></a>
-## type [GetMyDefaultAdministratorRightsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3403-L3406>)
+## type [GetMyDefaultAdministratorRightsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3499-L3502>)
 
 GetMyDefaultAdministratorRightsParams is the parameter set for GetMyDefaultAdministratorRights.
 
@@ -6193,7 +6530,7 @@ type GetMyDefaultAdministratorRightsParams struct {
 ```
 
 <a name="GetMyDescriptionParams"></a>
-## type [GetMyDescriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3275-L3278>)
+## type [GetMyDescriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3371-L3374>)
 
 GetMyDescriptionParams is the parameter set for GetMyDescription.
 
@@ -6207,7 +6544,7 @@ type GetMyDescriptionParams struct {
 ```
 
 <a name="GetMyNameParams"></a>
-## type [GetMyNameParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3243-L3246>)
+## type [GetMyNameParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3339-L3342>)
 
 GetMyNameParams is the parameter set for GetMyName.
 
@@ -6221,7 +6558,7 @@ type GetMyNameParams struct {
 ```
 
 <a name="GetMyShortDescriptionParams"></a>
-## type [GetMyShortDescriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3307-L3310>)
+## type [GetMyShortDescriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3403-L3406>)
 
 GetMyShortDescriptionParams is the parameter set for GetMyShortDescription.
 
@@ -6235,7 +6572,7 @@ type GetMyShortDescriptionParams struct {
 ```
 
 <a name="GetMyStarBalanceParams"></a>
-## type [GetMyStarBalanceParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5092-L5093>)
+## type [GetMyStarBalanceParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5345-L5346>)
 
 GetMyStarBalanceParams is the parameter set for GetMyStarBalance.
 
@@ -6247,7 +6584,7 @@ type GetMyStarBalanceParams struct {
 ```
 
 <a name="GetStarTransactionsParams"></a>
-## type [GetStarTransactionsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5105-L5110>)
+## type [GetStarTransactionsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5358-L5363>)
 
 GetStarTransactionsParams is the parameter set for GetStarTransactions.
 
@@ -6263,7 +6600,7 @@ type GetStarTransactionsParams struct {
 ```
 
 <a name="GetStickerSetParams"></a>
-## type [GetStickerSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4511-L4514>)
+## type [GetStickerSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4764-L4767>)
 
 GetStickerSetParams is the parameter set for GetStickerSet.
 
@@ -6297,7 +6634,7 @@ type GetUpdatesParams struct {
 ```
 
 <a name="GetUserChatBoostsParams"></a>
-## type [GetUserChatBoostsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3077-L3082>)
+## type [GetUserChatBoostsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3173-L3178>)
 
 GetUserChatBoostsParams is the parameter set for GetUserChatBoosts.
 
@@ -6313,7 +6650,7 @@ type GetUserChatBoostsParams struct {
 ```
 
 <a name="GetUserGiftsParams"></a>
-## type [GetUserGiftsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3758-L3777>)
+## type [GetUserGiftsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3854-L3873>)
 
 GetUserGiftsParams is the parameter set for GetUserGifts.
 
@@ -6343,11 +6680,11 @@ type GetUserGiftsParams struct {
 ```
 
 <a name="GetUserPersonalChatMessagesParams"></a>
-## type [GetUserPersonalChatMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2771-L2776>)
+## type [GetUserPersonalChatMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2867-L2872>)
 
 GetUserPersonalChatMessagesParams is the parameter set for GetUserPersonalChatMessages.
 
-Use this method to get the last messages from the personal chat \(i.e., the chat currently added to their profile\) of a given user. On success, an array of Message objects is returned.
+Use this method to get the last messages from the personal chat \(i.e., the chat currently added to their profile\) of a given user. On success, an Array of Message objects is returned.
 
 ```go
 type GetUserPersonalChatMessagesParams struct {
@@ -6359,7 +6696,7 @@ type GetUserPersonalChatMessagesParams struct {
 ```
 
 <a name="GetUserProfileAudiosParams"></a>
-## type [GetUserProfileAudiosParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2073-L2080>)
+## type [GetUserProfileAudiosParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2169-L2176>)
 
 GetUserProfileAudiosParams is the parameter set for GetUserProfileAudios.
 
@@ -6377,7 +6714,7 @@ type GetUserProfileAudiosParams struct {
 ```
 
 <a name="GetUserProfilePhotosParams"></a>
-## type [GetUserProfilePhotosParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2054-L2061>)
+## type [GetUserProfilePhotosParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2150-L2157>)
 
 GetUserProfilePhotosParams is the parameter set for GetUserProfilePhotos.
 
@@ -6407,7 +6744,7 @@ type GetWebhookInfoParams struct {
 ```
 
 <a name="Gift"></a>
-## type [Gift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3697-L3724>)
+## type [Gift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3739-L3766>)
 
 This object represents a gift that can be sent by the bot.
 
@@ -6443,7 +6780,7 @@ type Gift struct {
 ```
 
 <a name="GiftBackground"></a>
-## type [GiftBackground](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3687-L3694>)
+## type [GiftBackground](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3729-L3736>)
 
 This object describes the background of a gift.
 
@@ -6459,7 +6796,7 @@ type GiftBackground struct {
 ```
 
 <a name="GiftInfo"></a>
-## type [GiftInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3821-L3842>)
+## type [GiftInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3863-L3884>)
 
 Describes a service message about a regular gift that was sent or received.
 
@@ -6489,7 +6826,7 @@ type GiftInfo struct {
 ```
 
 <a name="GiftPremiumSubscriptionParams"></a>
-## type [GiftPremiumSubscriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3458-L3471>)
+## type [GiftPremiumSubscriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3554-L3567>)
 
 GiftPremiumSubscriptionParams is the parameter set for GiftPremiumSubscription.
 
@@ -6513,7 +6850,7 @@ type GiftPremiumSubscriptionParams struct {
 ```
 
 <a name="Gifts"></a>
-## type [Gifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3727-L3730>)
+## type [Gifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3769-L3772>)
 
 This object represent a list of gifts.
 
@@ -6525,7 +6862,7 @@ type Gifts struct {
 ```
 
 <a name="GetAvailableGifts"></a>
-### func [GetAvailableGifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3424>)
+### func [GetAvailableGifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3520>)
 
 ```go
 func GetAvailableGifts(ctx context.Context, b *client.Bot, p *GetAvailableGiftsParams) (*Gifts, error)
@@ -6536,7 +6873,7 @@ GetAvailableGifts calls the getAvailableGifts Telegram Bot API method.
 Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no parameters. Returns a Gifts object.
 
 <a name="Giveaway"></a>
-## type [Giveaway](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2257-L2276>)
+## type [Giveaway](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2291-L2310>)
 
 This object represents a message about a scheduled giveaway.
 
@@ -6564,7 +6901,7 @@ type Giveaway struct {
 ```
 
 <a name="GiveawayCompleted"></a>
-## type [GiveawayCompleted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2307-L2316>)
+## type [GiveawayCompleted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2341-L2350>)
 
 This object represents a service message about the completion of a giveaway without public winners.
 
@@ -6582,7 +6919,7 @@ type GiveawayCompleted struct {
 ```
 
 <a name="GiveawayCreated"></a>
-## type [GiveawayCreated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2251-L2254>)
+## type [GiveawayCreated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2285-L2288>)
 
 This object represents a service message about the creation of a scheduled giveaway.
 
@@ -6594,7 +6931,7 @@ type GiveawayCreated struct {
 ```
 
 <a name="GiveawayWinners"></a>
-## type [GiveawayWinners](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2279-L2304>)
+## type [GiveawayWinners](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2313-L2338>)
 
 This object represents a message about the completion of a giveaway with public winners.
 
@@ -6628,7 +6965,7 @@ type GiveawayWinners struct {
 ```
 
 <a name="HideGeneralForumTopicParams"></a>
-## type [HideGeneralForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2990-L2993>)
+## type [HideGeneralForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3086-L3089>)
 
 HideGeneralForumTopicParams is the parameter set for HideGeneralForumTopic.
 
@@ -6642,7 +6979,7 @@ type HideGeneralForumTopicParams struct {
 ```
 
 <a name="InaccessibleMessage"></a>
-## type [InaccessibleMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L572-L579>)
+## type [InaccessibleMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L584-L591>)
 
 This object describes a message that was deleted or is otherwise inaccessible to the bot.
 
@@ -6658,7 +6995,7 @@ type InaccessibleMessage struct {
 ```
 
 <a name="InlineKeyboardButton"></a>
-## type [InlineKeyboardButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2516-L2543>)
+## type [InlineKeyboardButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2550-L2577>)
 
 This object represents one button of an inline keyboard. Exactly one of the fields other than text, icon\_custom\_emoji\_id, and style must be used to specify the type of the button.
 
@@ -6694,7 +7031,7 @@ type InlineKeyboardButton struct {
 ```
 
 <a name="InlineKeyboardMarkup"></a>
-## type [InlineKeyboardMarkup](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2510-L2513>)
+## type [InlineKeyboardMarkup](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2544-L2547>)
 
 This object represents an inline keyboard that appears right next to the message it belongs to.
 
@@ -6706,7 +7043,7 @@ type InlineKeyboardMarkup struct {
 ```
 
 <a name="InlineQuery"></a>
-## type [InlineQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6826-L6839>)
+## type [InlineQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7544-L7557>)
 
 This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
 
@@ -6728,7 +7065,7 @@ type InlineQuery struct {
 ```
 
 <a name="InlineQueryChatType"></a>
-## type [InlineQueryChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L82>)
+## type [InlineQueryChatType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L90>)
 
 
 
@@ -6749,7 +7086,7 @@ const (
 ```
 
 <a name="InlineQueryResult"></a>
-## type [InlineQueryResult](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6876>)
+## type [InlineQueryResult](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7594>)
 
 InlineQueryResult is a union type. The following concrete variants implement it:
 
@@ -6783,7 +7120,7 @@ type InlineQueryResult interface {
 ```
 
 <a name="InlineQueryResultArticle"></a>
-## type [InlineQueryResultArticle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6939-L6960>)
+## type [InlineQueryResultArticle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7657-L7678>)
 
 Represents a link to an article or web page.
 
@@ -6813,7 +7150,7 @@ type InlineQueryResultArticle struct {
 ```
 
 <a name="InlineQueryResultArticle.MarshalJSON"></a>
-### func \(\*InlineQueryResultArticle\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6967>)
+### func \(\*InlineQueryResultArticle\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7685>)
 
 ```go
 func (v *InlineQueryResultArticle) MarshalJSON() ([]byte, error)
@@ -6822,7 +7159,7 @@ func (v *InlineQueryResultArticle) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultArticle with the discriminator field "type" forced to "article". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultAudio"></a>
-## type [InlineQueryResultAudio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7180-L7203>)
+## type [InlineQueryResultAudio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7898-L7921>)
 
 Represents a link to an MP3 audio file. By default, this audio file will be sent by the user. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the audio.
 
@@ -6854,7 +7191,7 @@ type InlineQueryResultAudio struct {
 ```
 
 <a name="InlineQueryResultAudio.MarshalJSON"></a>
-### func \(\*InlineQueryResultAudio\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7210>)
+### func \(\*InlineQueryResultAudio\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7928>)
 
 ```go
 func (v *InlineQueryResultAudio) MarshalJSON() ([]byte, error)
@@ -6863,7 +7200,7 @@ func (v *InlineQueryResultAudio) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultAudio with the discriminator field "type" forced to "audio". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultCachedAudio"></a>
-## type [InlineQueryResultCachedAudio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7750-L7767>)
+## type [InlineQueryResultCachedAudio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8468-L8485>)
 
 Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the audio.
 
@@ -6889,7 +7226,7 @@ type InlineQueryResultCachedAudio struct {
 ```
 
 <a name="InlineQueryResultCachedAudio.MarshalJSON"></a>
-### func \(\*InlineQueryResultCachedAudio\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7774>)
+### func \(\*InlineQueryResultCachedAudio\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8492>)
 
 ```go
 func (v *InlineQueryResultCachedAudio) MarshalJSON() ([]byte, error)
@@ -6898,7 +7235,7 @@ func (v *InlineQueryResultCachedAudio) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultCachedAudio with the discriminator field "type" forced to "audio". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultCachedDocument"></a>
-## type [InlineQueryResultCachedDocument](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7630-L7651>)
+## type [InlineQueryResultCachedDocument](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8348-L8369>)
 
 Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the file.
 
@@ -6928,7 +7265,7 @@ type InlineQueryResultCachedDocument struct {
 ```
 
 <a name="InlineQueryResultCachedDocument.MarshalJSON"></a>
-### func \(\*InlineQueryResultCachedDocument\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7658>)
+### func \(\*InlineQueryResultCachedDocument\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8376>)
 
 ```go
 func (v *InlineQueryResultCachedDocument) MarshalJSON() ([]byte, error)
@@ -6937,7 +7274,7 @@ func (v *InlineQueryResultCachedDocument) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultCachedDocument with the discriminator field "type" forced to "document". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultCachedGif"></a>
-## type [InlineQueryResultCachedGif](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7520-L7541>)
+## type [InlineQueryResultCachedGif](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8238-L8259>)
 
 Represents a link to an animated GIF file stored on the Telegram servers. By default, this animated GIF file will be sent by the user with an optional caption. Alternatively, you can use input\_message\_content to send a message with specified content instead of the animation.
 
@@ -6957,7 +7294,7 @@ type InlineQueryResultCachedGif struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -6967,7 +7304,7 @@ type InlineQueryResultCachedGif struct {
 ```
 
 <a name="InlineQueryResultCachedGif.MarshalJSON"></a>
-### func \(\*InlineQueryResultCachedGif\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7548>)
+### func \(\*InlineQueryResultCachedGif\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8266>)
 
 ```go
 func (v *InlineQueryResultCachedGif) MarshalJSON() ([]byte, error)
@@ -6976,7 +7313,7 @@ func (v *InlineQueryResultCachedGif) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultCachedGif with the discriminator field "type" forced to "gif". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultCachedMpeg4Gif"></a>
-## type [InlineQueryResultCachedMpeg4Gif](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7560-L7581>)
+## type [InlineQueryResultCachedMpeg4Gif](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8278-L8299>)
 
 Represents a link to a video animation \(H.264/MPEG\-4 AVC video without sound\) stored on the Telegram servers. By default, this animated MPEG\-4 file will be sent by the user with an optional caption. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the animation.
 
@@ -6996,7 +7333,7 @@ type InlineQueryResultCachedMpeg4Gif struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -7006,7 +7343,7 @@ type InlineQueryResultCachedMpeg4Gif struct {
 ```
 
 <a name="InlineQueryResultCachedMpeg4Gif.MarshalJSON"></a>
-### func \(\*InlineQueryResultCachedMpeg4Gif\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7588>)
+### func \(\*InlineQueryResultCachedMpeg4Gif\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8306>)
 
 ```go
 func (v *InlineQueryResultCachedMpeg4Gif) MarshalJSON() ([]byte, error)
@@ -7015,7 +7352,7 @@ func (v *InlineQueryResultCachedMpeg4Gif) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultCachedMpeg4Gif with the discriminator field "type" forced to "mpeg4\_gif". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultCachedPhoto"></a>
-## type [InlineQueryResultCachedPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7478-L7501>)
+## type [InlineQueryResultCachedPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8196-L8219>)
 
 Represents a link to a photo stored on the Telegram servers. By default, this photo will be sent by the user with an optional caption. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the photo.
 
@@ -7037,7 +7374,7 @@ type InlineQueryResultCachedPhoto struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -7047,7 +7384,7 @@ type InlineQueryResultCachedPhoto struct {
 ```
 
 <a name="InlineQueryResultCachedPhoto.MarshalJSON"></a>
-### func \(\*InlineQueryResultCachedPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7508>)
+### func \(\*InlineQueryResultCachedPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8226>)
 
 ```go
 func (v *InlineQueryResultCachedPhoto) MarshalJSON() ([]byte, error)
@@ -7056,7 +7393,7 @@ func (v *InlineQueryResultCachedPhoto) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultCachedPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultCachedSticker"></a>
-## type [InlineQueryResultCachedSticker](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7600-L7611>)
+## type [InlineQueryResultCachedSticker](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8318-L8329>)
 
 Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the sticker.
 
@@ -7076,7 +7413,7 @@ type InlineQueryResultCachedSticker struct {
 ```
 
 <a name="InlineQueryResultCachedSticker.MarshalJSON"></a>
-### func \(\*InlineQueryResultCachedSticker\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7618>)
+### func \(\*InlineQueryResultCachedSticker\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8336>)
 
 ```go
 func (v *InlineQueryResultCachedSticker) MarshalJSON() ([]byte, error)
@@ -7085,7 +7422,7 @@ func (v *InlineQueryResultCachedSticker) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultCachedSticker with the discriminator field "type" forced to "sticker". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultCachedVideo"></a>
-## type [InlineQueryResultCachedVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7670-L7693>)
+## type [InlineQueryResultCachedVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8388-L8411>)
 
 Represents a link to a video file stored on the Telegram servers. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the video.
 
@@ -7107,7 +7444,7 @@ type InlineQueryResultCachedVideo struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -7117,7 +7454,7 @@ type InlineQueryResultCachedVideo struct {
 ```
 
 <a name="InlineQueryResultCachedVideo.MarshalJSON"></a>
-### func \(\*InlineQueryResultCachedVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7700>)
+### func \(\*InlineQueryResultCachedVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8418>)
 
 ```go
 func (v *InlineQueryResultCachedVideo) MarshalJSON() ([]byte, error)
@@ -7126,7 +7463,7 @@ func (v *InlineQueryResultCachedVideo) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultCachedVideo with the discriminator field "type" forced to "video". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultCachedVoice"></a>
-## type [InlineQueryResultCachedVoice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7712-L7731>)
+## type [InlineQueryResultCachedVoice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8430-L8449>)
 
 Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the user. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the voice message.
 
@@ -7154,7 +7491,7 @@ type InlineQueryResultCachedVoice struct {
 ```
 
 <a name="InlineQueryResultCachedVoice.MarshalJSON"></a>
-### func \(\*InlineQueryResultCachedVoice\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7738>)
+### func \(\*InlineQueryResultCachedVoice\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8456>)
 
 ```go
 func (v *InlineQueryResultCachedVoice) MarshalJSON() ([]byte, error)
@@ -7163,7 +7500,7 @@ func (v *InlineQueryResultCachedVoice) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultCachedVoice with the discriminator field "type" forced to "voice". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultContact"></a>
-## type [InlineQueryResultContact](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7408-L7431>)
+## type [InlineQueryResultContact](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8126-L8149>)
 
 Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the contact.
 
@@ -7195,7 +7532,7 @@ type InlineQueryResultContact struct {
 ```
 
 <a name="InlineQueryResultContact.MarshalJSON"></a>
-### func \(\*InlineQueryResultContact\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7438>)
+### func \(\*InlineQueryResultContact\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8156>)
 
 ```go
 func (v *InlineQueryResultContact) MarshalJSON() ([]byte, error)
@@ -7204,7 +7541,7 @@ func (v *InlineQueryResultContact) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultContact with the discriminator field "type" forced to "contact". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultDocument"></a>
-## type [InlineQueryResultDocument](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7262-L7291>)
+## type [InlineQueryResultDocument](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7980-L8009>)
 
 Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the file. Currently, only .PDF and .ZIP files can be sent using this method.
 
@@ -7242,7 +7579,7 @@ type InlineQueryResultDocument struct {
 ```
 
 <a name="InlineQueryResultDocument.MarshalJSON"></a>
-### func \(\*InlineQueryResultDocument\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7298>)
+### func \(\*InlineQueryResultDocument\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8016>)
 
 ```go
 func (v *InlineQueryResultDocument) MarshalJSON() ([]byte, error)
@@ -7251,7 +7588,7 @@ func (v *InlineQueryResultDocument) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultDocument with the discriminator field "type" forced to "document". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultDocumentMimeType"></a>
-## type [InlineQueryResultDocumentMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L92>)
+## type [InlineQueryResultDocumentMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L100>)
 
 
 
@@ -7269,7 +7606,7 @@ const (
 ```
 
 <a name="InlineQueryResultGame"></a>
-## type [InlineQueryResultGame](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7450-L7459>)
+## type [InlineQueryResultGame](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8168-L8177>)
 
 Represents a Game.
 
@@ -7287,7 +7624,7 @@ type InlineQueryResultGame struct {
 ```
 
 <a name="InlineQueryResultGame.MarshalJSON"></a>
-### func \(\*InlineQueryResultGame\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7466>)
+### func \(\*InlineQueryResultGame\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8184>)
 
 ```go
 func (v *InlineQueryResultGame) MarshalJSON() ([]byte, error)
@@ -7296,7 +7633,7 @@ func (v *InlineQueryResultGame) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultGame with the discriminator field "type" forced to "game". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultGif"></a>
-## type [InlineQueryResultGif](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7027-L7058>)
+## type [InlineQueryResultGif](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7745-L7776>)
 
 Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the animation.
 
@@ -7326,7 +7663,7 @@ type InlineQueryResultGif struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -7336,7 +7673,7 @@ type InlineQueryResultGif struct {
 ```
 
 <a name="InlineQueryResultGif.MarshalJSON"></a>
-### func \(\*InlineQueryResultGif\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7065>)
+### func \(\*InlineQueryResultGif\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7783>)
 
 ```go
 func (v *InlineQueryResultGif) MarshalJSON() ([]byte, error)
@@ -7345,7 +7682,7 @@ func (v *InlineQueryResultGif) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultGif with the discriminator field "type" forced to "gif". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultGifThumbnailMimeType"></a>
-## type [InlineQueryResultGifThumbnailMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L99>)
+## type [InlineQueryResultGifThumbnailMimeType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L107>)
 
 
 
@@ -7364,7 +7701,7 @@ const (
 ```
 
 <a name="InlineQueryResultLocation"></a>
-## type [InlineQueryResultLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7310-L7339>)
+## type [InlineQueryResultLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8028-L8057>)
 
 Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the location.
 
@@ -7402,7 +7739,7 @@ type InlineQueryResultLocation struct {
 ```
 
 <a name="InlineQueryResultLocation.MarshalJSON"></a>
-### func \(\*InlineQueryResultLocation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7346>)
+### func \(\*InlineQueryResultLocation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8064>)
 
 ```go
 func (v *InlineQueryResultLocation) MarshalJSON() ([]byte, error)
@@ -7411,7 +7748,7 @@ func (v *InlineQueryResultLocation) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultLocation with the discriminator field "type" forced to "location". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultMpeg4Gif"></a>
-## type [InlineQueryResultMpeg4Gif](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7077-L7108>)
+## type [InlineQueryResultMpeg4Gif](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7795-L7826>)
 
 Represents a link to a video animation \(H.264/MPEG\-4 AVC video without sound\). By default, this animated MPEG\-4 file will be sent by the user with optional caption. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the animation.
 
@@ -7441,7 +7778,7 @@ type InlineQueryResultMpeg4Gif struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -7451,7 +7788,7 @@ type InlineQueryResultMpeg4Gif struct {
 ```
 
 <a name="InlineQueryResultMpeg4Gif.MarshalJSON"></a>
-### func \(\*InlineQueryResultMpeg4Gif\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7115>)
+### func \(\*InlineQueryResultMpeg4Gif\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7833>)
 
 ```go
 func (v *InlineQueryResultMpeg4Gif) MarshalJSON() ([]byte, error)
@@ -7460,7 +7797,7 @@ func (v *InlineQueryResultMpeg4Gif) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultMpeg4Gif with the discriminator field "type" forced to "mpeg4\_gif". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultPhoto"></a>
-## type [InlineQueryResultPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6979-L7008>)
+## type [InlineQueryResultPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7697-L7726>)
 
 Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the photo.
 
@@ -7488,7 +7825,7 @@ type InlineQueryResultPhoto struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Inline keyboard attached to the message
     ReplyMarkup *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
@@ -7498,7 +7835,7 @@ type InlineQueryResultPhoto struct {
 ```
 
 <a name="InlineQueryResultPhoto.MarshalJSON"></a>
-### func \(\*InlineQueryResultPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7015>)
+### func \(\*InlineQueryResultPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7733>)
 
 ```go
 func (v *InlineQueryResultPhoto) MarshalJSON() ([]byte, error)
@@ -7507,7 +7844,7 @@ func (v *InlineQueryResultPhoto) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultType"></a>
-## type [InlineQueryResultType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L107>)
+## type [InlineQueryResultType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L115>)
 
 
 
@@ -7536,7 +7873,7 @@ const (
 ```
 
 <a name="InlineQueryResultVenue"></a>
-## type [InlineQueryResultVenue](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7358-L7389>)
+## type [InlineQueryResultVenue](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8076-L8107>)
 
 Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the venue.
 
@@ -7576,7 +7913,7 @@ type InlineQueryResultVenue struct {
 ```
 
 <a name="InlineQueryResultVenue.MarshalJSON"></a>
-### func \(\*InlineQueryResultVenue\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7396>)
+### func \(\*InlineQueryResultVenue\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8114>)
 
 ```go
 func (v *InlineQueryResultVenue) MarshalJSON() ([]byte, error)
@@ -7585,7 +7922,7 @@ func (v *InlineQueryResultVenue) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultVenue with the discriminator field "type" forced to "venue". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultVideo"></a>
-## type [InlineQueryResultVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7128-L7161>)
+## type [InlineQueryResultVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7846-L7879>)
 
 Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the video. If an InlineQueryResultVideo message contains an embedded video \(e.g., YouTube\), you must replace its content using input\_message\_content.
 
@@ -7609,7 +7946,7 @@ type InlineQueryResultVideo struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Video width
     VideoWidth *int64 `json:"video_width,omitempty"`
@@ -7627,7 +7964,7 @@ type InlineQueryResultVideo struct {
 ```
 
 <a name="InlineQueryResultVideo.MarshalJSON"></a>
-### func \(\*InlineQueryResultVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7168>)
+### func \(\*InlineQueryResultVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7886>)
 
 ```go
 func (v *InlineQueryResultVideo) MarshalJSON() ([]byte, error)
@@ -7636,7 +7973,7 @@ func (v *InlineQueryResultVideo) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultVideo with the discriminator field "type" forced to "video". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultVoice"></a>
-## type [InlineQueryResultVoice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7222-L7243>)
+## type [InlineQueryResultVoice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7940-L7961>)
 
 Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use input\_message\_content to send a message with the specified content instead of the the voice message.
 
@@ -7666,7 +8003,7 @@ type InlineQueryResultVoice struct {
 ```
 
 <a name="InlineQueryResultVoice.MarshalJSON"></a>
-### func \(\*InlineQueryResultVoice\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7250>)
+### func \(\*InlineQueryResultVoice\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7968>)
 
 ```go
 func (v *InlineQueryResultVoice) MarshalJSON() ([]byte, error)
@@ -7675,7 +8012,7 @@ func (v *InlineQueryResultVoice) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InlineQueryResultVoice with the discriminator field "type" forced to "voice". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InlineQueryResultsButton"></a>
-## type [InlineQueryResultsButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6842-L6849>)
+## type [InlineQueryResultsButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7560-L7567>)
 
 This object represents a button to be shown above inline query results. You must use exactly one of the optional fields.
 
@@ -7691,7 +8028,7 @@ type InlineQueryResultsButton struct {
 ```
 
 <a name="InputChecklist"></a>
-## type [InputChecklist](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1543-L1556>)
+## type [InputChecklist](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1557-L1570>)
 
 Describes a checklist to create.
 
@@ -7713,7 +8050,7 @@ type InputChecklist struct {
 ```
 
 <a name="InputChecklistTask"></a>
-## type [InputChecklistTask](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1531-L1540>)
+## type [InputChecklistTask](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1545-L1554>)
 
 Describes a task to add to a checklist.
 
@@ -7731,7 +8068,7 @@ type InputChecklistTask struct {
 ```
 
 <a name="InputContactMessageContent"></a>
-## type [InputContactMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7870-L7879>)
+## type [InputContactMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8588-L8597>)
 
 Represents the content of a contact message to be sent as the result of an inline query.
 
@@ -7776,7 +8113,7 @@ func (f *InputFile) IsLocalUpload() bool
 IsLocalUpload reports whether this InputFile triggers a multipart upload.
 
 <a name="InputInvoiceMessageContent"></a>
-## type [InputInvoiceMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7882-L7923>)
+## type [InputInvoiceMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8600-L8641>)
 
 Represents the content of an invoice message to be sent as the result of an inline query.
 
@@ -7796,7 +8133,7 @@ type InputInvoiceMessageContent struct {
     Prices []LabeledPrice `json:"prices"`
     // Optional. The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
     MaxTipAmount *int64 `json:"max_tip_amount,omitempty"`
-    // Optional. A JSON-serialized array of suggested amounts of tip in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
+    // Optional. A JSON-serialized Array of suggested amounts of tip in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
     SuggestedTipAmounts []int64 `json:"suggested_tip_amounts,omitempty"`
     // Optional. A JSON-serialized object for data about the invoice, which will be shared with the payment provider. A detailed description of the required fields should be provided by the payment provider.
     ProviderData string `json:"provider_data,omitempty"`
@@ -7826,7 +8163,7 @@ type InputInvoiceMessageContent struct {
 ```
 
 <a name="InputLocationMessageContent"></a>
-## type [InputLocationMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7834-L7847>)
+## type [InputLocationMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8552-L8565>)
 
 Represents the content of a location message to be sent as the result of an inline query.
 
@@ -7848,7 +8185,7 @@ type InputLocationMessageContent struct {
 ```
 
 <a name="InputMedia"></a>
-## type [InputMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4711>)
+## type [InputMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4755>)
 
 InputMedia is a union type. The following concrete variants implement it:
 
@@ -7868,13 +8205,13 @@ type InputMedia interface {
 ```
 
 <a name="InputMediaAnimation"></a>
-## type [InputMediaAnimation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4732-L4755>)
+## type [InputMediaAnimation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4776-L4799>)
 
 Represents an animation file \(GIF or H.264/MPEG\-4 AVC video without sound\) to be sent.
 
 ```go
 type InputMediaAnimation struct {
-    // Type of the result, must be animation
+    // Type of the media, must be animation
     Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -7886,7 +8223,7 @@ type InputMediaAnimation struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Animation width
     Width *int64 `json:"width,omitempty"`
@@ -7900,7 +8237,7 @@ type InputMediaAnimation struct {
 ```
 
 <a name="InputMediaAnimation.MarshalJSON"></a>
-### func \(\*InputMediaAnimation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4762>)
+### func \(\*InputMediaAnimation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4806>)
 
 ```go
 func (v *InputMediaAnimation) MarshalJSON() ([]byte, error)
@@ -7909,13 +8246,13 @@ func (v *InputMediaAnimation) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputMediaAnimation with the discriminator field "type" forced to "animation". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputMediaAudio"></a>
-## type [InputMediaAudio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4774-L4793>)
+## type [InputMediaAudio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4818-L4837>)
 
 Represents an audio file to be treated as music to be sent.
 
 ```go
 type InputMediaAudio struct {
-    // Type of the result, must be audio
+    // Type of the media, must be audio
     Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -7937,7 +8274,7 @@ type InputMediaAudio struct {
 ```
 
 <a name="InputMediaAudio.MarshalJSON"></a>
-### func \(\*InputMediaAudio\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4800>)
+### func \(\*InputMediaAudio\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4844>)
 
 ```go
 func (v *InputMediaAudio) MarshalJSON() ([]byte, error)
@@ -7946,13 +8283,13 @@ func (v *InputMediaAudio) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputMediaAudio with the discriminator field "type" forced to "audio". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputMediaDocument"></a>
-## type [InputMediaDocument](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4812-L4827>)
+## type [InputMediaDocument](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4856-L4871>)
 
 Represents a general file to be sent.
 
 ```go
 type InputMediaDocument struct {
-    // Type of the result, must be document
+    // Type of the media, must be document
     Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -7970,7 +8307,7 @@ type InputMediaDocument struct {
 ```
 
 <a name="InputMediaDocument.MarshalJSON"></a>
-### func \(\*InputMediaDocument\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4834>)
+### func \(\*InputMediaDocument\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4878>)
 
 ```go
 func (v *InputMediaDocument) MarshalJSON() ([]byte, error)
@@ -7979,13 +8316,13 @@ func (v *InputMediaDocument) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputMediaDocument with the discriminator field "type" forced to "document". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputMediaLink"></a>
-## type [InputMediaLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4846-L4851>)
+## type [InputMediaLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4890-L4895>)
 
 Represents an HTTP link to be sent.
 
 ```go
 type InputMediaLink struct {
-    // Type of the result, must be link
+    // Type of the media, must be link
     Type InputPollOptionMediaType `json:"type"`
     // HTTP URL of the link
     URL string `json:"url"`
@@ -7993,7 +8330,7 @@ type InputMediaLink struct {
 ```
 
 <a name="InputMediaLink.MarshalJSON"></a>
-### func \(\*InputMediaLink\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4858>)
+### func \(\*InputMediaLink\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4902>)
 
 ```go
 func (v *InputMediaLink) MarshalJSON() ([]byte, error)
@@ -8002,13 +8339,13 @@ func (v *InputMediaLink) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputMediaLink with the discriminator field "type" forced to "link". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputMediaLivePhoto"></a>
-## type [InputMediaLivePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4870-L4887>)
+## type [InputMediaLivePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4914-L4931>)
 
 Represents a live photo to be sent.
 
 ```go
 type InputMediaLivePhoto struct {
-    // Type of the result, must be live_photo
+    // Type of the media, must be live_photo
     Type InputMediaType `json:"type"`
     // Video of the live photo to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
     Media string `json:"media"`
@@ -8020,7 +8357,7 @@ type InputMediaLivePhoto struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Pass True if the live photo needs to be covered with a spoiler animation
     HasSpoiler *bool `json:"has_spoiler,omitempty"`
@@ -8028,7 +8365,7 @@ type InputMediaLivePhoto struct {
 ```
 
 <a name="InputMediaLivePhoto.MarshalJSON"></a>
-### func \(\*InputMediaLivePhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4894>)
+### func \(\*InputMediaLivePhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4938>)
 
 ```go
 func (v *InputMediaLivePhoto) MarshalJSON() ([]byte, error)
@@ -8037,13 +8374,13 @@ func (v *InputMediaLivePhoto) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputMediaLivePhoto with the discriminator field "type" forced to "live\_photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputMediaLocation"></a>
-## type [InputMediaLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4906-L4915>)
+## type [InputMediaLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4950-L4959>)
 
 Represents a location to be sent.
 
 ```go
 type InputMediaLocation struct {
-    // Type of the result, must be location
+    // Type of the media, must be location
     Type InputPollOptionMediaType `json:"type"`
     // Latitude of the location
     Latitude float64 `json:"latitude"`
@@ -8055,7 +8392,7 @@ type InputMediaLocation struct {
 ```
 
 <a name="InputMediaLocation.MarshalJSON"></a>
-### func \(\*InputMediaLocation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4922>)
+### func \(\*InputMediaLocation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4966>)
 
 ```go
 func (v *InputMediaLocation) MarshalJSON() ([]byte, error)
@@ -8064,13 +8401,13 @@ func (v *InputMediaLocation) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputMediaLocation with the discriminator field "type" forced to "location". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputMediaPhoto"></a>
-## type [InputMediaPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4934-L4949>)
+## type [InputMediaPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4978-L4993>)
 
 Represents a photo to be sent.
 
 ```go
 type InputMediaPhoto struct {
-    // Type of the result, must be photo
+    // Type of the media, must be photo
     Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -8080,7 +8417,7 @@ type InputMediaPhoto struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Pass True if the photo needs to be covered with a spoiler animation
     HasSpoiler *bool `json:"has_spoiler,omitempty"`
@@ -8088,7 +8425,7 @@ type InputMediaPhoto struct {
 ```
 
 <a name="InputMediaPhoto.MarshalJSON"></a>
-### func \(\*InputMediaPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4956>)
+### func \(\*InputMediaPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5000>)
 
 ```go
 func (v *InputMediaPhoto) MarshalJSON() ([]byte, error)
@@ -8097,13 +8434,13 @@ func (v *InputMediaPhoto) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputMediaPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputMediaSticker"></a>
-## type [InputMediaSticker](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4968-L4975>)
+## type [InputMediaSticker](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5012-L5019>)
 
 Represents a sticker file to be sent.
 
 ```go
 type InputMediaSticker struct {
-    // Type of the result, must be sticker
+    // Type of the media, must be sticker
     Type InputPollOptionMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a .WEBP sticker from the Internet, or pass “attach://<file_attach_name>” to upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -8113,7 +8450,7 @@ type InputMediaSticker struct {
 ```
 
 <a name="InputMediaSticker.MarshalJSON"></a>
-### func \(\*InputMediaSticker\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4982>)
+### func \(\*InputMediaSticker\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5026>)
 
 ```go
 func (v *InputMediaSticker) MarshalJSON() ([]byte, error)
@@ -8122,7 +8459,7 @@ func (v *InputMediaSticker) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputMediaSticker with the discriminator field "type" forced to "sticker". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputMediaType"></a>
-## type [InputMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L125>)
+## type [InputMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L133>)
 
 
 
@@ -8144,13 +8481,13 @@ const (
 ```
 
 <a name="InputMediaVenue"></a>
-## type [InputMediaVenue](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4994-L5013>)
+## type [InputMediaVenue](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5038-L5057>)
 
 Represents a venue to be sent.
 
 ```go
 type InputMediaVenue struct {
-    // Type of the result, must be venue
+    // Type of the media, must be venue
     Type InputPollOptionMediaType `json:"type"`
     // Latitude of the location
     Latitude float64 `json:"latitude"`
@@ -8172,7 +8509,7 @@ type InputMediaVenue struct {
 ```
 
 <a name="InputMediaVenue.MarshalJSON"></a>
-### func \(\*InputMediaVenue\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5020>)
+### func \(\*InputMediaVenue\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5064>)
 
 ```go
 func (v *InputMediaVenue) MarshalJSON() ([]byte, error)
@@ -8181,13 +8518,13 @@ func (v *InputMediaVenue) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputMediaVenue with the discriminator field "type" forced to "venue". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputMediaVideo"></a>
-## type [InputMediaVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5032-L5061>)
+## type [InputMediaVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5076-L5105>)
 
 Represents a video to be sent.
 
 ```go
 type InputMediaVideo struct {
-    // Type of the result, must be video
+    // Type of the media, must be video
     Type InputMediaType `json:"type"`
     // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     Media string `json:"media"`
@@ -8203,7 +8540,7 @@ type InputMediaVideo struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Optional. Pass True, if the caption must be shown above the message media
+    // Optional. Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Optional. Video width
     Width *int64 `json:"width,omitempty"`
@@ -8219,7 +8556,7 @@ type InputMediaVideo struct {
 ```
 
 <a name="InputMediaVideo.MarshalJSON"></a>
-### func \(\*InputMediaVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5068>)
+### func \(\*InputMediaVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5112>)
 
 ```go
 func (v *InputMediaVideo) MarshalJSON() ([]byte, error)
@@ -8227,8 +8564,47 @@ func (v *InputMediaVideo) MarshalJSON() ([]byte, error)
 
 MarshalJSON encodes InputMediaVideo with the discriminator field "type" forced to "video". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
+<a name="InputMediaVoiceNote"></a>
+## type [InputMediaVoiceNote](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5124-L5137>)
+
+Represents a voice message file to be sent.
+
+```go
+type InputMediaVoiceNote struct {
+    // Type of the media, must be voice_note
+    Type InputMediaVoiceNoteType `json:"type"`
+    // File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
+    Media string `json:"media"`
+    // Optional. Caption of the voice message to be sent, 0-1024 characters after entities parsing
+    Caption string `json:"caption,omitempty"`
+    // Optional. Mode for parsing entities in the voice message caption. See formatting options for more details.
+    ParseMode ParseMode `json:"parse_mode,omitempty"`
+    // Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+    CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
+    // Optional. Duration of the voice message in seconds
+    Duration *int64 `json:"duration,omitempty"`
+}
+```
+
+<a name="InputMediaVoiceNoteType"></a>
+## type [InputMediaVoiceNoteType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L144>)
+
+
+
+```go
+type InputMediaVoiceNoteType string
+```
+
+<a name="InputMediaVoiceNoteTypeVoiceNote"></a>
+
+```go
+const (
+    InputMediaVoiceNoteTypeVoiceNote InputMediaVoiceNoteType = "voice_note"
+)
+```
+
 <a name="InputMessageContent"></a>
-## type [InputMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7795>)
+## type [InputMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8513>)
 
 InputMessageContent is a union type. The following concrete variants implement it:
 
@@ -8248,7 +8624,7 @@ type InputMessageContent interface {
 ```
 
 <a name="InputPaidMedia"></a>
-## type [InputPaidMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5086>)
+## type [InputPaidMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5146>)
 
 InputPaidMedia is a union type. The following concrete variants implement it:
 
@@ -8265,7 +8641,7 @@ type InputPaidMedia interface {
 ```
 
 <a name="InputPaidMediaLivePhoto"></a>
-## type [InputPaidMediaLivePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5098-L5105>)
+## type [InputPaidMediaLivePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5158-L5165>)
 
 The paid media to send is a live photo.
 
@@ -8281,7 +8657,7 @@ type InputPaidMediaLivePhoto struct {
 ```
 
 <a name="InputPaidMediaLivePhoto.MarshalJSON"></a>
-### func \(\*InputPaidMediaLivePhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5112>)
+### func \(\*InputPaidMediaLivePhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5172>)
 
 ```go
 func (v *InputPaidMediaLivePhoto) MarshalJSON() ([]byte, error)
@@ -8290,7 +8666,7 @@ func (v *InputPaidMediaLivePhoto) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputPaidMediaLivePhoto with the discriminator field "type" forced to "live\_photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputPaidMediaPhoto"></a>
-## type [InputPaidMediaPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5124-L5129>)
+## type [InputPaidMediaPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5184-L5189>)
 
 The paid media to send is a photo.
 
@@ -8304,7 +8680,7 @@ type InputPaidMediaPhoto struct {
 ```
 
 <a name="InputPaidMediaPhoto.MarshalJSON"></a>
-### func \(\*InputPaidMediaPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5136>)
+### func \(\*InputPaidMediaPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5196>)
 
 ```go
 func (v *InputPaidMediaPhoto) MarshalJSON() ([]byte, error)
@@ -8313,7 +8689,7 @@ func (v *InputPaidMediaPhoto) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputPaidMediaPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputPaidMediaType"></a>
-## type [InputPaidMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L136>)
+## type [InputPaidMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L150>)
 
 
 
@@ -8332,7 +8708,7 @@ const (
 ```
 
 <a name="InputPaidMediaVideo"></a>
-## type [InputPaidMediaVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5148-L5167>)
+## type [InputPaidMediaVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5208-L5227>)
 
 The paid media to send is a video.
 
@@ -8360,7 +8736,7 @@ type InputPaidMediaVideo struct {
 ```
 
 <a name="InputPaidMediaVideo.MarshalJSON"></a>
-### func \(\*InputPaidMediaVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5174>)
+### func \(\*InputPaidMediaVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5234>)
 
 ```go
 func (v *InputPaidMediaVideo) MarshalJSON() ([]byte, error)
@@ -8369,7 +8745,7 @@ func (v *InputPaidMediaVideo) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputPaidMediaVideo with the discriminator field "type" forced to "video". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputPollMedia"></a>
-## type [InputPollMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1344>)
+## type [InputPollMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1358>)
 
 InputPollMedia is a union type. The following concrete variants implement it:
 
@@ -8391,7 +8767,7 @@ type InputPollMedia interface {
 ```
 
 <a name="InputPollMediaType"></a>
-## type [InputPollMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L144>)
+## type [InputPollMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L158>)
 
 
 
@@ -8415,7 +8791,7 @@ const (
 ```
 
 <a name="InputPollOption"></a>
-## type [InputPollOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1429-L1438>)
+## type [InputPollOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1443-L1452>)
 
 This object contains information about one answer option in a poll to be sent.
 
@@ -8433,7 +8809,7 @@ type InputPollOption struct {
 ```
 
 <a name="InputPollOptionMedia"></a>
-## type [InputPollOptionMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1382>)
+## type [InputPollOptionMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1396>)
 
 InputPollOptionMedia is a union type. The following concrete variants implement it:
 
@@ -8455,7 +8831,7 @@ type InputPollOptionMedia interface {
 ```
 
 <a name="InputPollOptionMediaType"></a>
-## type [InputPollOptionMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L157>)
+## type [InputPollOptionMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L171>)
 
 
 
@@ -8479,7 +8855,7 @@ const (
 ```
 
 <a name="InputProfilePhoto"></a>
-## type [InputProfilePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5191>)
+## type [InputProfilePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5251>)
 
 InputProfilePhoto is a union type. The following concrete variants implement it:
 
@@ -8495,7 +8871,7 @@ type InputProfilePhoto interface {
 ```
 
 <a name="InputProfilePhotoAnimated"></a>
-## type [InputProfilePhotoAnimated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5224-L5231>)
+## type [InputProfilePhotoAnimated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5284-L5291>)
 
 An animated profile photo in the MPEG4 format.
 
@@ -8511,7 +8887,7 @@ type InputProfilePhotoAnimated struct {
 ```
 
 <a name="InputProfilePhotoAnimated.MarshalJSON"></a>
-### func \(\*InputProfilePhotoAnimated\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5238>)
+### func \(\*InputProfilePhotoAnimated\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5298>)
 
 ```go
 func (v *InputProfilePhotoAnimated) MarshalJSON() ([]byte, error)
@@ -8520,7 +8896,7 @@ func (v *InputProfilePhotoAnimated) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputProfilePhotoAnimated with the discriminator field "type" forced to "animated". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputProfilePhotoStatic"></a>
-## type [InputProfilePhotoStatic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5200-L5205>)
+## type [InputProfilePhotoStatic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5260-L5265>)
 
 A static profile photo in the .JPG format.
 
@@ -8534,7 +8910,7 @@ type InputProfilePhotoStatic struct {
 ```
 
 <a name="InputProfilePhotoStatic.MarshalJSON"></a>
-### func \(\*InputProfilePhotoStatic\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5212>)
+### func \(\*InputProfilePhotoStatic\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5272>)
 
 ```go
 func (v *InputProfilePhotoStatic) MarshalJSON() ([]byte, error)
@@ -8543,7 +8919,7 @@ func (v *InputProfilePhotoStatic) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputProfilePhotoStatic with the discriminator field "type" forced to "static". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputProfilePhotoType"></a>
-## type [InputProfilePhotoType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L170>)
+## type [InputProfilePhotoType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L184>)
 
 
 
@@ -8560,17 +8936,634 @@ const (
 )
 ```
 
-<a name="InputRichMessage"></a>
-## type [InputRichMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5400-L5409>)
+<a name="InputRichBlock"></a>
+## type [InputRichBlock](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6936>)
 
-Describes a rich message to be sent. Exactly one of the fields html or markdown must be used.
+InputRichBlock is a union type. The following concrete variants implement it:
+
+- InputRichBlockParagraph
+- InputRichBlockSectionHeading
+- InputRichBlockPreformatted
+- InputRichBlockFooter
+- InputRichBlockDivider
+- InputRichBlockMathematicalExpression
+- InputRichBlockAnchor
+- InputRichBlockList
+- InputRichBlockBlockQuotation
+- InputRichBlockPullQuotation
+- InputRichBlockCollage
+- InputRichBlockSlideshow
+- InputRichBlockTable
+- InputRichBlockDetails
+- InputRichBlockMap
+- InputRichBlockAnimation
+- InputRichBlockAudio
+- InputRichBlockPhoto
+- InputRichBlockVideo
+- InputRichBlockVoiceNote
+- InputRichBlockThinking
+
+This object represents a block in a rich formatted message to be sent. Currently, it can be any of the following types:
+
+```go
+type InputRichBlock interface {
+    // contains filtered or unexported methods
+}
+```
+
+<a name="InputRichBlockAnchor"></a>
+## type [InputRichBlockAnchor](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7148-L7153>)
+
+A block with an anchor, corresponding to the HTML tag \<a\> with the attribute name.
+
+```go
+type InputRichBlockAnchor struct {
+    // Type of the block, always “anchor”
+    Type InputRichBlockType `json:"type"`
+    // The name of the anchor
+    Name string `json:"name"`
+}
+```
+
+<a name="InputRichBlockAnchor.MarshalJSON"></a>
+### func \(\*InputRichBlockAnchor\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7160>)
+
+```go
+func (v *InputRichBlockAnchor) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockAnchor with the discriminator field "type" forced to "anchor". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockAnimation"></a>
+## type [InputRichBlockAnimation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7390-L7397>)
+
+A block with an animation, corresponding to the HTML tag \<video\>.
+
+```go
+type InputRichBlockAnimation struct {
+    // Type of the block, always “animation”
+    Type InputRichBlockType `json:"type"`
+    // The animation. Caption is ignored.
+    Animation InputMediaAnimation `json:"animation"`
+    // Optional. Caption of the block
+    Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+```
+
+<a name="InputRichBlockAnimation.MarshalJSON"></a>
+### func \(\*InputRichBlockAnimation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7404>)
+
+```go
+func (v *InputRichBlockAnimation) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockAnimation with the discriminator field "type" forced to "animation". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockAudio"></a>
+## type [InputRichBlockAudio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7416-L7423>)
+
+A block with a music file, corresponding to the HTML tag \<audio\>.
+
+```go
+type InputRichBlockAudio struct {
+    // Type of the block, always “audio”
+    Type InputRichBlockType `json:"type"`
+    // The audio. Caption is ignored.
+    Audio InputMediaAudio `json:"audio"`
+    // Optional. Caption of the block
+    Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+```
+
+<a name="InputRichBlockAudio.MarshalJSON"></a>
+### func \(\*InputRichBlockAudio\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7430>)
+
+```go
+func (v *InputRichBlockAudio) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockAudio with the discriminator field "type" forced to "audio". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockBlockQuotation"></a>
+## type [InputRichBlockBlockQuotation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7196-L7203>)
+
+A block quotation, corresponding to the HTML tag \<blockquote\>.
+
+```go
+type InputRichBlockBlockQuotation struct {
+    // Type of the block, always “blockquote”
+    Type InputRichBlockType `json:"type"`
+    // Content of the block
+    Blocks []InputRichBlock `json:"blocks"`
+    // Optional. Credit of the block
+    Credit RichText `json:"credit,omitempty"`
+}
+```
+
+<a name="InputRichBlockBlockQuotation.MarshalJSON"></a>
+### func \(\*InputRichBlockBlockQuotation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7210>)
+
+```go
+func (v *InputRichBlockBlockQuotation) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockBlockQuotation with the discriminator field "type" forced to "blockquote". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockCollage"></a>
+## type [InputRichBlockCollage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7248-L7255>)
+
+A collage, corresponding to the custom HTML tag \<tg\-collage\>.
+
+```go
+type InputRichBlockCollage struct {
+    // Type of the block, always “collage”
+    Type InputRichBlockType `json:"type"`
+    // Elements of the collage
+    Blocks []InputRichBlock `json:"blocks"`
+    // Optional. Caption of the block
+    Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+```
+
+<a name="InputRichBlockCollage.MarshalJSON"></a>
+### func \(\*InputRichBlockCollage\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7262>)
+
+```go
+func (v *InputRichBlockCollage) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockCollage with the discriminator field "type" forced to "collage". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockDetails"></a>
+## type [InputRichBlockDetails](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7330-L7339>)
+
+An expandable block for details disclosure, corresponding to the HTML tag \<details\>.
+
+```go
+type InputRichBlockDetails struct {
+    // Type of the block, always “details”
+    Type InputRichBlockType `json:"type"`
+    // Always shown summary of the block
+    Summary RichText `json:"summary"`
+    // Content of the block
+    Blocks []InputRichBlock `json:"blocks"`
+    // Optional. Pass True if the content of the block is visible by default
+    IsOpen *bool `json:"is_open,omitempty"`
+}
+```
+
+<a name="InputRichBlockDetails.MarshalJSON"></a>
+### func \(\*InputRichBlockDetails\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7346>)
+
+```go
+func (v *InputRichBlockDetails) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockDetails with the discriminator field "type" forced to "details". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockDivider"></a>
+## type [InputRichBlockDivider](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7102-L7105>)
+
+A divider, corresponding to the HTML tag \<hr/\>.
+
+```go
+type InputRichBlockDivider struct {
+    // Type of the block, always “divider”
+    Type InputRichBlockType `json:"type"`
+}
+```
+
+<a name="InputRichBlockDivider.MarshalJSON"></a>
+### func \(\*InputRichBlockDivider\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7112>)
+
+```go
+func (v *InputRichBlockDivider) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockDivider with the discriminator field "type" forced to "divider". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockFooter"></a>
+## type [InputRichBlockFooter](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7078-L7083>)
+
+A footer, corresponding to the HTML tag \<footer\>.
+
+```go
+type InputRichBlockFooter struct {
+    // Type of the block, always “footer”
+    Type InputRichBlockType `json:"type"`
+    // Text of the block
+    Text RichText `json:"text"`
+}
+```
+
+<a name="InputRichBlockFooter.MarshalJSON"></a>
+### func \(\*InputRichBlockFooter\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7090>)
+
+```go
+func (v *InputRichBlockFooter) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockFooter with the discriminator field "type" forced to "footer". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockList"></a>
+## type [InputRichBlockList](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7172-L7177>)
+
+A list of blocks, corresponding to the HTML tag \<ul\> or \<ol\> with multiple nested tags \<li\>.
+
+```go
+type InputRichBlockList struct {
+    // Type of the block, always “list”
+    Type InputRichBlockType `json:"type"`
+    // Items of the list
+    Items []InputRichBlockListItem `json:"items"`
+}
+```
+
+<a name="InputRichBlockList.MarshalJSON"></a>
+### func \(\*InputRichBlockList\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7184>)
+
+```go
+func (v *InputRichBlockList) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockList with the discriminator field "type" forced to "list". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockListItem"></a>
+## type [InputRichBlockListItem](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6898-L6909>)
+
+An item of a list to be sent.
+
+```go
+type InputRichBlockListItem struct {
+    // The content of the item
+    Blocks []InputRichBlock `json:"blocks"`
+    // Optional. Pass True if the item has a checkbox
+    HasCheckbox *bool `json:"has_checkbox,omitempty"`
+    // Optional. Pass True if the item has a checked checkbox
+    IsChecked *bool `json:"is_checked,omitempty"`
+    // Optional. For ordered lists, the numeric value of the item label
+    Value *int64 `json:"value,omitempty"`
+    // Optional. For ordered lists, the type of the item label; must be one of “a” for lowercase letters, “A” for uppercase letters, “i” for lowercase Roman numerals, “I” for uppercase Roman numerals, or “1” for decimal numbers
+    Type RichBlockListItemType `json:"type,omitempty"`
+}
+```
+
+<a name="InputRichBlockMap"></a>
+## type [InputRichBlockMap](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7358-L7371>)
+
+A block with a map, corresponding to the custom HTML tag \<tg\-map\>. The map's width and height must not exceed 10000 in total. The width and height ratio must be at most 20.
+
+```go
+type InputRichBlockMap struct {
+    // Type of the block, always “map”
+    Type InputRichBlockType `json:"type"`
+    // Location of the center of the map
+    Location Location `json:"location"`
+    // Map zoom level; 0-24
+    Zoom int64 `json:"zoom"`
+    // Map width; 0-10000
+    Width int64 `json:"width"`
+    // Map height; 0-10000
+    Height int64 `json:"height"`
+    // Optional. Caption of the block
+    Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+```
+
+<a name="InputRichBlockMap.MarshalJSON"></a>
+### func \(\*InputRichBlockMap\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7378>)
+
+```go
+func (v *InputRichBlockMap) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockMap with the discriminator field "type" forced to "map". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockMathematicalExpression"></a>
+## type [InputRichBlockMathematicalExpression](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7124-L7129>)
+
+A block with a mathematical expression in LaTeX format, corresponding to the custom HTML tag \<tg\-math\-block\>.
+
+```go
+type InputRichBlockMathematicalExpression struct {
+    // Type of the block, always “mathematical_expression”
+    Type InputRichBlockType `json:"type"`
+    // The mathematical expression in LaTeX format
+    Expression string `json:"expression"`
+}
+```
+
+<a name="InputRichBlockMathematicalExpression.MarshalJSON"></a>
+### func \(\*InputRichBlockMathematicalExpression\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7136>)
+
+```go
+func (v *InputRichBlockMathematicalExpression) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockMathematicalExpression with the discriminator field "type" forced to "mathematical\_expression". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockParagraph"></a>
+## type [InputRichBlockParagraph](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7002-L7007>)
+
+A text paragraph, corresponding to the HTML tag \<p\>.
+
+```go
+type InputRichBlockParagraph struct {
+    // Type of the block, always “paragraph”
+    Type InputRichBlockType `json:"type"`
+    // Text of the block
+    Text RichText `json:"text"`
+}
+```
+
+<a name="InputRichBlockParagraph.MarshalJSON"></a>
+### func \(\*InputRichBlockParagraph\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7014>)
+
+```go
+func (v *InputRichBlockParagraph) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockParagraph with the discriminator field "type" forced to "paragraph". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockPhoto"></a>
+## type [InputRichBlockPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7442-L7449>)
+
+A block with a photo, corresponding to the HTML tag \<img\>.
+
+```go
+type InputRichBlockPhoto struct {
+    // Type of the block, always “photo”
+    Type InputRichBlockType `json:"type"`
+    // The photo. Caption is ignored.
+    Photo InputMediaPhoto `json:"photo"`
+    // Optional. Caption of the block
+    Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+```
+
+<a name="InputRichBlockPhoto.MarshalJSON"></a>
+### func \(\*InputRichBlockPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7456>)
+
+```go
+func (v *InputRichBlockPhoto) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockPreformatted"></a>
+## type [InputRichBlockPreformatted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7052-L7059>)
+
+A preformatted text block, corresponding to the nested HTML tags \<pre\> and \<code\>.
+
+```go
+type InputRichBlockPreformatted struct {
+    // Type of the block, always “pre”
+    Type InputRichBlockType `json:"type"`
+    // Text of the block
+    Text RichText `json:"text"`
+    // Optional. The programming language of the text
+    Language string `json:"language,omitempty"`
+}
+```
+
+<a name="InputRichBlockPreformatted.MarshalJSON"></a>
+### func \(\*InputRichBlockPreformatted\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7066>)
+
+```go
+func (v *InputRichBlockPreformatted) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockPreformatted with the discriminator field "type" forced to "pre". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockPullQuotation"></a>
+## type [InputRichBlockPullQuotation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7222-L7229>)
+
+A quotation with centered text, loosely corresponding to the HTML tag \<aside\>.
+
+```go
+type InputRichBlockPullQuotation struct {
+    // Type of the block, always “pullquote”
+    Type InputRichBlockType `json:"type"`
+    // Text of the block
+    Text RichText `json:"text"`
+    // Optional. Credit of the block
+    Credit RichText `json:"credit,omitempty"`
+}
+```
+
+<a name="InputRichBlockPullQuotation.MarshalJSON"></a>
+### func \(\*InputRichBlockPullQuotation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7236>)
+
+```go
+func (v *InputRichBlockPullQuotation) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockPullQuotation with the discriminator field "type" forced to "pullquote". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockSectionHeading"></a>
+## type [InputRichBlockSectionHeading](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7026-L7033>)
+
+A section heading, corresponding to the HTML tags \<h1\>, \<h2\>, \<h3\>, \<h4\>, \<h5\>, or \<h6\>.
+
+```go
+type InputRichBlockSectionHeading struct {
+    // Type of the block, always “heading”
+    Type InputRichBlockType `json:"type"`
+    // Text of the block
+    Text RichText `json:"text"`
+    // Relative size of the text font; 1-6, 1 is the largest, 6 is the smallest
+    Size int64 `json:"size"`
+}
+```
+
+<a name="InputRichBlockSectionHeading.MarshalJSON"></a>
+### func \(\*InputRichBlockSectionHeading\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7040>)
+
+```go
+func (v *InputRichBlockSectionHeading) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockSectionHeading with the discriminator field "type" forced to "heading". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockSlideshow"></a>
+## type [InputRichBlockSlideshow](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7274-L7281>)
+
+A slideshow, corresponding to the custom HTML tag \<tg\-slideshow\>.
+
+```go
+type InputRichBlockSlideshow struct {
+    // Type of the block, always “slideshow”
+    Type InputRichBlockType `json:"type"`
+    // Elements of the slideshow
+    Blocks []InputRichBlock `json:"blocks"`
+    // Optional. Caption of the block
+    Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+```
+
+<a name="InputRichBlockSlideshow.MarshalJSON"></a>
+### func \(\*InputRichBlockSlideshow\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7288>)
+
+```go
+func (v *InputRichBlockSlideshow) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockSlideshow with the discriminator field "type" forced to "slideshow". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockTable"></a>
+## type [InputRichBlockTable](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7300-L7311>)
+
+A table, corresponding to the HTML tag \<table\>.
+
+```go
+type InputRichBlockTable struct {
+    // Type of the block, always “table”
+    Type InputRichBlockType `json:"type"`
+    // Cells of the table
+    Cells [][]RichBlockTableCell `json:"cells"`
+    // Optional. Pass True if the table has borders
+    IsBordered *bool `json:"is_bordered,omitempty"`
+    // Optional. Pass True if the table is striped
+    IsStriped *bool `json:"is_striped,omitempty"`
+    // Optional. Caption of the table
+    Caption RichText `json:"caption,omitempty"`
+}
+```
+
+<a name="InputRichBlockTable.MarshalJSON"></a>
+### func \(\*InputRichBlockTable\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7318>)
+
+```go
+func (v *InputRichBlockTable) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockTable with the discriminator field "type" forced to "table". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockThinking"></a>
+## type [InputRichBlockThinking](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7520-L7525>)
+
+A block with a “Thinking…” placeholder, corresponding to the custom HTML tag \<tg\-thinking\>. The block may be used only in sendRichMessageDraft, therefore it can't be received in messages. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block.
+
+```go
+type InputRichBlockThinking struct {
+    // Type of the block, always “thinking”
+    Type InputRichBlockType `json:"type"`
+    // Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block.
+    Text RichText `json:"text"`
+}
+```
+
+<a name="InputRichBlockThinking.MarshalJSON"></a>
+### func \(\*InputRichBlockThinking\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7532>)
+
+```go
+func (v *InputRichBlockThinking) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockThinking with the discriminator field "type" forced to "thinking". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockType"></a>
+## type [InputRichBlockType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L191>)
+
+
+
+```go
+type InputRichBlockType string
+```
+
+<a name="InputRichBlockTypeParagraph"></a>
+
+```go
+const (
+    InputRichBlockTypeParagraph              InputRichBlockType = "paragraph"
+    InputRichBlockTypeHeading                InputRichBlockType = "heading"
+    InputRichBlockTypePre                    InputRichBlockType = "pre"
+    InputRichBlockTypeFooter                 InputRichBlockType = "footer"
+    InputRichBlockTypeDivider                InputRichBlockType = "divider"
+    InputRichBlockTypeMathematicalExpression InputRichBlockType = "mathematical_expression"
+    InputRichBlockTypeAnchor                 InputRichBlockType = "anchor"
+    InputRichBlockTypeList                   InputRichBlockType = "list"
+    InputRichBlockTypeBlockquote             InputRichBlockType = "blockquote"
+    InputRichBlockTypePullquote              InputRichBlockType = "pullquote"
+    InputRichBlockTypeCollage                InputRichBlockType = "collage"
+    InputRichBlockTypeSlideshow              InputRichBlockType = "slideshow"
+    InputRichBlockTypeTable                  InputRichBlockType = "table"
+    InputRichBlockTypeDetails                InputRichBlockType = "details"
+    InputRichBlockTypeMap                    InputRichBlockType = "map"
+    InputRichBlockTypeAnimation              InputRichBlockType = "animation"
+    InputRichBlockTypeAudio                  InputRichBlockType = "audio"
+    InputRichBlockTypePhoto                  InputRichBlockType = "photo"
+    InputRichBlockTypeVideo                  InputRichBlockType = "video"
+    InputRichBlockTypeVoiceNote              InputRichBlockType = "voice_note"
+    InputRichBlockTypeThinking               InputRichBlockType = "thinking"
+)
+```
+
+<a name="InputRichBlockVideo"></a>
+## type [InputRichBlockVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7468-L7475>)
+
+A block with a video, corresponding to the HTML tag \<video\>.
+
+```go
+type InputRichBlockVideo struct {
+    // Type of the block, always “video”
+    Type InputRichBlockType `json:"type"`
+    // The video. Caption is ignored.
+    Video InputMediaVideo `json:"video"`
+    // Optional. Caption of the block
+    Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+```
+
+<a name="InputRichBlockVideo.MarshalJSON"></a>
+### func \(\*InputRichBlockVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7482>)
+
+```go
+func (v *InputRichBlockVideo) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockVideo with the discriminator field "type" forced to "video". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichBlockVoiceNote"></a>
+## type [InputRichBlockVoiceNote](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7494-L7501>)
+
+A block with a voice note, corresponding to the HTML tag \<audio\>.
+
+```go
+type InputRichBlockVoiceNote struct {
+    // Type of the block, always “voice_note”
+    Type InputRichBlockType `json:"type"`
+    // The voice note. Caption is ignored.
+    VoiceNote InputMediaVoiceNote `json:"voice_note"`
+    // Optional. Caption of the block
+    Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+```
+
+<a name="InputRichBlockVoiceNote.MarshalJSON"></a>
+### func \(\*InputRichBlockVoiceNote\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7508>)
+
+```go
+func (v *InputRichBlockVoiceNote) MarshalJSON() ([]byte, error)
+```
+
+MarshalJSON encodes InputRichBlockVoiceNote with the discriminator field "type" forced to "voice\_note". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
+
+<a name="InputRichMessage"></a>
+## type [InputRichMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5460-L5473>)
+
+Describes a rich message to be sent. Exactly one of the fields html, markdown, or blocks must be used.
 
 ```go
 type InputRichMessage struct {
-    // Optional. Content of the rich message to send described using HTML formatting. See rich message formatting options for more details.
+    // Optional. Content of the rich message to send described as a list of blocks
+    Blocks []InputRichBlock `json:"blocks,omitempty"`
+    // Optional. Content of the rich message to send described using HTML formatting. See rich message formatting options for more details. Use media field to specify the media used in the message.
     HTML string `json:"html,omitempty"`
-    // Optional. Content of the rich message to send described using Markdown formatting. See rich message formatting options for more details.
+    // Optional. Content of the rich message to send described using Markdown formatting. See rich message formatting options for more details. Use media field to specify the media used in the message.
     Markdown string `json:"markdown,omitempty"`
+    // Optional. List of media that are specified in the markdown or html fields using tg://photo?id=, tg://video?id=, and tg://audio?id= links
+    Media []InputRichMessageMedia `json:"media,omitempty"`
     // Optional. Pass True if the rich message must be shown right-to-left
     IsRtl *bool `json:"is_rtl,omitempty"`
     // Optional. Pass True to skip automatic detection of entities (e.g., URLs, email addresses, username mentions, hashtags, cashtags, bot commands, or phone numbers) in the text
@@ -8579,7 +9572,7 @@ type InputRichMessage struct {
 ```
 
 <a name="InputRichMessageContent"></a>
-## type [InputRichMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7828-L7831>)
+## type [InputRichMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8546-L8549>)
 
 Represents the content of a rich message to be sent as the result of an inline query.
 
@@ -8590,8 +9583,22 @@ type InputRichMessageContent struct {
 }
 ```
 
+<a name="InputRichMessageMedia"></a>
+## type [InputRichMessageMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5476-L5481>)
+
+Describes a media element embedded in an outgoing rich message.
+
+```go
+type InputRichMessageMedia struct {
+    // Unique identifier of the media used in a tg://photo?id=, tg://video?id=, or tg://audio?id= link. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed.
+    ID  string `json:"id"`
+    // The media to be sent. Everything except the media itself and its properties is ignored.
+    Media any `json:"media"`
+}
+```
+
 <a name="InputSticker"></a>
-## type [InputSticker](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5378-L5389>)
+## type [InputSticker](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5438-L5449>)
 
 This object describes a sticker to be added to a sticker set.
 
@@ -8611,7 +9618,7 @@ type InputSticker struct {
 ```
 
 <a name="InputStickerFormat"></a>
-## type [InputStickerFormat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L177>)
+## type [InputStickerFormat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L217>)
 
 
 
@@ -8630,7 +9637,7 @@ const (
 ```
 
 <a name="InputStoryContent"></a>
-## type [InputStoryContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5255>)
+## type [InputStoryContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5315>)
 
 InputStoryContent is a union type. The following concrete variants implement it:
 
@@ -8646,7 +9653,7 @@ type InputStoryContent interface {
 ```
 
 <a name="InputStoryContentPhoto"></a>
-## type [InputStoryContentPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5264-L5269>)
+## type [InputStoryContentPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5324-L5329>)
 
 Describes a photo to post as a story.
 
@@ -8660,7 +9667,7 @@ type InputStoryContentPhoto struct {
 ```
 
 <a name="InputStoryContentPhoto.MarshalJSON"></a>
-### func \(\*InputStoryContentPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5276>)
+### func \(\*InputStoryContentPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5336>)
 
 ```go
 func (v *InputStoryContentPhoto) MarshalJSON() ([]byte, error)
@@ -8669,7 +9676,7 @@ func (v *InputStoryContentPhoto) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputStoryContentPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputStoryContentType"></a>
-## type [InputStoryContentType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L185>)
+## type [InputStoryContentType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L225>)
 
 
 
@@ -8687,7 +9694,7 @@ const (
 ```
 
 <a name="InputStoryContentVideo"></a>
-## type [InputStoryContentVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5288-L5299>)
+## type [InputStoryContentVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5348-L5359>)
 
 Describes a video to post as a story.
 
@@ -8707,7 +9714,7 @@ type InputStoryContentVideo struct {
 ```
 
 <a name="InputStoryContentVideo.MarshalJSON"></a>
-### func \(\*InputStoryContentVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5306>)
+### func \(\*InputStoryContentVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5366>)
 
 ```go
 func (v *InputStoryContentVideo) MarshalJSON() ([]byte, error)
@@ -8716,7 +9723,7 @@ func (v *InputStoryContentVideo) MarshalJSON() ([]byte, error)
 MarshalJSON encodes InputStoryContentVideo with the discriminator field "type" forced to "video". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="InputTextMessageContent"></a>
-## type [InputTextMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7816-L7825>)
+## type [InputTextMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8534-L8543>)
 
 Represents the content of a text message to be sent as the result of an inline query.
 
@@ -8734,7 +9741,7 @@ type InputTextMessageContent struct {
 ```
 
 <a name="InputVenueMessageContent"></a>
-## type [InputVenueMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7850-L7867>)
+## type [InputVenueMessageContent](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8568-L8585>)
 
 Represents the content of a venue message to be sent as the result of an inline query.
 
@@ -8760,7 +9767,7 @@ type InputVenueMessageContent struct {
 ```
 
 <a name="Invoice"></a>
-## type [Invoice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7949-L7960>)
+## type [Invoice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8667-L8678>)
 
 This object contains basic information about an invoice.
 
@@ -8780,7 +9787,7 @@ type Invoice struct {
 ```
 
 <a name="KeyboardButton"></a>
-## type [KeyboardButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2418-L2439>)
+## type [KeyboardButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2452-L2473>)
 
 This object represents one button of the reply keyboard. At most one of the fields other than text, icon\_custom\_emoji\_id, and style must be used to specify the type of the button. For simple text buttons, String can be used instead of this object to specify the button text.
 
@@ -8810,7 +9817,7 @@ type KeyboardButton struct {
 ```
 
 <a name="KeyboardButtonPollType"></a>
-## type [KeyboardButtonPollType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2496-L2499>)
+## type [KeyboardButtonPollType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2530-L2533>)
 
 This object represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
 
@@ -8822,7 +9829,7 @@ type KeyboardButtonPollType struct {
 ```
 
 <a name="KeyboardButtonRequestChat"></a>
-## type [KeyboardButtonRequestChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2460-L2483>)
+## type [KeyboardButtonRequestChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2494-L2517>)
 
 This object defines the criteria used to request a suitable chat. Information about the selected chat will be shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the chat if appropriate. More about requesting chats ».
 
@@ -8854,7 +9861,7 @@ type KeyboardButtonRequestChat struct {
 ```
 
 <a name="KeyboardButtonRequestManagedBot"></a>
-## type [KeyboardButtonRequestManagedBot](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2486-L2493>)
+## type [KeyboardButtonRequestManagedBot](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2520-L2527>)
 
 This object defines the parameters for the creation of a managed bot. Information about the created bot will be shared with the bot using the update managed\_bot and a Message with the field managed\_bot\_created.
 
@@ -8870,7 +9877,7 @@ type KeyboardButtonRequestManagedBot struct {
 ```
 
 <a name="KeyboardButtonRequestUsers"></a>
-## type [KeyboardButtonRequestUsers](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2442-L2457>)
+## type [KeyboardButtonRequestUsers](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2476-L2491>)
 
 This object defines the criteria used to request suitable users. Information about the selected users will be shared with the bot when the corresponding button is pressed. More about requesting users »
 
@@ -8894,7 +9901,7 @@ type KeyboardButtonRequestUsers struct {
 ```
 
 <a name="KeyboardButtonStyle"></a>
-## type [KeyboardButtonStyle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L192>)
+## type [KeyboardButtonStyle](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L232>)
 
 
 
@@ -8913,7 +9920,7 @@ const (
 ```
 
 <a name="LabeledPrice"></a>
-## type [LabeledPrice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7941-L7946>)
+## type [LabeledPrice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8659-L8664>)
 
 This object represents a portion of the price for goods or services.
 
@@ -8927,7 +9934,7 @@ type LabeledPrice struct {
 ```
 
 <a name="LeaveChatParams"></a>
-## type [LeaveChatParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2672-L2675>)
+## type [LeaveChatParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2768-L2771>)
 
 LeaveChatParams is the parameter set for LeaveChat.
 
@@ -8941,7 +9948,7 @@ type LeaveChatParams struct {
 ```
 
 <a name="Link"></a>
-## type [Link](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1303-L1306>)
+## type [Link](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1317-L1320>)
 
 Represents an HTTP link.
 
@@ -8953,7 +9960,7 @@ type Link struct {
 ```
 
 <a name="LinkPreviewOptions"></a>
-## type [LinkPreviewOptions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2319-L2330>)
+## type [LinkPreviewOptions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2353-L2364>)
 
 Describes the options used for link preview generation.
 
@@ -8973,7 +9980,7 @@ type LinkPreviewOptions struct {
 ```
 
 <a name="LivePhoto"></a>
-## type [LivePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L991-L1008>)
+## type [LivePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1005-L1022>)
 
 This object represents a live photo.
 
@@ -8999,7 +10006,7 @@ type LivePhoto struct {
 ```
 
 <a name="Location"></a>
-## type [Location](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1577-L1590>)
+## type [Location](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1573-L1586>)
 
 This object represents a point on the map.
 
@@ -9021,7 +10028,7 @@ type Location struct {
 ```
 
 <a name="LocationAddress"></a>
-## type [LocationAddress](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3183-L3192>)
+## type [LocationAddress](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3225-L3234>)
 
 Describes the physical address of a location.
 
@@ -9051,7 +10058,7 @@ type LogOutParams struct {
 ```
 
 <a name="LoginUrl"></a>
-## type [LoginUrl](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2548-L2557>)
+## type [LoginUrl](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2582-L2591>)
 
 This object represents a parameter of the inline keyboard button used to automatically authorize a user. Serves as a great replacement for the Telegram Login Widget when the user is coming from Telegram. All the user needs to do is tap/click a button and confirm that they want to log in: Telegram apps support these buttons as of version 5.7. Sample bot: @discussbot
 
@@ -9069,7 +10076,7 @@ type LoginUrl struct {
 ```
 
 <a name="ManagedBotCreated"></a>
-## type [ManagedBotCreated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1635-L1638>)
+## type [ManagedBotCreated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1631-L1634>)
 
 This object contains information about the bot that was created to be managed by the current bot.
 
@@ -9081,7 +10088,7 @@ type ManagedBotCreated struct {
 ```
 
 <a name="ManagedBotUpdated"></a>
-## type [ManagedBotUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1641-L1646>)
+## type [ManagedBotUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1637-L1642>)
 
 This object contains information about the creation, token update, or owner update of a bot that is managed by the current bot.
 
@@ -9095,7 +10102,7 @@ type ManagedBotUpdated struct {
 ```
 
 <a name="MaskPosition"></a>
-## type [MaskPosition](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5366-L5375>)
+## type [MaskPosition](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5426-L5435>)
 
 This object describes the position on faces where a mask should be placed by default.
 
@@ -9113,7 +10120,7 @@ type MaskPosition struct {
 ```
 
 <a name="MaskPositionPoint"></a>
-## type [MaskPositionPoint](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L200>)
+## type [MaskPositionPoint](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L240>)
 
 
 
@@ -9133,7 +10140,7 @@ const (
 ```
 
 <a name="MaybeInaccessibleMessage"></a>
-## type [MaybeInaccessibleMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L587>)
+## type [MaybeInaccessibleMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L599>)
 
 MaybeInaccessibleMessage is a union type. The following concrete variants implement it:
 
@@ -9149,7 +10156,7 @@ type MaybeInaccessibleMessage interface {
 ```
 
 <a name="UnmarshalMaybeInaccessibleMessage"></a>
-### func [UnmarshalMaybeInaccessibleMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L599>)
+### func [UnmarshalMaybeInaccessibleMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L611>)
 
 ```go
 func UnmarshalMaybeInaccessibleMessage(data []byte) (MaybeInaccessibleMessage, error)
@@ -9194,7 +10201,7 @@ func (c *MeCache) Reset()
 Reset clears the cache. Useful in tests or after the bot's identity is known to have changed \(very rare\).
 
 <a name="MenuButton"></a>
-## type [MenuButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4290>)
+## type [MenuButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4334>)
 
 MenuButton is a union type. The following concrete variants implement it:
 
@@ -9211,7 +10218,7 @@ type MenuButton interface {
 ```
 
 <a name="GetChatMenuButton"></a>
-### func [GetChatMenuButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3375>)
+### func [GetChatMenuButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3471>)
 
 ```go
 func GetChatMenuButton(ctx context.Context, b *client.Bot, p *GetChatMenuButtonParams) (MenuButton, error)
@@ -9222,7 +10229,7 @@ GetChatMenuButton calls the getChatMenuButton Telegram Bot API method.
 Use this method to get the current value of the bot's menu button in a private chat, or the default menu button. Returns MenuButton on success.
 
 <a name="UnmarshalMenuButton"></a>
-### func [UnmarshalMenuButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4303>)
+### func [UnmarshalMenuButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4347>)
 
 ```go
 func UnmarshalMenuButton(data []byte) (MenuButton, error)
@@ -9231,7 +10238,7 @@ func UnmarshalMenuButton(data []byte) (MenuButton, error)
 UnmarshalMenuButton decodes a MenuButton from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
 <a name="MenuButtonCommands"></a>
-## type [MenuButtonCommands](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4328-L4331>)
+## type [MenuButtonCommands](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4372-L4375>)
 
 Represents a menu button, which opens the bot's list of commands.
 
@@ -9243,7 +10250,7 @@ type MenuButtonCommands struct {
 ```
 
 <a name="MenuButtonCommands.MarshalJSON"></a>
-### func \(\*MenuButtonCommands\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4338>)
+### func \(\*MenuButtonCommands\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4382>)
 
 ```go
 func (v *MenuButtonCommands) MarshalJSON() ([]byte, error)
@@ -9252,7 +10259,7 @@ func (v *MenuButtonCommands) MarshalJSON() ([]byte, error)
 MarshalJSON encodes MenuButtonCommands with the discriminator field "type" forced to "commands". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="MenuButtonDefault"></a>
-## type [MenuButtonDefault](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4376-L4379>)
+## type [MenuButtonDefault](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4420-L4423>)
 
 Describes that no specific value for the menu button was set.
 
@@ -9264,7 +10271,7 @@ type MenuButtonDefault struct {
 ```
 
 <a name="MenuButtonDefault.MarshalJSON"></a>
-### func \(\*MenuButtonDefault\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4386>)
+### func \(\*MenuButtonDefault\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4430>)
 
 ```go
 func (v *MenuButtonDefault) MarshalJSON() ([]byte, error)
@@ -9273,7 +10280,7 @@ func (v *MenuButtonDefault) MarshalJSON() ([]byte, error)
 MarshalJSON encodes MenuButtonDefault with the discriminator field "type" forced to "default". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="MenuButtonType"></a>
-## type [MenuButtonType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L209>)
+## type [MenuButtonType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L249>)
 
 
 
@@ -9292,7 +10299,7 @@ const (
 ```
 
 <a name="MenuButtonWebApp"></a>
-## type [MenuButtonWebApp](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4350-L4357>)
+## type [MenuButtonWebApp](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4394-L4401>)
 
 Represents a menu button, which launches a Web App.
 
@@ -9308,7 +10315,7 @@ type MenuButtonWebApp struct {
 ```
 
 <a name="MenuButtonWebApp.MarshalJSON"></a>
-### func \(\*MenuButtonWebApp\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4364>)
+### func \(\*MenuButtonWebApp\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4408>)
 
 ```go
 func (v *MenuButtonWebApp) MarshalJSON() ([]byte, error)
@@ -9317,13 +10324,13 @@ func (v *MenuButtonWebApp) MarshalJSON() ([]byte, error)
 MarshalJSON encodes MenuButtonWebApp with the discriminator field "type" forced to "web\_app". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="Message"></a>
-## type [Message](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L298-L529>)
+## type [Message](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L302-L541>)
 
 This object represents a message.
 
 ```go
 type Message struct {
-    // Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent.
+    // Unique message identifier inside this chat; 0 for ephemeral messages. In specific instances (e.g., a message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent.
     MessageID int64 `json:"message_id"`
     // Optional. Unique identifier of a message thread or forum topic to which the message belongs; for supergroups and private chats only
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
@@ -9339,6 +10346,10 @@ type Message struct {
     SenderBusinessBot *User `json:"sender_business_bot,omitempty"`
     // Optional. Tag or custom title of the sender of the message; for supergroups only
     SenderTag string `json:"sender_tag,omitempty"`
+    // Optional. For ephemeral messages, the user who received the message
+    ReceiverUser *User `json:"receiver_user,omitempty"`
+    // Optional. For ephemeral messages, identifier of the ephemeral message inside this chat. The identifier may be reused for another ephemeral message after the message is deleted or expires.
+    EphemeralMessageID *int64 `json:"ephemeral_message_id,omitempty"`
     // Date the message was sent in Unix time. It is always a positive number, representing a valid date.
     Date int64 `json:"date"`
     // Optional. The unique identifier for the guest query. Use this identifier with the method answerGuestQuery to send a response message. If non-empty, the message belongs to the chat where the guest bot was summoned, which may not coincide with other existing bot chats sharing the same identifier.
@@ -9353,7 +10364,7 @@ type Message struct {
     IsTopicMessage *bool `json:"is_topic_message,omitempty"`
     // Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
     IsAutomaticForward *bool `json:"is_automatic_forward,omitempty"`
-    // Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
+    // Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply. If the message is a reply to an ephemeral message, then this field may be omitted.
     ReplyToMessage *Message `json:"reply_to_message,omitempty"`
     // Optional. Information about the message that is being replied to, which may come from another chat or forum topic
     ExternalReply *ExternalReplyInfo `json:"external_reply,omitempty"`
@@ -9491,7 +10502,7 @@ type Message struct {
     WriteAccessAllowed *WriteAccessAllowed `json:"write_access_allowed,omitempty"`
     // Optional. Telegram Passport data
     PassportData *PassportData `json:"passport_data,omitempty"`
-    // Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
+    // Optional. Service message: a user in the chat triggered another user's proximity alert while sharing Live Location
     ProximityAlertTriggered *ProximityAlertTriggered `json:"proximity_alert_triggered,omitempty"`
     // Optional. Service message: user boosted the chat
     BoostAdded *ChatBoostAdded `json:"boost_added,omitempty"`
@@ -9501,6 +10512,10 @@ type Message struct {
     ChecklistTasksDone *ChecklistTasksDone `json:"checklist_tasks_done,omitempty"`
     // Optional. Service message: tasks were added to a checklist
     ChecklistTasksAdded *ChecklistTasksAdded `json:"checklist_tasks_added,omitempty"`
+    // Optional. Service message: chat added to a Community
+    CommunityChatAdded *CommunityChatAdded `json:"community_chat_added,omitempty"`
+    // Optional. Service message: chat removed from a Community
+    CommunityChatRemoved *CommunityChatRemoved `json:"community_chat_removed,omitempty"`
     // Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed
     DirectMessagePriceChanged *DirectMessagePriceChanged `json:"direct_message_price_changed,omitempty"`
     // Optional. Service message: forum topic created
@@ -9557,7 +10572,7 @@ type Message struct {
 ```
 
 <a name="EditMessageChecklist"></a>
-### func [EditMessageChecklist](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4242>)
+### func [EditMessageChecklist](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4338>)
 
 ```go
 func EditMessageChecklist(ctx context.Context, b *client.Bot, p *EditMessageChecklistParams) (*Message, error)
@@ -9568,7 +10583,7 @@ EditMessageChecklist calls the editMessageChecklist Telegram Bot API method.
 Use this method to edit a checklist on behalf of a connected business account. On success, the edited Message is returned.
 
 <a name="ForwardMessage"></a>
-### func [ForwardMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L258>)
+### func [ForwardMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L262>)
 
 ```go
 func ForwardMessage(ctx context.Context, b *client.Bot, p *ForwardMessageParams) (*Message, error)
@@ -9579,7 +10594,7 @@ ForwardMessage calls the forwardMessage Telegram Bot API method.
 Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded. On success, the sent Message is returned.
 
 <a name="GetUserPersonalChatMessages"></a>
-### func [GetUserPersonalChatMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2781>)
+### func [GetUserPersonalChatMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2877>)
 
 ```go
 func GetUserPersonalChatMessages(ctx context.Context, b *client.Bot, p *GetUserPersonalChatMessagesParams) ([]Message, error)
@@ -9587,10 +10602,10 @@ func GetUserPersonalChatMessages(ctx context.Context, b *client.Bot, p *GetUserP
 
 GetUserPersonalChatMessages calls the getUserPersonalChatMessages Telegram Bot API method.
 
-Use this method to get the last messages from the personal chat \(i.e., the chat currently added to their profile\) of a given user. On success, an array of Message objects is returned.
+Use this method to get the last messages from the personal chat \(i.e., the chat currently added to their profile\) of a given user. On success, an Array of Message objects is returned.
 
 <a name="SendAnimation"></a>
-### func [SendAnimation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1243>)
+### func [SendAnimation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1307>)
 
 ```go
 func SendAnimation(ctx context.Context, b *client.Bot, p *SendAnimationParams) (*Message, error)
@@ -9601,7 +10616,7 @@ SendAnimation calls the sendAnimation Telegram Bot API method.
 Use this method to send animation files \(GIF or H.264/MPEG\-4 AVC video without sound\). On success, the sent Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
 
 <a name="SendAudio"></a>
-### func [SendAudio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L776>)
+### func [SendAudio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L810>)
 
 ```go
 func SendAudio(ctx context.Context, b *client.Bot, p *SendAudioParams) (*Message, error)
@@ -9612,7 +10627,7 @@ SendAudio calls the sendAudio Telegram Bot API method.
 Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future. For sending voice messages, use the sendVoice method instead.
 
 <a name="SendChecklist"></a>
-### func [SendChecklist](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1939>)
+### func [SendChecklist](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2035>)
 
 ```go
 func SendChecklist(ctx context.Context, b *client.Bot, p *SendChecklistParams) (*Message, error)
@@ -9623,7 +10638,7 @@ SendChecklist calls the sendChecklist Telegram Bot API method.
 Use this method to send a checklist on behalf of a connected business account. On success, the sent Message is returned.
 
 <a name="SendContact"></a>
-### func [SendContact](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1829>)
+### func [SendContact](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1925>)
 
 ```go
 func SendContact(ctx context.Context, b *client.Bot, p *SendContactParams) (*Message, error)
@@ -9634,7 +10649,7 @@ SendContact calls the sendContact Telegram Bot API method.
 Use this method to send phone contacts. On success, the sent Message is returned.
 
 <a name="SendDice"></a>
-### func [SendDice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1976>)
+### func [SendDice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2072>)
 
 ```go
 func SendDice(ctx context.Context, b *client.Bot, p *SendDiceParams) (*Message, error)
@@ -9645,7 +10660,7 @@ SendDice calls the sendDice Telegram Bot API method.
 Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
 
 <a name="SendDocument"></a>
-### func [SendDocument](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L911>)
+### func [SendDocument](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L955>)
 
 ```go
 func SendDocument(ctx context.Context, b *client.Bot, p *SendDocumentParams) (*Message, error)
@@ -9656,7 +10671,7 @@ SendDocument calls the sendDocument Telegram Bot API method.
 Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
 
 <a name="SendGame"></a>
-### func [SendGame](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5203>)
+### func [SendGame](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5456>)
 
 ```go
 func SendGame(ctx context.Context, b *client.Bot, p *SendGameParams) (*Message, error)
@@ -9667,7 +10682,7 @@ SendGame calls the sendGame Telegram Bot API method.
 Use this method to send a game. On success, the sent Message is returned.
 
 <a name="SendInvoice"></a>
-### func [SendInvoice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4988>)
+### func [SendInvoice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5241>)
 
 ```go
 func SendInvoice(ctx context.Context, b *client.Bot, p *SendInvoiceParams) (*Message, error)
@@ -9678,7 +10693,7 @@ SendInvoice calls the sendInvoice Telegram Bot API method.
 Use this method to send invoices. On success, the sent Message is returned.
 
 <a name="SendLivePhoto"></a>
-### func [SendLivePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L629>)
+### func [SendLivePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L653>)
 
 ```go
 func SendLivePhoto(ctx context.Context, b *client.Bot, p *SendLivePhotoParams) (*Message, error)
@@ -9689,7 +10704,7 @@ SendLivePhoto calls the sendLivePhoto Telegram Bot API method.
 Use this method to send live photos. On success, the sent Message is returned.
 
 <a name="SendLocation"></a>
-### func [SendLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1735>)
+### func [SendLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1823>)
 
 ```go
 func SendLocation(ctx context.Context, b *client.Bot, p *SendLocationParams) (*Message, error)
@@ -9700,7 +10715,7 @@ SendLocation calls the sendLocation Telegram Bot API method.
 Use this method to send point on the map. On success, the sent Message is returned.
 
 <a name="SendMediaGroup"></a>
-### func [SendMediaGroup](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1688>)
+### func [SendMediaGroup](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1772>)
 
 ```go
 func SendMediaGroup(ctx context.Context, b *client.Bot, p *SendMediaGroupParams) ([]Message, error)
@@ -9708,10 +10723,10 @@ func SendMediaGroup(ctx context.Context, b *client.Bot, p *SendMediaGroupParams)
 
 SendMediaGroup calls the sendMediaGroup Telegram Bot API method.
 
-Use this method to send a group of photos, live photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Message objects that were sent is returned.
+Use this method to send a group of photos, live photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an Array of Message objects that were sent is returned.
 
 <a name="SendMessage"></a>
-### func [SendMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L225>)
+### func [SendMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L229>)
 
 ```go
 func SendMessage(ctx context.Context, b *client.Bot, p *SendMessageParams) (*Message, error)
@@ -9722,7 +10737,7 @@ SendMessage calls the sendMessage Telegram Bot API method.
 Use this method to send text messages. On success, the sent Message is returned.
 
 <a name="SendPaidMedia"></a>
-### func [SendPaidMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1608>)
+### func [SendPaidMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1692>)
 
 ```go
 func SendPaidMedia(ctx context.Context, b *client.Bot, p *SendPaidMediaParams) (*Message, error)
@@ -9733,7 +10748,7 @@ SendPaidMedia calls the sendPaidMedia Telegram Bot API method.
 Use this method to send paid media. On success, the sent Message is returned.
 
 <a name="SendPhoto"></a>
-### func [SendPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L489>)
+### func [SendPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L503>)
 
 ```go
 func SendPhoto(ctx context.Context, b *client.Bot, p *SendPhotoParams) (*Message, error)
@@ -9744,7 +10759,7 @@ SendPhoto calls the sendPhoto Telegram Bot API method.
 Use this method to send photos. On success, the sent Message is returned.
 
 <a name="SendPoll"></a>
-### func [SendPoll](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1910>)
+### func [SendPoll](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2006>)
 
 ```go
 func SendPoll(ctx context.Context, b *client.Bot, p *SendPollParams) (*Message, error)
@@ -9755,7 +10770,7 @@ SendPoll calls the sendPoll Telegram Bot API method.
 Use this method to send a native poll. On success, the sent Message is returned.
 
 <a name="SendRichMessage"></a>
-### func [SendRichMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4867>)
+### func [SendRichMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5120>)
 
 ```go
 func SendRichMessage(ctx context.Context, b *client.Bot, p *SendRichMessageParams) (*Message, error)
@@ -9766,7 +10781,7 @@ SendRichMessage calls the sendRichMessage Telegram Bot API method.
 Use this method to send rich messages. If the message contains a block with a media element, then the bot must have the right to send the media to the chat. On success, the sent Message is returned.
 
 <a name="SendSticker"></a>
-### func [SendSticker](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4504>)
+### func [SendSticker](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4757>)
 
 ```go
 func SendSticker(ctx context.Context, b *client.Bot, p *SendStickerParams) (*Message, error)
@@ -9777,7 +10792,7 @@ SendSticker calls the sendSticker Telegram Bot API method.
 Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
 
 <a name="SendVenue"></a>
-### func [SendVenue](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1786>)
+### func [SendVenue](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1878>)
 
 ```go
 func SendVenue(ctx context.Context, b *client.Bot, p *SendVenueParams) (*Message, error)
@@ -9788,7 +10803,7 @@ SendVenue calls the sendVenue Telegram Bot API method.
 Use this method to send information about a venue. On success, the sent Message is returned.
 
 <a name="SendVideo"></a>
-### func [SendVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1088>)
+### func [SendVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1142>)
 
 ```go
 func SendVideo(ctx context.Context, b *client.Bot, p *SendVideoParams) (*Message, error)
@@ -9799,7 +10814,7 @@ SendVideo calls the sendVideo Telegram Bot API method.
 Use this method to send video files, Telegram clients support MPEG4 videos \(other formats may be sent as Document\). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
 
 <a name="SendVideoNote"></a>
-### func [SendVideoNote](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1489>)
+### func [SendVideoNote](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1573>)
 
 ```go
 func SendVideoNote(ctx context.Context, b *client.Bot, p *SendVideoNoteParams) (*Message, error)
@@ -9810,7 +10825,7 @@ SendVideoNote calls the sendVideoNote Telegram Bot API method.
 As of v.4.0, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
 
 <a name="SendVoice"></a>
-### func [SendVoice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1366>)
+### func [SendVoice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1440>)
 
 ```go
 func SendVoice(ctx context.Context, b *client.Bot, p *SendVoiceParams) (*Message, error)
@@ -9830,7 +10845,7 @@ func (m *Message) GetSender() *Sender
 GetSender constructs a Sender for a Message. The result is never nil.
 
 <a name="Message.UnmarshalJSON"></a>
-### func \(\*Message\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L533>)
+### func \(\*Message\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L545>)
 
 ```go
 func (m *Message) UnmarshalJSON(data []byte) error
@@ -9839,7 +10854,7 @@ func (m *Message) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes Message by dispatching union\-typed fields \(ForwardOrigin, PinnedMessage\) through their concrete UnmarshalXxx helpers.
 
 <a name="MessageAutoDeleteTimerChanged"></a>
-## type [MessageAutoDeleteTimerChanged](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1629-L1632>)
+## type [MessageAutoDeleteTimerChanged](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1625-L1628>)
 
 This object represents a service message about a change in auto\-delete timer settings.
 
@@ -9851,7 +10866,7 @@ type MessageAutoDeleteTimerChanged struct {
 ```
 
 <a name="MessageEntity"></a>
-## type [MessageEntity](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L621-L640>)
+## type [MessageEntity](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L633-L652>)
 
 This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
 
@@ -9879,7 +10894,7 @@ type MessageEntity struct {
 ```
 
 <a name="MessageEntityType"></a>
-## type [MessageEntityType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L217>)
+## type [MessageEntityType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L257>)
 
 
 
@@ -9915,7 +10930,7 @@ const (
 ```
 
 <a name="MessageId"></a>
-## type [MessageId](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L566-L569>)
+## type [MessageId](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L578-L581>)
 
 This object represents a unique message identifier.
 
@@ -9927,7 +10942,7 @@ type MessageId struct {
 ```
 
 <a name="CopyMessage"></a>
-### func [CopyMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L332>)
+### func [CopyMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L336>)
 
 ```go
 func CopyMessage(ctx context.Context, b *client.Bot, p *CopyMessageParams) (*MessageId, error)
@@ -9935,10 +10950,10 @@ func CopyMessage(ctx context.Context, b *client.Bot, p *CopyMessageParams) (*Mes
 
 CopyMessage calls the copyMessage Telegram Bot API method.
 
-Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct\_option\_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct\_option\_ids is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
 
 <a name="CopyMessages"></a>
-### func [CopyMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L361>)
+### func [CopyMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L365>)
 
 ```go
 func CopyMessages(ctx context.Context, b *client.Bot, p *CopyMessagesParams) ([]MessageId, error)
@@ -9946,10 +10961,10 @@ func CopyMessages(ctx context.Context, b *client.Bot, p *CopyMessagesParams) ([]
 
 CopyMessages calls the copyMessages Telegram Bot API method.
 
-Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct\_option\_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an array of MessageId of the sent messages is returned.
+Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct\_option\_ids is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an Array of MessageId of the sent messages is returned.
 
 <a name="ForwardMessages"></a>
-### func [ForwardMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L285>)
+### func [ForwardMessages](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L289>)
 
 ```go
 func ForwardMessages(ctx context.Context, b *client.Bot, p *ForwardMessagesParams) ([]MessageId, error)
@@ -9957,7 +10972,7 @@ func ForwardMessages(ctx context.Context, b *client.Bot, p *ForwardMessagesParam
 
 ForwardMessages calls the forwardMessages Telegram Bot API method.
 
-Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an array of MessageId of the sent messages is returned.
+Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an Array of MessageId of the sent messages is returned.
 
 <a name="MessageOrBool"></a>
 ## type [MessageOrBool](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/runtime.go#L122-L125>)
@@ -9972,7 +10987,7 @@ type MessageOrBool struct {
 ```
 
 <a name="EditMessageCaption"></a>
-### func [EditMessageCaption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4099>)
+### func [EditMessageCaption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4195>)
 
 ```go
 func EditMessageCaption(ctx context.Context, b *client.Bot, p *EditMessageCaptionParams) (*MessageOrBool, error)
@@ -9983,7 +10998,7 @@ EditMessageCaption calls the editMessageCaption Telegram Bot API method.
 Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 
 <a name="EditMessageLiveLocation"></a>
-### func [EditMessageLiveLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4196>)
+### func [EditMessageLiveLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4292>)
 
 ```go
 func EditMessageLiveLocation(ctx context.Context, b *client.Bot, p *EditMessageLiveLocationParams) (*MessageOrBool, error)
@@ -9994,7 +11009,7 @@ EditMessageLiveLocation calls the editMessageLiveLocation Telegram Bot API metho
 Use this method to edit live location messages. A location can be edited until its live\_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
 
 <a name="EditMessageMedia"></a>
-### func [EditMessageMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4161>)
+### func [EditMessageMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4257>)
 
 ```go
 func EditMessageMedia(ctx context.Context, b *client.Bot, p *EditMessageMediaParams) (*MessageOrBool, error)
@@ -10005,7 +11020,7 @@ EditMessageMedia calls the editMessageMedia Telegram Bot API method.
 Use this method to edit animation, audio, document, live photo, photo, or video messages, or to replace a text or a rich message with a media. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file\_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 
 <a name="EditMessageReplyMarkup"></a>
-### func [EditMessageReplyMarkup](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4265>)
+### func [EditMessageReplyMarkup](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4361>)
 
 ```go
 func EditMessageReplyMarkup(ctx context.Context, b *client.Bot, p *EditMessageReplyMarkupParams) (*MessageOrBool, error)
@@ -10016,7 +11031,7 @@ EditMessageReplyMarkup calls the editMessageReplyMarkup Telegram Bot API method.
 Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 
 <a name="EditMessageText"></a>
-### func [EditMessageText](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4068>)
+### func [EditMessageText](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4164>)
 
 ```go
 func EditMessageText(ctx context.Context, b *client.Bot, p *EditMessageTextParams) (*MessageOrBool, error)
@@ -10027,7 +11042,7 @@ EditMessageText calls the editMessageText Telegram Bot API method.
 Use this method to edit text, rich and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 
 <a name="SetGameScore"></a>
-### func [SetGameScore](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5230>)
+### func [SetGameScore](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5483>)
 
 ```go
 func SetGameScore(ctx context.Context, b *client.Bot, p *SetGameScoreParams) (*MessageOrBool, error)
@@ -10038,7 +11053,7 @@ SetGameScore calls the setGameScore Telegram Bot API method.
 Use this method to set the score of the specified user in a game message. On success, if the message is not an inline message, the Message is returned, otherwise True is returned. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
 
 <a name="StopMessageLiveLocation"></a>
-### func [StopMessageLiveLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4219>)
+### func [StopMessageLiveLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4315>)
 
 ```go
 func StopMessageLiveLocation(ctx context.Context, b *client.Bot, p *StopMessageLiveLocationParams) (*MessageOrBool, error)
@@ -10058,7 +11073,7 @@ func (m *MessageOrBool) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes either \{...\} into Message or \`true\`/\`false\` into OK.
 
 <a name="MessageOrigin"></a>
-## type [MessageOrigin](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L764>)
+## type [MessageOrigin](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L778>)
 
 MessageOrigin is a union type. The following concrete variants implement it:
 
@@ -10076,7 +11091,7 @@ type MessageOrigin interface {
 ```
 
 <a name="UnmarshalMessageOrigin"></a>
-### func [UnmarshalMessageOrigin](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L780>)
+### func [UnmarshalMessageOrigin](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L794>)
 
 ```go
 func UnmarshalMessageOrigin(data []byte) (MessageOrigin, error)
@@ -10085,7 +11100,7 @@ func UnmarshalMessageOrigin(data []byte) (MessageOrigin, error)
 UnmarshalMessageOrigin decodes a MessageOrigin from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
 <a name="MessageOriginChannel"></a>
-## type [MessageOriginChannel](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L887-L898>)
+## type [MessageOriginChannel](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L901-L912>)
 
 The message was originally sent to a channel chat.
 
@@ -10105,7 +11120,7 @@ type MessageOriginChannel struct {
 ```
 
 <a name="MessageOriginChannel.MarshalJSON"></a>
-### func \(\*MessageOriginChannel\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L905>)
+### func \(\*MessageOriginChannel\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L919>)
 
 ```go
 func (v *MessageOriginChannel) MarshalJSON() ([]byte, error)
@@ -10114,7 +11129,7 @@ func (v *MessageOriginChannel) MarshalJSON() ([]byte, error)
 MarshalJSON encodes MessageOriginChannel with the discriminator field "type" forced to "channel". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="MessageOriginChat"></a>
-## type [MessageOriginChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L859-L868>)
+## type [MessageOriginChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L873-L882>)
 
 The message was originally sent on behalf of a chat to a group chat.
 
@@ -10132,7 +11147,7 @@ type MessageOriginChat struct {
 ```
 
 <a name="MessageOriginChat.MarshalJSON"></a>
-### func \(\*MessageOriginChat\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L875>)
+### func \(\*MessageOriginChat\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L889>)
 
 ```go
 func (v *MessageOriginChat) MarshalJSON() ([]byte, error)
@@ -10141,7 +11156,7 @@ func (v *MessageOriginChat) MarshalJSON() ([]byte, error)
 MarshalJSON encodes MessageOriginChat with the discriminator field "type" forced to "chat". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="MessageOriginHiddenUser"></a>
-## type [MessageOriginHiddenUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L833-L840>)
+## type [MessageOriginHiddenUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L847-L854>)
 
 The message was originally sent by an unknown user.
 
@@ -10157,7 +11172,7 @@ type MessageOriginHiddenUser struct {
 ```
 
 <a name="MessageOriginHiddenUser.MarshalJSON"></a>
-### func \(\*MessageOriginHiddenUser\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L847>)
+### func \(\*MessageOriginHiddenUser\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L861>)
 
 ```go
 func (v *MessageOriginHiddenUser) MarshalJSON() ([]byte, error)
@@ -10166,7 +11181,7 @@ func (v *MessageOriginHiddenUser) MarshalJSON() ([]byte, error)
 MarshalJSON encodes MessageOriginHiddenUser with the discriminator field "type" forced to "hidden\_user". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="MessageOriginType"></a>
-## type [MessageOriginType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L242>)
+## type [MessageOriginType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L282>)
 
 
 
@@ -10186,7 +11201,7 @@ const (
 ```
 
 <a name="MessageOriginUser"></a>
-## type [MessageOriginUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L807-L814>)
+## type [MessageOriginUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L821-L828>)
 
 The message was originally sent by a known user.
 
@@ -10202,7 +11217,7 @@ type MessageOriginUser struct {
 ```
 
 <a name="MessageOriginUser.MarshalJSON"></a>
-### func \(\*MessageOriginUser\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L821>)
+### func \(\*MessageOriginUser\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L835>)
 
 ```go
 func (v *MessageOriginUser) MarshalJSON() ([]byte, error)
@@ -10211,7 +11226,7 @@ func (v *MessageOriginUser) MarshalJSON() ([]byte, error)
 MarshalJSON encodes MessageOriginUser with the discriminator field "type" forced to "user". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="MessageReactionCountUpdated"></a>
-## type [MessageReactionCountUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3661-L3670>)
+## type [MessageReactionCountUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3703-L3712>)
 
 This object represents reaction changes on a message with anonymous reactions.
 
@@ -10229,7 +11244,7 @@ type MessageReactionCountUpdated struct {
 ```
 
 <a name="MessageReactionUpdated"></a>
-## type [MessageReactionUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3593-L3608>)
+## type [MessageReactionUpdated](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3635-L3650>)
 
 This object represents a change of a reaction on a message performed by a user.
 
@@ -10262,7 +11277,7 @@ func (mru *MessageReactionUpdated) GetSender() *Sender
 GetSender constructs a Sender for a MessageReactionUpdated.
 
 <a name="MessageReactionUpdated.UnmarshalJSON"></a>
-### func \(\*MessageReactionUpdated\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3612>)
+### func \(\*MessageReactionUpdated\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3654>)
 
 ```go
 func (m *MessageReactionUpdated) UnmarshalJSON(data []byte) error
@@ -10271,7 +11286,7 @@ func (m *MessageReactionUpdated) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes MessageReactionUpdated by dispatching union\-typed fields \(OldReaction, NewReaction\) through their concrete UnmarshalXxx helpers.
 
 <a name="OrderInfo"></a>
-## type [OrderInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7979-L7988>)
+## type [OrderInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8697-L8706>)
 
 This object represents information about an order.
 
@@ -10289,7 +11304,7 @@ type OrderInfo struct {
 ```
 
 <a name="OwnedGift"></a>
-## type [OwnedGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3868>)
+## type [OwnedGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3910>)
 
 OwnedGift is a union type. The following concrete variants implement it:
 
@@ -10305,7 +11320,7 @@ type OwnedGift interface {
 ```
 
 <a name="UnmarshalOwnedGift"></a>
-### func [UnmarshalOwnedGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3878>)
+### func [UnmarshalOwnedGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3920>)
 
 ```go
 func UnmarshalOwnedGift(data []byte) (OwnedGift, error)
@@ -10314,7 +11329,7 @@ func UnmarshalOwnedGift(data []byte) (OwnedGift, error)
 UnmarshalOwnedGift decodes a OwnedGift from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
 <a name="OwnedGiftRegular"></a>
-## type [OwnedGiftRegular](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3901-L3932>)
+## type [OwnedGiftRegular](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3943-L3974>)
 
 Describes a regular gift owned by a user or a chat.
 
@@ -10354,7 +11369,7 @@ type OwnedGiftRegular struct {
 ```
 
 <a name="OwnedGiftRegular.MarshalJSON"></a>
-### func \(\*OwnedGiftRegular\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3939>)
+### func \(\*OwnedGiftRegular\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3981>)
 
 ```go
 func (v *OwnedGiftRegular) MarshalJSON() ([]byte, error)
@@ -10363,7 +11378,7 @@ func (v *OwnedGiftRegular) MarshalJSON() ([]byte, error)
 MarshalJSON encodes OwnedGiftRegular with the discriminator field "type" forced to "regular". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="OwnedGiftType"></a>
-## type [OwnedGiftType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L251>)
+## type [OwnedGiftType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L291>)
 
 
 
@@ -10381,7 +11396,7 @@ const (
 ```
 
 <a name="OwnedGiftUnique"></a>
-## type [OwnedGiftUnique](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3951-L3970>)
+## type [OwnedGiftUnique](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3993-L4012>)
 
 Describes a unique gift received and owned by a user or a chat.
 
@@ -10409,7 +11424,7 @@ type OwnedGiftUnique struct {
 ```
 
 <a name="OwnedGiftUnique.MarshalJSON"></a>
-### func \(\*OwnedGiftUnique\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3977>)
+### func \(\*OwnedGiftUnique\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4019>)
 
 ```go
 func (v *OwnedGiftUnique) MarshalJSON() ([]byte, error)
@@ -10418,7 +11433,7 @@ func (v *OwnedGiftUnique) MarshalJSON() ([]byte, error)
 MarshalJSON encodes OwnedGiftUnique with the discriminator field "type" forced to "unique". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="OwnedGifts"></a>
-## type [OwnedGifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3989-L3996>)
+## type [OwnedGifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4031-L4038>)
 
 Contains the list of gifts received and owned by a user or a chat.
 
@@ -10434,7 +11449,7 @@ type OwnedGifts struct {
 ```
 
 <a name="GetBusinessAccountGifts"></a>
-### func [GetBusinessAccountGifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3751>)
+### func [GetBusinessAccountGifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3847>)
 
 ```go
 func GetBusinessAccountGifts(ctx context.Context, b *client.Bot, p *GetBusinessAccountGiftsParams) (*OwnedGifts, error)
@@ -10445,7 +11460,7 @@ GetBusinessAccountGifts calls the getBusinessAccountGifts Telegram Bot API metho
 Returns the gifts received and owned by a managed business account. Requires the can\_view\_gifts\_and\_stars business bot right. Returns OwnedGifts on success.
 
 <a name="GetChatGifts"></a>
-### func [GetChatGifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3817>)
+### func [GetChatGifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3913>)
 
 ```go
 func GetChatGifts(ctx context.Context, b *client.Bot, p *GetChatGiftsParams) (*OwnedGifts, error)
@@ -10456,7 +11471,7 @@ GetChatGifts calls the getChatGifts Telegram Bot API method.
 Returns the gifts owned by a chat. Returns OwnedGifts on success.
 
 <a name="GetUserGifts"></a>
-### func [GetUserGifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3782>)
+### func [GetUserGifts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3878>)
 
 ```go
 func GetUserGifts(ctx context.Context, b *client.Bot, p *GetUserGiftsParams) (*OwnedGifts, error)
@@ -10467,7 +11482,7 @@ GetUserGifts calls the getUserGifts Telegram Bot API method.
 Returns the gifts owned and hosted by a user. Returns OwnedGifts on success.
 
 <a name="OwnedGifts.UnmarshalJSON"></a>
-### func \(\*OwnedGifts\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4000>)
+### func \(\*OwnedGifts\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4042>)
 
 ```go
 func (m *OwnedGifts) UnmarshalJSON(data []byte) error
@@ -10476,7 +11491,7 @@ func (m *OwnedGifts) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes OwnedGifts by dispatching union\-typed fields \(Gifts\) through their concrete UnmarshalXxx helpers.
 
 <a name="PaidMedia"></a>
-## type [PaidMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1140>)
+## type [PaidMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1154>)
 
 PaidMedia is a union type. The following concrete variants implement it:
 
@@ -10494,7 +11509,7 @@ type PaidMedia interface {
 ```
 
 <a name="UnmarshalPaidMedia"></a>
-### func [UnmarshalPaidMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1156>)
+### func [UnmarshalPaidMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1170>)
 
 ```go
 func UnmarshalPaidMedia(data []byte) (PaidMedia, error)
@@ -10503,7 +11518,7 @@ func UnmarshalPaidMedia(data []byte) (PaidMedia, error)
 UnmarshalPaidMedia decodes a PaidMedia from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
 <a name="PaidMediaInfo"></a>
-## type [PaidMediaInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1093-L1098>)
+## type [PaidMediaInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1107-L1112>)
 
 Describes the paid media added to a message.
 
@@ -10517,7 +11532,7 @@ type PaidMediaInfo struct {
 ```
 
 <a name="PaidMediaInfo.UnmarshalJSON"></a>
-### func \(\*PaidMediaInfo\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1102>)
+### func \(\*PaidMediaInfo\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1116>)
 
 ```go
 func (m *PaidMediaInfo) UnmarshalJSON(data []byte) error
@@ -10526,7 +11541,7 @@ func (m *PaidMediaInfo) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes PaidMediaInfo by dispatching union\-typed fields \(PaidMedia\) through their concrete UnmarshalXxx helpers.
 
 <a name="PaidMediaLivePhoto"></a>
-## type [PaidMediaLivePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1181-L1186>)
+## type [PaidMediaLivePhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1195-L1200>)
 
 The paid media is a live photo.
 
@@ -10540,7 +11555,7 @@ type PaidMediaLivePhoto struct {
 ```
 
 <a name="PaidMediaLivePhoto.MarshalJSON"></a>
-### func \(\*PaidMediaLivePhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1193>)
+### func \(\*PaidMediaLivePhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1207>)
 
 ```go
 func (v *PaidMediaLivePhoto) MarshalJSON() ([]byte, error)
@@ -10549,7 +11564,7 @@ func (v *PaidMediaLivePhoto) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PaidMediaLivePhoto with the discriminator field "type" forced to "live\_photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PaidMediaPhoto"></a>
-## type [PaidMediaPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1205-L1210>)
+## type [PaidMediaPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1219-L1224>)
 
 The paid media is a photo.
 
@@ -10563,7 +11578,7 @@ type PaidMediaPhoto struct {
 ```
 
 <a name="PaidMediaPhoto.MarshalJSON"></a>
-### func \(\*PaidMediaPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1217>)
+### func \(\*PaidMediaPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1231>)
 
 ```go
 func (v *PaidMediaPhoto) MarshalJSON() ([]byte, error)
@@ -10572,7 +11587,7 @@ func (v *PaidMediaPhoto) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PaidMediaPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PaidMediaPreview"></a>
-## type [PaidMediaPreview](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1229-L1238>)
+## type [PaidMediaPreview](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1243-L1252>)
 
 The paid media isn't available before the payment.
 
@@ -10590,7 +11605,7 @@ type PaidMediaPreview struct {
 ```
 
 <a name="PaidMediaPreview.MarshalJSON"></a>
-### func \(\*PaidMediaPreview\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1245>)
+### func \(\*PaidMediaPreview\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1259>)
 
 ```go
 func (v *PaidMediaPreview) MarshalJSON() ([]byte, error)
@@ -10599,7 +11614,7 @@ func (v *PaidMediaPreview) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PaidMediaPreview with the discriminator field "type" forced to "preview". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PaidMediaPurchased"></a>
-## type [PaidMediaPurchased](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8069-L8074>)
+## type [PaidMediaPurchased](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8787-L8792>)
 
 This object contains information about a paid media purchase.
 
@@ -10613,7 +11628,7 @@ type PaidMediaPurchased struct {
 ```
 
 <a name="PaidMediaType"></a>
-## type [PaidMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L258>)
+## type [PaidMediaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L298>)
 
 
 
@@ -10633,7 +11648,7 @@ const (
 ```
 
 <a name="PaidMediaVideo"></a>
-## type [PaidMediaVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1257-L1262>)
+## type [PaidMediaVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1271-L1276>)
 
 The paid media is a video.
 
@@ -10647,7 +11662,7 @@ type PaidMediaVideo struct {
 ```
 
 <a name="PaidMediaVideo.MarshalJSON"></a>
-### func \(\*PaidMediaVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1269>)
+### func \(\*PaidMediaVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1283>)
 
 ```go
 func (v *PaidMediaVideo) MarshalJSON() ([]byte, error)
@@ -10656,7 +11671,7 @@ func (v *PaidMediaVideo) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PaidMediaVideo with the discriminator field "type" forced to "video". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PaidMessagePriceChanged"></a>
-## type [PaidMessagePriceChanged](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2191-L2194>)
+## type [PaidMessagePriceChanged](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2225-L2228>)
 
 Describes a service message about a change in the price of paid messages within a chat.
 
@@ -10668,7 +11683,7 @@ type PaidMessagePriceChanged struct {
 ```
 
 <a name="ParseMode"></a>
-## type [ParseMode](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L267>)
+## type [ParseMode](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L307>)
 
 
 
@@ -10687,7 +11702,7 @@ const (
 ```
 
 <a name="PassportData"></a>
-## type [PassportData](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8565-L8570>)
+## type [PassportData](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9283-L9288>)
 
 Describes Telegram Passport data shared with the bot by the user.
 
@@ -10701,7 +11716,7 @@ type PassportData struct {
 ```
 
 <a name="PassportElementError"></a>
-## type [PassportElementError](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8631>)
+## type [PassportElementError](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9349>)
 
 PassportElementError is a union type. The following concrete variants implement it:
 
@@ -10724,7 +11739,7 @@ type PassportElementError interface {
 ```
 
 <a name="PassportElementErrorDataField"></a>
-## type [PassportElementErrorDataField](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8661-L8672>)
+## type [PassportElementErrorDataField](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9379-L9390>)
 
 Represents an issue in one of the data fields that was provided by the user. The error is considered resolved when the field's value changes.
 
@@ -10744,7 +11759,7 @@ type PassportElementErrorDataField struct {
 ```
 
 <a name="PassportElementErrorDataField.MarshalJSON"></a>
-### func \(\*PassportElementErrorDataField\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8679>)
+### func \(\*PassportElementErrorDataField\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9397>)
 
 ```go
 func (v *PassportElementErrorDataField) MarshalJSON() ([]byte, error)
@@ -10753,7 +11768,7 @@ func (v *PassportElementErrorDataField) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorDataField with the discriminator field "source" forced to "data". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorDataFieldType"></a>
-## type [PassportElementErrorDataFieldType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L275>)
+## type [PassportElementErrorDataFieldType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L315>)
 
 
 
@@ -10775,7 +11790,7 @@ const (
 ```
 
 <a name="PassportElementErrorFile"></a>
-## type [PassportElementErrorFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8775-L8784>)
+## type [PassportElementErrorFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9493-L9502>)
 
 Represents an issue with a document scan. The error is considered resolved when the file with the document scan changes.
 
@@ -10793,7 +11808,7 @@ type PassportElementErrorFile struct {
 ```
 
 <a name="PassportElementErrorFile.MarshalJSON"></a>
-### func \(\*PassportElementErrorFile\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8791>)
+### func \(\*PassportElementErrorFile\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9509>)
 
 ```go
 func (v *PassportElementErrorFile) MarshalJSON() ([]byte, error)
@@ -10802,7 +11817,7 @@ func (v *PassportElementErrorFile) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorFile with the discriminator field "source" forced to "file". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorFileType"></a>
-## type [PassportElementErrorFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L286>)
+## type [PassportElementErrorFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L326>)
 
 
 
@@ -10823,7 +11838,7 @@ const (
 ```
 
 <a name="PassportElementErrorFiles"></a>
-## type [PassportElementErrorFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8803-L8812>)
+## type [PassportElementErrorFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9521-L9530>)
 
 Represents an issue with a list of scans. The error is considered resolved when the list of files containing the scans changes.
 
@@ -10841,7 +11856,7 @@ type PassportElementErrorFiles struct {
 ```
 
 <a name="PassportElementErrorFiles.MarshalJSON"></a>
-### func \(\*PassportElementErrorFiles\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8819>)
+### func \(\*PassportElementErrorFiles\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9537>)
 
 ```go
 func (v *PassportElementErrorFiles) MarshalJSON() ([]byte, error)
@@ -10850,7 +11865,7 @@ func (v *PassportElementErrorFiles) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorFiles with the discriminator field "source" forced to "files". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorFrontSide"></a>
-## type [PassportElementErrorFrontSide](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8691-L8700>)
+## type [PassportElementErrorFrontSide](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9409-L9418>)
 
 Represents an issue with the front side of a document. The error is considered resolved when the file with the front side of the document changes.
 
@@ -10868,7 +11883,7 @@ type PassportElementErrorFrontSide struct {
 ```
 
 <a name="PassportElementErrorFrontSide.MarshalJSON"></a>
-### func \(\*PassportElementErrorFrontSide\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8707>)
+### func \(\*PassportElementErrorFrontSide\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9425>)
 
 ```go
 func (v *PassportElementErrorFrontSide) MarshalJSON() ([]byte, error)
@@ -10877,7 +11892,7 @@ func (v *PassportElementErrorFrontSide) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorFrontSide with the discriminator field "source" forced to "front\_side". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorReverseSide"></a>
-## type [PassportElementErrorReverseSide](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8719-L8728>)
+## type [PassportElementErrorReverseSide](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9437-L9446>)
 
 Represents an issue with the reverse side of a document. The error is considered resolved when the file with reverse side of the document changes.
 
@@ -10895,7 +11910,7 @@ type PassportElementErrorReverseSide struct {
 ```
 
 <a name="PassportElementErrorReverseSide.MarshalJSON"></a>
-### func \(\*PassportElementErrorReverseSide\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8735>)
+### func \(\*PassportElementErrorReverseSide\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9453>)
 
 ```go
 func (v *PassportElementErrorReverseSide) MarshalJSON() ([]byte, error)
@@ -10904,7 +11919,7 @@ func (v *PassportElementErrorReverseSide) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorReverseSide with the discriminator field "source" forced to "reverse\_side". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorReverseSideType"></a>
-## type [PassportElementErrorReverseSideType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L296>)
+## type [PassportElementErrorReverseSideType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L336>)
 
 
 
@@ -10922,7 +11937,7 @@ const (
 ```
 
 <a name="PassportElementErrorSelfie"></a>
-## type [PassportElementErrorSelfie](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8747-L8756>)
+## type [PassportElementErrorSelfie](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9465-L9474>)
 
 Represents an issue with the selfie with a document. The error is considered resolved when the file with the selfie changes.
 
@@ -10940,7 +11955,7 @@ type PassportElementErrorSelfie struct {
 ```
 
 <a name="PassportElementErrorSelfie.MarshalJSON"></a>
-### func \(\*PassportElementErrorSelfie\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8763>)
+### func \(\*PassportElementErrorSelfie\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9481>)
 
 ```go
 func (v *PassportElementErrorSelfie) MarshalJSON() ([]byte, error)
@@ -10949,7 +11964,7 @@ func (v *PassportElementErrorSelfie) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorSelfie with the discriminator field "source" forced to "selfie". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorSelfieType"></a>
-## type [PassportElementErrorSelfieType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L303>)
+## type [PassportElementErrorSelfieType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L343>)
 
 
 
@@ -10969,7 +11984,7 @@ const (
 ```
 
 <a name="PassportElementErrorSource"></a>
-## type [PassportElementErrorSource](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L312>)
+## type [PassportElementErrorSource](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L352>)
 
 
 
@@ -10994,7 +12009,7 @@ const (
 ```
 
 <a name="PassportElementErrorTranslationFile"></a>
-## type [PassportElementErrorTranslationFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8831-L8840>)
+## type [PassportElementErrorTranslationFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9549-L9558>)
 
 Represents an issue with one of the files that constitute the translation of a document. The error is considered resolved when the file changes.
 
@@ -11012,7 +12027,7 @@ type PassportElementErrorTranslationFile struct {
 ```
 
 <a name="PassportElementErrorTranslationFile.MarshalJSON"></a>
-### func \(\*PassportElementErrorTranslationFile\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8847>)
+### func \(\*PassportElementErrorTranslationFile\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9565>)
 
 ```go
 func (v *PassportElementErrorTranslationFile) MarshalJSON() ([]byte, error)
@@ -11021,7 +12036,7 @@ func (v *PassportElementErrorTranslationFile) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorTranslationFile with the discriminator field "source" forced to "translation\_file". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorTranslationFileType"></a>
-## type [PassportElementErrorTranslationFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L326>)
+## type [PassportElementErrorTranslationFileType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L366>)
 
 
 
@@ -11046,7 +12061,7 @@ const (
 ```
 
 <a name="PassportElementErrorTranslationFiles"></a>
-## type [PassportElementErrorTranslationFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8859-L8868>)
+## type [PassportElementErrorTranslationFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9577-L9586>)
 
 Represents an issue with the translated version of a document. The error is considered resolved when a file with the document translation change.
 
@@ -11064,7 +12079,7 @@ type PassportElementErrorTranslationFiles struct {
 ```
 
 <a name="PassportElementErrorTranslationFiles.MarshalJSON"></a>
-### func \(\*PassportElementErrorTranslationFiles\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8875>)
+### func \(\*PassportElementErrorTranslationFiles\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9593>)
 
 ```go
 func (v *PassportElementErrorTranslationFiles) MarshalJSON() ([]byte, error)
@@ -11073,7 +12088,7 @@ func (v *PassportElementErrorTranslationFiles) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorTranslationFiles with the discriminator field "source" forced to "translation\_files". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportElementErrorUnspecified"></a>
-## type [PassportElementErrorUnspecified](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8887-L8896>)
+## type [PassportElementErrorUnspecified](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9605-L9614>)
 
 Represents an issue in an unspecified place. The error is considered resolved when new data is added.
 
@@ -11091,7 +12106,7 @@ type PassportElementErrorUnspecified struct {
 ```
 
 <a name="PassportElementErrorUnspecified.MarshalJSON"></a>
-### func \(\*PassportElementErrorUnspecified\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8903>)
+### func \(\*PassportElementErrorUnspecified\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9621>)
 
 ```go
 func (v *PassportElementErrorUnspecified) MarshalJSON() ([]byte, error)
@@ -11100,7 +12115,7 @@ func (v *PassportElementErrorUnspecified) MarshalJSON() ([]byte, error)
 MarshalJSON encodes PassportElementErrorUnspecified with the discriminator field "source" forced to "unspecified". The hardcoded value frees callers from setting Source by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="PassportFile"></a>
-## type [PassportFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8573-L8582>)
+## type [PassportFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9291-L9300>)
 
 This object represents a file uploaded to Telegram Passport. Currently all Telegram Passport files are in JPEG format when decrypted and don't exceed 10MB.
 
@@ -11118,7 +12133,7 @@ type PassportFile struct {
 ```
 
 <a name="PhotoSize"></a>
-## type [PhotoSize](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L917-L928>)
+## type [PhotoSize](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L931-L942>)
 
 This object represents one size of a photo or a file / sticker thumbnail.
 
@@ -11138,7 +12153,7 @@ type PhotoSize struct {
 ```
 
 <a name="PinChatMessageParams"></a>
-## type [PinChatMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2617-L2626>)
+## type [PinChatMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2713-L2722>)
 
 PinChatMessageParams is the parameter set for PinChatMessage.
 
@@ -11158,7 +12173,7 @@ type PinChatMessageParams struct {
 ```
 
 <a name="Poll"></a>
-## type [Poll](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1455-L1498>)
+## type [Poll](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1469-L1512>)
 
 This object contains information about a poll.
 
@@ -11210,7 +12225,7 @@ type Poll struct {
 ```
 
 <a name="StopPoll"></a>
-### func [StopPoll](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4286>)
+### func [StopPoll](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4382>)
 
 ```go
 func StopPoll(ctx context.Context, b *client.Bot, p *StopPollParams) (*Poll, error)
@@ -11221,7 +12236,7 @@ StopPoll calls the stopPoll Telegram Bot API method.
 Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
 
 <a name="PollAnswer"></a>
-## type [PollAnswer](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1441-L1452>)
+## type [PollAnswer](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1455-L1466>)
 
 This object represents an answer of a user in a non\-anonymous poll.
 
@@ -11250,7 +12265,7 @@ func (pa *PollAnswer) GetSender() *Sender
 GetSender constructs a Sender for a PollAnswer.
 
 <a name="PollMedia"></a>
-## type [PollMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1309-L1330>)
+## type [PollMedia](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1323-L1344>)
 
 At most one of the optional fields can be present in any given object.
 
@@ -11280,7 +12295,7 @@ type PollMedia struct {
 ```
 
 <a name="PollOption"></a>
-## type [PollOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1409-L1426>)
+## type [PollOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1423-L1440>)
 
 This object contains information about one answer option in a poll.
 
@@ -11306,7 +12321,7 @@ type PollOption struct {
 ```
 
 <a name="PollOptionAdded"></a>
-## type [PollOptionAdded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1649-L1658>)
+## type [PollOptionAdded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1655-L1664>)
 
 Describes a service message about an option added to a poll.
 
@@ -11324,7 +12339,7 @@ type PollOptionAdded struct {
 ```
 
 <a name="PollOptionAdded.UnmarshalJSON"></a>
-### func \(\*PollOptionAdded\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1662>)
+### func \(\*PollOptionAdded\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1668>)
 
 ```go
 func (m *PollOptionAdded) UnmarshalJSON(data []byte) error
@@ -11333,7 +12348,7 @@ func (m *PollOptionAdded) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes PollOptionAdded by dispatching union\-typed fields \(PollMessage\) through their concrete UnmarshalXxx helpers.
 
 <a name="PollOptionDeleted"></a>
-## type [PollOptionDeleted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1685-L1694>)
+## type [PollOptionDeleted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1691-L1700>)
 
 Describes a service message about an option deleted from a poll.
 
@@ -11351,7 +12366,7 @@ type PollOptionDeleted struct {
 ```
 
 <a name="PollOptionDeleted.UnmarshalJSON"></a>
-### func \(\*PollOptionDeleted\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1698>)
+### func \(\*PollOptionDeleted\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1704>)
 
 ```go
 func (m *PollOptionDeleted) UnmarshalJSON(data []byte) error
@@ -11360,7 +12375,7 @@ func (m *PollOptionDeleted) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes PollOptionDeleted by dispatching union\-typed fields \(PollMessage\) through their concrete UnmarshalXxx helpers.
 
 <a name="PollType"></a>
-## type [PollType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L340>)
+## type [PollType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L380>)
 
 
 
@@ -11378,7 +12393,7 @@ const (
 ```
 
 <a name="PostStoryParams"></a>
-## type [PostStoryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3883-L3902>)
+## type [PostStoryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3979-L3998>)
 
 PostStoryParams is the parameter set for PostStory.
 
@@ -11408,7 +12423,7 @@ type PostStoryParams struct {
 ```
 
 <a name="PreCheckoutQuery"></a>
-## type [PreCheckoutQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8051-L8066>)
+## type [PreCheckoutQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8769-L8784>)
 
 This object contains information about an incoming pre\-checkout query.
 
@@ -11432,7 +12447,7 @@ type PreCheckoutQuery struct {
 ```
 
 <a name="PreparedInlineMessage"></a>
-## type [PreparedInlineMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4688-L4693>)
+## type [PreparedInlineMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4732-L4737>)
 
 Describes an inline message to be sent by a user of a Mini App.
 
@@ -11446,7 +12461,7 @@ type PreparedInlineMessage struct {
 ```
 
 <a name="SavePreparedInlineMessage"></a>
-### func [SavePreparedInlineMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4018>)
+### func [SavePreparedInlineMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4114>)
 
 ```go
 func SavePreparedInlineMessage(ctx context.Context, b *client.Bot, p *SavePreparedInlineMessageParams) (*PreparedInlineMessage, error)
@@ -11457,7 +12472,7 @@ SavePreparedInlineMessage calls the savePreparedInlineMessage Telegram Bot API m
 Stores a message that can be sent by a user of a Mini App. Returns a PreparedInlineMessage object.
 
 <a name="PreparedKeyboardButton"></a>
-## type [PreparedKeyboardButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4696-L4699>)
+## type [PreparedKeyboardButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4740-L4743>)
 
 Describes a keyboard button to be used by a user of a Mini App.
 
@@ -11469,7 +12484,7 @@ type PreparedKeyboardButton struct {
 ```
 
 <a name="SavePreparedKeyboardButton"></a>
-### func [SavePreparedKeyboardButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4035>)
+### func [SavePreparedKeyboardButton](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4131>)
 
 ```go
 func SavePreparedKeyboardButton(ctx context.Context, b *client.Bot, p *SavePreparedKeyboardButtonParams) (*PreparedKeyboardButton, error)
@@ -11480,7 +12495,7 @@ SavePreparedKeyboardButton calls the savePreparedKeyboardButton Telegram Bot API
 Stores a keyboard button that can be used by a user within a Mini App. Returns a PreparedKeyboardButton object.
 
 <a name="PromoteChatMemberParams"></a>
-## type [PromoteChatMemberParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2191-L2230>)
+## type [PromoteChatMemberParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2287-L2326>)
 
 PromoteChatMemberParams is the parameter set for PromoteChatMember.
 
@@ -11530,7 +12545,7 @@ type PromoteChatMemberParams struct {
 ```
 
 <a name="ProximityAlertTriggered"></a>
-## type [ProximityAlertTriggered](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1619-L1626>)
+## type [ProximityAlertTriggered](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1615-L1622>)
 
 This object represents the content of a service message, sent whenever a user in the chat triggers a proximity alert set by another user.
 
@@ -11546,7 +12561,7 @@ type ProximityAlertTriggered struct {
 ```
 
 <a name="ReactionCount"></a>
-## type [ReactionCount](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3561-L3566>)
+## type [ReactionCount](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3603-L3608>)
 
 Represents a reaction added to a message along with the number of times it was added.
 
@@ -11560,7 +12575,7 @@ type ReactionCount struct {
 ```
 
 <a name="ReactionCount.UnmarshalJSON"></a>
-### func \(\*ReactionCount\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3570>)
+### func \(\*ReactionCount\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3612>)
 
 ```go
 func (m *ReactionCount) UnmarshalJSON(data []byte) error
@@ -11658,7 +12673,7 @@ const (
 ```
 
 <a name="ReactionType"></a>
-## type [ReactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3453>)
+## type [ReactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3495>)
 
 ReactionType is a union type. The following concrete variants implement it:
 
@@ -11675,7 +12690,7 @@ type ReactionType interface {
 ```
 
 <a name="UnmarshalReactionType"></a>
-### func [UnmarshalReactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3466>)
+### func [UnmarshalReactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3508>)
 
 ```go
 func UnmarshalReactionType(data []byte) (ReactionType, error)
@@ -11684,7 +12699,7 @@ func UnmarshalReactionType(data []byte) (ReactionType, error)
 UnmarshalReactionType decodes a ReactionType from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
 <a name="ReactionTypeCustomEmoji"></a>
-## type [ReactionTypeCustomEmoji](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3515-L3520>)
+## type [ReactionTypeCustomEmoji](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3557-L3562>)
 
 The reaction is based on a custom emoji.
 
@@ -11698,7 +12713,7 @@ type ReactionTypeCustomEmoji struct {
 ```
 
 <a name="ReactionTypeCustomEmoji.MarshalJSON"></a>
-### func \(\*ReactionTypeCustomEmoji\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3527>)
+### func \(\*ReactionTypeCustomEmoji\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3569>)
 
 ```go
 func (v *ReactionTypeCustomEmoji) MarshalJSON() ([]byte, error)
@@ -11707,7 +12722,7 @@ func (v *ReactionTypeCustomEmoji) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ReactionTypeCustomEmoji with the discriminator field "type" forced to "custom\_emoji". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ReactionTypeEmoji"></a>
-## type [ReactionTypeEmoji](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3491-L3496>)
+## type [ReactionTypeEmoji](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3533-L3538>)
 
 The reaction is based on an emoji.
 
@@ -11721,7 +12736,7 @@ type ReactionTypeEmoji struct {
 ```
 
 <a name="ReactionTypeEmoji.MarshalJSON"></a>
-### func \(\*ReactionTypeEmoji\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3503>)
+### func \(\*ReactionTypeEmoji\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3545>)
 
 ```go
 func (v *ReactionTypeEmoji) MarshalJSON() ([]byte, error)
@@ -11730,7 +12745,7 @@ func (v *ReactionTypeEmoji) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ReactionTypeEmoji with the discriminator field "type" forced to "emoji". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ReactionTypeKind"></a>
-## type [ReactionTypeKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L347>)
+## type [ReactionTypeKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L387>)
 
 
 
@@ -11749,7 +12764,7 @@ const (
 ```
 
 <a name="ReactionTypePaid"></a>
-## type [ReactionTypePaid](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3539-L3542>)
+## type [ReactionTypePaid](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3581-L3584>)
 
 The reaction is paid.
 
@@ -11761,7 +12776,7 @@ type ReactionTypePaid struct {
 ```
 
 <a name="ReactionTypePaid.MarshalJSON"></a>
-### func \(\*ReactionTypePaid\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3549>)
+### func \(\*ReactionTypePaid\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3591>)
 
 ```go
 func (v *ReactionTypePaid) MarshalJSON() ([]byte, error)
@@ -11770,7 +12785,7 @@ func (v *ReactionTypePaid) MarshalJSON() ([]byte, error)
 MarshalJSON encodes ReactionTypePaid with the discriminator field "type" forced to "paid". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="ReadBusinessMessageParams"></a>
-## type [ReadBusinessMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3547-L3554>)
+## type [ReadBusinessMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3643-L3650>)
 
 ReadBusinessMessageParams is the parameter set for ReadBusinessMessage.
 
@@ -11788,7 +12803,7 @@ type ReadBusinessMessageParams struct {
 ```
 
 <a name="RefundStarPaymentParams"></a>
-## type [RefundStarPaymentParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5122-L5127>)
+## type [RefundStarPaymentParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5375-L5380>)
 
 RefundStarPaymentParams is the parameter set for RefundStarPayment.
 
@@ -11804,7 +12819,7 @@ type RefundStarPaymentParams struct {
 ```
 
 <a name="RefundedPayment"></a>
-## type [RefundedPayment](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8025-L8036>)
+## type [RefundedPayment](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8743-L8754>)
 
 This object contains basic information about a refunded payment.
 
@@ -11824,7 +12839,7 @@ type RefundedPayment struct {
 ```
 
 <a name="RefundedPaymentCurrency"></a>
-## type [RefundedPaymentCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L355>)
+## type [RefundedPaymentCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L395>)
 
 
 
@@ -11841,7 +12856,7 @@ const (
 ```
 
 <a name="RemoveBusinessAccountProfilePhotoParams"></a>
-## type [RemoveBusinessAccountProfilePhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3655-L3660>)
+## type [RemoveBusinessAccountProfilePhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3751-L3756>)
 
 RemoveBusinessAccountProfilePhotoParams is the parameter set for RemoveBusinessAccountProfilePhoto.
 
@@ -11857,7 +12872,7 @@ type RemoveBusinessAccountProfilePhotoParams struct {
 ```
 
 <a name="RemoveChatVerificationParams"></a>
-## type [RemoveChatVerificationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3532-L3535>)
+## type [RemoveChatVerificationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3628-L3631>)
 
 RemoveChatVerificationParams is the parameter set for RemoveChatVerification.
 
@@ -11871,7 +12886,7 @@ type RemoveChatVerificationParams struct {
 ```
 
 <a name="RemoveMyProfilePhotoParams"></a>
-## type [RemoveMyProfilePhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3337-L3338>)
+## type [RemoveMyProfilePhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3433-L3434>)
 
 RemoveMyProfilePhotoParams is the parameter set for RemoveMyProfilePhoto.
 
@@ -11883,7 +12898,7 @@ type RemoveMyProfilePhotoParams struct {
 ```
 
 <a name="RemoveUserVerificationParams"></a>
-## type [RemoveUserVerificationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3517-L3520>)
+## type [RemoveUserVerificationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3613-L3616>)
 
 RemoveUserVerificationParams is the parameter set for RemoveUserVerification.
 
@@ -11897,7 +12912,7 @@ type RemoveUserVerificationParams struct {
 ```
 
 <a name="ReopenForumTopicParams"></a>
-## type [ReopenForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2892-L2897>)
+## type [ReopenForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2988-L2993>)
 
 ReopenForumTopicParams is the parameter set for ReopenForumTopic.
 
@@ -11913,7 +12928,7 @@ type ReopenForumTopicParams struct {
 ```
 
 <a name="ReopenGeneralForumTopicParams"></a>
-## type [ReopenGeneralForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2975-L2978>)
+## type [ReopenGeneralForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3071-L3074>)
 
 ReopenGeneralForumTopicParams is the parameter set for ReopenGeneralForumTopic.
 
@@ -11927,7 +12942,7 @@ type ReopenGeneralForumTopicParams struct {
 ```
 
 <a name="ReplaceManagedBotTokenParams"></a>
-## type [ReplaceManagedBotTokenParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3124-L3127>)
+## type [ReplaceManagedBotTokenParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3220-L3223>)
 
 ReplaceManagedBotTokenParams is the parameter set for ReplaceManagedBotToken.
 
@@ -11941,7 +12956,7 @@ type ReplaceManagedBotTokenParams struct {
 ```
 
 <a name="ReplaceStickerInSetParams"></a>
-## type [ReplaceStickerInSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4665-L4674>)
+## type [ReplaceStickerInSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4918-L4927>)
 
 ReplaceStickerInSetParams is the parameter set for ReplaceStickerInSet.
 
@@ -11961,7 +12976,7 @@ type ReplaceStickerInSetParams struct {
 ```
 
 <a name="ReplyKeyboardMarkup"></a>
-## type [ReplyKeyboardMarkup](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2402-L2415>)
+## type [ReplyKeyboardMarkup](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2436-L2449>)
 
 This object represents a custom keyboard with reply options \(see Introduction to bots for details and examples\). Not supported in channels and for messages sent on behalf of a business account.
 
@@ -11969,11 +12984,11 @@ This object represents a custom keyboard with reply options \(see Introduction t
 type ReplyKeyboardMarkup struct {
     // Array of button rows, each represented by an Array of KeyboardButton objects
     Keyboard [][]KeyboardButton `json:"keyboard"`
-    // Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to false, in which case the custom keyboard can be hidden and opened with a keyboard icon.
+    // Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to False, in which case the custom keyboard can be hidden and opened with a keyboard icon.
     IsPersistent *bool `json:"is_persistent,omitempty"`
-    // Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
+    // Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to False, in which case the custom keyboard is always of the same height as the app's standard keyboard.
     ResizeKeyboard *bool `json:"resize_keyboard,omitempty"`
-    // Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again. Defaults to false.
+    // Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again. Defaults to False.
     OneTimeKeyboard *bool `json:"one_time_keyboard,omitempty"`
     // Optional. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
     InputFieldPlaceholder string `json:"input_field_placeholder,omitempty"`
@@ -11983,7 +12998,7 @@ type ReplyKeyboardMarkup struct {
 ```
 
 <a name="ReplyKeyboardRemove"></a>
-## type [ReplyKeyboardRemove](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2502-L2507>)
+## type [ReplyKeyboardRemove](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2536-L2541>)
 
 Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter\-keyboard. By default, custom keyboards are displayed until a new keyboard is sent by a bot. An exception is made for one\-time keyboards that are hidden immediately after the user presses a button \(see ReplyKeyboardMarkup\). Not supported in channels and for messages sent on behalf of a business account.
 
@@ -11997,19 +13012,21 @@ type ReplyKeyboardRemove struct {
 ```
 
 <a name="ReplyParameters"></a>
-## type [ReplyParameters](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L735-L754>)
+## type [ReplyParameters](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L747-L768>)
 
 Describes reply parameters for the message that is being sent.
 
 ```go
 type ReplyParameters struct {
-    // Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified
-    MessageID int64 `json:"message_id"`
-    // Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the bot, supergroup or channel in the format @username. Not supported for messages sent on behalf of a business account and messages from channel direct messages chats.
+    // Optional. Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified. Required if ephemeral_message_id isn't specified.
+    MessageID *int64 `json:"message_id,omitempty"`
+    // Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the bot, supergroup or channel in the format @username. Not supported for messages sent on behalf of a business account, messages from channel direct messages chats and ephemeral messages.
     ChatID *ChatID `json:"chat_id,omitempty"`
-    // Optional. Pass True if the message should be sent even if the specified message to be replied to is not found. Always False for replies in another chat or forum topic. Always True for messages sent on behalf of a business account.
+    // Optional. Identifier of the incoming ephemeral message that will be replied to in the current chat. A reply to an ephemeral message must itself be an ephemeral message. An ephemeral message may only be replied to within 15 seconds of being sent. Required if message_id isn't specified.
+    EphemeralMessageID *int64 `json:"ephemeral_message_id,omitempty"`
+    // Optional. Pass True if the message should be sent even if the specified message to be replied to is not found. Always False for replies in another chat or forum topic, and sent ephemeral messages. Always True for messages sent on behalf of a business account.
     AllowSendingWithoutReply *bool `json:"allow_sending_without_reply,omitempty"`
-    // Optional. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities. The message will fail to send if the quote isn't found in the original message.
+    // Optional. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities. The message will fail to send if the quote isn't found in the original message. Ignored for ephemeral messages.
     Quote string `json:"quote,omitempty"`
     // Optional. Mode for parsing entities in the quote. See formatting options for more details.
     QuoteParseMode ParseMode `json:"quote_parse_mode,omitempty"`
@@ -12025,7 +13042,7 @@ type ReplyParameters struct {
 ```
 
 <a name="RepostStoryParams"></a>
-## type [RepostStoryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3914-L3927>)
+## type [RepostStoryParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4010-L4023>)
 
 RepostStoryParams is the parameter set for RepostStory.
 
@@ -12063,7 +13080,7 @@ type ResponseParameters struct {
 ```
 
 <a name="RestrictChatMemberParams"></a>
-## type [RestrictChatMemberParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2168-L2179>)
+## type [RestrictChatMemberParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2264-L2275>)
 
 RestrictChatMemberParams is the parameter set for RestrictChatMember.
 
@@ -12085,7 +13102,7 @@ type RestrictChatMemberParams struct {
 ```
 
 <a name="Result"></a>
-## type [Result](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L361>)
+## type [Result](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L401>)
 
 
 
@@ -12104,7 +13121,7 @@ const (
 ```
 
 <a name="RevenueWithdrawalState"></a>
-## type [RevenueWithdrawalState](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8083>)
+## type [RevenueWithdrawalState](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8801>)
 
 RevenueWithdrawalState is a union type. The following concrete variants implement it:
 
@@ -12121,7 +13138,7 @@ type RevenueWithdrawalState interface {
 ```
 
 <a name="UnmarshalRevenueWithdrawalState"></a>
-### func [UnmarshalRevenueWithdrawalState](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8096>)
+### func [UnmarshalRevenueWithdrawalState](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8814>)
 
 ```go
 func UnmarshalRevenueWithdrawalState(data []byte) (RevenueWithdrawalState, error)
@@ -12130,7 +13147,7 @@ func UnmarshalRevenueWithdrawalState(data []byte) (RevenueWithdrawalState, error
 UnmarshalRevenueWithdrawalState decodes a RevenueWithdrawalState from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
 <a name="RevenueWithdrawalStateFailed"></a>
-## type [RevenueWithdrawalStateFailed](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8169-L8172>)
+## type [RevenueWithdrawalStateFailed](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8887-L8890>)
 
 The withdrawal failed and the transaction was refunded.
 
@@ -12142,7 +13159,7 @@ type RevenueWithdrawalStateFailed struct {
 ```
 
 <a name="RevenueWithdrawalStateFailed.MarshalJSON"></a>
-### func \(\*RevenueWithdrawalStateFailed\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8179>)
+### func \(\*RevenueWithdrawalStateFailed\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8897>)
 
 ```go
 func (v *RevenueWithdrawalStateFailed) MarshalJSON() ([]byte, error)
@@ -12151,7 +13168,7 @@ func (v *RevenueWithdrawalStateFailed) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RevenueWithdrawalStateFailed with the discriminator field "type" forced to "failed". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RevenueWithdrawalStateKind"></a>
-## type [RevenueWithdrawalStateKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L369>)
+## type [RevenueWithdrawalStateKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L409>)
 
 
 
@@ -12170,7 +13187,7 @@ const (
 ```
 
 <a name="RevenueWithdrawalStatePending"></a>
-## type [RevenueWithdrawalStatePending](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8121-L8124>)
+## type [RevenueWithdrawalStatePending](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8839-L8842>)
 
 The withdrawal is in progress.
 
@@ -12182,7 +13199,7 @@ type RevenueWithdrawalStatePending struct {
 ```
 
 <a name="RevenueWithdrawalStatePending.MarshalJSON"></a>
-### func \(\*RevenueWithdrawalStatePending\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8131>)
+### func \(\*RevenueWithdrawalStatePending\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8849>)
 
 ```go
 func (v *RevenueWithdrawalStatePending) MarshalJSON() ([]byte, error)
@@ -12191,7 +13208,7 @@ func (v *RevenueWithdrawalStatePending) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RevenueWithdrawalStatePending with the discriminator field "type" forced to "pending". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RevenueWithdrawalStateSucceeded"></a>
-## type [RevenueWithdrawalStateSucceeded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8143-L8150>)
+## type [RevenueWithdrawalStateSucceeded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8861-L8868>)
 
 The withdrawal succeeded.
 
@@ -12207,7 +13224,7 @@ type RevenueWithdrawalStateSucceeded struct {
 ```
 
 <a name="RevenueWithdrawalStateSucceeded.MarshalJSON"></a>
-### func \(\*RevenueWithdrawalStateSucceeded\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8157>)
+### func \(\*RevenueWithdrawalStateSucceeded\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8875>)
 
 ```go
 func (v *RevenueWithdrawalStateSucceeded) MarshalJSON() ([]byte, error)
@@ -12216,7 +13233,7 @@ func (v *RevenueWithdrawalStateSucceeded) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RevenueWithdrawalStateSucceeded with the discriminator field "type" forced to "succeeded". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RevokeChatInviteLinkParams"></a>
-## type [RevokeChatInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2438-L2443>)
+## type [RevokeChatInviteLinkParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2534-L2539>)
 
 RevokeChatInviteLinkParams is the parameter set for RevokeChatInviteLink.
 
@@ -12232,7 +13249,7 @@ type RevokeChatInviteLinkParams struct {
 ```
 
 <a name="RichBlock"></a>
-## type [RichBlock](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6212>)
+## type [RichBlock](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6284>)
 
 RichBlock is a union type. The following concrete variants implement it:
 
@@ -12267,7 +13284,7 @@ type RichBlock interface {
 ```
 
 <a name="RichBlockAnchor"></a>
-## type [RichBlockAnchor](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6424-L6429>)
+## type [RichBlockAnchor](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6496-L6501>)
 
 A block with an anchor, corresponding to the HTML tag \<a\> with the attribute name.
 
@@ -12281,7 +13298,7 @@ type RichBlockAnchor struct {
 ```
 
 <a name="RichBlockAnchor.MarshalJSON"></a>
-### func \(\*RichBlockAnchor\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6436>)
+### func \(\*RichBlockAnchor\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6508>)
 
 ```go
 func (v *RichBlockAnchor) MarshalJSON() ([]byte, error)
@@ -12290,7 +13307,7 @@ func (v *RichBlockAnchor) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockAnchor with the discriminator field "type" forced to "anchor". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockAnimation"></a>
-## type [RichBlockAnimation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6666-L6675>)
+## type [RichBlockAnimation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6738-L6747>)
 
 A block with an animation, corresponding to the HTML tag \<video\>.
 
@@ -12308,7 +13325,7 @@ type RichBlockAnimation struct {
 ```
 
 <a name="RichBlockAnimation.MarshalJSON"></a>
-### func \(\*RichBlockAnimation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6682>)
+### func \(\*RichBlockAnimation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6754>)
 
 ```go
 func (v *RichBlockAnimation) MarshalJSON() ([]byte, error)
@@ -12317,7 +13334,7 @@ func (v *RichBlockAnimation) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockAnimation with the discriminator field "type" forced to "animation". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockAudio"></a>
-## type [RichBlockAudio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6694-L6701>)
+## type [RichBlockAudio](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6766-L6773>)
 
 A block with a music file, corresponding to the HTML tag \<audio\>.
 
@@ -12333,7 +13350,7 @@ type RichBlockAudio struct {
 ```
 
 <a name="RichBlockAudio.MarshalJSON"></a>
-### func \(\*RichBlockAudio\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6708>)
+### func \(\*RichBlockAudio\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6780>)
 
 ```go
 func (v *RichBlockAudio) MarshalJSON() ([]byte, error)
@@ -12342,7 +13359,7 @@ func (v *RichBlockAudio) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockAudio with the discriminator field "type" forced to "audio". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockBlockQuotation"></a>
-## type [RichBlockBlockQuotation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6472-L6479>)
+## type [RichBlockBlockQuotation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6544-L6551>)
 
 A block quotation, corresponding to the HTML tag \<blockquote\>.
 
@@ -12358,7 +13375,7 @@ type RichBlockBlockQuotation struct {
 ```
 
 <a name="RichBlockBlockQuotation.MarshalJSON"></a>
-### func \(\*RichBlockBlockQuotation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6486>)
+### func \(\*RichBlockBlockQuotation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6558>)
 
 ```go
 func (v *RichBlockBlockQuotation) MarshalJSON() ([]byte, error)
@@ -12367,7 +13384,7 @@ func (v *RichBlockBlockQuotation) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockBlockQuotation with the discriminator field "type" forced to "blockquote". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockCaption"></a>
-## type [RichBlockCaption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6148-L6153>)
+## type [RichBlockCaption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6220-L6225>)
 
 Caption of a rich formatted block.
 
@@ -12381,7 +13398,7 @@ type RichBlockCaption struct {
 ```
 
 <a name="RichBlockCollage"></a>
-## type [RichBlockCollage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6524-L6531>)
+## type [RichBlockCollage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6596-L6603>)
 
 A collage, corresponding to the custom HTML tag \<tg\-collage\>.
 
@@ -12397,7 +13414,7 @@ type RichBlockCollage struct {
 ```
 
 <a name="RichBlockCollage.MarshalJSON"></a>
-### func \(\*RichBlockCollage\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6538>)
+### func \(\*RichBlockCollage\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6610>)
 
 ```go
 func (v *RichBlockCollage) MarshalJSON() ([]byte, error)
@@ -12406,7 +13423,7 @@ func (v *RichBlockCollage) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockCollage with the discriminator field "type" forced to "collage". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockDetails"></a>
-## type [RichBlockDetails](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6606-L6615>)
+## type [RichBlockDetails](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6678-L6687>)
 
 An expandable block for details disclosure, corresponding to the HTML tag \<details\>.
 
@@ -12424,7 +13441,7 @@ type RichBlockDetails struct {
 ```
 
 <a name="RichBlockDetails.MarshalJSON"></a>
-### func \(\*RichBlockDetails\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6622>)
+### func \(\*RichBlockDetails\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6694>)
 
 ```go
 func (v *RichBlockDetails) MarshalJSON() ([]byte, error)
@@ -12433,7 +13450,7 @@ func (v *RichBlockDetails) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockDetails with the discriminator field "type" forced to "details". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockDivider"></a>
-## type [RichBlockDivider](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6378-L6381>)
+## type [RichBlockDivider](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6450-L6453>)
 
 A divider, corresponding to the HTML tag \<hr/\>.
 
@@ -12445,7 +13462,7 @@ type RichBlockDivider struct {
 ```
 
 <a name="RichBlockDivider.MarshalJSON"></a>
-### func \(\*RichBlockDivider\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6388>)
+### func \(\*RichBlockDivider\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6460>)
 
 ```go
 func (v *RichBlockDivider) MarshalJSON() ([]byte, error)
@@ -12454,7 +13471,7 @@ func (v *RichBlockDivider) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockDivider with the discriminator field "type" forced to "divider". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockFooter"></a>
-## type [RichBlockFooter](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6354-L6359>)
+## type [RichBlockFooter](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6426-L6431>)
 
 A footer, corresponding to the HTML tag \<footer\>.
 
@@ -12468,7 +13485,7 @@ type RichBlockFooter struct {
 ```
 
 <a name="RichBlockFooter.MarshalJSON"></a>
-### func \(\*RichBlockFooter\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6366>)
+### func \(\*RichBlockFooter\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6438>)
 
 ```go
 func (v *RichBlockFooter) MarshalJSON() ([]byte, error)
@@ -12477,7 +13494,7 @@ func (v *RichBlockFooter) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockFooter with the discriminator field "type" forced to "footer". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockList"></a>
-## type [RichBlockList](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6448-L6453>)
+## type [RichBlockList](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6520-L6525>)
 
 A list of blocks, corresponding to the HTML tag \<ul\> or \<ol\> with multiple nested tags \<li\>.
 
@@ -12491,7 +13508,7 @@ type RichBlockList struct {
 ```
 
 <a name="RichBlockList.MarshalJSON"></a>
-### func \(\*RichBlockList\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6460>)
+### func \(\*RichBlockList\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6532>)
 
 ```go
 func (v *RichBlockList) MarshalJSON() ([]byte, error)
@@ -12500,7 +13517,7 @@ func (v *RichBlockList) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockList with the discriminator field "type" forced to "list". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockListItem"></a>
-## type [RichBlockListItem](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6172-L6185>)
+## type [RichBlockListItem](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6244-L6257>)
 
 An item of a list.
 
@@ -12522,7 +13539,7 @@ type RichBlockListItem struct {
 ```
 
 <a name="RichBlockListItemType"></a>
-## type [RichBlockListItemType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L377>)
+## type [RichBlockListItemType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L417>)
 
 
 
@@ -12543,7 +13560,7 @@ const (
 ```
 
 <a name="RichBlockMap"></a>
-## type [RichBlockMap](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6634-L6647>)
+## type [RichBlockMap](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6706-L6719>)
 
 A block with a map, corresponding to the custom HTML tag \<tg\-map\>.
 
@@ -12565,7 +13582,7 @@ type RichBlockMap struct {
 ```
 
 <a name="RichBlockMap.MarshalJSON"></a>
-### func \(\*RichBlockMap\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6654>)
+### func \(\*RichBlockMap\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6726>)
 
 ```go
 func (v *RichBlockMap) MarshalJSON() ([]byte, error)
@@ -12574,7 +13591,7 @@ func (v *RichBlockMap) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockMap with the discriminator field "type" forced to "map". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockMathematicalExpression"></a>
-## type [RichBlockMathematicalExpression](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6400-L6405>)
+## type [RichBlockMathematicalExpression](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6472-L6477>)
 
 A block with a mathematical expression in LaTeX format, corresponding to the custom HTML tag \<tg\-math\-block\>.
 
@@ -12588,7 +13605,7 @@ type RichBlockMathematicalExpression struct {
 ```
 
 <a name="RichBlockMathematicalExpression.MarshalJSON"></a>
-### func \(\*RichBlockMathematicalExpression\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6412>)
+### func \(\*RichBlockMathematicalExpression\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6484>)
 
 ```go
 func (v *RichBlockMathematicalExpression) MarshalJSON() ([]byte, error)
@@ -12597,7 +13614,7 @@ func (v *RichBlockMathematicalExpression) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockMathematicalExpression with the discriminator field "type" forced to "mathematical\_expression". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockParagraph"></a>
-## type [RichBlockParagraph](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6278-L6283>)
+## type [RichBlockParagraph](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6350-L6355>)
 
 A text paragraph, corresponding to the HTML tag \<p\>.
 
@@ -12611,7 +13628,7 @@ type RichBlockParagraph struct {
 ```
 
 <a name="RichBlockParagraph.MarshalJSON"></a>
-### func \(\*RichBlockParagraph\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6290>)
+### func \(\*RichBlockParagraph\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6362>)
 
 ```go
 func (v *RichBlockParagraph) MarshalJSON() ([]byte, error)
@@ -12620,9 +13637,9 @@ func (v *RichBlockParagraph) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockParagraph with the discriminator field "type" forced to "paragraph". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockPhoto"></a>
-## type [RichBlockPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6720-L6729>)
+## type [RichBlockPhoto](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6792-L6801>)
 
-A block with a photo, corresponding to the HTML tag \<photo\>.
+A block with a photo, corresponding to the HTML tag \<img\>.
 
 ```go
 type RichBlockPhoto struct {
@@ -12638,7 +13655,7 @@ type RichBlockPhoto struct {
 ```
 
 <a name="RichBlockPhoto.MarshalJSON"></a>
-### func \(\*RichBlockPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6736>)
+### func \(\*RichBlockPhoto\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6808>)
 
 ```go
 func (v *RichBlockPhoto) MarshalJSON() ([]byte, error)
@@ -12647,7 +13664,7 @@ func (v *RichBlockPhoto) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockPhoto with the discriminator field "type" forced to "photo". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockPreformatted"></a>
-## type [RichBlockPreformatted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6328-L6335>)
+## type [RichBlockPreformatted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6400-L6407>)
 
 A preformatted text block, corresponding to the nested HTML tags \<pre\> and \<code\>.
 
@@ -12663,7 +13680,7 @@ type RichBlockPreformatted struct {
 ```
 
 <a name="RichBlockPreformatted.MarshalJSON"></a>
-### func \(\*RichBlockPreformatted\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6342>)
+### func \(\*RichBlockPreformatted\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6414>)
 
 ```go
 func (v *RichBlockPreformatted) MarshalJSON() ([]byte, error)
@@ -12672,7 +13689,7 @@ func (v *RichBlockPreformatted) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockPreformatted with the discriminator field "type" forced to "pre". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockPullQuotation"></a>
-## type [RichBlockPullQuotation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6498-L6505>)
+## type [RichBlockPullQuotation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6570-L6577>)
 
 A quotation with centered text, loosely corresponding to the HTML tag \<aside\>.
 
@@ -12688,7 +13705,7 @@ type RichBlockPullQuotation struct {
 ```
 
 <a name="RichBlockPullQuotation.MarshalJSON"></a>
-### func \(\*RichBlockPullQuotation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6512>)
+### func \(\*RichBlockPullQuotation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6584>)
 
 ```go
 func (v *RichBlockPullQuotation) MarshalJSON() ([]byte, error)
@@ -12697,7 +13714,7 @@ func (v *RichBlockPullQuotation) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockPullQuotation with the discriminator field "type" forced to "pullquote". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockSectionHeading"></a>
-## type [RichBlockSectionHeading](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6302-L6309>)
+## type [RichBlockSectionHeading](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6374-L6381>)
 
 A section heading, corresponding to the HTML tags \<h1\>, \<h2\>, \<h3\>, \<h4\>, \<h5\>, or \<h6\>.
 
@@ -12713,7 +13730,7 @@ type RichBlockSectionHeading struct {
 ```
 
 <a name="RichBlockSectionHeading.MarshalJSON"></a>
-### func \(\*RichBlockSectionHeading\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6316>)
+### func \(\*RichBlockSectionHeading\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6388>)
 
 ```go
 func (v *RichBlockSectionHeading) MarshalJSON() ([]byte, error)
@@ -12722,7 +13739,7 @@ func (v *RichBlockSectionHeading) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockSectionHeading with the discriminator field "type" forced to "heading". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockSlideshow"></a>
-## type [RichBlockSlideshow](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6550-L6557>)
+## type [RichBlockSlideshow](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6622-L6629>)
 
 A slideshow, corresponding to the custom HTML tag \<tg\-slideshow\>.
 
@@ -12738,7 +13755,7 @@ type RichBlockSlideshow struct {
 ```
 
 <a name="RichBlockSlideshow.MarshalJSON"></a>
-### func \(\*RichBlockSlideshow\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6564>)
+### func \(\*RichBlockSlideshow\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6636>)
 
 ```go
 func (v *RichBlockSlideshow) MarshalJSON() ([]byte, error)
@@ -12747,7 +13764,7 @@ func (v *RichBlockSlideshow) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockSlideshow with the discriminator field "type" forced to "slideshow". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockTable"></a>
-## type [RichBlockTable](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6576-L6587>)
+## type [RichBlockTable](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6648-L6659>)
 
 A table, corresponding to the HTML tag \<table\>.
 
@@ -12767,7 +13784,7 @@ type RichBlockTable struct {
 ```
 
 <a name="RichBlockTable.MarshalJSON"></a>
-### func \(\*RichBlockTable\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6594>)
+### func \(\*RichBlockTable\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6666>)
 
 ```go
 func (v *RichBlockTable) MarshalJSON() ([]byte, error)
@@ -12776,7 +13793,7 @@ func (v *RichBlockTable) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockTable with the discriminator field "type" forced to "table". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockTableCell"></a>
-## type [RichBlockTableCell](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6156-L6169>)
+## type [RichBlockTableCell](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6228-L6241>)
 
 Cell in a table.
 
@@ -12798,7 +13815,7 @@ type RichBlockTableCell struct {
 ```
 
 <a name="RichBlockTableCellAlign"></a>
-## type [RichBlockTableCellAlign](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L387>)
+## type [RichBlockTableCellAlign](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L427>)
 
 
 
@@ -12817,7 +13834,7 @@ const (
 ```
 
 <a name="RichBlockTableCellValign"></a>
-## type [RichBlockTableCellValign](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L395>)
+## type [RichBlockTableCellValign](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L435>)
 
 
 
@@ -12836,21 +13853,21 @@ const (
 ```
 
 <a name="RichBlockThinking"></a>
-## type [RichBlockThinking](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6802-L6807>)
+## type [RichBlockThinking](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6874-L6879>)
 
-A block with a “Thinking…” placeholder, corresponding to the custom HTML tag \<tg\-thinking\>. The block may be used only in sendRichMessageDraft, therefore it can't be received in messages. See https://t.me/addemoji/AIActions for examples of custom emoji, which are recommended for usage in the block.
+A block with a “Thinking…” placeholder, corresponding to the custom HTML tag \<tg\-thinking\>. The block may be used only in sendRichMessageDraft, therefore it can't be received in messages. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block.
 
 ```go
 type RichBlockThinking struct {
     // Type of the block, always “thinking”
     Type RichBlockType `json:"type"`
-    // Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji, which are recommended for usage in the block.
+    // Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block.
     Text RichText `json:"text"`
 }
 ```
 
 <a name="RichBlockThinking.MarshalJSON"></a>
-### func \(\*RichBlockThinking\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6814>)
+### func \(\*RichBlockThinking\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6886>)
 
 ```go
 func (v *RichBlockThinking) MarshalJSON() ([]byte, error)
@@ -12859,7 +13876,7 @@ func (v *RichBlockThinking) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockThinking with the discriminator field "type" forced to "thinking". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockType"></a>
-## type [RichBlockType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L403>)
+## type [RichBlockType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L443>)
 
 
 
@@ -12896,7 +13913,7 @@ const (
 ```
 
 <a name="RichBlockVideo"></a>
-## type [RichBlockVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6748-L6757>)
+## type [RichBlockVideo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6820-L6829>)
 
 A block with a video, corresponding to the HTML tag \<video\>.
 
@@ -12914,7 +13931,7 @@ type RichBlockVideo struct {
 ```
 
 <a name="RichBlockVideo.MarshalJSON"></a>
-### func \(\*RichBlockVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6764>)
+### func \(\*RichBlockVideo\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6836>)
 
 ```go
 func (v *RichBlockVideo) MarshalJSON() ([]byte, error)
@@ -12923,7 +13940,7 @@ func (v *RichBlockVideo) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockVideo with the discriminator field "type" forced to "video". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichBlockVoiceNote"></a>
-## type [RichBlockVoiceNote](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6776-L6783>)
+## type [RichBlockVoiceNote](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6848-L6855>)
 
 A block with a voice note, corresponding to the HTML tag \<audio\>.
 
@@ -12939,7 +13956,7 @@ type RichBlockVoiceNote struct {
 ```
 
 <a name="RichBlockVoiceNote.MarshalJSON"></a>
-### func \(\*RichBlockVoiceNote\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6790>)
+### func \(\*RichBlockVoiceNote\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6862>)
 
 ```go
 func (v *RichBlockVoiceNote) MarshalJSON() ([]byte, error)
@@ -12948,7 +13965,7 @@ func (v *RichBlockVoiceNote) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichBlockVoiceNote with the discriminator field "type" forced to "voice\_note". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichMessage"></a>
-## type [RichMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5392-L5397>)
+## type [RichMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5452-L5457>)
 
 Rich formatted message.
 
@@ -12962,7 +13979,7 @@ type RichMessage struct {
 ```
 
 <a name="RichText"></a>
-## type [RichText](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5440>)
+## type [RichText](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5512>)
 
 RichText is a union type. The following concrete variants implement it:
 
@@ -13001,7 +14018,7 @@ type RichText interface {
 ```
 
 <a name="RichTextAnchor"></a>
-## type [RichTextAnchor](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6046-L6051>)
+## type [RichTextAnchor](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6118-L6123>)
 
 An anchor.
 
@@ -13015,7 +14032,7 @@ type RichTextAnchor struct {
 ```
 
 <a name="RichTextAnchor.MarshalJSON"></a>
-### func \(\*RichTextAnchor\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6058>)
+### func \(\*RichTextAnchor\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6130>)
 
 ```go
 func (v *RichTextAnchor) MarshalJSON() ([]byte, error)
@@ -13024,7 +14041,7 @@ func (v *RichTextAnchor) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextAnchor with the discriminator field "type" forced to "anchor". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextAnchorLink"></a>
-## type [RichTextAnchorLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6070-L6077>)
+## type [RichTextAnchorLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6142-L6149>)
 
 A link to an anchor.
 
@@ -13040,7 +14057,7 @@ type RichTextAnchorLink struct {
 ```
 
 <a name="RichTextAnchorLink.MarshalJSON"></a>
-### func \(\*RichTextAnchorLink\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6084>)
+### func \(\*RichTextAnchorLink\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6156>)
 
 ```go
 func (v *RichTextAnchorLink) MarshalJSON() ([]byte, error)
@@ -13049,7 +14066,7 @@ func (v *RichTextAnchorLink) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextAnchorLink with the discriminator field "type" forced to "anchor\_link". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextBankCardNumber"></a>
-## type [RichTextBankCardNumber](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5916-L5923>)
+## type [RichTextBankCardNumber](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5988-L5995>)
 
 A text with a bank card number.
 
@@ -13065,7 +14082,7 @@ type RichTextBankCardNumber struct {
 ```
 
 <a name="RichTextBankCardNumber.MarshalJSON"></a>
-### func \(\*RichTextBankCardNumber\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5930>)
+### func \(\*RichTextBankCardNumber\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6002>)
 
 ```go
 func (v *RichTextBankCardNumber) MarshalJSON() ([]byte, error)
@@ -13074,7 +14091,7 @@ func (v *RichTextBankCardNumber) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextBankCardNumber with the discriminator field "type" forced to "bank\_card\_number". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextBold"></a>
-## type [RichTextBold](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5518-L5523>)
+## type [RichTextBold](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5590-L5595>)
 
 A bold text.
 
@@ -13088,7 +14105,7 @@ type RichTextBold struct {
 ```
 
 <a name="RichTextBold.MarshalJSON"></a>
-### func \(\*RichTextBold\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5530>)
+### func \(\*RichTextBold\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5602>)
 
 ```go
 func (v *RichTextBold) MarshalJSON() ([]byte, error)
@@ -13097,7 +14114,7 @@ func (v *RichTextBold) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextBold with the discriminator field "type" forced to "bold". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextBotCommand"></a>
-## type [RichTextBotCommand](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6020-L6027>)
+## type [RichTextBotCommand](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6092-L6099>)
 
 A bot command.
 
@@ -13113,7 +14130,7 @@ type RichTextBotCommand struct {
 ```
 
 <a name="RichTextBotCommand.MarshalJSON"></a>
-### func \(\*RichTextBotCommand\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6034>)
+### func \(\*RichTextBotCommand\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6106>)
 
 ```go
 func (v *RichTextBotCommand) MarshalJSON() ([]byte, error)
@@ -13122,7 +14139,7 @@ func (v *RichTextBotCommand) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextBotCommand with the discriminator field "type" forced to "bot\_command". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextCashtag"></a>
-## type [RichTextCashtag](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5994-L6001>)
+## type [RichTextCashtag](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6066-L6073>)
 
 A cashtag.
 
@@ -13138,7 +14155,7 @@ type RichTextCashtag struct {
 ```
 
 <a name="RichTextCashtag.MarshalJSON"></a>
-### func \(\*RichTextCashtag\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6008>)
+### func \(\*RichTextCashtag\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6080>)
 
 ```go
 func (v *RichTextCashtag) MarshalJSON() ([]byte, error)
@@ -13147,7 +14164,7 @@ func (v *RichTextCashtag) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextCashtag with the discriminator field "type" forced to "cashtag". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextCode"></a>
-## type [RichTextCode](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5764-L5769>)
+## type [RichTextCode](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5836-L5841>)
 
 A monowidth text.
 
@@ -13161,7 +14178,7 @@ type RichTextCode struct {
 ```
 
 <a name="RichTextCode.MarshalJSON"></a>
-### func \(\*RichTextCode\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5776>)
+### func \(\*RichTextCode\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5848>)
 
 ```go
 func (v *RichTextCode) MarshalJSON() ([]byte, error)
@@ -13170,7 +14187,7 @@ func (v *RichTextCode) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextCode with the discriminator field "type" forced to "code". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextCustomEmoji"></a>
-## type [RichTextCustomEmoji](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5788-L5795>)
+## type [RichTextCustomEmoji](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5860-L5867>)
 
 A custom emoji.
 
@@ -13186,7 +14203,7 @@ type RichTextCustomEmoji struct {
 ```
 
 <a name="RichTextCustomEmoji.MarshalJSON"></a>
-### func \(\*RichTextCustomEmoji\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5802>)
+### func \(\*RichTextCustomEmoji\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5874>)
 
 ```go
 func (v *RichTextCustomEmoji) MarshalJSON() ([]byte, error)
@@ -13195,7 +14212,7 @@ func (v *RichTextCustomEmoji) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextCustomEmoji with the discriminator field "type" forced to "custom\_emoji". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextDateTime"></a>
-## type [RichTextDateTime](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5638-L5647>)
+## type [RichTextDateTime](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5710-L5719>)
 
 Formatted date and time.
 
@@ -13213,7 +14230,7 @@ type RichTextDateTime struct {
 ```
 
 <a name="RichTextDateTime.MarshalJSON"></a>
-### func \(\*RichTextDateTime\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5654>)
+### func \(\*RichTextDateTime\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5726>)
 
 ```go
 func (v *RichTextDateTime) MarshalJSON() ([]byte, error)
@@ -13222,7 +14239,7 @@ func (v *RichTextDateTime) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextDateTime with the discriminator field "type" forced to "date\_time". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextEmailAddress"></a>
-## type [RichTextEmailAddress](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5864-L5871>)
+## type [RichTextEmailAddress](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5936-L5943>)
 
 A text with an email address.
 
@@ -13238,7 +14255,7 @@ type RichTextEmailAddress struct {
 ```
 
 <a name="RichTextEmailAddress.MarshalJSON"></a>
-### func \(\*RichTextEmailAddress\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5878>)
+### func \(\*RichTextEmailAddress\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5950>)
 
 ```go
 func (v *RichTextEmailAddress) MarshalJSON() ([]byte, error)
@@ -13247,7 +14264,7 @@ func (v *RichTextEmailAddress) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextEmailAddress with the discriminator field "type" forced to "email\_address". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextHashtag"></a>
-## type [RichTextHashtag](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5968-L5975>)
+## type [RichTextHashtag](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6040-L6047>)
 
 A hashtag.
 
@@ -13263,7 +14280,7 @@ type RichTextHashtag struct {
 ```
 
 <a name="RichTextHashtag.MarshalJSON"></a>
-### func \(\*RichTextHashtag\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5982>)
+### func \(\*RichTextHashtag\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6054>)
 
 ```go
 func (v *RichTextHashtag) MarshalJSON() ([]byte, error)
@@ -13272,7 +14289,7 @@ func (v *RichTextHashtag) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextHashtag with the discriminator field "type" forced to "hashtag". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextItalic"></a>
-## type [RichTextItalic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5542-L5547>)
+## type [RichTextItalic](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5614-L5619>)
 
 An italicized text.
 
@@ -13286,7 +14303,7 @@ type RichTextItalic struct {
 ```
 
 <a name="RichTextItalic.MarshalJSON"></a>
-### func \(\*RichTextItalic\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5554>)
+### func \(\*RichTextItalic\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5626>)
 
 ```go
 func (v *RichTextItalic) MarshalJSON() ([]byte, error)
@@ -13295,7 +14312,7 @@ func (v *RichTextItalic) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextItalic with the discriminator field "type" forced to "italic". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextMarked"></a>
-## type [RichTextMarked](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5740-L5745>)
+## type [RichTextMarked](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5812-L5817>)
 
 A marked text.
 
@@ -13309,7 +14326,7 @@ type RichTextMarked struct {
 ```
 
 <a name="RichTextMarked.MarshalJSON"></a>
-### func \(\*RichTextMarked\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5752>)
+### func \(\*RichTextMarked\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5824>)
 
 ```go
 func (v *RichTextMarked) MarshalJSON() ([]byte, error)
@@ -13318,7 +14335,7 @@ func (v *RichTextMarked) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextMarked with the discriminator field "type" forced to "marked". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextMathematicalExpression"></a>
-## type [RichTextMathematicalExpression](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5814-L5819>)
+## type [RichTextMathematicalExpression](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5886-L5891>)
 
 A mathematical expression.
 
@@ -13332,7 +14349,7 @@ type RichTextMathematicalExpression struct {
 ```
 
 <a name="RichTextMathematicalExpression.MarshalJSON"></a>
-### func \(\*RichTextMathematicalExpression\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5826>)
+### func \(\*RichTextMathematicalExpression\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5898>)
 
 ```go
 func (v *RichTextMathematicalExpression) MarshalJSON() ([]byte, error)
@@ -13341,7 +14358,7 @@ func (v *RichTextMathematicalExpression) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextMathematicalExpression with the discriminator field "type" forced to "mathematical\_expression". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextMention"></a>
-## type [RichTextMention](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5942-L5949>)
+## type [RichTextMention](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6014-L6021>)
 
 A mention by a username.
 
@@ -13357,7 +14374,7 @@ type RichTextMention struct {
 ```
 
 <a name="RichTextMention.MarshalJSON"></a>
-### func \(\*RichTextMention\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5956>)
+### func \(\*RichTextMention\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6028>)
 
 ```go
 func (v *RichTextMention) MarshalJSON() ([]byte, error)
@@ -13366,7 +14383,7 @@ func (v *RichTextMention) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextMention with the discriminator field "type" forced to "mention". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextPhoneNumber"></a>
-## type [RichTextPhoneNumber](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5890-L5897>)
+## type [RichTextPhoneNumber](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5962-L5969>)
 
 A text with a phone number.
 
@@ -13382,7 +14399,7 @@ type RichTextPhoneNumber struct {
 ```
 
 <a name="RichTextPhoneNumber.MarshalJSON"></a>
-### func \(\*RichTextPhoneNumber\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5904>)
+### func \(\*RichTextPhoneNumber\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5976>)
 
 ```go
 func (v *RichTextPhoneNumber) MarshalJSON() ([]byte, error)
@@ -13391,7 +14408,7 @@ func (v *RichTextPhoneNumber) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextPhoneNumber with the discriminator field "type" forced to "phone\_number". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextReference"></a>
-## type [RichTextReference](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6096-L6103>)
+## type [RichTextReference](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6168-L6175>)
 
 A reference.
 
@@ -13407,7 +14424,7 @@ type RichTextReference struct {
 ```
 
 <a name="RichTextReference.MarshalJSON"></a>
-### func \(\*RichTextReference\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6110>)
+### func \(\*RichTextReference\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6182>)
 
 ```go
 func (v *RichTextReference) MarshalJSON() ([]byte, error)
@@ -13416,7 +14433,7 @@ func (v *RichTextReference) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextReference with the discriminator field "type" forced to "reference". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextReferenceLink"></a>
-## type [RichTextReferenceLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6122-L6129>)
+## type [RichTextReferenceLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6194-L6201>)
 
 A link to a reference.
 
@@ -13432,7 +14449,7 @@ type RichTextReferenceLink struct {
 ```
 
 <a name="RichTextReferenceLink.MarshalJSON"></a>
-### func \(\*RichTextReferenceLink\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6136>)
+### func \(\*RichTextReferenceLink\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L6208>)
 
 ```go
 func (v *RichTextReferenceLink) MarshalJSON() ([]byte, error)
@@ -13441,7 +14458,7 @@ func (v *RichTextReferenceLink) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextReferenceLink with the discriminator field "type" forced to "reference\_link". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextSpoiler"></a>
-## type [RichTextSpoiler](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5614-L5619>)
+## type [RichTextSpoiler](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5686-L5691>)
 
 A text covered by a spoiler.
 
@@ -13455,7 +14472,7 @@ type RichTextSpoiler struct {
 ```
 
 <a name="RichTextSpoiler.MarshalJSON"></a>
-### func \(\*RichTextSpoiler\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5626>)
+### func \(\*RichTextSpoiler\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5698>)
 
 ```go
 func (v *RichTextSpoiler) MarshalJSON() ([]byte, error)
@@ -13464,7 +14481,7 @@ func (v *RichTextSpoiler) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextSpoiler with the discriminator field "type" forced to "spoiler". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextStrikethrough"></a>
-## type [RichTextStrikethrough](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5590-L5595>)
+## type [RichTextStrikethrough](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5662-L5667>)
 
 A strikethrough text.
 
@@ -13478,7 +14495,7 @@ type RichTextStrikethrough struct {
 ```
 
 <a name="RichTextStrikethrough.MarshalJSON"></a>
-### func \(\*RichTextStrikethrough\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5602>)
+### func \(\*RichTextStrikethrough\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5674>)
 
 ```go
 func (v *RichTextStrikethrough) MarshalJSON() ([]byte, error)
@@ -13487,7 +14504,7 @@ func (v *RichTextStrikethrough) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextStrikethrough with the discriminator field "type" forced to "strikethrough". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextSubscript"></a>
-## type [RichTextSubscript](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5692-L5697>)
+## type [RichTextSubscript](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5764-L5769>)
 
 A subscript text.
 
@@ -13501,7 +14518,7 @@ type RichTextSubscript struct {
 ```
 
 <a name="RichTextSubscript.MarshalJSON"></a>
-### func \(\*RichTextSubscript\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5704>)
+### func \(\*RichTextSubscript\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5776>)
 
 ```go
 func (v *RichTextSubscript) MarshalJSON() ([]byte, error)
@@ -13510,7 +14527,7 @@ func (v *RichTextSubscript) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextSubscript with the discriminator field "type" forced to "subscript". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextSuperscript"></a>
-## type [RichTextSuperscript](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5716-L5721>)
+## type [RichTextSuperscript](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5788-L5793>)
 
 A superscript text.
 
@@ -13524,7 +14541,7 @@ type RichTextSuperscript struct {
 ```
 
 <a name="RichTextSuperscript.MarshalJSON"></a>
-### func \(\*RichTextSuperscript\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5728>)
+### func \(\*RichTextSuperscript\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5800>)
 
 ```go
 func (v *RichTextSuperscript) MarshalJSON() ([]byte, error)
@@ -13533,7 +14550,7 @@ func (v *RichTextSuperscript) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextSuperscript with the discriminator field "type" forced to "superscript". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextTextMention"></a>
-## type [RichTextTextMention](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5666-L5673>)
+## type [RichTextTextMention](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5738-L5745>)
 
 A mention of a Telegram user by their identifier.
 
@@ -13549,7 +14566,7 @@ type RichTextTextMention struct {
 ```
 
 <a name="RichTextTextMention.MarshalJSON"></a>
-### func \(\*RichTextTextMention\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5680>)
+### func \(\*RichTextTextMention\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5752>)
 
 ```go
 func (v *RichTextTextMention) MarshalJSON() ([]byte, error)
@@ -13558,7 +14575,7 @@ func (v *RichTextTextMention) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextTextMention with the discriminator field "type" forced to "text\_mention". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextType"></a>
-## type [RichTextType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L429>)
+## type [RichTextType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L469>)
 
 
 
@@ -13599,7 +14616,7 @@ const (
 ```
 
 <a name="RichTextUnderline"></a>
-## type [RichTextUnderline](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5566-L5571>)
+## type [RichTextUnderline](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5638-L5643>)
 
 An underlined text.
 
@@ -13613,7 +14630,7 @@ type RichTextUnderline struct {
 ```
 
 <a name="RichTextUnderline.MarshalJSON"></a>
-### func \(\*RichTextUnderline\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5578>)
+### func \(\*RichTextUnderline\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5650>)
 
 ```go
 func (v *RichTextUnderline) MarshalJSON() ([]byte, error)
@@ -13622,7 +14639,7 @@ func (v *RichTextUnderline) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextUnderline with the discriminator field "type" forced to "underline". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="RichTextUrl"></a>
-## type [RichTextUrl](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5838-L5845>)
+## type [RichTextUrl](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5910-L5917>)
 
 A text with a link.
 
@@ -13638,7 +14655,7 @@ type RichTextUrl struct {
 ```
 
 <a name="RichTextUrl.MarshalJSON"></a>
-### func \(\*RichTextUrl\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5852>)
+### func \(\*RichTextUrl\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5924>)
 
 ```go
 func (v *RichTextUrl) MarshalJSON() ([]byte, error)
@@ -13647,7 +14664,7 @@ func (v *RichTextUrl) MarshalJSON() ([]byte, error)
 MarshalJSON encodes RichTextUrl with the discriminator field "type" forced to "url". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="SavePreparedInlineMessageParams"></a>
-## type [SavePreparedInlineMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4000-L4013>)
+## type [SavePreparedInlineMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4096-L4109>)
 
 SavePreparedInlineMessageParams is the parameter set for SavePreparedInlineMessage.
 
@@ -13671,7 +14688,7 @@ type SavePreparedInlineMessageParams struct {
 ```
 
 <a name="SavePreparedKeyboardButtonParams"></a>
-## type [SavePreparedKeyboardButtonParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4025-L4030>)
+## type [SavePreparedKeyboardButtonParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4121-L4126>)
 
 SavePreparedKeyboardButtonParams is the parameter set for SavePreparedKeyboardButton.
 
@@ -13687,7 +14704,7 @@ type SavePreparedKeyboardButtonParams struct {
 ```
 
 <a name="SendAnimationParams"></a>
-## type [SendAnimationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1095-L1138>)
+## type [SendAnimationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1149-L1196>)
 
 SendAnimationParams is the parameter set for SendAnimation.
 
@@ -13703,6 +14720,10 @@ type SendAnimationParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data. More information on Sending Files »
     Animation *InputFile `json:"animation"`
     // Duration of sent animation in seconds
@@ -13719,7 +14740,7 @@ type SendAnimationParams struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Pass True, if the caption must be shown above the message media
+    // Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Pass True if the animation needs to be covered with a spoiler animation
     HasSpoiler *bool `json:"has_spoiler,omitempty"`
@@ -13741,7 +14762,7 @@ type SendAnimationParams struct {
 ```
 
 <a name="SendAnimationParams.HasFile"></a>
-### func \(\*SendAnimationParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1141>)
+### func \(\*SendAnimationParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1199>)
 
 ```go
 func (p *SendAnimationParams) HasFile() bool
@@ -13750,7 +14771,7 @@ func (p *SendAnimationParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SendAnimationParams.MultipartFields"></a>
-### func \(\*SendAnimationParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1152>)
+### func \(\*SendAnimationParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1210>)
 
 ```go
 func (p *SendAnimationParams) MultipartFields() map[string]string
@@ -13759,7 +14780,7 @@ func (p *SendAnimationParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SendAnimationParams.MultipartFiles"></a>
-### func \(\*SendAnimationParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1221>)
+### func \(\*SendAnimationParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1285>)
 
 ```go
 func (p *SendAnimationParams) MultipartFiles() []client.MultipartFile
@@ -13768,7 +14789,7 @@ func (p *SendAnimationParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SendAudioParams"></a>
-## type [SendAudioParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L637-L676>)
+## type [SendAudioParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L661-L704>)
 
 SendAudioParams is the parameter set for SendAudio.
 
@@ -13784,6 +14805,10 @@ type SendAudioParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »
     Audio *InputFile `json:"audio"`
     // Audio caption, 0-1024 characters after entities parsing
@@ -13818,7 +14843,7 @@ type SendAudioParams struct {
 ```
 
 <a name="SendAudioParams.HasFile"></a>
-### func \(\*SendAudioParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L679>)
+### func \(\*SendAudioParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L707>)
 
 ```go
 func (p *SendAudioParams) HasFile() bool
@@ -13827,7 +14852,7 @@ func (p *SendAudioParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SendAudioParams.MultipartFields"></a>
-### func \(\*SendAudioParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L690>)
+### func \(\*SendAudioParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L718>)
 
 ```go
 func (p *SendAudioParams) MultipartFields() map[string]string
@@ -13836,7 +14861,7 @@ func (p *SendAudioParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SendAudioParams.MultipartFiles"></a>
-### func \(\*SendAudioParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L753>)
+### func \(\*SendAudioParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L787>)
 
 ```go
 func (p *SendAudioParams) MultipartFiles() []client.MultipartFile
@@ -13845,7 +14870,7 @@ func (p *SendAudioParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SendChatActionParams"></a>
-## type [SendChatActionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2010-L2019>)
+## type [SendChatActionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2106-L2115>)
 
 SendChatActionParams is the parameter set for SendChatAction.
 
@@ -13865,23 +14890,23 @@ type SendChatActionParams struct {
 ```
 
 <a name="SendChatJoinRequestWebAppParams"></a>
-## type [SendChatJoinRequestWebAppParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2506-L2511>)
+## type [SendChatJoinRequestWebAppParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2602-L2607>)
 
 SendChatJoinRequestWebAppParams is the parameter set for SendChatJoinRequestWebApp.
 
-Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Returns True on success.
+Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Call answerChatJoinRequestQuery to resolve the join request query based on the user interaction with the Mini App. Returns True on success.
 
 ```go
 type SendChatJoinRequestWebAppParams struct {
     // Unique identifier of the join request query
     ChatJoinRequestQueryID string `json:"chat_join_request_query_id"`
-    // The URL of the Mini App to be opened
+    // An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps
     WebAppURL string `json:"web_app_url"`
 }
 ```
 
 <a name="SendChecklistParams"></a>
-## type [SendChecklistParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1917-L1934>)
+## type [SendChecklistParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2013-L2030>)
 
 SendChecklistParams is the parameter set for SendChecklist.
 
@@ -13909,7 +14934,7 @@ type SendChecklistParams struct {
 ```
 
 <a name="SendContactParams"></a>
-## type [SendContactParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1793-L1824>)
+## type [SendContactParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1885-L1920>)
 
 SendContactParams is the parameter set for SendContact.
 
@@ -13925,6 +14950,10 @@ type SendContactParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Contact's phone number
     PhoneNumber string `json:"phone_number"`
     // Contact's first name
@@ -13951,7 +14980,7 @@ type SendContactParams struct {
 ```
 
 <a name="SendDiceParams"></a>
-## type [SendDiceParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1946-L1971>)
+## type [SendDiceParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2042-L2067>)
 
 SendDiceParams is the parameter set for SendDice.
 
@@ -13987,7 +15016,7 @@ type SendDiceParams struct {
 ```
 
 <a name="SendDocumentParams"></a>
-## type [SendDocumentParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L783-L818>)
+## type [SendDocumentParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L817-L856>)
 
 SendDocumentParams is the parameter set for SendDocument.
 
@@ -14003,6 +15032,10 @@ type SendDocumentParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »
     Document *InputFile `json:"document"`
     // Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -14033,7 +15066,7 @@ type SendDocumentParams struct {
 ```
 
 <a name="SendDocumentParams.HasFile"></a>
-### func \(\*SendDocumentParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L821>)
+### func \(\*SendDocumentParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L859>)
 
 ```go
 func (p *SendDocumentParams) HasFile() bool
@@ -14042,7 +15075,7 @@ func (p *SendDocumentParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SendDocumentParams.MultipartFields"></a>
-### func \(\*SendDocumentParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L832>)
+### func \(\*SendDocumentParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L870>)
 
 ```go
 func (p *SendDocumentParams) MultipartFields() map[string]string
@@ -14051,7 +15084,7 @@ func (p *SendDocumentParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SendDocumentParams.MultipartFiles"></a>
-### func \(\*SendDocumentParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L889>)
+### func \(\*SendDocumentParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L933>)
 
 ```go
 func (p *SendDocumentParams) MultipartFiles() []client.MultipartFile
@@ -14060,7 +15093,7 @@ func (p *SendDocumentParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SendGameParams"></a>
-## type [SendGameParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5177-L5198>)
+## type [SendGameParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5430-L5451>)
 
 SendGameParams is the parameter set for SendGame.
 
@@ -14092,7 +15125,7 @@ type SendGameParams struct {
 ```
 
 <a name="SendGiftParams"></a>
-## type [SendGiftParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3431-L3446>)
+## type [SendGiftParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3527-L3542>)
 
 SendGiftParams is the parameter set for SendGift.
 
@@ -14118,7 +15151,7 @@ type SendGiftParams struct {
 ```
 
 <a name="SendInvoiceParams"></a>
-## type [SendInvoiceParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4920-L4983>)
+## type [SendInvoiceParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5173-L5236>)
 
 SendInvoiceParams is the parameter set for SendInvoice.
 
@@ -14146,7 +15179,7 @@ type SendInvoiceParams struct {
     Prices []LabeledPrice `json:"prices"`
     // The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
     MaxTipAmount *int64 `json:"max_tip_amount,omitempty"`
-    // A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
+    // A JSON-serialized Array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
     SuggestedTipAmounts []int64 `json:"suggested_tip_amounts,omitempty"`
     // Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button, allowing multiple users to pay directly from the forwarded message, using the same invoice. If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the bot (instead of a Pay button), with the value used as the start parameter.
     StartParameter string `json:"start_parameter,omitempty"`
@@ -14192,7 +15225,7 @@ type SendInvoiceParams struct {
 ```
 
 <a name="SendLivePhotoParams"></a>
-## type [SendLivePhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L496-L533>)
+## type [SendLivePhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L510-L551>)
 
 SendLivePhotoParams is the parameter set for SendLivePhoto.
 
@@ -14208,6 +15241,10 @@ type SendLivePhotoParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Live photo video to send. The video must be no longer than 10 seconds and must not exceed 10 MB in size. Pass a file_id as String to send a video that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
     LivePhoto *InputFile `json:"live_photo"`
     // The static photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files ». Sending live photos by a URL is currently unsupported.
@@ -14218,7 +15255,7 @@ type SendLivePhotoParams struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Pass True, if the caption must be shown above the message media
+    // Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Pass True if the video needs to be covered with a spoiler animation
     HasSpoiler *bool `json:"has_spoiler,omitempty"`
@@ -14240,7 +15277,7 @@ type SendLivePhotoParams struct {
 ```
 
 <a name="SendLivePhotoParams.HasFile"></a>
-### func \(\*SendLivePhotoParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L536>)
+### func \(\*SendLivePhotoParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L554>)
 
 ```go
 func (p *SendLivePhotoParams) HasFile() bool
@@ -14249,7 +15286,7 @@ func (p *SendLivePhotoParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SendLivePhotoParams.MultipartFields"></a>
-### func \(\*SendLivePhotoParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L547>)
+### func \(\*SendLivePhotoParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L565>)
 
 ```go
 func (p *SendLivePhotoParams) MultipartFields() map[string]string
@@ -14258,7 +15295,7 @@ func (p *SendLivePhotoParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SendLivePhotoParams.MultipartFiles"></a>
-### func \(\*SendLivePhotoParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L607>)
+### func \(\*SendLivePhotoParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L631>)
 
 ```go
 func (p *SendLivePhotoParams) MultipartFiles() []client.MultipartFile
@@ -14267,7 +15304,7 @@ func (p *SendLivePhotoParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SendLocationParams"></a>
-## type [SendLocationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1695-L1730>)
+## type [SendLocationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1779-L1818>)
 
 SendLocationParams is the parameter set for SendLocation.
 
@@ -14283,13 +15320,17 @@ type SendLocationParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Latitude of the location
     Latitude float64 `json:"latitude"`
     // Longitude of the location
     Longitude float64 `json:"longitude"`
     // The radius of uncertainty for the location, measured in meters; 0-1500
     HorizontalAccuracy *float64 `json:"horizontal_accuracy,omitempty"`
-    // Period in seconds during which the location will be updated (see Live Locations, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely
+    // Period in seconds during which the location will be updated (see Live Locations), must be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely. Must be 0 for ephemeral messages.
     LivePeriod *int64 `json:"live_period,omitempty"`
     // For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
     Heading *int64 `json:"heading,omitempty"`
@@ -14313,11 +15354,11 @@ type SendLocationParams struct {
 ```
 
 <a name="SendMediaGroupParams"></a>
-## type [SendMediaGroupParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1615-L1636>)
+## type [SendMediaGroupParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1699-L1720>)
 
 SendMediaGroupParams is the parameter set for SendMediaGroup.
 
-Use this method to send a group of photos, live photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Message objects that were sent is returned.
+Use this method to send a group of photos, live photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an Array of Message objects that were sent is returned.
 
 ```go
 type SendMediaGroupParams struct {
@@ -14329,7 +15370,7 @@ type SendMediaGroupParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the messages will be sent; required if the messages are sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
-    // A JSON-serialized array describing messages to be sent, must include 2-10 items
+    // A JSON-serialized Array describing messages to be sent, must include 2-10 items
     Media []any `json:"media"`
     // Sends messages silently. Users will receive a notification with no sound.
     DisableNotification *bool `json:"disable_notification,omitempty"`
@@ -14345,7 +15386,7 @@ type SendMediaGroupParams struct {
 ```
 
 <a name="SendMediaGroupParams.HasFile"></a>
-### func \(\*SendMediaGroupParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1639>)
+### func \(\*SendMediaGroupParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1723>)
 
 ```go
 func (p *SendMediaGroupParams) HasFile() bool
@@ -14354,7 +15395,7 @@ func (p *SendMediaGroupParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SendMediaGroupParams.MultipartFields"></a>
-### func \(\*SendMediaGroupParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1644>)
+### func \(\*SendMediaGroupParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1728>)
 
 ```go
 func (p *SendMediaGroupParams) MultipartFields() map[string]string
@@ -14363,7 +15404,7 @@ func (p *SendMediaGroupParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SendMediaGroupParams.MultipartFiles"></a>
-### func \(\*SendMediaGroupParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1680>)
+### func \(\*SendMediaGroupParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1764>)
 
 ```go
 func (p *SendMediaGroupParams) MultipartFiles() []client.MultipartFile
@@ -14372,7 +15413,7 @@ func (p *SendMediaGroupParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SendMessageDraftParams"></a>
-## type [SendMessageDraftParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1983-L1996>)
+## type [SendMessageDraftParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2079-L2092>)
 
 SendMessageDraftParams is the parameter set for SendMessageDraft.
 
@@ -14384,7 +15425,7 @@ type SendMessageDraftParams struct {
     ChatID int64 `json:"chat_id"`
     // Unique identifier for the target message thread
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
-    // Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier are animated.
+    // Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.
     DraftID int64 `json:"draft_id"`
     // Text of the message to be sent, 0-4096 characters after entities parsing. Pass an empty text to show a “Thinking…” placeholder.
     Text string `json:"text,omitempty"`
@@ -14396,7 +15437,7 @@ type SendMessageDraftParams struct {
 ```
 
 <a name="SendMessageParams"></a>
-## type [SendMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L189-L220>)
+## type [SendMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L189-L224>)
 
 SendMessageParams is the parameter set for SendMessage.
 
@@ -14412,6 +15453,10 @@ type SendMessageParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Text of the message to be sent, 1-4096 characters after entities parsing
     Text string `json:"text"`
     // Mode for parsing entities in the message text. See formatting options for more details.
@@ -14438,7 +15483,7 @@ type SendMessageParams struct {
 ```
 
 <a name="SendPaidMediaParams"></a>
-## type [SendPaidMediaParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1496-L1531>)
+## type [SendPaidMediaParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1580-L1615>)
 
 SendPaidMediaParams is the parameter set for SendPaidMedia.
 
@@ -14456,7 +15501,7 @@ type SendPaidMediaParams struct {
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
     // The number of Telegram Stars that must be paid to buy access to the media; 1-25000
     StarCount int64 `json:"star_count"`
-    // A JSON-serialized array describing the media to be sent; up to 10 items
+    // A JSON-serialized Array describing the media to be sent; up to 10 items
     Media []InputPaidMedia `json:"media"`
     // Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.
     Payload string `json:"payload,omitempty"`
@@ -14466,7 +15511,7 @@ type SendPaidMediaParams struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Pass True, if the caption must be shown above the message media
+    // Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Sends the message silently. Users will receive a notification with no sound.
     DisableNotification *bool `json:"disable_notification,omitempty"`
@@ -14484,7 +15529,7 @@ type SendPaidMediaParams struct {
 ```
 
 <a name="SendPaidMediaParams.HasFile"></a>
-### func \(\*SendPaidMediaParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1534>)
+### func \(\*SendPaidMediaParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1618>)
 
 ```go
 func (p *SendPaidMediaParams) HasFile() bool
@@ -14493,7 +15538,7 @@ func (p *SendPaidMediaParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SendPaidMediaParams.MultipartFields"></a>
-### func \(\*SendPaidMediaParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1539>)
+### func \(\*SendPaidMediaParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1623>)
 
 ```go
 func (p *SendPaidMediaParams) MultipartFields() map[string]string
@@ -14502,7 +15547,7 @@ func (p *SendPaidMediaParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SendPaidMediaParams.MultipartFiles"></a>
-### func \(\*SendPaidMediaParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1600>)
+### func \(\*SendPaidMediaParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1684>)
 
 ```go
 func (p *SendPaidMediaParams) MultipartFiles() []client.MultipartFile
@@ -14511,7 +15556,7 @@ func (p *SendPaidMediaParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SendPhotoParams"></a>
-## type [SendPhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L368-L403>)
+## type [SendPhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L372-L411>)
 
 SendPhotoParams is the parameter set for SendPhoto.
 
@@ -14527,6 +15572,10 @@ type SendPhotoParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on Sending Files »
     Photo *InputFile `json:"photo"`
     // Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
@@ -14535,7 +15584,7 @@ type SendPhotoParams struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Pass True, if the caption must be shown above the message media
+    // Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Pass True if the photo needs to be covered with a spoiler animation
     HasSpoiler *bool `json:"has_spoiler,omitempty"`
@@ -14557,7 +15606,7 @@ type SendPhotoParams struct {
 ```
 
 <a name="SendPhotoParams.HasFile"></a>
-### func \(\*SendPhotoParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L406>)
+### func \(\*SendPhotoParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L414>)
 
 ```go
 func (p *SendPhotoParams) HasFile() bool
@@ -14566,7 +15615,7 @@ func (p *SendPhotoParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SendPhotoParams.MultipartFields"></a>
-### func \(\*SendPhotoParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L414>)
+### func \(\*SendPhotoParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L422>)
 
 ```go
 func (p *SendPhotoParams) MultipartFields() map[string]string
@@ -14575,7 +15624,7 @@ func (p *SendPhotoParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SendPhotoParams.MultipartFiles"></a>
-### func \(\*SendPhotoParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L474>)
+### func \(\*SendPhotoParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L488>)
 
 ```go
 func (p *SendPhotoParams) MultipartFiles() []client.MultipartFile
@@ -14584,7 +15633,7 @@ func (p *SendPhotoParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SendPollParams"></a>
-## type [SendPollParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1836-L1905>)
+## type [SendPollParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1932-L2001>)
 
 SendPollParams is the parameter set for SendPoll.
 
@@ -14610,17 +15659,17 @@ type SendPollParams struct {
     IsAnonymous *bool `json:"is_anonymous,omitempty"`
     // Poll type, “quiz” or “regular”, defaults to “regular”
     Type string `json:"type,omitempty"`
-    // Pass True, if the poll allows multiple answers, defaults to False
+    // Pass True if the poll allows multiple answers, defaults to False
     AllowsMultipleAnswers *bool `json:"allows_multiple_answers,omitempty"`
-    // Pass True, if the poll allows to change chosen answer options, defaults to False for quizzes and to True for regular polls
+    // Pass True if the poll allows to change chosen answer options, defaults to False for quizzes and to True for regular polls
     AllowsRevoting *bool `json:"allows_revoting,omitempty"`
-    // Pass True, if the poll options must be shown in random order
+    // Pass True if the poll options must be shown in random order
     ShuffleOptions *bool `json:"shuffle_options,omitempty"`
-    // Pass True, if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes
+    // Pass True if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes
     AllowAddingOptions *bool `json:"allow_adding_options,omitempty"`
-    // Pass True, if poll results must be shown only after the poll closes
+    // Pass True if poll results must be shown only after the poll closes
     HideResultsUntilCloses *bool `json:"hide_results_until_closes,omitempty"`
-    // Pass True, if voting is limited to users who have been members of the chat where the poll is being sent for more than 24 hours; for channel chats only
+    // Pass True if voting is limited to users who have been members of the chat where the poll is being sent for more than 24 hours; for channel chats only
     MembersOnly *bool `json:"members_only,omitempty"`
     // A JSON-serialized list of 0-12 two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which users can vote in the poll; for channel chats only. Use “FT” as a country code to allow users with anonymous numbers to vote. If omitted or empty, then users from any country can participate in the poll.
     CountryCodes []string `json:"country_codes,omitempty"`
@@ -14664,7 +15713,7 @@ type SendPollParams struct {
 ```
 
 <a name="SendRichMessageDraftParams"></a>
-## type [SendRichMessageDraftParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4874-L4883>)
+## type [SendRichMessageDraftParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5127-L5136>)
 
 SendRichMessageDraftParams is the parameter set for SendRichMessageDraft.
 
@@ -14678,13 +15727,13 @@ type SendRichMessageDraftParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.
     DraftID int64 `json:"draft_id"`
-    // The partial message to be streamed
+    // The partial message to be streamed. Direct upload of new files isn't supported.
     RichMessage InputRichMessage `json:"rich_message"`
 }
 ```
 
 <a name="SendRichMessageParams"></a>
-## type [SendRichMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4837-L4862>)
+## type [SendRichMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5090-L5115>)
 
 SendRichMessageParams is the parameter set for SendRichMessage.
 
@@ -14692,7 +15741,7 @@ Use this method to send rich messages. If the message contains a block with a me
 
 ```go
 type SendRichMessageParams struct {
-    // Unique identifier of the business connection on behalf of which the message will be sent
+    // Unique identifier of the business connection on behalf of which the message will be sent. Bot can send rich messages on behalf of a business account only if the corresponding user can send rich messages.
     BusinessConnectionID string `json:"business_connection_id,omitempty"`
     // Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username
     ChatID ChatID `json:"chat_id"`
@@ -14720,7 +15769,7 @@ type SendRichMessageParams struct {
 ```
 
 <a name="SendStickerParams"></a>
-## type [SendStickerParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4405-L4432>)
+## type [SendStickerParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4648-L4679>)
 
 SendStickerParams is the parameter set for SendSticker.
 
@@ -14736,6 +15785,10 @@ type SendStickerParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data. More information on Sending Files ». Video and animated stickers can't be sent via an HTTP URL.
     Sticker *InputFile `json:"sticker"`
     // Emoji associated with the sticker; only for just uploaded stickers
@@ -14758,7 +15811,7 @@ type SendStickerParams struct {
 ```
 
 <a name="SendStickerParams.HasFile"></a>
-### func \(\*SendStickerParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4435>)
+### func \(\*SendStickerParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4682>)
 
 ```go
 func (p *SendStickerParams) HasFile() bool
@@ -14767,7 +15820,7 @@ func (p *SendStickerParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SendStickerParams.MultipartFields"></a>
-### func \(\*SendStickerParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4443>)
+### func \(\*SendStickerParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4690>)
 
 ```go
 func (p *SendStickerParams) MultipartFields() map[string]string
@@ -14776,7 +15829,7 @@ func (p *SendStickerParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SendStickerParams.MultipartFiles"></a>
-### func \(\*SendStickerParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4489>)
+### func \(\*SendStickerParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4742>)
 
 ```go
 func (p *SendStickerParams) MultipartFiles() []client.MultipartFile
@@ -14785,7 +15838,7 @@ func (p *SendStickerParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SendVenueParams"></a>
-## type [SendVenueParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1742-L1781>)
+## type [SendVenueParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1830-L1873>)
 
 SendVenueParams is the parameter set for SendVenue.
 
@@ -14801,6 +15854,10 @@ type SendVenueParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Latitude of the venue
     Latitude float64 `json:"latitude"`
     // Longitude of the venue
@@ -14835,7 +15892,7 @@ type SendVenueParams struct {
 ```
 
 <a name="SendVideoNoteParams"></a>
-## type [SendVideoNoteParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1373-L1404>)
+## type [SendVideoNoteParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1447-L1482>)
 
 SendVideoNoteParams is the parameter set for SendVideoNote.
 
@@ -14851,6 +15908,10 @@ type SendVideoNoteParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files ». Sending video notes by a URL is currently unsupported.
     VideoNote *InputFile `json:"video_note"`
     // Duration of sent video in seconds
@@ -14877,7 +15938,7 @@ type SendVideoNoteParams struct {
 ```
 
 <a name="SendVideoNoteParams.HasFile"></a>
-### func \(\*SendVideoNoteParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1407>)
+### func \(\*SendVideoNoteParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1485>)
 
 ```go
 func (p *SendVideoNoteParams) HasFile() bool
@@ -14886,7 +15947,7 @@ func (p *SendVideoNoteParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SendVideoNoteParams.MultipartFields"></a>
-### func \(\*SendVideoNoteParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1418>)
+### func \(\*SendVideoNoteParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1496>)
 
 ```go
 func (p *SendVideoNoteParams) MultipartFields() map[string]string
@@ -14895,7 +15956,7 @@ func (p *SendVideoNoteParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SendVideoNoteParams.MultipartFiles"></a>
-### func \(\*SendVideoNoteParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1467>)
+### func \(\*SendVideoNoteParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1551>)
 
 ```go
 func (p *SendVideoNoteParams) MultipartFiles() []client.MultipartFile
@@ -14904,7 +15965,7 @@ func (p *SendVideoNoteParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SendVideoParams"></a>
-## type [SendVideoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L918-L967>)
+## type [SendVideoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L962-L1015>)
 
 SendVideoParams is the parameter set for SendVideo.
 
@@ -14920,6 +15981,10 @@ type SendVideoParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More information on Sending Files »
     Video *InputFile `json:"video"`
     // Duration of sent video in seconds
@@ -14940,7 +16005,7 @@ type SendVideoParams struct {
     ParseMode ParseMode `json:"parse_mode,omitempty"`
     // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     CaptionEntities []MessageEntity `json:"caption_entities,omitempty"`
-    // Pass True, if the caption must be shown above the message media
+    // Pass True if the caption must be shown above the message media
     ShowCaptionAboveMedia *bool `json:"show_caption_above_media,omitempty"`
     // Pass True if the video needs to be covered with a spoiler animation
     HasSpoiler *bool `json:"has_spoiler,omitempty"`
@@ -14964,7 +16029,7 @@ type SendVideoParams struct {
 ```
 
 <a name="SendVideoParams.HasFile"></a>
-### func \(\*SendVideoParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L970>)
+### func \(\*SendVideoParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1018>)
 
 ```go
 func (p *SendVideoParams) HasFile() bool
@@ -14973,7 +16038,7 @@ func (p *SendVideoParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SendVideoParams.MultipartFields"></a>
-### func \(\*SendVideoParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L984>)
+### func \(\*SendVideoParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1032>)
 
 ```go
 func (p *SendVideoParams) MultipartFields() map[string]string
@@ -14982,7 +16047,7 @@ func (p *SendVideoParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SendVideoParams.MultipartFiles"></a>
-### func \(\*SendVideoParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1059>)
+### func \(\*SendVideoParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1113>)
 
 ```go
 func (p *SendVideoParams) MultipartFiles() []client.MultipartFile
@@ -14991,7 +16056,7 @@ func (p *SendVideoParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SendVoiceParams"></a>
-## type [SendVoiceParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1250-L1283>)
+## type [SendVoiceParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1314-L1351>)
 
 SendVoiceParams is the parameter set for SendVoice.
 
@@ -15007,6 +16072,10 @@ type SendVoiceParams struct {
     MessageThreadID *int64 `json:"message_thread_id,omitempty"`
     // Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
     DirectMessagesTopicID *int64 `json:"direct_messages_topic_id,omitempty"`
+    // For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+    ReceiverUserID *int64 `json:"receiver_user_id,omitempty"`
+    // For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+    CallbackQueryID string `json:"callback_query_id,omitempty"`
     // Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »
     Voice *InputFile `json:"voice"`
     // Voice message caption, 0-1024 characters after entities parsing
@@ -15035,7 +16104,7 @@ type SendVoiceParams struct {
 ```
 
 <a name="SendVoiceParams.HasFile"></a>
-### func \(\*SendVoiceParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1286>)
+### func \(\*SendVoiceParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1354>)
 
 ```go
 func (p *SendVoiceParams) HasFile() bool
@@ -15044,7 +16113,7 @@ func (p *SendVoiceParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SendVoiceParams.MultipartFields"></a>
-### func \(\*SendVoiceParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1294>)
+### func \(\*SendVoiceParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1362>)
 
 ```go
 func (p *SendVoiceParams) MultipartFields() map[string]string
@@ -15053,7 +16122,7 @@ func (p *SendVoiceParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SendVoiceParams.MultipartFiles"></a>
-### func \(\*SendVoiceParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1351>)
+### func \(\*SendVoiceParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L1425>)
 
 ```go
 func (p *SendVoiceParams) MultipartFiles() []client.MultipartFile
@@ -15114,7 +16183,7 @@ func (s *Sender) IsAnonymousChannel() bool
 IsAnonymousChannel reports whether the sender is an anonymous channel post \(Chat differs from the message's own chat\).
 
 <a name="SentGuestMessage"></a>
-## type [SentGuestMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4682-L4685>)
+## type [SentGuestMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4726-L4729>)
 
 Describes an inline message sent by a guest bot.
 
@@ -15126,7 +16195,7 @@ type SentGuestMessage struct {
 ```
 
 <a name="AnswerGuestQuery"></a>
-### func [AnswerGuestQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3070>)
+### func [AnswerGuestQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3166>)
 
 ```go
 func AnswerGuestQuery(ctx context.Context, b *client.Bot, p *AnswerGuestQueryParams) (*SentGuestMessage, error)
@@ -15137,7 +16206,7 @@ AnswerGuestQuery calls the answerGuestQuery Telegram Bot API method.
 Use this method to reply to a received guest message. On success, a SentGuestMessage object is returned.
 
 <a name="SentWebAppMessage"></a>
-## type [SentWebAppMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4676-L4679>)
+## type [SentWebAppMessage](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4720-L4723>)
 
 Describes an inline message sent by a Web App on behalf of a user.
 
@@ -15149,7 +16218,7 @@ type SentWebAppMessage struct {
 ```
 
 <a name="AnswerWebAppQuery"></a>
-### func [AnswerWebAppQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3993>)
+### func [AnswerWebAppQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4089>)
 
 ```go
 func AnswerWebAppQuery(ctx context.Context, b *client.Bot, p *AnswerWebAppQueryParams) (*SentWebAppMessage, error)
@@ -15160,7 +16229,7 @@ AnswerWebAppQuery calls the answerWebAppQuery Telegram Bot API method.
 Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage object is returned.
 
 <a name="SetBusinessAccountBioParams"></a>
-## type [SetBusinessAccountBioParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3619-L3624>)
+## type [SetBusinessAccountBioParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3715-L3720>)
 
 SetBusinessAccountBioParams is the parameter set for SetBusinessAccountBio.
 
@@ -15176,7 +16245,7 @@ type SetBusinessAccountBioParams struct {
 ```
 
 <a name="SetBusinessAccountGiftSettingsParams"></a>
-## type [SetBusinessAccountGiftSettingsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3672-L3679>)
+## type [SetBusinessAccountGiftSettingsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3768-L3775>)
 
 SetBusinessAccountGiftSettingsParams is the parameter set for SetBusinessAccountGiftSettings.
 
@@ -15186,7 +16255,7 @@ Changes the privacy settings pertaining to incoming gifts in a managed business 
 type SetBusinessAccountGiftSettingsParams struct {
     // Unique identifier of the business connection
     BusinessConnectionID string `json:"business_connection_id"`
-    // Pass True, if a button for sending a gift to the user or by the business account must always be shown in the input field
+    // Pass True if a button for sending a gift to the user or by the business account must always be shown in the input field
     ShowGiftButton bool `json:"show_gift_button"`
     // Types of gifts accepted by the business account
     AcceptedGiftTypes AcceptedGiftTypes `json:"accepted_gift_types"`
@@ -15194,7 +16263,7 @@ type SetBusinessAccountGiftSettingsParams struct {
 ```
 
 <a name="SetBusinessAccountNameParams"></a>
-## type [SetBusinessAccountNameParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3583-L3590>)
+## type [SetBusinessAccountNameParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3679-L3686>)
 
 SetBusinessAccountNameParams is the parameter set for SetBusinessAccountName.
 
@@ -15212,7 +16281,7 @@ type SetBusinessAccountNameParams struct {
 ```
 
 <a name="SetBusinessAccountProfilePhotoParams"></a>
-## type [SetBusinessAccountProfilePhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3636-L3643>)
+## type [SetBusinessAccountProfilePhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3732-L3739>)
 
 SetBusinessAccountProfilePhotoParams is the parameter set for SetBusinessAccountProfilePhoto.
 
@@ -15230,7 +16299,7 @@ type SetBusinessAccountProfilePhotoParams struct {
 ```
 
 <a name="SetBusinessAccountUsernameParams"></a>
-## type [SetBusinessAccountUsernameParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3602-L3607>)
+## type [SetBusinessAccountUsernameParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3698-L3703>)
 
 SetBusinessAccountUsernameParams is the parameter set for SetBusinessAccountUsername.
 
@@ -15246,7 +16315,7 @@ type SetBusinessAccountUsernameParams struct {
 ```
 
 <a name="SetChatAdministratorCustomTitleParams"></a>
-## type [SetChatAdministratorCustomTitleParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2242-L2249>)
+## type [SetChatAdministratorCustomTitleParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2338-L2345>)
 
 SetChatAdministratorCustomTitleParams is the parameter set for SetChatAdministratorCustomTitle.
 
@@ -15264,7 +16333,7 @@ type SetChatAdministratorCustomTitleParams struct {
 ```
 
 <a name="SetChatDescriptionParams"></a>
-## type [SetChatDescriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2600-L2605>)
+## type [SetChatDescriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2696-L2701>)
 
 SetChatDescriptionParams is the parameter set for SetChatDescription.
 
@@ -15280,7 +16349,7 @@ type SetChatDescriptionParams struct {
 ```
 
 <a name="SetChatMemberTagParams"></a>
-## type [SetChatMemberTagParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2261-L2268>)
+## type [SetChatMemberTagParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2357-L2364>)
 
 SetChatMemberTagParams is the parameter set for SetChatMemberTag.
 
@@ -15298,7 +16367,7 @@ type SetChatMemberTagParams struct {
 ```
 
 <a name="SetChatMenuButtonParams"></a>
-## type [SetChatMenuButtonParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3350-L3355>)
+## type [SetChatMenuButtonParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3446-L3451>)
 
 SetChatMenuButtonParams is the parameter set for SetChatMenuButton.
 
@@ -15314,7 +16383,7 @@ type SetChatMenuButtonParams struct {
 ```
 
 <a name="SetChatPermissionsParams"></a>
-## type [SetChatPermissionsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2314-L2321>)
+## type [SetChatPermissionsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2410-L2417>)
 
 SetChatPermissionsParams is the parameter set for SetChatPermissions.
 
@@ -15332,7 +16401,7 @@ type SetChatPermissionsParams struct {
 ```
 
 <a name="SetChatPhotoParams"></a>
-## type [SetChatPhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2523-L2528>)
+## type [SetChatPhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2619-L2624>)
 
 SetChatPhotoParams is the parameter set for SetChatPhoto.
 
@@ -15348,7 +16417,7 @@ type SetChatPhotoParams struct {
 ```
 
 <a name="SetChatPhotoParams.HasFile"></a>
-### func \(\*SetChatPhotoParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2531>)
+### func \(\*SetChatPhotoParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2627>)
 
 ```go
 func (p *SetChatPhotoParams) HasFile() bool
@@ -15357,7 +16426,7 @@ func (p *SetChatPhotoParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SetChatPhotoParams.MultipartFields"></a>
-### func \(\*SetChatPhotoParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2539>)
+### func \(\*SetChatPhotoParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2635>)
 
 ```go
 func (p *SetChatPhotoParams) MultipartFields() map[string]string
@@ -15366,7 +16435,7 @@ func (p *SetChatPhotoParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SetChatPhotoParams.MultipartFiles"></a>
-### func \(\*SetChatPhotoParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2546>)
+### func \(\*SetChatPhotoParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2642>)
 
 ```go
 func (p *SetChatPhotoParams) MultipartFiles() []client.MultipartFile
@@ -15375,7 +16444,7 @@ func (p *SetChatPhotoParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SetChatStickerSetParams"></a>
-## type [SetChatStickerSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2788-L2793>)
+## type [SetChatStickerSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2884-L2889>)
 
 SetChatStickerSetParams is the parameter set for SetChatStickerSet.
 
@@ -15391,7 +16460,7 @@ type SetChatStickerSetParams struct {
 ```
 
 <a name="SetChatTitleParams"></a>
-## type [SetChatTitleParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2583-L2588>)
+## type [SetChatTitleParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2679-L2684>)
 
 SetChatTitleParams is the parameter set for SetChatTitle.
 
@@ -15407,7 +16476,7 @@ type SetChatTitleParams struct {
 ```
 
 <a name="SetCustomEmojiStickerSetThumbnailParams"></a>
-## type [SetCustomEmojiStickerSetThumbnailParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4805-L4810>)
+## type [SetCustomEmojiStickerSetThumbnailParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5058-L5063>)
 
 SetCustomEmojiStickerSetThumbnailParams is the parameter set for SetCustomEmojiStickerSetThumbnail.
 
@@ -15423,7 +16492,7 @@ type SetCustomEmojiStickerSetThumbnailParams struct {
 ```
 
 <a name="SetGameScoreParams"></a>
-## type [SetGameScoreParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5210-L5225>)
+## type [SetGameScoreParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5463-L5478>)
 
 SetGameScoreParams is the parameter set for SetGameScore.
 
@@ -15449,7 +16518,7 @@ type SetGameScoreParams struct {
 ```
 
 <a name="SetManagedBotAccessSettingsParams"></a>
-## type [SetManagedBotAccessSettingsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3154-L3161>)
+## type [SetManagedBotAccessSettingsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3250-L3257>)
 
 SetManagedBotAccessSettingsParams is the parameter set for SetManagedBotAccessSettings.
 
@@ -15459,15 +16528,15 @@ Use this method to change the access settings of a managed bot. Returns True on 
 type SetManagedBotAccessSettingsParams struct {
     // User identifier of the managed bot whose access settings will be changed
     UserID int64 `json:"user_id"`
-    // Pass True, if only selected users can access the bot. The bot's owner can always access it.
+    // Pass True if only selected users can access the bot. The bot's owner can always access it.
     IsAccessRestricted bool `json:"is_access_restricted"`
-    // A JSON-serialized list of up to 10 identifiers of users who will have access to the bot in addition to its owner. Ignored if is_access_restricted is false.
+    // A JSON-serialized list of up to 10 identifiers of users who will have access to the bot in addition to its owner. Ignored if is_access_restricted is False.
     AddedUserIds []int64 `json:"added_user_ids,omitempty"`
 }
 ```
 
 <a name="SetMessageReactionParams"></a>
-## type [SetMessageReactionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2033-L2042>)
+## type [SetMessageReactionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2129-L2138>)
 
 SetMessageReactionParams is the parameter set for SetMessageReaction.
 
@@ -15487,7 +16556,7 @@ type SetMessageReactionParams struct {
 ```
 
 <a name="SetMyCommandsParams"></a>
-## type [SetMyCommandsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3173-L3180>)
+## type [SetMyCommandsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3269-L3276>)
 
 SetMyCommandsParams is the parameter set for SetMyCommands.
 
@@ -15505,7 +16574,7 @@ type SetMyCommandsParams struct {
 ```
 
 <a name="SetMyDefaultAdministratorRightsParams"></a>
-## type [SetMyDefaultAdministratorRightsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3386-L3391>)
+## type [SetMyDefaultAdministratorRightsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3482-L3487>)
 
 SetMyDefaultAdministratorRightsParams is the parameter set for SetMyDefaultAdministratorRights.
 
@@ -15521,7 +16590,7 @@ type SetMyDefaultAdministratorRightsParams struct {
 ```
 
 <a name="SetMyDescriptionParams"></a>
-## type [SetMyDescriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3258-L3263>)
+## type [SetMyDescriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3354-L3359>)
 
 SetMyDescriptionParams is the parameter set for SetMyDescription.
 
@@ -15537,7 +16606,7 @@ type SetMyDescriptionParams struct {
 ```
 
 <a name="SetMyNameParams"></a>
-## type [SetMyNameParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3226-L3231>)
+## type [SetMyNameParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3322-L3327>)
 
 SetMyNameParams is the parameter set for SetMyName.
 
@@ -15553,7 +16622,7 @@ type SetMyNameParams struct {
 ```
 
 <a name="SetMyProfilePhotoParams"></a>
-## type [SetMyProfilePhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3322-L3325>)
+## type [SetMyProfilePhotoParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3418-L3421>)
 
 SetMyProfilePhotoParams is the parameter set for SetMyProfilePhoto.
 
@@ -15567,7 +16636,7 @@ type SetMyProfilePhotoParams struct {
 ```
 
 <a name="SetMyShortDescriptionParams"></a>
-## type [SetMyShortDescriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3290-L3295>)
+## type [SetMyShortDescriptionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3386-L3391>)
 
 SetMyShortDescriptionParams is the parameter set for SetMyShortDescription.
 
@@ -15583,7 +16652,7 @@ type SetMyShortDescriptionParams struct {
 ```
 
 <a name="SetPassportDataErrorsParams"></a>
-## type [SetPassportDataErrorsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5159-L5164>)
+## type [SetPassportDataErrorsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5412-L5417>)
 
 SetPassportDataErrorsParams is the parameter set for SetPassportDataErrors.
 
@@ -15593,13 +16662,13 @@ Informs a user that some of the Telegram Passport elements they provided contain
 type SetPassportDataErrorsParams struct {
     // User identifier
     UserID int64 `json:"user_id"`
-    // A JSON-serialized array describing the errors
+    // A JSON-serialized Array describing the errors
     Errors []PassportElementError `json:"errors"`
 }
 ```
 
 <a name="SetStickerEmojiListParams"></a>
-## type [SetStickerEmojiListParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4686-L4691>)
+## type [SetStickerEmojiListParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4939-L4944>)
 
 SetStickerEmojiListParams is the parameter set for SetStickerEmojiList.
 
@@ -15615,7 +16684,7 @@ type SetStickerEmojiListParams struct {
 ```
 
 <a name="SetStickerKeywordsParams"></a>
-## type [SetStickerKeywordsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4703-L4708>)
+## type [SetStickerKeywordsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4956-L4961>)
 
 SetStickerKeywordsParams is the parameter set for SetStickerKeywords.
 
@@ -15631,7 +16700,7 @@ type SetStickerKeywordsParams struct {
 ```
 
 <a name="SetStickerMaskPositionParams"></a>
-## type [SetStickerMaskPositionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4720-L4725>)
+## type [SetStickerMaskPositionParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4973-L4978>)
 
 SetStickerMaskPositionParams is the parameter set for SetStickerMaskPosition.
 
@@ -15647,7 +16716,7 @@ type SetStickerMaskPositionParams struct {
 ```
 
 <a name="SetStickerPositionInSetParams"></a>
-## type [SetStickerPositionInSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4633-L4638>)
+## type [SetStickerPositionInSetParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4886-L4891>)
 
 SetStickerPositionInSetParams is the parameter set for SetStickerPositionInSet.
 
@@ -15663,7 +16732,7 @@ type SetStickerPositionInSetParams struct {
 ```
 
 <a name="SetStickerSetThumbnailParams"></a>
-## type [SetStickerSetThumbnailParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4754-L4763>)
+## type [SetStickerSetThumbnailParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5007-L5016>)
 
 SetStickerSetThumbnailParams is the parameter set for SetStickerSetThumbnail.
 
@@ -15683,7 +16752,7 @@ type SetStickerSetThumbnailParams struct {
 ```
 
 <a name="SetStickerSetThumbnailParams.HasFile"></a>
-### func \(\*SetStickerSetThumbnailParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4766>)
+### func \(\*SetStickerSetThumbnailParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5019>)
 
 ```go
 func (p *SetStickerSetThumbnailParams) HasFile() bool
@@ -15692,7 +16761,7 @@ func (p *SetStickerSetThumbnailParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="SetStickerSetThumbnailParams.MultipartFields"></a>
-### func \(\*SetStickerSetThumbnailParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4774>)
+### func \(\*SetStickerSetThumbnailParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5027>)
 
 ```go
 func (p *SetStickerSetThumbnailParams) MultipartFields() map[string]string
@@ -15701,7 +16770,7 @@ func (p *SetStickerSetThumbnailParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="SetStickerSetThumbnailParams.MultipartFiles"></a>
-### func \(\*SetStickerSetThumbnailParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4783>)
+### func \(\*SetStickerSetThumbnailParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5036>)
 
 ```go
 func (p *SetStickerSetThumbnailParams) MultipartFiles() []client.MultipartFile
@@ -15710,7 +16779,7 @@ func (p *SetStickerSetThumbnailParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SetStickerSetTitleParams"></a>
-## type [SetStickerSetTitleParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4737-L4742>)
+## type [SetStickerSetTitleParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4990-L4995>)
 
 SetStickerSetTitleParams is the parameter set for SetStickerSetTitle.
 
@@ -15726,7 +16795,7 @@ type SetStickerSetTitleParams struct {
 ```
 
 <a name="SetUserEmojiStatusParams"></a>
-## type [SetUserEmojiStatusParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2092-L2099>)
+## type [SetUserEmojiStatusParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2188-L2195>)
 
 SetUserEmojiStatusParams is the parameter set for SetUserEmojiStatus.
 
@@ -15797,7 +16866,7 @@ func (p *SetWebhookParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="SharedUser"></a>
-## type [SharedUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2123-L2134>)
+## type [SharedUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2157-L2168>)
 
 This object contains information about a user that was shared with the bot using a KeyboardButtonRequestUsers button.
 
@@ -15817,7 +16886,7 @@ type SharedUser struct {
 ```
 
 <a name="ShippingAddress"></a>
-## type [ShippingAddress](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7963-L7976>)
+## type [ShippingAddress](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8681-L8694>)
 
 This object represents a shipping address.
 
@@ -15839,7 +16908,7 @@ type ShippingAddress struct {
 ```
 
 <a name="ShippingOption"></a>
-## type [ShippingOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L7991-L7998>)
+## type [ShippingOption](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8709-L8716>)
 
 This object represents one shipping option.
 
@@ -15855,7 +16924,7 @@ type ShippingOption struct {
 ```
 
 <a name="ShippingQuery"></a>
-## type [ShippingQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8039-L8048>)
+## type [ShippingQuery](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8757-L8766>)
 
 This object contains information about an incoming shipping query.
 
@@ -15873,7 +16942,7 @@ type ShippingQuery struct {
 ```
 
 <a name="StarAmount"></a>
-## type [StarAmount](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4053-L4058>)
+## type [StarAmount](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4095-L4100>)
 
 Describes an amount of Telegram Stars.
 
@@ -15887,7 +16956,7 @@ type StarAmount struct {
 ```
 
 <a name="GetBusinessAccountStarBalance"></a>
-### func [GetBusinessAccountStarBalance](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3699>)
+### func [GetBusinessAccountStarBalance](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3795>)
 
 ```go
 func GetBusinessAccountStarBalance(ctx context.Context, b *client.Bot, p *GetBusinessAccountStarBalanceParams) (*StarAmount, error)
@@ -15898,7 +16967,7 @@ GetBusinessAccountStarBalance calls the getBusinessAccountStarBalance Telegram B
 Returns the amount of Telegram Stars owned by a managed business account. Requires the can\_view\_gifts\_and\_stars business bot right. Returns StarAmount on success.
 
 <a name="GetMyStarBalance"></a>
-### func [GetMyStarBalance](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5098>)
+### func [GetMyStarBalance](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5351>)
 
 ```go
 func GetMyStarBalance(ctx context.Context, b *client.Bot, p *GetMyStarBalanceParams) (*StarAmount, error)
@@ -15909,7 +16978,7 @@ GetMyStarBalance calls the getMyStarBalance Telegram Bot API method.
 A method to get the current Telegram Stars balance of the bot. Requires no parameters. On success, returns a StarAmount object.
 
 <a name="StarTransaction"></a>
-## type [StarTransaction](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8509-L8522>)
+## type [StarTransaction](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9227-L9240>)
 
 Describes a Telegram Star transaction. Note that if the buyer initiates a chargeback with the payment provider from whom they acquired Stars \(e.g., Apple, Google\) following this transaction, the refunded Stars will be deducted from the bot's balance. This is outside of Telegram's control.
 
@@ -15931,7 +17000,7 @@ type StarTransaction struct {
 ```
 
 <a name="StarTransaction.UnmarshalJSON"></a>
-### func \(\*StarTransaction\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8526>)
+### func \(\*StarTransaction\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9244>)
 
 ```go
 func (m *StarTransaction) UnmarshalJSON(data []byte) error
@@ -15940,7 +17009,7 @@ func (m *StarTransaction) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes StarTransaction by dispatching union\-typed fields \(Source, Receiver\) through their concrete UnmarshalXxx helpers.
 
 <a name="StarTransactions"></a>
-## type [StarTransactions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8559-L8562>)
+## type [StarTransactions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9277-L9280>)
 
 Contains a list of Telegram Star transactions.
 
@@ -15952,7 +17021,7 @@ type StarTransactions struct {
 ```
 
 <a name="GetStarTransactions"></a>
-### func [GetStarTransactions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5115>)
+### func [GetStarTransactions](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L5368>)
 
 ```go
 func GetStarTransactions(ctx context.Context, b *client.Bot, p *GetStarTransactionsParams) (*StarTransactions, error)
@@ -15963,7 +17032,7 @@ GetStarTransactions calls the getStarTransactions Telegram Bot API method.
 Returns the bot's Telegram Star transactions in chronological order. On success, returns a StarTransactions object.
 
 <a name="Sticker"></a>
-## type [Sticker](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5318-L5349>)
+## type [Sticker](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5378-L5409>)
 
 This object represents a sticker.
 
@@ -16003,7 +17072,7 @@ type Sticker struct {
 ```
 
 <a name="GetCustomEmojiStickers"></a>
-### func [GetCustomEmojiStickers](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4534>)
+### func [GetCustomEmojiStickers](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4787>)
 
 ```go
 func GetCustomEmojiStickers(ctx context.Context, b *client.Bot, p *GetCustomEmojiStickersParams) ([]Sticker, error)
@@ -16014,7 +17083,7 @@ GetCustomEmojiStickers calls the getCustomEmojiStickers Telegram Bot API method.
 Use this method to get information about custom emoji stickers by their identifiers. Returns an Array of Sticker objects.
 
 <a name="GetForumTopicIconStickers"></a>
-### func [GetForumTopicIconStickers](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2826>)
+### func [GetForumTopicIconStickers](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2922>)
 
 ```go
 func GetForumTopicIconStickers(ctx context.Context, b *client.Bot, p *GetForumTopicIconStickersParams) ([]Sticker, error)
@@ -16025,7 +17094,7 @@ GetForumTopicIconStickers calls the getForumTopicIconStickers Telegram Bot API m
 Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user. Requires no parameters. Returns an Array of Sticker objects.
 
 <a name="StickerSet"></a>
-## type [StickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5352-L5363>)
+## type [StickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L5412-L5423>)
 
 This object represents a sticker set.
 
@@ -16045,7 +17114,7 @@ type StickerSet struct {
 ```
 
 <a name="GetStickerSet"></a>
-### func [GetStickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4519>)
+### func [GetStickerSet](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4772>)
 
 ```go
 func GetStickerSet(ctx context.Context, b *client.Bot, p *GetStickerSetParams) (*StickerSet, error)
@@ -16056,7 +17125,7 @@ GetStickerSet calls the getStickerSet Telegram Bot API method.
 Use this method to get a sticker set. On success, a StickerSet object is returned.
 
 <a name="StickerType"></a>
-## type [StickerType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L459>)
+## type [StickerType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L499>)
 
 
 
@@ -16075,7 +17144,7 @@ const (
 ```
 
 <a name="StopMessageLiveLocationParams"></a>
-## type [StopMessageLiveLocationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4203-L4214>)
+## type [StopMessageLiveLocationParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4299-L4310>)
 
 StopMessageLiveLocationParams is the parameter set for StopMessageLiveLocation.
 
@@ -16097,7 +17166,7 @@ type StopMessageLiveLocationParams struct {
 ```
 
 <a name="StopPollParams"></a>
-## type [StopPollParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4272-L4281>)
+## type [StopPollParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4368-L4377>)
 
 StopPollParams is the parameter set for StopPoll.
 
@@ -16117,7 +17186,7 @@ type StopPollParams struct {
 ```
 
 <a name="Story"></a>
-## type [Story](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1011-L1016>)
+## type [Story](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1025-L1030>)
 
 This object represents a story.
 
@@ -16131,7 +17200,7 @@ type Story struct {
 ```
 
 <a name="EditStory"></a>
-### func [EditStory](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3959>)
+### func [EditStory](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4055>)
 
 ```go
 func EditStory(ctx context.Context, b *client.Bot, p *EditStoryParams) (*Story, error)
@@ -16142,7 +17211,7 @@ EditStory calls the editStory Telegram Bot API method.
 Edits a story previously posted by the bot on behalf of a managed business account. Requires the can\_manage\_stories business bot right. Returns Story on success.
 
 <a name="PostStory"></a>
-### func [PostStory](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3907>)
+### func [PostStory](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4003>)
 
 ```go
 func PostStory(ctx context.Context, b *client.Bot, p *PostStoryParams) (*Story, error)
@@ -16153,7 +17222,7 @@ PostStory calls the postStory Telegram Bot API method.
 Posts a story on behalf of a managed business account. Requires the can\_manage\_stories business bot right. Returns Story on success.
 
 <a name="RepostStory"></a>
-### func [RepostStory](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3932>)
+### func [RepostStory](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4028>)
 
 ```go
 func RepostStory(ctx context.Context, b *client.Bot, p *RepostStoryParams) (*Story, error)
@@ -16164,7 +17233,7 @@ RepostStory calls the repostStory Telegram Bot API method.
 Reposts a story on behalf of a business account from another business account. Both business accounts must be managed by the same bot, and the story on the source account must have been posted \(or reposted\) by the bot. Requires the can\_manage\_stories business bot right for both business accounts. Returns Story on success.
 
 <a name="StoryArea"></a>
-## type [StoryArea](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3407-L3412>)
+## type [StoryArea](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3449-L3454>)
 
 Describes a clickable area on a story media.
 
@@ -16178,7 +17247,7 @@ type StoryArea struct {
 ```
 
 <a name="StoryArea.UnmarshalJSON"></a>
-### func \(\*StoryArea\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3416>)
+### func \(\*StoryArea\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3458>)
 
 ```go
 func (m *StoryArea) UnmarshalJSON(data []byte) error
@@ -16187,7 +17256,7 @@ func (m *StoryArea) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes StoryArea by dispatching union\-typed fields \(Type\) through their concrete UnmarshalXxx helpers.
 
 <a name="StoryAreaPosition"></a>
-## type [StoryAreaPosition](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3167-L3180>)
+## type [StoryAreaPosition](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3209-L3222>)
 
 Describes the position of a clickable area within a story.
 
@@ -16209,7 +17278,7 @@ type StoryAreaPosition struct {
 ```
 
 <a name="StoryAreaType"></a>
-## type [StoryAreaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3203>)
+## type [StoryAreaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3245>)
 
 StoryAreaType is a union type. The following concrete variants implement it:
 
@@ -16228,7 +17297,7 @@ type StoryAreaType interface {
 ```
 
 <a name="UnmarshalStoryAreaType"></a>
-### func [UnmarshalStoryAreaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3222>)
+### func [UnmarshalStoryAreaType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3264>)
 
 ```go
 func UnmarshalStoryAreaType(data []byte) (StoryAreaType, error)
@@ -16237,7 +17306,7 @@ func UnmarshalStoryAreaType(data []byte) (StoryAreaType, error)
 UnmarshalStoryAreaType decodes a StoryAreaType from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
 <a name="StoryAreaTypeKind"></a>
-## type [StoryAreaTypeKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L467>)
+## type [StoryAreaTypeKind](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L507>)
 
 
 
@@ -16258,7 +17327,7 @@ const (
 ```
 
 <a name="StoryAreaTypeLink"></a>
-## type [StoryAreaTypeLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3331-L3336>)
+## type [StoryAreaTypeLink](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3373-L3378>)
 
 Describes a story area pointing to an HTTP or tg:// link. Currently, a story can have up to 3 link areas.
 
@@ -16272,7 +17341,7 @@ type StoryAreaTypeLink struct {
 ```
 
 <a name="StoryAreaTypeLink.MarshalJSON"></a>
-### func \(\*StoryAreaTypeLink\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3343>)
+### func \(\*StoryAreaTypeLink\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3385>)
 
 ```go
 func (v *StoryAreaTypeLink) MarshalJSON() ([]byte, error)
@@ -16281,7 +17350,7 @@ func (v *StoryAreaTypeLink) MarshalJSON() ([]byte, error)
 MarshalJSON encodes StoryAreaTypeLink with the discriminator field "type" forced to "link". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="StoryAreaTypeLocation"></a>
-## type [StoryAreaTypeLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3251-L3260>)
+## type [StoryAreaTypeLocation](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3293-L3302>)
 
 Describes a story area pointing to a location. Currently, a story can have up to 10 location areas.
 
@@ -16299,7 +17368,7 @@ type StoryAreaTypeLocation struct {
 ```
 
 <a name="StoryAreaTypeLocation.MarshalJSON"></a>
-### func \(\*StoryAreaTypeLocation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3267>)
+### func \(\*StoryAreaTypeLocation\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3309>)
 
 ```go
 func (v *StoryAreaTypeLocation) MarshalJSON() ([]byte, error)
@@ -16308,7 +17377,7 @@ func (v *StoryAreaTypeLocation) MarshalJSON() ([]byte, error)
 MarshalJSON encodes StoryAreaTypeLocation with the discriminator field "type" forced to "location". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="StoryAreaTypeSuggestedReaction"></a>
-## type [StoryAreaTypeSuggestedReaction](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3279-L3288>)
+## type [StoryAreaTypeSuggestedReaction](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3321-L3330>)
 
 Describes a story area pointing to a suggested reaction. Currently, a story can have up to 5 suggested reaction areas.
 
@@ -16326,7 +17395,7 @@ type StoryAreaTypeSuggestedReaction struct {
 ```
 
 <a name="StoryAreaTypeSuggestedReaction.MarshalJSON"></a>
-### func \(\*StoryAreaTypeSuggestedReaction\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3295>)
+### func \(\*StoryAreaTypeSuggestedReaction\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3337>)
 
 ```go
 func (v *StoryAreaTypeSuggestedReaction) MarshalJSON() ([]byte, error)
@@ -16335,7 +17404,7 @@ func (v *StoryAreaTypeSuggestedReaction) MarshalJSON() ([]byte, error)
 MarshalJSON encodes StoryAreaTypeSuggestedReaction with the discriminator field "type" forced to "suggested\_reaction". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="StoryAreaTypeSuggestedReaction.UnmarshalJSON"></a>
-### func \(\*StoryAreaTypeSuggestedReaction\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3308>)
+### func \(\*StoryAreaTypeSuggestedReaction\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3350>)
 
 ```go
 func (m *StoryAreaTypeSuggestedReaction) UnmarshalJSON(data []byte) error
@@ -16344,7 +17413,7 @@ func (m *StoryAreaTypeSuggestedReaction) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes StoryAreaTypeSuggestedReaction by dispatching union\-typed fields \(ReactionType\) through their concrete UnmarshalXxx helpers.
 
 <a name="StoryAreaTypeUniqueGift"></a>
-## type [StoryAreaTypeUniqueGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3383-L3388>)
+## type [StoryAreaTypeUniqueGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3425-L3430>)
 
 Describes a story area pointing to a unique gift. Currently, a story can have at most 1 unique gift area.
 
@@ -16358,7 +17427,7 @@ type StoryAreaTypeUniqueGift struct {
 ```
 
 <a name="StoryAreaTypeUniqueGift.MarshalJSON"></a>
-### func \(\*StoryAreaTypeUniqueGift\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3395>)
+### func \(\*StoryAreaTypeUniqueGift\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3437>)
 
 ```go
 func (v *StoryAreaTypeUniqueGift) MarshalJSON() ([]byte, error)
@@ -16367,7 +17436,7 @@ func (v *StoryAreaTypeUniqueGift) MarshalJSON() ([]byte, error)
 MarshalJSON encodes StoryAreaTypeUniqueGift with the discriminator field "type" forced to "unique\_gift". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="StoryAreaTypeWeather"></a>
-## type [StoryAreaTypeWeather](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3355-L3364>)
+## type [StoryAreaTypeWeather](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3397-L3406>)
 
 Describes a story area containing weather information. Currently, a story can have up to 3 weather areas.
 
@@ -16385,7 +17454,7 @@ type StoryAreaTypeWeather struct {
 ```
 
 <a name="StoryAreaTypeWeather.MarshalJSON"></a>
-### func \(\*StoryAreaTypeWeather\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3371>)
+### func \(\*StoryAreaTypeWeather\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3413>)
 
 ```go
 func (v *StoryAreaTypeWeather) MarshalJSON() ([]byte, error)
@@ -16394,7 +17463,7 @@ func (v *StoryAreaTypeWeather) MarshalJSON() ([]byte, error)
 MarshalJSON encodes StoryAreaTypeWeather with the discriminator field "type" forced to "weather". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="SuccessfulPayment"></a>
-## type [SuccessfulPayment](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8001-L8022>)
+## type [SuccessfulPayment](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8719-L8740>)
 
 This object contains basic information about a successful payment. Note that if the buyer initiates a chargeback with the relevant payment provider following this transaction, the funds may be debited from your balance. This is outside of Telegram's control.
 
@@ -16424,7 +17493,7 @@ type SuccessfulPayment struct {
 ```
 
 <a name="SuggestedPostApprovalFailed"></a>
-## type [SuggestedPostApprovalFailed](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2215-L2220>)
+## type [SuggestedPostApprovalFailed](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2249-L2254>)
 
 Describes a service message about the failed approval of a suggested post. Currently, only caused by insufficient user funds at the time of approval.
 
@@ -16438,7 +17507,7 @@ type SuggestedPostApprovalFailed struct {
 ```
 
 <a name="SuggestedPostApproved"></a>
-## type [SuggestedPostApproved](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2205-L2212>)
+## type [SuggestedPostApproved](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2239-L2246>)
 
 Describes a service message about the approval of a suggested post.
 
@@ -16454,7 +17523,7 @@ type SuggestedPostApproved struct {
 ```
 
 <a name="SuggestedPostDeclined"></a>
-## type [SuggestedPostDeclined](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2223-L2228>)
+## type [SuggestedPostDeclined](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2257-L2262>)
 
 Describes a service message about the rejection of a suggested post.
 
@@ -16468,7 +17537,7 @@ type SuggestedPostDeclined struct {
 ```
 
 <a name="SuggestedPostInfo"></a>
-## type [SuggestedPostInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2341-L2348>)
+## type [SuggestedPostInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2375-L2382>)
 
 Contains information about a suggested post.
 
@@ -16484,7 +17553,7 @@ type SuggestedPostInfo struct {
 ```
 
 <a name="SuggestedPostInfoState"></a>
-## type [SuggestedPostInfoState](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L477>)
+## type [SuggestedPostInfoState](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L517>)
 
 
 
@@ -16503,7 +17572,7 @@ const (
 ```
 
 <a name="SuggestedPostPaid"></a>
-## type [SuggestedPostPaid](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2231-L2240>)
+## type [SuggestedPostPaid](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2265-L2274>)
 
 Describes a service message about a successful payment for a suggested post.
 
@@ -16511,9 +17580,9 @@ Describes a service message about a successful payment for a suggested post.
 type SuggestedPostPaid struct {
     // Optional. Message containing the suggested post. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
     SuggestedPostMessage *Message `json:"suggested_post_message,omitempty"`
-    // Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.
+    // Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.
     Currency SuggestedPostPaidCurrency `json:"currency"`
-    // Optional. The amount of the currency that was received by the channel in nanotoncoins; for payments in toncoins only
+    // Optional. The amount of the currency that was received by the channel in nanograms; for payments in TON grams only
     Amount *int64 `json:"amount,omitempty"`
     // Optional. The amount of Telegram Stars that was received by the channel; for payments in Telegram Stars only
     StarAmount *StarAmount `json:"star_amount,omitempty"`
@@ -16521,7 +17590,7 @@ type SuggestedPostPaid struct {
 ```
 
 <a name="SuggestedPostPaidCurrency"></a>
-## type [SuggestedPostPaidCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L485>)
+## type [SuggestedPostPaidCurrency](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L525>)
 
 
 
@@ -16539,7 +17608,7 @@ const (
 ```
 
 <a name="SuggestedPostParameters"></a>
-## type [SuggestedPostParameters](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2351-L2356>)
+## type [SuggestedPostParameters](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2385-L2390>)
 
 Contains parameters of a post that is being suggested by the bot.
 
@@ -16553,21 +17622,21 @@ type SuggestedPostParameters struct {
 ```
 
 <a name="SuggestedPostPrice"></a>
-## type [SuggestedPostPrice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2333-L2338>)
+## type [SuggestedPostPrice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2367-L2372>)
 
 Describes the price of a suggested post.
 
 ```go
 type SuggestedPostPrice struct {
-    // Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for toncoins.
+    // Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for TON grams.
     Currency SuggestedPostPaidCurrency `json:"currency"`
-    // The amount of the currency that will be paid for the post in the smallest units of the currency, i.e. Telegram Stars or nanotoncoins. Currently, price in Telegram Stars must be between 5 and 100000, and price in nanotoncoins must be between 10000000 and 10000000000000.
+    // The amount of the currency that will be paid for the post in the smallest units of the currency, i.e. Telegram Stars or nanograms. Currently, price in Telegram Stars must be between 5 and 100000, and price in nanograms must be between 10000000 and 10000000000000.
     Amount int64 `json:"amount"`
 }
 ```
 
 <a name="SuggestedPostRefunded"></a>
-## type [SuggestedPostRefunded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2243-L2248>)
+## type [SuggestedPostRefunded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2277-L2282>)
 
 Describes a service message about a payment refund for a suggested post.
 
@@ -16581,7 +17650,7 @@ type SuggestedPostRefunded struct {
 ```
 
 <a name="SuggestedPostRefundedReason"></a>
-## type [SuggestedPostRefundedReason](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L492>)
+## type [SuggestedPostRefundedReason](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L532>)
 
 
 
@@ -16599,7 +17668,7 @@ const (
 ```
 
 <a name="SwitchInlineQueryChosenChat"></a>
-## type [SwitchInlineQueryChosenChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2560-L2571>)
+## type [SwitchInlineQueryChosenChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2594-L2605>)
 
 This object represents an inline button that switches the current user to inline mode in a chosen chat, with an optional default inline query.
 
@@ -16619,7 +17688,7 @@ type SwitchInlineQueryChosenChat struct {
 ```
 
 <a name="TextQuote"></a>
-## type [TextQuote](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L643-L652>)
+## type [TextQuote](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L655-L664>)
 
 This object contains information about the quoted part of a message that is replied to by the given message.
 
@@ -16637,7 +17706,7 @@ type TextQuote struct {
 ```
 
 <a name="TransactionPartner"></a>
-## type [TransactionPartner](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8215>)
+## type [TransactionPartner](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8933>)
 
 TransactionPartner is a union type. The following concrete variants implement it:
 
@@ -16658,7 +17727,7 @@ type TransactionPartner interface {
 ```
 
 <a name="UnmarshalTransactionPartner"></a>
-### func [UnmarshalTransactionPartner](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8240>)
+### func [UnmarshalTransactionPartner](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8958>)
 
 ```go
 func UnmarshalTransactionPartner(data []byte) (TransactionPartner, error)
@@ -16667,7 +17736,7 @@ func UnmarshalTransactionPartner(data []byte) (TransactionPartner, error)
 UnmarshalTransactionPartner decodes a TransactionPartner from JSON by inspecting the "type" field and dispatching to the correct concrete type.
 
 <a name="TransactionPartnerAffiliateProgram"></a>
-## type [TransactionPartnerAffiliateProgram](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8367-L8374>)
+## type [TransactionPartnerAffiliateProgram](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9085-L9092>)
 
 Describes the affiliate program that issued the affiliate commission received via this transaction.
 
@@ -16683,7 +17752,7 @@ type TransactionPartnerAffiliateProgram struct {
 ```
 
 <a name="TransactionPartnerAffiliateProgram.MarshalJSON"></a>
-### func \(\*TransactionPartnerAffiliateProgram\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8381>)
+### func \(\*TransactionPartnerAffiliateProgram\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9099>)
 
 ```go
 func (v *TransactionPartnerAffiliateProgram) MarshalJSON() ([]byte, error)
@@ -16692,7 +17761,7 @@ func (v *TransactionPartnerAffiliateProgram) MarshalJSON() ([]byte, error)
 MarshalJSON encodes TransactionPartnerAffiliateProgram with the discriminator field "type" forced to "affiliate\_program". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="TransactionPartnerChat"></a>
-## type [TransactionPartnerChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8341-L8348>)
+## type [TransactionPartnerChat](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9059-L9066>)
 
 Describes a transaction with a chat.
 
@@ -16708,7 +17777,7 @@ type TransactionPartnerChat struct {
 ```
 
 <a name="TransactionPartnerChat.MarshalJSON"></a>
-### func \(\*TransactionPartnerChat\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8355>)
+### func \(\*TransactionPartnerChat\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9073>)
 
 ```go
 func (v *TransactionPartnerChat) MarshalJSON() ([]byte, error)
@@ -16717,7 +17786,7 @@ func (v *TransactionPartnerChat) MarshalJSON() ([]byte, error)
 MarshalJSON encodes TransactionPartnerChat with the discriminator field "type" forced to "chat". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="TransactionPartnerFragment"></a>
-## type [TransactionPartnerFragment](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8393-L8398>)
+## type [TransactionPartnerFragment](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9111-L9116>)
 
 Describes a withdrawal transaction with Fragment.
 
@@ -16731,7 +17800,7 @@ type TransactionPartnerFragment struct {
 ```
 
 <a name="TransactionPartnerFragment.MarshalJSON"></a>
-### func \(\*TransactionPartnerFragment\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8405>)
+### func \(\*TransactionPartnerFragment\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9123>)
 
 ```go
 func (v *TransactionPartnerFragment) MarshalJSON() ([]byte, error)
@@ -16740,7 +17809,7 @@ func (v *TransactionPartnerFragment) MarshalJSON() ([]byte, error)
 MarshalJSON encodes TransactionPartnerFragment with the discriminator field "type" forced to "fragment". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="TransactionPartnerFragment.UnmarshalJSON"></a>
-### func \(\*TransactionPartnerFragment\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8418>)
+### func \(\*TransactionPartnerFragment\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9136>)
 
 ```go
 func (m *TransactionPartnerFragment) UnmarshalJSON(data []byte) error
@@ -16749,7 +17818,7 @@ func (m *TransactionPartnerFragment) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes TransactionPartnerFragment by dispatching union\-typed fields \(WithdrawalState\) through their concrete UnmarshalXxx helpers.
 
 <a name="TransactionPartnerOther"></a>
-## type [TransactionPartnerOther](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8487-L8490>)
+## type [TransactionPartnerOther](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9205-L9208>)
 
 Describes a transaction with an unknown source or recipient.
 
@@ -16761,7 +17830,7 @@ type TransactionPartnerOther struct {
 ```
 
 <a name="TransactionPartnerOther.MarshalJSON"></a>
-### func \(\*TransactionPartnerOther\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8497>)
+### func \(\*TransactionPartnerOther\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9215>)
 
 ```go
 func (v *TransactionPartnerOther) MarshalJSON() ([]byte, error)
@@ -16770,7 +17839,7 @@ func (v *TransactionPartnerOther) MarshalJSON() ([]byte, error)
 MarshalJSON encodes TransactionPartnerOther with the discriminator field "type" forced to "other". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="TransactionPartnerTelegramAds"></a>
-## type [TransactionPartnerTelegramAds](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8441-L8444>)
+## type [TransactionPartnerTelegramAds](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9159-L9162>)
 
 Describes a withdrawal transaction to the Telegram Ads platform.
 
@@ -16782,7 +17851,7 @@ type TransactionPartnerTelegramAds struct {
 ```
 
 <a name="TransactionPartnerTelegramAds.MarshalJSON"></a>
-### func \(\*TransactionPartnerTelegramAds\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8451>)
+### func \(\*TransactionPartnerTelegramAds\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9169>)
 
 ```go
 func (v *TransactionPartnerTelegramAds) MarshalJSON() ([]byte, error)
@@ -16791,7 +17860,7 @@ func (v *TransactionPartnerTelegramAds) MarshalJSON() ([]byte, error)
 MarshalJSON encodes TransactionPartnerTelegramAds with the discriminator field "type" forced to "telegram\_ads". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="TransactionPartnerTelegramApi"></a>
-## type [TransactionPartnerTelegramApi](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8463-L8468>)
+## type [TransactionPartnerTelegramApi](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9181-L9186>)
 
 Describes a transaction with payment for paid broadcasting.
 
@@ -16805,7 +17874,7 @@ type TransactionPartnerTelegramApi struct {
 ```
 
 <a name="TransactionPartnerTelegramApi.MarshalJSON"></a>
-### func \(\*TransactionPartnerTelegramApi\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8475>)
+### func \(\*TransactionPartnerTelegramApi\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9193>)
 
 ```go
 func (v *TransactionPartnerTelegramApi) MarshalJSON() ([]byte, error)
@@ -16814,7 +17883,7 @@ func (v *TransactionPartnerTelegramApi) MarshalJSON() ([]byte, error)
 MarshalJSON encodes TransactionPartnerTelegramApi with the discriminator field "type" forced to "telegram\_api". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="TransactionPartnerType"></a>
-## type [TransactionPartnerType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L499>)
+## type [TransactionPartnerType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L539>)
 
 
 
@@ -16837,7 +17906,7 @@ const (
 ```
 
 <a name="TransactionPartnerUser"></a>
-## type [TransactionPartnerUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8269-L8290>)
+## type [TransactionPartnerUser](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8987-L9008>)
 
 Describes a transaction with a user.
 
@@ -16867,7 +17936,7 @@ type TransactionPartnerUser struct {
 ```
 
 <a name="TransactionPartnerUser.MarshalJSON"></a>
-### func \(\*TransactionPartnerUser\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8297>)
+### func \(\*TransactionPartnerUser\) [MarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9015>)
 
 ```go
 func (v *TransactionPartnerUser) MarshalJSON() ([]byte, error)
@@ -16876,7 +17945,7 @@ func (v *TransactionPartnerUser) MarshalJSON() ([]byte, error)
 MarshalJSON encodes TransactionPartnerUser with the discriminator field "type" forced to "user". The hardcoded value frees callers from setting Type by hand — any user\-supplied value on the struct literal is overridden so a typo can't slip through to Telegram.
 
 <a name="TransactionPartnerUser.UnmarshalJSON"></a>
-### func \(\*TransactionPartnerUser\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L8310>)
+### func \(\*TransactionPartnerUser\) [UnmarshalJSON](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L9028>)
 
 ```go
 func (m *TransactionPartnerUser) UnmarshalJSON(data []byte) error
@@ -16885,7 +17954,7 @@ func (m *TransactionPartnerUser) UnmarshalJSON(data []byte) error
 UnmarshalJSON decodes TransactionPartnerUser by dispatching union\-typed fields \(PaidMedia\) through their concrete UnmarshalXxx helpers.
 
 <a name="TransactionPartnerUserTransactionType"></a>
-## type [TransactionPartnerUserTransactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L511>)
+## type [TransactionPartnerUserTransactionType](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L551>)
 
 
 
@@ -16906,7 +17975,7 @@ const (
 ```
 
 <a name="TransferBusinessAccountStarsParams"></a>
-## type [TransferBusinessAccountStarsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3706-L3711>)
+## type [TransferBusinessAccountStarsParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3802-L3807>)
 
 TransferBusinessAccountStarsParams is the parameter set for TransferBusinessAccountStars.
 
@@ -16922,7 +17991,7 @@ type TransferBusinessAccountStarsParams struct {
 ```
 
 <a name="TransferGiftParams"></a>
-## type [TransferGiftParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3862-L3871>)
+## type [TransferGiftParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3958-L3967>)
 
 TransferGiftParams is the parameter set for TransferGift.
 
@@ -16942,7 +18011,7 @@ type TransferGiftParams struct {
 ```
 
 <a name="UnbanChatMemberParams"></a>
-## type [UnbanChatMemberParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2149-L2156>)
+## type [UnbanChatMemberParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2245-L2252>)
 
 UnbanChatMemberParams is the parameter set for UnbanChatMember.
 
@@ -16960,7 +18029,7 @@ type UnbanChatMemberParams struct {
 ```
 
 <a name="UnbanChatSenderChatParams"></a>
-## type [UnbanChatSenderChatParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2297-L2302>)
+## type [UnbanChatSenderChatParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2393-L2398>)
 
 UnbanChatSenderChatParams is the parameter set for UnbanChatSenderChat.
 
@@ -16976,7 +18045,7 @@ type UnbanChatSenderChatParams struct {
 ```
 
 <a name="UnhideGeneralForumTopicParams"></a>
-## type [UnhideGeneralForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3005-L3008>)
+## type [UnhideGeneralForumTopicParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3101-L3104>)
 
 UnhideGeneralForumTopicParams is the parameter set for UnhideGeneralForumTopic.
 
@@ -16990,7 +18059,7 @@ type UnhideGeneralForumTopicParams struct {
 ```
 
 <a name="UniqueGift"></a>
-## type [UniqueGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3793-L3818>)
+## type [UniqueGift](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3835-L3860>)
 
 This object describes a unique gift that was upgraded from a regular gift.
 
@@ -17024,7 +18093,7 @@ type UniqueGift struct {
 ```
 
 <a name="UniqueGiftBackdrop"></a>
-## type [UniqueGiftBackdrop](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3767-L3774>)
+## type [UniqueGiftBackdrop](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3809-L3816>)
 
 This object describes the backdrop of a unique gift.
 
@@ -17040,7 +18109,7 @@ type UniqueGiftBackdrop struct {
 ```
 
 <a name="UniqueGiftBackdropColors"></a>
-## type [UniqueGiftBackdropColors](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3755-L3764>)
+## type [UniqueGiftBackdropColors](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3797-L3806>)
 
 This object describes the colors of the backdrop of a unique gift.
 
@@ -17058,7 +18127,7 @@ type UniqueGiftBackdropColors struct {
 ```
 
 <a name="UniqueGiftColors"></a>
-## type [UniqueGiftColors](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3777-L3790>)
+## type [UniqueGiftColors](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3819-L3832>)
 
 This object contains information about the color scheme for a user's name, message replies and link previews based on a unique gift.
 
@@ -17080,7 +18149,7 @@ type UniqueGiftColors struct {
 ```
 
 <a name="UniqueGiftInfo"></a>
-## type [UniqueGiftInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3845-L3860>)
+## type [UniqueGiftInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3887-L3902>)
 
 Describes a service message about a unique gift that was sent or received.
 
@@ -17090,9 +18159,9 @@ type UniqueGiftInfo struct {
     Gift UniqueGift `json:"gift"`
     // Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, “resale” for gifts bought from other users, “gifted_upgrade” for upgrades purchased after the gift was sent, or “offer” for gifts bought or sold through gift purchase offers.
     Origin UniqueGiftInfoOrigin `json:"origin"`
-    // Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.
+    // Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.
     LastResaleCurrency SuggestedPostPaidCurrency `json:"last_resale_currency,omitempty"`
-    // Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanotoncoins
+    // Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanograms
     LastResaleAmount *int64 `json:"last_resale_amount,omitempty"`
     // Optional. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts
     OwnedGiftID string `json:"owned_gift_id,omitempty"`
@@ -17104,7 +18173,7 @@ type UniqueGiftInfo struct {
 ```
 
 <a name="UniqueGiftInfoOrigin"></a>
-## type [UniqueGiftInfoOrigin](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L521>)
+## type [UniqueGiftInfoOrigin](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L561>)
 
 
 
@@ -17125,7 +18194,7 @@ const (
 ```
 
 <a name="UniqueGiftModel"></a>
-## type [UniqueGiftModel](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3733-L3742>)
+## type [UniqueGiftModel](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3775-L3784>)
 
 This object describes the model of a unique gift.
 
@@ -17143,7 +18212,7 @@ type UniqueGiftModel struct {
 ```
 
 <a name="UniqueGiftModelRarity"></a>
-## type [UniqueGiftModelRarity](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L531>)
+## type [UniqueGiftModelRarity](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/enums.gen.go#L571>)
 
 
 
@@ -17163,7 +18232,7 @@ const (
 ```
 
 <a name="UniqueGiftSymbol"></a>
-## type [UniqueGiftSymbol](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3745-L3752>)
+## type [UniqueGiftSymbol](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3787-L3794>)
 
 This object describes the symbol shown on the pattern of a unique gift.
 
@@ -17179,7 +18248,7 @@ type UniqueGiftSymbol struct {
 ```
 
 <a name="UnpinAllChatMessagesParams"></a>
-## type [UnpinAllChatMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2657-L2660>)
+## type [UnpinAllChatMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2753-L2756>)
 
 UnpinAllChatMessagesParams is the parameter set for UnpinAllChatMessages.
 
@@ -17193,7 +18262,7 @@ type UnpinAllChatMessagesParams struct {
 ```
 
 <a name="UnpinAllForumTopicMessagesParams"></a>
-## type [UnpinAllForumTopicMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2926-L2931>)
+## type [UnpinAllForumTopicMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3022-L3027>)
 
 UnpinAllForumTopicMessagesParams is the parameter set for UnpinAllForumTopicMessages.
 
@@ -17209,7 +18278,7 @@ type UnpinAllForumTopicMessagesParams struct {
 ```
 
 <a name="UnpinAllGeneralForumTopicMessagesParams"></a>
-## type [UnpinAllGeneralForumTopicMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3020-L3023>)
+## type [UnpinAllGeneralForumTopicMessagesParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3116-L3119>)
 
 UnpinAllGeneralForumTopicMessagesParams is the parameter set for UnpinAllGeneralForumTopicMessages.
 
@@ -17223,7 +18292,7 @@ type UnpinAllGeneralForumTopicMessagesParams struct {
 ```
 
 <a name="UnpinChatMessageParams"></a>
-## type [UnpinChatMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2638-L2645>)
+## type [UnpinChatMessageParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2734-L2741>)
 
 UnpinChatMessageParams is the parameter set for UnpinChatMessage.
 
@@ -17241,7 +18310,7 @@ type UnpinChatMessageParams struct {
 ```
 
 <a name="Update"></a>
-## type [Update](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L20-L73>)
+## type [Update](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L20-L75>)
 
 This object represents an incoming update.At most one of the optional fields can be present in any given update.
 
@@ -17299,6 +18368,8 @@ type Update struct {
     RemovedChatBoost *ChatBoostRemoved `json:"removed_chat_boost,omitempty"`
     // Optional. A new bot was created to be managed by the bot, or token or owner of a managed bot was changed
     ManagedBot *ManagedBotUpdated `json:"managed_bot,omitempty"`
+    // Optional. User payment subscription has changed
+    Subscription *BotSubscriptionUpdated `json:"subscription,omitempty"`
 }
 ```
 
@@ -17353,7 +18424,7 @@ const (
 ```
 
 <a name="UpgradeGiftParams"></a>
-## type [UpgradeGiftParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3841-L3850>)
+## type [UpgradeGiftParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3937-L3946>)
 
 UpgradeGiftParams is the parameter set for UpgradeGift.
 
@@ -17373,7 +18444,7 @@ type UpgradeGiftParams struct {
 ```
 
 <a name="UploadStickerFileParams"></a>
-## type [UploadStickerFileParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4541-L4548>)
+## type [UploadStickerFileParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4794-L4801>)
 
 UploadStickerFileParams is the parameter set for UploadStickerFile.
 
@@ -17391,7 +18462,7 @@ type UploadStickerFileParams struct {
 ```
 
 <a name="UploadStickerFileParams.HasFile"></a>
-### func \(\*UploadStickerFileParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4551>)
+### func \(\*UploadStickerFileParams\) [HasFile](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4804>)
 
 ```go
 func (p *UploadStickerFileParams) HasFile() bool
@@ -17400,7 +18471,7 @@ func (p *UploadStickerFileParams) HasFile() bool
 HasFile reports whether a multipart upload is required.
 
 <a name="UploadStickerFileParams.MultipartFields"></a>
-### func \(\*UploadStickerFileParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4559>)
+### func \(\*UploadStickerFileParams\) [MultipartFields](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4812>)
 
 ```go
 func (p *UploadStickerFileParams) MultipartFields() map[string]string
@@ -17409,7 +18480,7 @@ func (p *UploadStickerFileParams) MultipartFields() map[string]string
 MultipartFields returns the non\-file fields used in the multipart body.
 
 <a name="UploadStickerFileParams.MultipartFiles"></a>
-### func \(\*UploadStickerFileParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4567>)
+### func \(\*UploadStickerFileParams\) [MultipartFiles](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L4820>)
 
 ```go
 func (p *UploadStickerFileParams) MultipartFiles() []client.MultipartFile
@@ -17418,7 +18489,7 @@ func (p *UploadStickerFileParams) MultipartFiles() []client.MultipartFile
 MultipartFiles returns the file parts.
 
 <a name="User"></a>
-## type [User](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L98-L135>)
+## type [User](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L100-L137>)
 
 This object represents a Telegram user or bot.
 
@@ -17475,7 +18546,7 @@ GetMe calls the getMe Telegram Bot API method.
 A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
 
 <a name="UserChatBoosts"></a>
-## type [UserChatBoosts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4612-L4615>)
+## type [UserChatBoosts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L4656-L4659>)
 
 This object represents a list of boosts added to a chat by a user.
 
@@ -17487,7 +18558,7 @@ type UserChatBoosts struct {
 ```
 
 <a name="GetUserChatBoosts"></a>
-### func [GetUserChatBoosts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3087>)
+### func [GetUserChatBoosts](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3183>)
 
 ```go
 func GetUserChatBoosts(ctx context.Context, b *client.Bot, p *GetUserChatBoostsParams) (*UserChatBoosts, error)
@@ -17498,7 +18569,7 @@ GetUserChatBoosts calls the getUserChatBoosts Telegram Bot API method.
 Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat. Returns a UserChatBoosts object.
 
 <a name="UserProfileAudios"></a>
-## type [UserProfileAudios](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2375-L2380>)
+## type [UserProfileAudios](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2409-L2414>)
 
 This object represents the audios displayed on a user's profile.
 
@@ -17512,7 +18583,7 @@ type UserProfileAudios struct {
 ```
 
 <a name="GetUserProfileAudios"></a>
-### func [GetUserProfileAudios](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2085>)
+### func [GetUserProfileAudios](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2181>)
 
 ```go
 func GetUserProfileAudios(ctx context.Context, b *client.Bot, p *GetUserProfileAudiosParams) (*UserProfileAudios, error)
@@ -17523,7 +18594,7 @@ GetUserProfileAudios calls the getUserProfileAudios Telegram Bot API method.
 Use this method to get a list of profile audios for a user. Returns a UserProfileAudios object.
 
 <a name="UserProfilePhotos"></a>
-## type [UserProfilePhotos](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2367-L2372>)
+## type [UserProfilePhotos](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2401-L2406>)
 
 This object represent a user's profile pictures.
 
@@ -17537,7 +18608,7 @@ type UserProfilePhotos struct {
 ```
 
 <a name="GetUserProfilePhotos"></a>
-### func [GetUserProfilePhotos](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2066>)
+### func [GetUserProfilePhotos](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L2162>)
 
 ```go
 func GetUserProfilePhotos(ctx context.Context, b *client.Bot, p *GetUserProfilePhotosParams) (*UserProfilePhotos, error)
@@ -17548,7 +18619,7 @@ GetUserProfilePhotos calls the getUserProfilePhotos Telegram Bot API method.
 Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
 
 <a name="UserRating"></a>
-## type [UserRating](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3155-L3164>)
+## type [UserRating](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L3197-L3206>)
 
 This object describes the rating of a user based on their Telegram Star spendings.
 
@@ -17566,7 +18637,7 @@ type UserRating struct {
 ```
 
 <a name="UsersShared"></a>
-## type [UsersShared](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2137-L2142>)
+## type [UsersShared](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2171-L2176>)
 
 This object contains information about the users whose identifiers were shared with the bot using a KeyboardButtonRequestUsers button.
 
@@ -17580,7 +18651,7 @@ type UsersShared struct {
 ```
 
 <a name="Venue"></a>
-## type [Venue](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1593-L1608>)
+## type [Venue](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1589-L1604>)
 
 This object represents a venue.
 
@@ -17604,7 +18675,7 @@ type Venue struct {
 ```
 
 <a name="VerifyChatParams"></a>
-## type [VerifyChatParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3500-L3505>)
+## type [VerifyChatParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3596-L3601>)
 
 VerifyChatParams is the parameter set for VerifyChat.
 
@@ -17620,7 +18691,7 @@ type VerifyChatParams struct {
 ```
 
 <a name="VerifyUserParams"></a>
-## type [VerifyUserParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3483-L3488>)
+## type [VerifyUserParams](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/methods.gen.go#L3579-L3584>)
 
 VerifyUserParams is the parameter set for VerifyUser.
 
@@ -17636,7 +18707,7 @@ type VerifyUserParams struct {
 ```
 
 <a name="Video"></a>
-## type [Video](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1035-L1060>)
+## type [Video](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1049-L1074>)
 
 This object represents a video file.
 
@@ -17670,7 +18741,7 @@ type Video struct {
 ```
 
 <a name="VideoChatEnded"></a>
-## type [VideoChatEnded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2179-L2182>)
+## type [VideoChatEnded](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2213-L2216>)
 
 This object represents a service message about a video chat ended in the chat.
 
@@ -17682,7 +18753,7 @@ type VideoChatEnded struct {
 ```
 
 <a name="VideoChatParticipantsInvited"></a>
-## type [VideoChatParticipantsInvited](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2185-L2188>)
+## type [VideoChatParticipantsInvited](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2219-L2222>)
 
 This object represents a service message about new members invited to a video chat.
 
@@ -17694,7 +18765,7 @@ type VideoChatParticipantsInvited struct {
 ```
 
 <a name="VideoChatScheduled"></a>
-## type [VideoChatScheduled](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2169-L2172>)
+## type [VideoChatScheduled](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2203-L2206>)
 
 This object represents a service message about a video chat scheduled in the chat.
 
@@ -17706,7 +18777,7 @@ type VideoChatScheduled struct {
 ```
 
 <a name="VideoChatStarted"></a>
-## type [VideoChatStarted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2175-L2176>)
+## type [VideoChatStarted](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2209-L2210>)
 
 This object represents a service message about a video chat started in the chat. Currently holds no information.
 
@@ -17716,7 +18787,7 @@ type VideoChatStarted struct {
 ```
 
 <a name="VideoNote"></a>
-## type [VideoNote](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1063-L1076>)
+## type [VideoNote](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1077-L1090>)
 
 This object represents a video message \(available in Telegram apps as of v.4.0\).
 
@@ -17738,7 +18809,7 @@ type VideoNote struct {
 ```
 
 <a name="VideoQuality"></a>
-## type [VideoQuality](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1019-L1032>)
+## type [VideoQuality](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1033-L1046>)
 
 This object represents a video file of a specific quality.
 
@@ -17760,7 +18831,7 @@ type VideoQuality struct {
 ```
 
 <a name="Voice"></a>
-## type [Voice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1079-L1090>)
+## type [Voice](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1093-L1104>)
 
 This object represents a voice note.
 
@@ -17780,7 +18851,7 @@ type Voice struct {
 ```
 
 <a name="WebAppData"></a>
-## type [WebAppData](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1611-L1616>)
+## type [WebAppData](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L1607-L1612>)
 
 Describes data sent from a Web App to the bot.
 
@@ -17794,7 +18865,7 @@ type WebAppData struct {
 ```
 
 <a name="WebAppInfo"></a>
-## type [WebAppInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2396-L2399>)
+## type [WebAppInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2430-L2433>)
 
 Describes a Web App.
 
@@ -17806,7 +18877,7 @@ type WebAppInfo struct {
 ```
 
 <a name="WebhookInfo"></a>
-## type [WebhookInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L76-L95>)
+## type [WebhookInfo](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L78-L97>)
 
 Describes the current status of a webhook.
 
@@ -17845,7 +18916,7 @@ GetWebhookInfo calls the getWebhookInfo Telegram Bot API method.
 Use this method to get current webhook status. Requires no parameters. On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
 
 <a name="WriteAccessAllowed"></a>
-## type [WriteAccessAllowed](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2159-L2166>)
+## type [WriteAccessAllowed](<https://github.com/lukaszraczylo/go-telegram/blob/main/api/types.gen.go#L2193-L2200>)
 
 This object represents a service message about a user allowing a bot to write messages after adding it to the attachment menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess.
 

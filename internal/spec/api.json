@@ -1,5 +1,5 @@
 {
-  "version": "10.1",
+  "version": "10.2",
   "types": [
     {
       "name": "Update",
@@ -239,6 +239,15 @@
             "name": "ManagedBotUpdated"
           },
           "doc": "Optional. A new bot was created to be managed by the bot, or token or owner of a managed bot was changed"
+        },
+        {
+          "name": "Subscription",
+          "json_name": "subscription",
+          "type": {
+            "kind": "named",
+            "name": "BotSubscriptionUpdated"
+          },
+          "doc": "Optional. User payment subscription has changed"
         }
       ]
     },
@@ -1080,6 +1089,15 @@
             "name": "User"
           },
           "doc": "Optional. The bot that processes join request queries in the chat. The field is only available to chat administrators."
+        },
+        {
+          "name": "Community",
+          "json_name": "community",
+          "type": {
+            "kind": "named",
+            "name": "Community"
+          },
+          "doc": "Optional. The Community to which the chat belongs"
         }
       ]
     },
@@ -1095,7 +1113,7 @@
             "name": "int64"
           },
           "required": true,
-          "doc": "Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent."
+          "doc": "Unique message identifier inside this chat; 0 for ephemeral messages. In specific instances (e.g., a message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent."
         },
         {
           "name": "MessageThreadID",
@@ -1159,6 +1177,24 @@
             "name": "string"
           },
           "doc": "Optional. Tag or custom title of the sender of the message; for supergroups only"
+        },
+        {
+          "name": "ReceiverUser",
+          "json_name": "receiver_user",
+          "type": {
+            "kind": "named",
+            "name": "User"
+          },
+          "doc": "Optional. For ephemeral messages, the user who received the message"
+        },
+        {
+          "name": "EphemeralMessageID",
+          "json_name": "ephemeral_message_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "Optional. For ephemeral messages, identifier of the ephemeral message inside this chat. The identifier may be reused for another ephemeral message after the message is deleted or expires."
         },
         {
           "name": "Date",
@@ -1232,7 +1268,7 @@
             "kind": "named",
             "name": "Message"
           },
-          "doc": "Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply."
+          "doc": "Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply. If the message is a reply to an ephemeral message, then this field may be omitted."
         },
         {
           "name": "ExternalReply",
@@ -1868,7 +1904,7 @@
             "kind": "named",
             "name": "ProximityAlertTriggered"
           },
-          "doc": "Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location."
+          "doc": "Optional. Service message: a user in the chat triggered another user's proximity alert while sharing Live Location"
         },
         {
           "name": "BoostAdded",
@@ -1905,6 +1941,24 @@
             "name": "ChecklistTasksAdded"
           },
           "doc": "Optional. Service message: tasks were added to a checklist"
+        },
+        {
+          "name": "CommunityChatAdded",
+          "json_name": "community_chat_added",
+          "type": {
+            "kind": "named",
+            "name": "CommunityChatAdded"
+          },
+          "doc": "Optional. Service message: chat added to a Community"
+        },
+        {
+          "name": "CommunityChatRemoved",
+          "json_name": "community_chat_removed",
+          "type": {
+            "kind": "named",
+            "name": "CommunityChatRemoved"
+          },
+          "doc": "Optional. Service message: chat removed from a Community"
         },
         {
           "name": "DirectMessagePriceChanged",
@@ -2616,8 +2670,7 @@
             "kind": "primitive",
             "name": "int64"
           },
-          "required": true,
-          "doc": "Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified"
+          "doc": "Optional. Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified. Required if ephemeral_message_id isn't specified."
         },
         {
           "name": "ChatID",
@@ -2629,7 +2682,16 @@
               "string"
             ]
           },
-          "doc": "Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the bot, supergroup or channel in the format @username. Not supported for messages sent on behalf of a business account and messages from channel direct messages chats."
+          "doc": "Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the bot, supergroup or channel in the format @username. Not supported for messages sent on behalf of a business account, messages from channel direct messages chats and ephemeral messages."
+        },
+        {
+          "name": "EphemeralMessageID",
+          "json_name": "ephemeral_message_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "Optional. Identifier of the incoming ephemeral message that will be replied to in the current chat. A reply to an ephemeral message must itself be an ephemeral message. An ephemeral message may only be replied to within 15 seconds of being sent. Required if message_id isn't specified."
         },
         {
           "name": "AllowSendingWithoutReply",
@@ -2638,7 +2700,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True if the message should be sent even if the specified message to be replied to is not found. Always False for replies in another chat or forum topic. Always True for messages sent on behalf of a business account."
+          "doc": "Optional. Pass True if the message should be sent even if the specified message to be replied to is not found. Always False for replies in another chat or forum topic, and sent ephemeral messages. Always True for messages sent on behalf of a business account."
         },
         {
           "name": "Quote",
@@ -2647,7 +2709,7 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities. The message will fail to send if the quote isn't found in the original message."
+          "doc": "Optional. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities. The message will fail to send if the quote isn't found in the original message. Ignored for ephemeral messages."
         },
         {
           "name": "QuoteParseMode",
@@ -4686,73 +4748,6 @@
       ]
     },
     {
-      "name": "ChecklistTasksDone",
-      "doc": "Describes a service message about checklist tasks marked as done or not done.",
-      "fields": [
-        {
-          "name": "ChecklistMessage",
-          "json_name": "checklist_message",
-          "type": {
-            "kind": "named",
-            "name": "Message"
-          },
-          "doc": "Optional. Message containing the checklist whose tasks were marked as done or not done. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply."
-        },
-        {
-          "name": "MarkedAsDoneTaskIds",
-          "json_name": "marked_as_done_task_ids",
-          "type": {
-            "kind": "array",
-            "elem_type": {
-              "kind": "primitive",
-              "name": "int64"
-            }
-          },
-          "doc": "Optional. Identifiers of the tasks that were marked as done"
-        },
-        {
-          "name": "MarkedAsNotDoneTaskIds",
-          "json_name": "marked_as_not_done_task_ids",
-          "type": {
-            "kind": "array",
-            "elem_type": {
-              "kind": "primitive",
-              "name": "int64"
-            }
-          },
-          "doc": "Optional. Identifiers of the tasks that were marked as not done"
-        }
-      ]
-    },
-    {
-      "name": "ChecklistTasksAdded",
-      "doc": "Describes a service message about tasks added to a checklist.",
-      "fields": [
-        {
-          "name": "ChecklistMessage",
-          "json_name": "checklist_message",
-          "type": {
-            "kind": "named",
-            "name": "Message"
-          },
-          "doc": "Optional. Message containing the checklist to which the tasks were added. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply."
-        },
-        {
-          "name": "Tasks",
-          "json_name": "tasks",
-          "type": {
-            "kind": "array",
-            "elem_type": {
-              "kind": "named",
-              "name": "ChecklistTask"
-            }
-          },
-          "required": true,
-          "doc": "List of tasks added to the checklist"
-        }
-      ]
-    },
-    {
       "name": "Location",
       "doc": "This object represents a point on the map.",
       "fields": [
@@ -5003,6 +4998,47 @@
           },
           "required": true,
           "doc": "Information about the bot. Token of the bot can be fetched using the method getManagedBotToken."
+        }
+      ]
+    },
+    {
+      "name": "BotSubscriptionUpdated",
+      "doc": "This object contains information about changes to a user payment subscription toward the current bot.",
+      "fields": [
+        {
+          "name": "User",
+          "json_name": "user",
+          "type": {
+            "kind": "named",
+            "name": "User"
+          },
+          "required": true,
+          "doc": "User who subscribed for payments toward the bot"
+        },
+        {
+          "name": "InvoicePayload",
+          "json_name": "invoice_payload",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Bot-specified invoice payload"
+        },
+        {
+          "name": "State",
+          "json_name": "state",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The new state of the subscription. Currently, it can be one of “canceled” if the user canceled the subscription, “active” if the user re-enabled a previously canceled subscription, or “failed” if payment for the subscription failed.",
+          "enum_values": [
+            "canceled",
+            "active",
+            "failed"
+          ]
         }
       ]
     },
@@ -5454,6 +5490,93 @@
       ]
     },
     {
+      "name": "ChecklistTasksDone",
+      "doc": "Describes a service message about checklist tasks marked as done or not done.",
+      "fields": [
+        {
+          "name": "ChecklistMessage",
+          "json_name": "checklist_message",
+          "type": {
+            "kind": "named",
+            "name": "Message"
+          },
+          "doc": "Optional. Message containing the checklist whose tasks were marked as done or not done. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply."
+        },
+        {
+          "name": "MarkedAsDoneTaskIds",
+          "json_name": "marked_as_done_task_ids",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "primitive",
+              "name": "int64"
+            }
+          },
+          "doc": "Optional. Identifiers of the tasks that were marked as done"
+        },
+        {
+          "name": "MarkedAsNotDoneTaskIds",
+          "json_name": "marked_as_not_done_task_ids",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "primitive",
+              "name": "int64"
+            }
+          },
+          "doc": "Optional. Identifiers of the tasks that were marked as not done"
+        }
+      ]
+    },
+    {
+      "name": "ChecklistTasksAdded",
+      "doc": "Describes a service message about tasks added to a checklist.",
+      "fields": [
+        {
+          "name": "ChecklistMessage",
+          "json_name": "checklist_message",
+          "type": {
+            "kind": "named",
+            "name": "Message"
+          },
+          "doc": "Optional. Message containing the checklist to which the tasks were added. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply."
+        },
+        {
+          "name": "Tasks",
+          "json_name": "tasks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "ChecklistTask"
+            }
+          },
+          "required": true,
+          "doc": "List of tasks added to the checklist"
+        }
+      ]
+    },
+    {
+      "name": "CommunityChatAdded",
+      "doc": "Describes a service message about a chat being added to a community.",
+      "fields": [
+        {
+          "name": "Community",
+          "json_name": "community",
+          "type": {
+            "kind": "named",
+            "name": "Community"
+          },
+          "required": true,
+          "doc": "The new community to which the chat belongs"
+        }
+      ]
+    },
+    {
+      "name": "CommunityChatRemoved",
+      "doc": "Describes a service message about a chat being removed from a community. Currently holds no information."
+    },
+    {
       "name": "ForumTopicCreated",
       "doc": "This object represents a service message about a new forum topic created in the chat.",
       "fields": [
@@ -5793,7 +5916,7 @@
             "name": "bool"
           },
           "required": true,
-          "doc": "True, if direct messages are enabled for the channel chat; false otherwise"
+          "doc": "True, if direct messages are enabled for the channel chat; False otherwise"
         },
         {
           "name": "DirectMessageStarCount",
@@ -5910,7 +6033,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.",
+          "doc": "Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.",
           "enum_values": [
             "XTR",
             "TON"
@@ -5923,7 +6046,7 @@
             "kind": "primitive",
             "name": "int64"
           },
-          "doc": "Optional. The amount of the currency that was received by the channel in nanotoncoins; for payments in toncoins only"
+          "doc": "Optional. The amount of the currency that was received by the channel in nanograms; for payments in TON grams only"
         },
         {
           "name": "StarAmount",
@@ -6304,7 +6427,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for toncoins.",
+          "doc": "Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for TON grams.",
           "enum_values": [
             "XTR",
             "TON"
@@ -6318,7 +6441,7 @@
             "name": "int64"
           },
           "required": true,
-          "doc": "The amount of the currency that will be paid for the post in the smallest units of the currency, i.e. Telegram Stars or nanotoncoins. Currently, price in Telegram Stars must be between 5 and 100000, and price in nanotoncoins must be between 10000000 and 10000000000000."
+          "doc": "The amount of the currency that will be paid for the post in the smallest units of the currency, i.e. Telegram Stars or nanograms. Currently, price in Telegram Stars must be between 5 and 100000, and price in nanograms must be between 10000000 and 10000000000000."
         }
       ]
     },
@@ -6558,7 +6681,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to false, in which case the custom keyboard can be hidden and opened with a keyboard icon."
+          "doc": "Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to False, in which case the custom keyboard can be hidden and opened with a keyboard icon."
         },
         {
           "name": "ResizeKeyboard",
@@ -6567,7 +6690,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard."
+          "doc": "Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to False, in which case the custom keyboard is always of the same height as the app's standard keyboard."
         },
         {
           "name": "OneTimeKeyboard",
@@ -6576,7 +6699,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again. Defaults to false."
+          "doc": "Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again. Defaults to False."
         },
         {
           "name": "InputFieldPlaceholder",
@@ -7319,6 +7442,32 @@
       ]
     },
     {
+      "name": "Community",
+      "doc": "Represents a community (a group of chats).",
+      "fields": [
+        {
+          "name": "ID",
+          "json_name": "id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Unique identifier for this community. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier."
+        },
+        {
+          "name": "Name",
+          "json_name": "name",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Name of the community"
+        }
+      ]
+    },
+    {
       "name": "ChatPhoto",
       "doc": "This object represents a chat photo.",
       "fields": [
@@ -7640,7 +7789,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted defaults to the value of can_pin_messages."
+          "doc": "Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted, defaults to the value of can_pin_messages."
         }
       ]
     },
@@ -7986,7 +8135,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted defaults to the value of can_pin_messages."
+          "doc": "Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted, defaults to the value of can_pin_messages."
         },
         {
           "name": "CustomTitle",
@@ -8401,7 +8550,7 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Identifier of the join request query. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds."
+          "doc": "Optional. Identifier of the join request query; for bots assigned to process join requests only. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds."
         }
       ]
     },
@@ -8551,7 +8700,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages."
+          "doc": "Optional. True, if the user is allowed to create forum topics. If omitted, defaults to the value of can_pin_messages."
         }
       ]
     },
@@ -10098,7 +10247,7 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.",
+          "doc": "Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.",
           "enum_values": [
             "XTR",
             "TON"
@@ -10111,7 +10260,7 @@
             "kind": "primitive",
             "name": "int64"
           },
-          "doc": "Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanotoncoins"
+          "doc": "Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanograms"
         },
         {
           "name": "OwnedGiftID",
@@ -10563,6 +10712,15 @@
           },
           "required": true,
           "doc": "Description of the command; 1-256 characters"
+        },
+        {
+          "name": "IsEphemeral",
+          "json_name": "is_ephemeral",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. True, if the command sends an ephemeral message, which can be seen only by the sender of the message and the bot"
         }
       ]
     },
@@ -11543,7 +11701,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be animation",
+          "doc": "Type of the media, must be animation",
           "enum_values": [
             "animation"
           ]
@@ -11609,7 +11767,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "Width",
@@ -11661,7 +11819,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be audio",
+          "doc": "Type of the media, must be audio",
           "enum_values": [
             "audio"
           ]
@@ -11761,7 +11919,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be document",
+          "doc": "Type of the media, must be document",
           "enum_values": [
             "document"
           ]
@@ -11843,7 +12001,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be link",
+          "doc": "Type of the media, must be link",
           "enum_values": [
             "link"
           ]
@@ -11872,7 +12030,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be live_photo",
+          "doc": "Type of the media, must be live_photo",
           "enum_values": [
             "live_photo"
           ]
@@ -11939,7 +12097,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "HasSpoiler",
@@ -11964,7 +12122,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be location",
+          "doc": "Type of the media, must be location",
           "enum_values": [
             "location"
           ]
@@ -12012,7 +12170,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be photo",
+          "doc": "Type of the media, must be photo",
           "enum_values": [
             "photo"
           ]
@@ -12069,7 +12227,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "HasSpoiler",
@@ -12094,7 +12252,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be sticker",
+          "doc": "Type of the media, must be sticker",
           "enum_values": [
             "sticker"
           ]
@@ -12132,7 +12290,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be venue",
+          "doc": "Type of the media, must be venue",
           "enum_values": [
             "venue"
           ]
@@ -12227,7 +12385,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "Type of the result, must be video",
+          "doc": "Type of the media, must be video",
           "enum_values": [
             "video"
           ]
@@ -12311,7 +12469,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "Width",
@@ -12357,6 +12515,79 @@
             "name": "bool"
           },
           "doc": "Optional. Pass True if the video needs to be covered with a spoiler animation"
+        }
+      ]
+    },
+    {
+      "name": "InputMediaVoiceNote",
+      "doc": "Represents a voice message file to be sent.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the media, must be voice_note",
+          "enum_values": [
+            "voice_note"
+          ]
+        },
+        {
+          "name": "Media",
+          "json_name": "media",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass \"attach://<file_attach_name>\" to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Optional. Caption of the voice message to be sent, 0-1024 characters after entities parsing"
+        },
+        {
+          "name": "ParseMode",
+          "json_name": "parse_mode",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Optional. Mode for parsing entities in the voice message caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
+        },
+        {
+          "name": "CaptionEntities",
+          "json_name": "caption_entities",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "MessageEntity"
+            }
+          },
+          "doc": "Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode"
+        },
+        {
+          "name": "Duration",
+          "json_name": "duration",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "Optional. Duration of the voice message in seconds"
         }
       ]
     },
@@ -13064,8 +13295,20 @@
     },
     {
       "name": "InputRichMessage",
-      "doc": "Describes a rich message to be sent. Exactly one of the fields html or markdown must be used.",
+      "doc": "Describes a rich message to be sent. Exactly one of the fields html, markdown, or blocks must be used.",
       "fields": [
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "InputRichBlock"
+            }
+          },
+          "doc": "Optional. Content of the rich message to send described as a list of blocks"
+        },
         {
           "name": "HTML",
           "json_name": "html",
@@ -13073,7 +13316,7 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Content of the rich message to send described using HTML formatting. See rich message formatting options for more details."
+          "doc": "Optional. Content of the rich message to send described using HTML formatting. See rich message formatting options for more details. Use media field to specify the media used in the message."
         },
         {
           "name": "Markdown",
@@ -13082,7 +13325,19 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Optional. Content of the rich message to send described using Markdown formatting. See rich message formatting options for more details."
+          "doc": "Optional. Content of the rich message to send described using Markdown formatting. See rich message formatting options for more details. Use media field to specify the media used in the message."
+        },
+        {
+          "name": "Media",
+          "json_name": "media",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "InputRichMessageMedia"
+            }
+          },
+          "doc": "Optional. List of media that are specified in the markdown or html fields using tg://photo?id=, tg://video?id=, and tg://audio?id= links"
         },
         {
           "name": "IsRtl",
@@ -13101,6 +13356,38 @@
             "name": "bool"
           },
           "doc": "Optional. Pass True to skip automatic detection of entities (e.g., URLs, email addresses, username mentions, hashtags, cashtags, bot commands, or phone numbers) in the text"
+        }
+      ]
+    },
+    {
+      "name": "InputRichMessageMedia",
+      "doc": "Describes a media element embedded in an outgoing rich message.",
+      "fields": [
+        {
+          "name": "ID",
+          "json_name": "id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Unique identifier of the media used in a tg://photo?id=, tg://video?id=, or tg://audio?id= link. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed."
+        },
+        {
+          "name": "Media",
+          "json_name": "media",
+          "type": {
+            "kind": "oneOf",
+            "variants": [
+              "InputMediaAnimation",
+              "InputMediaAudio",
+              "InputMediaPhoto",
+              "InputMediaVideo",
+              "InputMediaVoiceNote"
+            ]
+          },
+          "required": true,
+          "doc": "The media to be sent. Everything except the media itself and its properties is ignored."
         }
       ]
     },
@@ -14879,7 +15166,7 @@
     },
     {
       "name": "RichBlockPhoto",
-      "doc": "A block with a photo, corresponding to the HTML tag <photo>.",
+      "doc": "A block with a photo, corresponding to the HTML tag <img>.",
       "fields": [
         {
           "name": "Type",
@@ -15014,7 +15301,7 @@
     },
     {
       "name": "RichBlockThinking",
-      "doc": "A block with a “Thinking…” placeholder, corresponding to the custom HTML tag <tg-thinking>. The block may be used only in sendRichMessageDraft, therefore it can't be received in messages. See https://t.me/addemoji/AIActions for examples of custom emoji, which are recommended for usage in the block.",
+      "doc": "A block with a “Thinking…” placeholder, corresponding to the custom HTML tag <tg-thinking>. The block may be used only in sendRichMessageDraft, therefore it can't be received in messages. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block.",
       "fields": [
         {
           "name": "Type",
@@ -15037,7 +15324,901 @@
             "name": "RichText"
           },
           "required": true,
-          "doc": "Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji, which are recommended for usage in the block."
+          "doc": "Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block."
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockListItem",
+      "doc": "An item of a list to be sent.",
+      "fields": [
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "InputRichBlock"
+            }
+          },
+          "required": true,
+          "doc": "The content of the item"
+        },
+        {
+          "name": "HasCheckbox",
+          "json_name": "has_checkbox",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. Pass True if the item has a checkbox"
+        },
+        {
+          "name": "IsChecked",
+          "json_name": "is_checked",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. Pass True if the item has a checked checkbox"
+        },
+        {
+          "name": "Value",
+          "json_name": "value",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "Optional. For ordered lists, the numeric value of the item label"
+        },
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Optional. For ordered lists, the type of the item label; must be one of “a” for lowercase letters, “A” for uppercase letters, “i” for lowercase Roman numerals, “I” for uppercase Roman numerals, or “1” for decimal numbers",
+          "enum_values": [
+            "a",
+            "A",
+            "i",
+            "I",
+            "1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlock",
+      "doc": "This object represents a block in a rich formatted message to be sent. Currently, it can be any of the following types:",
+      "one_of": [
+        "InputRichBlockParagraph",
+        "InputRichBlockSectionHeading",
+        "InputRichBlockPreformatted",
+        "InputRichBlockFooter",
+        "InputRichBlockDivider",
+        "InputRichBlockMathematicalExpression",
+        "InputRichBlockAnchor",
+        "InputRichBlockList",
+        "InputRichBlockBlockQuotation",
+        "InputRichBlockPullQuotation",
+        "InputRichBlockCollage",
+        "InputRichBlockSlideshow",
+        "InputRichBlockTable",
+        "InputRichBlockDetails",
+        "InputRichBlockMap",
+        "InputRichBlockAnimation",
+        "InputRichBlockAudio",
+        "InputRichBlockPhoto",
+        "InputRichBlockVideo",
+        "InputRichBlockVoiceNote",
+        "InputRichBlockThinking"
+      ]
+    },
+    {
+      "name": "InputRichBlockParagraph",
+      "doc": "A text paragraph, corresponding to the HTML tag <p>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “paragraph”",
+          "enum_values": [
+            "paragraph"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockSectionHeading",
+      "doc": "A section heading, corresponding to the HTML tags <h1>, <h2>, <h3>, <h4>, <h5>, or <h6>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “heading”",
+          "enum_values": [
+            "heading"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block"
+        },
+        {
+          "name": "Size",
+          "json_name": "size",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Relative size of the text font; 1-6, 1 is the largest, 6 is the smallest"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockPreformatted",
+      "doc": "A preformatted text block, corresponding to the nested HTML tags <pre> and <code>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “pre”",
+          "enum_values": [
+            "pre"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block"
+        },
+        {
+          "name": "Language",
+          "json_name": "language",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Optional. The programming language of the text"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockFooter",
+      "doc": "A footer, corresponding to the HTML tag <footer>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “footer”",
+          "enum_values": [
+            "footer"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockDivider",
+      "doc": "A divider, corresponding to the HTML tag <hr/>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “divider”",
+          "enum_values": [
+            "divider"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockMathematicalExpression",
+      "doc": "A block with a mathematical expression in LaTeX format, corresponding to the custom HTML tag <tg-math-block>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “mathematical_expression”",
+          "enum_values": [
+            "mathematical_expression"
+          ]
+        },
+        {
+          "name": "Expression",
+          "json_name": "expression",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The mathematical expression in LaTeX format"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockAnchor",
+      "doc": "A block with an anchor, corresponding to the HTML tag <a> with the attribute name.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “anchor”",
+          "enum_values": [
+            "anchor"
+          ]
+        },
+        {
+          "name": "Name",
+          "json_name": "name",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "The name of the anchor"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockList",
+      "doc": "A list of blocks, corresponding to the HTML tag <ul> or <ol> with multiple nested tags <li>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “list”",
+          "enum_values": [
+            "list"
+          ]
+        },
+        {
+          "name": "Items",
+          "json_name": "items",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "InputRichBlockListItem"
+            }
+          },
+          "required": true,
+          "doc": "Items of the list"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockBlockQuotation",
+      "doc": "A block quotation, corresponding to the HTML tag <blockquote>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “blockquote”",
+          "enum_values": [
+            "blockquote"
+          ]
+        },
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "InputRichBlock"
+            }
+          },
+          "required": true,
+          "doc": "Content of the block"
+        },
+        {
+          "name": "Credit",
+          "json_name": "credit",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "doc": "Optional. Credit of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockPullQuotation",
+      "doc": "A quotation with centered text, loosely corresponding to the HTML tag <aside>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “pullquote”",
+          "enum_values": [
+            "pullquote"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block"
+        },
+        {
+          "name": "Credit",
+          "json_name": "credit",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "doc": "Optional. Credit of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockCollage",
+      "doc": "A collage, corresponding to the custom HTML tag <tg-collage>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “collage”",
+          "enum_values": [
+            "collage"
+          ]
+        },
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "InputRichBlock"
+            }
+          },
+          "required": true,
+          "doc": "Elements of the collage"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockSlideshow",
+      "doc": "A slideshow, corresponding to the custom HTML tag <tg-slideshow>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “slideshow”",
+          "enum_values": [
+            "slideshow"
+          ]
+        },
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "InputRichBlock"
+            }
+          },
+          "required": true,
+          "doc": "Elements of the slideshow"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockTable",
+      "doc": "A table, corresponding to the HTML tag <table>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “table”",
+          "enum_values": [
+            "table"
+          ]
+        },
+        {
+          "name": "Cells",
+          "json_name": "cells",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "array",
+              "elem_type": {
+                "kind": "named",
+                "name": "RichBlockTableCell"
+              }
+            }
+          },
+          "required": true,
+          "doc": "Cells of the table"
+        },
+        {
+          "name": "IsBordered",
+          "json_name": "is_bordered",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. Pass True if the table has borders"
+        },
+        {
+          "name": "IsStriped",
+          "json_name": "is_striped",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. Pass True if the table is striped"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "doc": "Optional. Caption of the table"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockDetails",
+      "doc": "An expandable block for details disclosure, corresponding to the HTML tag <details>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “details”",
+          "enum_values": [
+            "details"
+          ]
+        },
+        {
+          "name": "Summary",
+          "json_name": "summary",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Always shown summary of the block"
+        },
+        {
+          "name": "Blocks",
+          "json_name": "blocks",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "InputRichBlock"
+            }
+          },
+          "required": true,
+          "doc": "Content of the block"
+        },
+        {
+          "name": "IsOpen",
+          "json_name": "is_open",
+          "type": {
+            "kind": "primitive",
+            "name": "bool"
+          },
+          "doc": "Optional. Pass True if the content of the block is visible by default"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockMap",
+      "doc": "A block with a map, corresponding to the custom HTML tag <tg-map>. The map's width and height must not exceed 10000 in total. The width and height ratio must be at most 20.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “map”",
+          "enum_values": [
+            "map"
+          ]
+        },
+        {
+          "name": "Location",
+          "json_name": "location",
+          "type": {
+            "kind": "named",
+            "name": "Location"
+          },
+          "required": true,
+          "doc": "Location of the center of the map"
+        },
+        {
+          "name": "Zoom",
+          "json_name": "zoom",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Map zoom level; 0-24"
+        },
+        {
+          "name": "Width",
+          "json_name": "width",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Map width; 0-10000"
+        },
+        {
+          "name": "Height",
+          "json_name": "height",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Map height; 0-10000"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockAnimation",
+      "doc": "A block with an animation, corresponding to the HTML tag <video>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “animation”",
+          "enum_values": [
+            "animation"
+          ]
+        },
+        {
+          "name": "Animation",
+          "json_name": "animation",
+          "type": {
+            "kind": "named",
+            "name": "InputMediaAnimation"
+          },
+          "required": true,
+          "doc": "The animation. Caption is ignored."
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockAudio",
+      "doc": "A block with a music file, corresponding to the HTML tag <audio>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “audio”",
+          "enum_values": [
+            "audio"
+          ]
+        },
+        {
+          "name": "Audio",
+          "json_name": "audio",
+          "type": {
+            "kind": "named",
+            "name": "InputMediaAudio"
+          },
+          "required": true,
+          "doc": "The audio. Caption is ignored."
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockPhoto",
+      "doc": "A block with a photo, corresponding to the HTML tag <img>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “photo”",
+          "enum_values": [
+            "photo"
+          ]
+        },
+        {
+          "name": "Photo",
+          "json_name": "photo",
+          "type": {
+            "kind": "named",
+            "name": "InputMediaPhoto"
+          },
+          "required": true,
+          "doc": "The photo. Caption is ignored."
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockVideo",
+      "doc": "A block with a video, corresponding to the HTML tag <video>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “video”",
+          "enum_values": [
+            "video"
+          ]
+        },
+        {
+          "name": "Video",
+          "json_name": "video",
+          "type": {
+            "kind": "named",
+            "name": "InputMediaVideo"
+          },
+          "required": true,
+          "doc": "The video. Caption is ignored."
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockVoiceNote",
+      "doc": "A block with a voice note, corresponding to the HTML tag <audio>.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “voice_note”",
+          "enum_values": [
+            "voice_note"
+          ]
+        },
+        {
+          "name": "VoiceNote",
+          "json_name": "voice_note",
+          "type": {
+            "kind": "named",
+            "name": "InputMediaVoiceNote"
+          },
+          "required": true,
+          "doc": "The voice note. Caption is ignored."
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "named",
+            "name": "RichBlockCaption"
+          },
+          "doc": "Optional. Caption of the block"
+        }
+      ]
+    },
+    {
+      "name": "InputRichBlockThinking",
+      "doc": "A block with a “Thinking…” placeholder, corresponding to the custom HTML tag <tg-thinking>. The block may be used only in sendRichMessageDraft, therefore it can't be received in messages. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block.",
+      "fields": [
+        {
+          "name": "Type",
+          "json_name": "type",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "Type of the block, always “thinking”",
+          "enum_values": [
+            "thinking"
+          ]
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "named",
+            "name": "RichText"
+          },
+          "required": true,
+          "doc": "Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block."
         }
       ]
     },
@@ -15400,7 +16581,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "ReplyMarkup",
@@ -15561,7 +16742,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "ReplyMarkup",
@@ -15722,7 +16903,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "ReplyMarkup",
@@ -15853,7 +17034,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "VideoWidth",
@@ -16841,7 +18022,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "ReplyMarkup",
@@ -16951,7 +18132,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "ReplyMarkup",
@@ -17061,7 +18242,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "ReplyMarkup",
@@ -17349,7 +18530,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Optional. Pass True, if the caption must be shown above the message media"
+          "doc": "Optional. Pass True if the caption must be shown above the message media"
         },
         {
           "name": "ReplyMarkup",
@@ -17917,7 +19098,7 @@
               "name": "int64"
             }
           },
-          "doc": "Optional. A JSON-serialized array of suggested amounts of tip in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount."
+          "doc": "Optional. A JSON-serialized Array of suggested amounts of tip in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount."
         },
         {
           "name": "ProviderData",
@@ -20233,6 +21414,24 @@
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
         },
         {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
+        },
+        {
           "name": "Text",
           "json_name": "text",
           "type": {
@@ -20462,7 +21661,7 @@
     },
     {
       "name": "forwardMessages",
-      "doc": "Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an array of MessageId of the sent messages is returned.",
+      "doc": "Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an Array of MessageId of the sent messages is returned.",
       "params": [
         {
           "name": "ChatID",
@@ -20550,7 +21749,7 @@
     },
     {
       "name": "copyMessage",
-      "doc": "Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.",
+      "doc": "Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_ids is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.",
       "params": [
         {
           "name": "ChatID",
@@ -20657,7 +21856,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified."
+          "doc": "Pass True if the caption must be shown above the message media. Ignored if a new caption isn't specified."
         },
         {
           "name": "DisableNotification",
@@ -20735,7 +21934,7 @@
     },
     {
       "name": "copyMessages",
-      "doc": "Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an array of MessageId of the sent messages is returned.",
+      "doc": "Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_ids is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an Array of MessageId of the sent messages is returned.",
       "params": [
         {
           "name": "ChatID",
@@ -20875,6 +22074,24 @@
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
         },
         {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
+        },
+        {
           "name": "Photo",
           "json_name": "photo",
           "type": {
@@ -20929,7 +22146,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if the caption must be shown above the message media"
+          "doc": "Pass True if the caption must be shown above the message media"
         },
         {
           "name": "HasSpoiler",
@@ -21060,6 +22277,24 @@
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
         },
         {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
+        },
+        {
           "name": "LivePhoto",
           "json_name": "live_photo",
           "type": {
@@ -21127,7 +22362,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if the caption must be shown above the message media"
+          "doc": "Pass True if the caption must be shown above the message media"
         },
         {
           "name": "HasSpoiler",
@@ -21256,6 +22491,24 @@
             "name": "int64"
           },
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
+        },
+        {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
         },
         {
           "name": "Audio",
@@ -21464,6 +22717,24 @@
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
         },
         {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
+        },
+        {
           "name": "Document",
           "json_name": "document",
           "type": {
@@ -21652,6 +22923,24 @@
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
         },
         {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
+        },
+        {
           "name": "Video",
           "json_name": "video",
           "type": {
@@ -21766,7 +23055,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if the caption must be shown above the message media"
+          "doc": "Pass True if the caption must be shown above the message media"
         },
         {
           "name": "HasSpoiler",
@@ -21906,6 +23195,24 @@
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
         },
         {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
+        },
+        {
           "name": "Animation",
           "json_name": "animation",
           "type": {
@@ -21999,7 +23306,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if the caption must be shown above the message media"
+          "doc": "Pass True if the caption must be shown above the message media"
         },
         {
           "name": "HasSpoiler",
@@ -22128,6 +23435,24 @@
             "name": "int64"
           },
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
+        },
+        {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
         },
         {
           "name": "Voice",
@@ -22304,6 +23629,24 @@
             "name": "int64"
           },
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
+        },
+        {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
         },
         {
           "name": "VideoNote",
@@ -22488,7 +23831,7 @@
             }
           },
           "required": true,
-          "doc": "A JSON-serialized array describing the media to be sent; up to 10 items"
+          "doc": "A JSON-serialized Array describing the media to be sent; up to 10 items"
         },
         {
           "name": "Payload",
@@ -22541,7 +23884,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if the caption must be shown above the message media"
+          "doc": "Pass True if the caption must be shown above the message media"
         },
         {
           "name": "DisableNotification",
@@ -22611,7 +23954,7 @@
     },
     {
       "name": "sendMediaGroup",
-      "doc": "Use this method to send a group of photos, live photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Message objects that were sent is returned.",
+      "doc": "Use this method to send a group of photos, live photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an Array of Message objects that were sent is returned.",
       "params": [
         {
           "name": "BusinessConnectionID",
@@ -22670,7 +24013,7 @@
             }
           },
           "required": true,
-          "doc": "A JSON-serialized array describing messages to be sent, must include 2-10 items"
+          "doc": "A JSON-serialized Array describing messages to be sent, must include 2-10 items"
         },
         {
           "name": "DisableNotification",
@@ -22772,6 +24115,24 @@
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
         },
         {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
+        },
+        {
           "name": "Latitude",
           "json_name": "latitude",
           "type": {
@@ -22807,7 +24168,7 @@
             "kind": "primitive",
             "name": "int64"
           },
-          "doc": "Period in seconds during which the location will be updated (see Live Locations, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely"
+          "doc": "Period in seconds during which the location will be updated (see Live Locations), must be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely. Must be 0 for ephemeral messages."
         },
         {
           "name": "Heading",
@@ -22944,6 +24305,24 @@
             "name": "int64"
           },
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
+        },
+        {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
         },
         {
           "name": "Latitude",
@@ -23138,6 +24517,24 @@
             "name": "int64"
           },
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
+        },
+        {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
         },
         {
           "name": "PhoneNumber",
@@ -23360,7 +24757,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if the poll allows multiple answers, defaults to False"
+          "doc": "Pass True if the poll allows multiple answers, defaults to False"
         },
         {
           "name": "AllowsRevoting",
@@ -23369,7 +24766,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if the poll allows to change chosen answer options, defaults to False for quizzes and to True for regular polls"
+          "doc": "Pass True if the poll allows to change chosen answer options, defaults to False for quizzes and to True for regular polls"
         },
         {
           "name": "ShuffleOptions",
@@ -23378,7 +24775,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if the poll options must be shown in random order"
+          "doc": "Pass True if the poll options must be shown in random order"
         },
         {
           "name": "AllowAddingOptions",
@@ -23387,7 +24784,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes"
+          "doc": "Pass True if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes"
         },
         {
           "name": "HideResultsUntilCloses",
@@ -23396,7 +24793,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if poll results must be shown only after the poll closes"
+          "doc": "Pass True if poll results must be shown only after the poll closes"
         },
         {
           "name": "MembersOnly",
@@ -23405,7 +24802,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if voting is limited to users who have been members of the chat where the poll is being sent for more than 24 hours; for channel chats only"
+          "doc": "Pass True if voting is limited to users who have been members of the chat where the poll is being sent for more than 24 hours; for channel chats only"
         },
         {
           "name": "CountryCodes",
@@ -23857,7 +25254,7 @@
             "name": "int64"
           },
           "required": true,
-          "doc": "Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier are animated."
+          "doc": "Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated."
         },
         {
           "name": "Text",
@@ -25053,7 +26450,7 @@
     },
     {
       "name": "sendChatJoinRequestWebApp",
-      "doc": "Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Returns True on success.",
+      "doc": "Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Call answerChatJoinRequestQuery to resolve the join request query based on the user interaction with the Mini App. Returns True on success.",
       "params": [
         {
           "name": "ChatJoinRequestQueryID",
@@ -25073,7 +26470,7 @@
             "name": "string"
           },
           "required": true,
-          "doc": "The URL of the Mini App to be opened"
+          "doc": "An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps"
         }
       ],
       "returns": {
@@ -25401,7 +26798,7 @@
     },
     {
       "name": "getChatMemberCount",
-      "doc": "Use this method to get the number of members in a chat. Returns Int on success.",
+      "doc": "Use this method to get the number of members in a chat. Returns Integer on success.",
       "params": [
         {
           "name": "ChatID",
@@ -25457,7 +26854,7 @@
     },
     {
       "name": "getUserPersonalChatMessages",
-      "doc": "Use this method to get the last messages from the personal chat (i.e., the chat currently added to their profile) of a given user. On success, an array of Message objects is returned.",
+      "doc": "Use this method to get the last messages from the personal chat (i.e., the chat currently added to their profile) of a given user. On success, an Array of Message objects is returned.",
       "params": [
         {
           "name": "UserID",
@@ -25967,7 +27364,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false."
+          "doc": "If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to False."
         },
         {
           "name": "URL",
@@ -26158,7 +27555,7 @@
             "name": "bool"
           },
           "required": true,
-          "doc": "Pass True, if only selected users can access the bot. The bot's owner can always access it."
+          "doc": "Pass True if only selected users can access the bot. The bot's owner can always access it."
         },
         {
           "name": "AddedUserIds",
@@ -26170,7 +27567,7 @@
               "name": "int64"
             }
           },
-          "doc": "A JSON-serialized list of up to 10 identifiers of users who will have access to the bot in addition to its owner. Ignored if is_access_restricted is false."
+          "doc": "A JSON-serialized list of up to 10 identifiers of users who will have access to the bot in addition to its owner. Ignored if is_access_restricted is False."
         }
       ],
       "returns": {
@@ -27073,7 +28470,7 @@
             "name": "bool"
           },
           "required": true,
-          "doc": "Pass True, if a button for sending a gift to the user or by the business account must always be shown in the input field"
+          "doc": "Pass True if a button for sending a gift to the user or by the business account must always be shown in the input field"
         },
         {
           "name": "AcceptedGiftTypes",
@@ -28093,7 +29490,7 @@
             "kind": "named",
             "name": "InputRichMessage"
           },
-          "doc": "New rich content of the message; required if text isn't specified"
+          "doc": "New rich content of the message; required if text isn't specified. Direct upload of new files isn't supported when an inline message is edited."
         },
         {
           "name": "ReplyMarkup",
@@ -28195,7 +29592,7 @@
             "kind": "primitive",
             "name": "bool"
           },
-          "doc": "Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages."
+          "doc": "Pass True if the caption must be shown above the message media. Supported only for animation, photo and video messages."
         },
         {
           "name": "ReplyMarkup",
@@ -28263,7 +29660,7 @@
             "name": "InputMedia"
           },
           "required": true,
-          "doc": "A JSON-serialized object for a new media content of the message"
+          "doc": "A JSON-serialized object for the new media content of the message"
         },
         {
           "name": "ReplyMarkup",
@@ -28625,6 +30022,305 @@
       }
     },
     {
+      "name": "editEphemeralMessageText",
+      "doc": "Use this method to edit an ephemeral text message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.",
+      "params": [
+        {
+          "name": "ChatID",
+          "json_name": "chat_id",
+          "type": {
+            "kind": "oneOf",
+            "variants": [
+              "int64",
+              "string"
+            ]
+          },
+          "required": true,
+          "doc": "Unique identifier for the target chat or username of the target supergroup in the format @username"
+        },
+        {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Identifier of the user who received the message"
+        },
+        {
+          "name": "EphemeralMessageID",
+          "json_name": "ephemeral_message_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Identifier of the ephemeral message to edit"
+        },
+        {
+          "name": "Text",
+          "json_name": "text",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "required": true,
+          "doc": "New text of the message, 1-4096 characters after entity parsing"
+        },
+        {
+          "name": "ParseMode",
+          "json_name": "parse_mode",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Mode for parsing entities in the message text. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
+        },
+        {
+          "name": "Entities",
+          "json_name": "entities",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "MessageEntity"
+            }
+          },
+          "doc": "A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode"
+        },
+        {
+          "name": "LinkPreviewOptions",
+          "json_name": "link_preview_options",
+          "type": {
+            "kind": "named",
+            "name": "LinkPreviewOptions"
+          },
+          "doc": "Link preview generation options for the message"
+        },
+        {
+          "name": "ReplyMarkup",
+          "json_name": "reply_markup",
+          "type": {
+            "kind": "named",
+            "name": "InlineKeyboardMarkup"
+          },
+          "doc": "A JSON-serialized object for an inline keyboard"
+        }
+      ],
+      "returns": {
+        "kind": "primitive",
+        "name": "bool"
+      }
+    },
+    {
+      "name": "editEphemeralMessageMedia",
+      "doc": "Use this method to edit the media of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.",
+      "params": [
+        {
+          "name": "ChatID",
+          "json_name": "chat_id",
+          "type": {
+            "kind": "oneOf",
+            "variants": [
+              "int64",
+              "string"
+            ]
+          },
+          "required": true,
+          "doc": "Unique identifier for the target chat or username of the target supergroup in the format @username"
+        },
+        {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Identifier of the user who received the message"
+        },
+        {
+          "name": "EphemeralMessageID",
+          "json_name": "ephemeral_message_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Identifier of the ephemeral message to edit"
+        },
+        {
+          "name": "Media",
+          "json_name": "media",
+          "type": {
+            "kind": "named",
+            "name": "InputMedia"
+          },
+          "required": true,
+          "doc": "A JSON-serialized object for the new media content of the message. A new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL."
+        },
+        {
+          "name": "ReplyMarkup",
+          "json_name": "reply_markup",
+          "type": {
+            "kind": "named",
+            "name": "InlineKeyboardMarkup"
+          },
+          "doc": "A JSON-serialized object for an inline keyboard"
+        }
+      ],
+      "returns": {
+        "kind": "primitive",
+        "name": "bool"
+      },
+      "has_files": true
+    },
+    {
+      "name": "editEphemeralMessageCaption",
+      "doc": "Use this method to edit the caption of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.",
+      "params": [
+        {
+          "name": "ChatID",
+          "json_name": "chat_id",
+          "type": {
+            "kind": "oneOf",
+            "variants": [
+              "int64",
+              "string"
+            ]
+          },
+          "required": true,
+          "doc": "Unique identifier for the target chat or username of the target supergroup in the format @username"
+        },
+        {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Identifier of the user who received the message"
+        },
+        {
+          "name": "EphemeralMessageID",
+          "json_name": "ephemeral_message_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Identifier of the ephemeral message to edit"
+        },
+        {
+          "name": "Caption",
+          "json_name": "caption",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "New caption of the message, 0-1024 characters after entities parsing"
+        },
+        {
+          "name": "ParseMode",
+          "json_name": "parse_mode",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "Mode for parsing entities in the message caption. See formatting options for more details.",
+          "enum_values": [
+            "Markdown",
+            "MarkdownV2",
+            "HTML"
+          ]
+        },
+        {
+          "name": "CaptionEntities",
+          "json_name": "caption_entities",
+          "type": {
+            "kind": "array",
+            "elem_type": {
+              "kind": "named",
+              "name": "MessageEntity"
+            }
+          },
+          "doc": "A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode"
+        },
+        {
+          "name": "ReplyMarkup",
+          "json_name": "reply_markup",
+          "type": {
+            "kind": "named",
+            "name": "InlineKeyboardMarkup"
+          },
+          "doc": "A JSON-serialized object for an inline keyboard"
+        }
+      ],
+      "returns": {
+        "kind": "primitive",
+        "name": "bool"
+      }
+    },
+    {
+      "name": "editEphemeralMessageReplyMarkup",
+      "doc": "Use this method to edit only the reply markup of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.",
+      "params": [
+        {
+          "name": "ChatID",
+          "json_name": "chat_id",
+          "type": {
+            "kind": "oneOf",
+            "variants": [
+              "int64",
+              "string"
+            ]
+          },
+          "required": true,
+          "doc": "Unique identifier for the target chat or username of the target supergroup in the format @username"
+        },
+        {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Identifier of the user who received the message"
+        },
+        {
+          "name": "EphemeralMessageID",
+          "json_name": "ephemeral_message_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Identifier of the ephemeral message to edit"
+        },
+        {
+          "name": "ReplyMarkup",
+          "json_name": "reply_markup",
+          "type": {
+            "kind": "named",
+            "name": "InlineKeyboardMarkup"
+          },
+          "doc": "A JSON-serialized object for an inline keyboard"
+        }
+      ],
+      "returns": {
+        "kind": "primitive",
+        "name": "bool"
+      }
+    },
+    {
       "name": "approveSuggestedPost",
       "doc": "Use this method to approve a suggested post in a direct messages chat. The bot must have the 'can_post_messages' administrator right in the corresponding channel chat. Returns True on success.",
       "params": [
@@ -28772,6 +30468,49 @@
       }
     },
     {
+      "name": "deleteEphemeralMessage",
+      "doc": "Use this method to delete an ephemeral message. Note that it is not guaranteed that the user will receive the message deletion event, especially if they are offline. Returns True on success.",
+      "params": [
+        {
+          "name": "ChatID",
+          "json_name": "chat_id",
+          "type": {
+            "kind": "oneOf",
+            "variants": [
+              "int64",
+              "string"
+            ]
+          },
+          "required": true,
+          "doc": "Unique identifier for the target chat or username of the target supergroup in the format @username"
+        },
+        {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Identifier of the user who received the message"
+        },
+        {
+          "name": "EphemeralMessageID",
+          "json_name": "ephemeral_message_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "required": true,
+          "doc": "Identifier of the ephemeral message to delete"
+        }
+      ],
+      "returns": {
+        "kind": "primitive",
+        "name": "bool"
+      }
+    },
+    {
       "name": "deleteMessageReaction",
       "doc": "Use this method to remove a reaction from a message in a group or a supergroup chat. The bot must have the 'can_delete_messages' administrator right in the chat. Returns True on success.",
       "params": [
@@ -28906,6 +30645,24 @@
             "name": "int64"
           },
           "doc": "Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat"
+        },
+        {
+          "name": "ReceiverUserID",
+          "json_name": "receiver_user_id",
+          "type": {
+            "kind": "primitive",
+            "name": "int64"
+          },
+          "doc": "For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details."
+        },
+        {
+          "name": "CallbackQueryID",
+          "json_name": "callback_query_id",
+          "type": {
+            "kind": "primitive",
+            "name": "string"
+          },
+          "doc": "For outgoing ephemeral messages, identifier of the callback query which triggered the message if any"
         },
         {
           "name": "Sticker",
@@ -29549,7 +31306,7 @@
             "kind": "primitive",
             "name": "string"
           },
-          "doc": "Unique identifier of the business connection on behalf of which the message will be sent"
+          "doc": "Unique identifier of the business connection on behalf of which the message will be sent. Bot can send rich messages on behalf of a business account only if the corresponding user can send rich messages."
         },
         {
           "name": "ChatID",
@@ -29707,7 +31464,7 @@
             "name": "InputRichMessage"
           },
           "required": true,
-          "doc": "The partial message to be streamed"
+          "doc": "The partial message to be streamed. Direct upload of new files isn't supported."
         }
       ],
       "returns": {
@@ -29740,7 +31497,7 @@
             }
           },
           "required": true,
-          "doc": "A JSON-serialized array of results for the inline query"
+          "doc": "A JSON-serialized Array of results for the inline query"
         },
         {
           "name": "CacheTime",
@@ -29900,7 +31657,7 @@
               "name": "int64"
             }
           },
-          "doc": "A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount."
+          "doc": "A JSON-serialized Array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount."
         },
         {
           "name": "StartParameter",
@@ -30191,7 +31948,7 @@
               "name": "int64"
             }
           },
-          "doc": "A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount."
+          "doc": "A JSON-serialized Array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount."
         },
         {
           "name": "ProviderData",
@@ -30341,7 +32098,7 @@
               "name": "ShippingOption"
             }
           },
-          "doc": "Required if ok is True. A JSON-serialized array of available shipping options."
+          "doc": "Required if ok is True. A JSON-serialized Array of available shipping options."
         },
         {
           "name": "ErrorMessage",
@@ -30528,7 +32285,7 @@
             }
           },
           "required": true,
-          "doc": "A JSON-serialized array describing the errors"
+          "doc": "A JSON-serialized Array describing the errors"
         }
       ],
       "returns": {

@@ -33,6 +33,14 @@ const (
 	BotCommandScopeTypeChatMember            BotCommandScopeType = "chat_member"
 )
 
+type BotSubscriptionUpdatedState string
+
+const (
+	BotSubscriptionUpdatedStateCanceled BotSubscriptionUpdatedState = "canceled"
+	BotSubscriptionUpdatedStateActive   BotSubscriptionUpdatedState = "active"
+	BotSubscriptionUpdatedStateFailed   BotSubscriptionUpdatedState = "failed"
+)
+
 type ChatBoostSourceKind string
 
 const (
@@ -133,6 +141,12 @@ const (
 	InputMediaTypeVideo     InputMediaType = "video"
 )
 
+type InputMediaVoiceNoteType string
+
+const (
+	InputMediaVoiceNoteTypeVoiceNote InputMediaVoiceNoteType = "voice_note"
+)
+
 type InputPaidMediaType string
 
 const (
@@ -172,6 +186,32 @@ type InputProfilePhotoType string
 const (
 	InputProfilePhotoTypeStatic   InputProfilePhotoType = "static"
 	InputProfilePhotoTypeAnimated InputProfilePhotoType = "animated"
+)
+
+type InputRichBlockType string
+
+const (
+	InputRichBlockTypeParagraph              InputRichBlockType = "paragraph"
+	InputRichBlockTypeHeading                InputRichBlockType = "heading"
+	InputRichBlockTypePre                    InputRichBlockType = "pre"
+	InputRichBlockTypeFooter                 InputRichBlockType = "footer"
+	InputRichBlockTypeDivider                InputRichBlockType = "divider"
+	InputRichBlockTypeMathematicalExpression InputRichBlockType = "mathematical_expression"
+	InputRichBlockTypeAnchor                 InputRichBlockType = "anchor"
+	InputRichBlockTypeList                   InputRichBlockType = "list"
+	InputRichBlockTypeBlockquote             InputRichBlockType = "blockquote"
+	InputRichBlockTypePullquote              InputRichBlockType = "pullquote"
+	InputRichBlockTypeCollage                InputRichBlockType = "collage"
+	InputRichBlockTypeSlideshow              InputRichBlockType = "slideshow"
+	InputRichBlockTypeTable                  InputRichBlockType = "table"
+	InputRichBlockTypeDetails                InputRichBlockType = "details"
+	InputRichBlockTypeMap                    InputRichBlockType = "map"
+	InputRichBlockTypeAnimation              InputRichBlockType = "animation"
+	InputRichBlockTypeAudio                  InputRichBlockType = "audio"
+	InputRichBlockTypePhoto                  InputRichBlockType = "photo"
+	InputRichBlockTypeVideo                  InputRichBlockType = "video"
+	InputRichBlockTypeVoiceNote              InputRichBlockType = "voice_note"
+	InputRichBlockTypeThinking               InputRichBlockType = "thinking"
 )
 
 type InputStickerFormat string

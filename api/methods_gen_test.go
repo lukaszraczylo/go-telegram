@@ -19943,6 +19943,624 @@ func Test_StopPoll_ServerError(t *testing.T) {
 	require.True(t, ae.IsRetryable(), "5xx must be retryable")
 }
 
+func Test_EditEphemeralMessageText_Success(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.MatchedBy(func(r *http.Request) bool {
+		return strings.HasSuffix(r.URL.Path, "/editEphemeralMessageText")
+	})).Return(genTestResp(200, `{"ok":true,"result":true}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageTextParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Text:               "test_value",
+	}
+	_, err := EditEphemeralMessageText(context.Background(), bot, params)
+	require.NoError(t, err)
+}
+
+func Test_EditEphemeralMessageText_APIError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":429,"description":"Too Many Requests","parameters":{"retry_after":1}}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageTextParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Text:               "test_value",
+	}
+	_, err := EditEphemeralMessageText(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 429, ae.Code)
+	require.True(t, ae.IsRetryable())
+}
+
+func Test_EditEphemeralMessageText_NetworkError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, errors.New("dial tcp: timeout"))
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageTextParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Text:               "test_value",
+	}
+	_, err := EditEphemeralMessageText(context.Background(), bot, params)
+	require.Error(t, err)
+	var ne *client.NetworkError
+	require.ErrorAs(t, err, &ne)
+}
+
+func Test_EditEphemeralMessageText_ParseError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(genTestResp(200, `not json`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageTextParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Text:               "test_value",
+	}
+	_, err := EditEphemeralMessageText(context.Background(), bot, params)
+	require.Error(t, err)
+	var pe *client.ParseError
+	require.ErrorAs(t, err, &pe)
+}
+
+func Test_EditEphemeralMessageText_ContextCanceled(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, context.Canceled).Maybe()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageTextParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Text:               "test_value",
+	}
+	_, err := EditEphemeralMessageText(ctx, bot, params)
+	require.Error(t, err)
+	require.ErrorIs(t, err, context.Canceled)
+}
+
+// Test_EditEphemeralMessageText_MissingRequiredFields exercises Telegram's server-side
+// validation: when a required field is omitted, Telegram returns 400 with
+// a description like "Bad Request: <field> is empty". The library must
+// surface this as *APIError with the ErrBadRequest sentinel.
+func Test_EditEphemeralMessageText_MissingRequiredFields(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":400,"description":"Bad Request: chat_id is empty"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	// Send a Params with all required fields zeroed — simulates a caller
+	// that forgot to populate them. The bot library marshals as-is and
+	// surfaces Telegram's 400 reply.
+	_, err := EditEphemeralMessageText(context.Background(), bot, &EditEphemeralMessageTextParams{})
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 400, ae.Code)
+	require.True(t, errors.Is(err, client.ErrBadRequest))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_EditEphemeralMessageText_Forbidden exercises the 403 path (bot blocked by user,
+// removed from chat, etc.). The library must surface the ErrForbidden
+// sentinel.
+func Test_EditEphemeralMessageText_Forbidden(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageTextParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Text:               "test_value",
+	}
+	_, err := EditEphemeralMessageText(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 403, ae.Code)
+	require.True(t, errors.Is(err, client.ErrForbidden))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_EditEphemeralMessageText_ServerError exercises the 5xx path. The library must
+// classify these as retryable so RetryDoer / user retry logic kicks in.
+func Test_EditEphemeralMessageText_ServerError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":500,"description":"Internal server error"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageTextParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Text:               "test_value",
+	}
+	_, err := EditEphemeralMessageText(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 500, ae.Code)
+	require.True(t, ae.IsRetryable(), "5xx must be retryable")
+}
+
+func Test_EditEphemeralMessageMedia_Success(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.MatchedBy(func(r *http.Request) bool {
+		return strings.HasSuffix(r.URL.Path, "/editEphemeralMessageMedia")
+	})).Return(genTestResp(200, `{"ok":true,"result":true}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageMediaParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Media:              nil,
+	}
+	_, err := EditEphemeralMessageMedia(context.Background(), bot, params)
+	require.NoError(t, err)
+}
+
+func Test_EditEphemeralMessageMedia_APIError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":429,"description":"Too Many Requests","parameters":{"retry_after":1}}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageMediaParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Media:              nil,
+	}
+	_, err := EditEphemeralMessageMedia(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 429, ae.Code)
+	require.True(t, ae.IsRetryable())
+}
+
+func Test_EditEphemeralMessageMedia_NetworkError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, errors.New("dial tcp: timeout"))
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageMediaParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Media:              nil,
+	}
+	_, err := EditEphemeralMessageMedia(context.Background(), bot, params)
+	require.Error(t, err)
+	var ne *client.NetworkError
+	require.ErrorAs(t, err, &ne)
+}
+
+func Test_EditEphemeralMessageMedia_ParseError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(genTestResp(200, `not json`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageMediaParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Media:              nil,
+	}
+	_, err := EditEphemeralMessageMedia(context.Background(), bot, params)
+	require.Error(t, err)
+	var pe *client.ParseError
+	require.ErrorAs(t, err, &pe)
+}
+
+func Test_EditEphemeralMessageMedia_ContextCanceled(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, context.Canceled).Maybe()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageMediaParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Media:              nil,
+	}
+	_, err := EditEphemeralMessageMedia(ctx, bot, params)
+	require.Error(t, err)
+	require.ErrorIs(t, err, context.Canceled)
+}
+
+// Test_EditEphemeralMessageMedia_MissingRequiredFields exercises Telegram's server-side
+// validation: when a required field is omitted, Telegram returns 400 with
+// a description like "Bad Request: <field> is empty". The library must
+// surface this as *APIError with the ErrBadRequest sentinel.
+func Test_EditEphemeralMessageMedia_MissingRequiredFields(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":400,"description":"Bad Request: chat_id is empty"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	// Send a Params with all required fields zeroed — simulates a caller
+	// that forgot to populate them. The bot library marshals as-is and
+	// surfaces Telegram's 400 reply.
+	_, err := EditEphemeralMessageMedia(context.Background(), bot, &EditEphemeralMessageMediaParams{})
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 400, ae.Code)
+	require.True(t, errors.Is(err, client.ErrBadRequest))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_EditEphemeralMessageMedia_Forbidden exercises the 403 path (bot blocked by user,
+// removed from chat, etc.). The library must surface the ErrForbidden
+// sentinel.
+func Test_EditEphemeralMessageMedia_Forbidden(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageMediaParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Media:              nil,
+	}
+	_, err := EditEphemeralMessageMedia(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 403, ae.Code)
+	require.True(t, errors.Is(err, client.ErrForbidden))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_EditEphemeralMessageMedia_ServerError exercises the 5xx path. The library must
+// classify these as retryable so RetryDoer / user retry logic kicks in.
+func Test_EditEphemeralMessageMedia_ServerError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":500,"description":"Internal server error"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageMediaParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+		Media:              nil,
+	}
+	_, err := EditEphemeralMessageMedia(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 500, ae.Code)
+	require.True(t, ae.IsRetryable(), "5xx must be retryable")
+}
+
+func Test_EditEphemeralMessageCaption_Success(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.MatchedBy(func(r *http.Request) bool {
+		return strings.HasSuffix(r.URL.Path, "/editEphemeralMessageCaption")
+	})).Return(genTestResp(200, `{"ok":true,"result":true}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageCaptionParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageCaption(context.Background(), bot, params)
+	require.NoError(t, err)
+}
+
+func Test_EditEphemeralMessageCaption_APIError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":429,"description":"Too Many Requests","parameters":{"retry_after":1}}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageCaptionParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageCaption(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 429, ae.Code)
+	require.True(t, ae.IsRetryable())
+}
+
+func Test_EditEphemeralMessageCaption_NetworkError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, errors.New("dial tcp: timeout"))
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageCaptionParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageCaption(context.Background(), bot, params)
+	require.Error(t, err)
+	var ne *client.NetworkError
+	require.ErrorAs(t, err, &ne)
+}
+
+func Test_EditEphemeralMessageCaption_ParseError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(genTestResp(200, `not json`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageCaptionParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageCaption(context.Background(), bot, params)
+	require.Error(t, err)
+	var pe *client.ParseError
+	require.ErrorAs(t, err, &pe)
+}
+
+func Test_EditEphemeralMessageCaption_ContextCanceled(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, context.Canceled).Maybe()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageCaptionParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageCaption(ctx, bot, params)
+	require.Error(t, err)
+	require.ErrorIs(t, err, context.Canceled)
+}
+
+// Test_EditEphemeralMessageCaption_MissingRequiredFields exercises Telegram's server-side
+// validation: when a required field is omitted, Telegram returns 400 with
+// a description like "Bad Request: <field> is empty". The library must
+// surface this as *APIError with the ErrBadRequest sentinel.
+func Test_EditEphemeralMessageCaption_MissingRequiredFields(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":400,"description":"Bad Request: chat_id is empty"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	// Send a Params with all required fields zeroed — simulates a caller
+	// that forgot to populate them. The bot library marshals as-is and
+	// surfaces Telegram's 400 reply.
+	_, err := EditEphemeralMessageCaption(context.Background(), bot, &EditEphemeralMessageCaptionParams{})
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 400, ae.Code)
+	require.True(t, errors.Is(err, client.ErrBadRequest))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_EditEphemeralMessageCaption_Forbidden exercises the 403 path (bot blocked by user,
+// removed from chat, etc.). The library must surface the ErrForbidden
+// sentinel.
+func Test_EditEphemeralMessageCaption_Forbidden(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageCaptionParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageCaption(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 403, ae.Code)
+	require.True(t, errors.Is(err, client.ErrForbidden))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_EditEphemeralMessageCaption_ServerError exercises the 5xx path. The library must
+// classify these as retryable so RetryDoer / user retry logic kicks in.
+func Test_EditEphemeralMessageCaption_ServerError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":500,"description":"Internal server error"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageCaptionParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageCaption(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 500, ae.Code)
+	require.True(t, ae.IsRetryable(), "5xx must be retryable")
+}
+
+func Test_EditEphemeralMessageReplyMarkup_Success(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.MatchedBy(func(r *http.Request) bool {
+		return strings.HasSuffix(r.URL.Path, "/editEphemeralMessageReplyMarkup")
+	})).Return(genTestResp(200, `{"ok":true,"result":true}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageReplyMarkupParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageReplyMarkup(context.Background(), bot, params)
+	require.NoError(t, err)
+}
+
+func Test_EditEphemeralMessageReplyMarkup_APIError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":429,"description":"Too Many Requests","parameters":{"retry_after":1}}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageReplyMarkupParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageReplyMarkup(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 429, ae.Code)
+	require.True(t, ae.IsRetryable())
+}
+
+func Test_EditEphemeralMessageReplyMarkup_NetworkError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, errors.New("dial tcp: timeout"))
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageReplyMarkupParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageReplyMarkup(context.Background(), bot, params)
+	require.Error(t, err)
+	var ne *client.NetworkError
+	require.ErrorAs(t, err, &ne)
+}
+
+func Test_EditEphemeralMessageReplyMarkup_ParseError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(genTestResp(200, `not json`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageReplyMarkupParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageReplyMarkup(context.Background(), bot, params)
+	require.Error(t, err)
+	var pe *client.ParseError
+	require.ErrorAs(t, err, &pe)
+}
+
+func Test_EditEphemeralMessageReplyMarkup_ContextCanceled(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, context.Canceled).Maybe()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageReplyMarkupParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageReplyMarkup(ctx, bot, params)
+	require.Error(t, err)
+	require.ErrorIs(t, err, context.Canceled)
+}
+
+// Test_EditEphemeralMessageReplyMarkup_MissingRequiredFields exercises Telegram's server-side
+// validation: when a required field is omitted, Telegram returns 400 with
+// a description like "Bad Request: <field> is empty". The library must
+// surface this as *APIError with the ErrBadRequest sentinel.
+func Test_EditEphemeralMessageReplyMarkup_MissingRequiredFields(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":400,"description":"Bad Request: chat_id is empty"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	// Send a Params with all required fields zeroed — simulates a caller
+	// that forgot to populate them. The bot library marshals as-is and
+	// surfaces Telegram's 400 reply.
+	_, err := EditEphemeralMessageReplyMarkup(context.Background(), bot, &EditEphemeralMessageReplyMarkupParams{})
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 400, ae.Code)
+	require.True(t, errors.Is(err, client.ErrBadRequest))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_EditEphemeralMessageReplyMarkup_Forbidden exercises the 403 path (bot blocked by user,
+// removed from chat, etc.). The library must surface the ErrForbidden
+// sentinel.
+func Test_EditEphemeralMessageReplyMarkup_Forbidden(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageReplyMarkupParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageReplyMarkup(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 403, ae.Code)
+	require.True(t, errors.Is(err, client.ErrForbidden))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_EditEphemeralMessageReplyMarkup_ServerError exercises the 5xx path. The library must
+// classify these as retryable so RetryDoer / user retry logic kicks in.
+func Test_EditEphemeralMessageReplyMarkup_ServerError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":500,"description":"Internal server error"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &EditEphemeralMessageReplyMarkupParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := EditEphemeralMessageReplyMarkup(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 500, ae.Code)
+	require.True(t, ae.IsRetryable(), "5xx must be retryable")
+}
+
 func Test_ApproveSuggestedPost_Success(t *testing.T) {
 	m := &genTestMockDoer{}
 	m.On("Do", mock.MatchedBy(func(r *http.Request) bool {
@@ -20512,6 +21130,157 @@ func Test_DeleteMessages_ServerError(t *testing.T) {
 		MessageIds: nil,
 	}
 	_, err := DeleteMessages(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 500, ae.Code)
+	require.True(t, ae.IsRetryable(), "5xx must be retryable")
+}
+
+func Test_DeleteEphemeralMessage_Success(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.MatchedBy(func(r *http.Request) bool {
+		return strings.HasSuffix(r.URL.Path, "/deleteEphemeralMessage")
+	})).Return(genTestResp(200, `{"ok":true,"result":true}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &DeleteEphemeralMessageParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := DeleteEphemeralMessage(context.Background(), bot, params)
+	require.NoError(t, err)
+}
+
+func Test_DeleteEphemeralMessage_APIError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":429,"description":"Too Many Requests","parameters":{"retry_after":1}}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &DeleteEphemeralMessageParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := DeleteEphemeralMessage(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 429, ae.Code)
+	require.True(t, ae.IsRetryable())
+}
+
+func Test_DeleteEphemeralMessage_NetworkError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, errors.New("dial tcp: timeout"))
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &DeleteEphemeralMessageParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := DeleteEphemeralMessage(context.Background(), bot, params)
+	require.Error(t, err)
+	var ne *client.NetworkError
+	require.ErrorAs(t, err, &ne)
+}
+
+func Test_DeleteEphemeralMessage_ParseError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(genTestResp(200, `not json`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &DeleteEphemeralMessageParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := DeleteEphemeralMessage(context.Background(), bot, params)
+	require.Error(t, err)
+	var pe *client.ParseError
+	require.ErrorAs(t, err, &pe)
+}
+
+func Test_DeleteEphemeralMessage_ContextCanceled(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(nil, context.Canceled).Maybe()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &DeleteEphemeralMessageParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := DeleteEphemeralMessage(ctx, bot, params)
+	require.Error(t, err)
+	require.ErrorIs(t, err, context.Canceled)
+}
+
+// Test_DeleteEphemeralMessage_MissingRequiredFields exercises Telegram's server-side
+// validation: when a required field is omitted, Telegram returns 400 with
+// a description like "Bad Request: <field> is empty". The library must
+// surface this as *APIError with the ErrBadRequest sentinel.
+func Test_DeleteEphemeralMessage_MissingRequiredFields(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":400,"description":"Bad Request: chat_id is empty"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	// Send a Params with all required fields zeroed — simulates a caller
+	// that forgot to populate them. The bot library marshals as-is and
+	// surfaces Telegram's 400 reply.
+	_, err := DeleteEphemeralMessage(context.Background(), bot, &DeleteEphemeralMessageParams{})
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 400, ae.Code)
+	require.True(t, errors.Is(err, client.ErrBadRequest))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_DeleteEphemeralMessage_Forbidden exercises the 403 path (bot blocked by user,
+// removed from chat, etc.). The library must surface the ErrForbidden
+// sentinel.
+func Test_DeleteEphemeralMessage_Forbidden(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &DeleteEphemeralMessageParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := DeleteEphemeralMessage(context.Background(), bot, params)
+	require.Error(t, err)
+	var ae *client.APIError
+	require.ErrorAs(t, err, &ae)
+	require.Equal(t, 403, ae.Code)
+	require.True(t, errors.Is(err, client.ErrForbidden))
+	require.False(t, ae.IsRetryable())
+}
+
+// Test_DeleteEphemeralMessage_ServerError exercises the 5xx path. The library must
+// classify these as retryable so RetryDoer / user retry logic kicks in.
+func Test_DeleteEphemeralMessage_ServerError(t *testing.T) {
+	m := &genTestMockDoer{}
+	m.On("Do", mock.Anything).Return(
+		genTestResp(200, `{"ok":false,"error_code":500,"description":"Internal server error"}`), nil)
+
+	bot := client.New("test:token", client.WithHTTPClient(m))
+	params := &DeleteEphemeralMessageParams{
+		ChatID:             ChatIDFromInt(123),
+		ReceiverUserID:     42,
+		EphemeralMessageID: 42,
+	}
+	_, err := DeleteEphemeralMessage(context.Background(), bot, params)
 	require.Error(t, err)
 	var ae *client.APIError
 	require.ErrorAs(t, err, &ae)
