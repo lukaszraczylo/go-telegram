@@ -125,12 +125,18 @@ func TestAuditDrift_InvalidRefReturnsError(t *testing.T) {
 }
 
 func TestAuditDrift_SameRefNoDrift(t *testing.T) {
+	// Compare HEAD's IR against itself, not against the working tree: during a
+	// regen run the working tree legitimately carries new methods, and drift
+	// against HEAD is the expected outcome rather than a failure.
 	irPath := "../../internal/spec/api.json"
-	cur, err := loadIR(irPath)
+	out, err := exec.Command("git", "show", "HEAD:"+irPath).Output()
 	if err != nil {
-		t.Skip("api.json not available, skipping drift test")
+		t.Skip("api.json not available at HEAD, skipping drift test")
 	}
-	changes, err := auditDrift(irPath, "HEAD", cur)
+	var head spec.API
+	require.NoError(t, json.Unmarshal(out, &head))
+
+	changes, err := auditDrift(irPath, "HEAD", &head)
 	require.NoError(t, err)
 	require.Empty(t, changes)
 }
@@ -166,7 +172,7 @@ func TestAuditAny_FlagsUnknownMethodReturn(t *testing.T) {
 			},
 		},
 	}
-	out := auditAny(api)
+	out := auditAny(api, &spec.Overrides{})
 	require.Len(t, out, 1)
 	require.Contains(t, out[0], "any return: weirdMethod")
 }
@@ -182,7 +188,7 @@ func TestAuditAny_FlagsUnknownMethodParam(t *testing.T) {
 			},
 		},
 	}
-	out := auditAny(api)
+	out := auditAny(api, &spec.Overrides{})
 	require.Len(t, out, 1)
 	require.Contains(t, out[0], "any param: weirdMethod.Thing")
 }

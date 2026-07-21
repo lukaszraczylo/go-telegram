@@ -22,6 +22,12 @@ type Overrides struct {
 	// ApprovedBoolMethods lists methods whose returns are genuinely bool.
 	// The audit tool ignores these.
 	ApprovedBoolMethods []string `json:"approved_bool_methods,omitempty"`
+
+	// ApprovedAnyLocations lists IR locations whose union renders as `any` by
+	// design, keyed "<TypeName>.<FieldName>" for struct fields,
+	// "<methodName>.<ParamName>" for params and "<methodName>" for returns.
+	// The audit tool ignores these.
+	ApprovedAnyLocations []string `json:"approved_any_locations,omitempty"`
 }
 
 // LoadOverrides reads and parses overrides.json. Returns an empty Overrides
@@ -68,6 +74,20 @@ func (o *Overrides) IsBoolApproved(methodName string) bool {
 	}
 	for _, n := range o.ApprovedBoolMethods {
 		if n == methodName {
+			return true
+		}
+	}
+	return false
+}
+
+// IsAnyApproved reports whether location is on the approved `any` list.
+// See ApprovedAnyLocations for the key format.
+func (o *Overrides) IsAnyApproved(location string) bool {
+	if o == nil {
+		return false
+	}
+	for _, n := range o.ApprovedAnyLocations {
+		if n == location {
 			return true
 		}
 	}

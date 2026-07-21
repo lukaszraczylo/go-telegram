@@ -42,7 +42,7 @@ func extractReturn(desc string) spec.TypeRef {
 			return spec.TypeRef{Kind: spec.KindArray, ElemType: &elem}
 		}},
 		// "an array of X of the sent messages is returned" (ForwardMessages/CopyMessages shape).
-		{regexp.MustCompile(`(?:[Oo]n success[,.]?\s+)?an? array of ([A-Z][A-Za-z0-9]+)(?:\s+of [^.]+?)?\s+(?:objects\s+)?(?:is|are) returned`), func(m []string) spec.TypeRef {
+		{regexp.MustCompile(`(?:[Oo]n success[,.]?\s+)?an? [Aa]rray of ([A-Z][A-Za-z0-9]+)(?:\s+of [^.]+?)?\s+(?:objects\s+)?(?:is|are) returned`), func(m []string) spec.TypeRef {
 			elem := primitiveOrNamed(m[1])
 			return spec.TypeRef{Kind: spec.KindArray, ElemType: &elem}
 		}},

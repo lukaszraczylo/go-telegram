@@ -29,6 +29,8 @@ func TestExtractReturn(t *testing.T) {
 		{"On success, an array of Message objects that were sent is returned.", spec.TypeRef{Kind: spec.KindArray, ElemType: &spec.TypeRef{Kind: spec.KindNamed, Name: "Message"}}},
 		// ForwardMessages/CopyMessages shape: "an array of X of the sent messages is returned".
 		{"On success, an array of MessageId of the sent messages is returned.", spec.TypeRef{Kind: spec.KindArray, ElemType: &spec.TypeRef{Kind: spec.KindNamed, Name: "MessageId"}}},
+		// Bot API 10.1 recapitalised the same sentence to "an Array of X".
+		{"On success, an Array of MessageId of the sent messages is returned.", spec.TypeRef{Kind: spec.KindArray, ElemType: &spec.TypeRef{Kind: spec.KindNamed, Name: "MessageId"}}},
 		// "Returns X on success" (no article) — OwnedGifts, StarAmount, Story, MenuButton, etc.
 		{"Returns the gifts received and owned by a managed business account. Returns OwnedGifts on success.", spec.TypeRef{Kind: spec.KindNamed, Name: "OwnedGifts"}},
 		{"Returns StarAmount on success.", spec.TypeRef{Kind: spec.KindNamed, Name: "StarAmount"}},

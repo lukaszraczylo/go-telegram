@@ -1,6 +1,9 @@
 {
   "method_returns": {},
   "field_types": {},
+  "approved_any_locations": [
+    "InputRichMessageMedia.Media"
+  ],
   "approved_bool_methods": [
     "setWebhook",
     "deleteWebhook",

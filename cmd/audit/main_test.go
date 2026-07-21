@@ -66,9 +66,35 @@ func TestAuditAny_FlagsUnrecognisedOneOf(t *testing.T) {
 			},
 		},
 	}
-	out := auditAny(api)
+	out := auditAny(api, &spec.Overrides{})
 	require.Len(t, out, 1)
 	require.Contains(t, out[0], "any field: Foo.Bar")
+}
+
+func TestAuditAny_SkipsApprovedLocations(t *testing.T) {
+	api := &spec.API{
+		Types: []spec.TypeDecl{
+			{
+				Name: "Foo",
+				Fields: []spec.Field{
+					{Name: "Bar", JSONName: "bar", Type: spec.TypeRef{Kind: spec.KindOneOf, Variants: []string{"A", "B"}}},
+				},
+			},
+		},
+		Methods: []spec.MethodDecl{
+			{
+				Name:    "doThing",
+				Returns: spec.TypeRef{Kind: spec.KindOneOf, Variants: []string{"A", "B"}},
+				Params: []spec.Field{
+					{Name: "Baz", JSONName: "baz", Type: spec.TypeRef{Kind: spec.KindOneOf, Variants: []string{"A", "B"}}},
+				},
+			},
+		},
+	}
+	require.Len(t, auditAny(api, &spec.Overrides{}), 3)
+
+	ov := &spec.Overrides{ApprovedAnyLocations: []string{"Foo.Bar", "doThing", "doThing.Baz"}}
+	require.Empty(t, auditAny(api, ov))
 }
 
 func TestAuditAny_SkipsChatIDShape(t *testing.T) {
@@ -82,7 +108,7 @@ func TestAuditAny_SkipsChatIDShape(t *testing.T) {
 			},
 		},
 	}
-	require.Empty(t, auditAny(api))
+	require.Empty(t, auditAny(api, &spec.Overrides{}))
 }
 
 func TestAuditAny_SkipsKnownUnion(t *testing.T) {
@@ -97,7 +123,7 @@ func TestAuditAny_SkipsKnownUnion(t *testing.T) {
 			},
 		},
 	}
-	require.Empty(t, auditAny(api))
+	require.Empty(t, auditAny(api, &spec.Overrides{}))
 }
 
 func TestAuditAny_SkipsReplyMarkupShape(t *testing.T) {
@@ -111,7 +137,7 @@ func TestAuditAny_SkipsReplyMarkupShape(t *testing.T) {
 			},
 		},
 	}
-	require.Empty(t, auditAny(api))
+	require.Empty(t, auditAny(api, &spec.Overrides{}))
 }
 
 func TestAuditAny_SkipsInputFileShape(t *testing.T) {
@@ -125,7 +151,7 @@ func TestAuditAny_SkipsInputFileShape(t *testing.T) {
 			},
 		},
 	}
-	require.Empty(t, auditAny(api))
+	require.Empty(t, auditAny(api, &spec.Overrides{}))
 }
 
 // ---- diffSignatures ------------------------------------------------------

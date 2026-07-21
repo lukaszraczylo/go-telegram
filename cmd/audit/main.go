@@ -54,7 +54,7 @@ func main() {
 	var problems []string
 
 	problems = append(problems, auditBool(api, overrides)...)
-	problems = append(problems, auditAny(api)...)
+	problems = append(problems, auditAny(api, overrides)...)
 
 	driftFound := false
 	if *checkDrift {
@@ -140,8 +140,9 @@ func looksGenuinelyBool(doc string) bool {
 
 // auditAny scans the IR for any KindOneOf TypeRef that would render as
 // `any` in generated code (not matched by ChatID/InputFile-or-string/known
-// union heuristics). Reports each occurrence with location.
-func auditAny(api *spec.API) []string {
+// union heuristics). Reports each occurrence with location, except the
+// locations approved in overrides.
+func auditAny(api *spec.API, ov *spec.Overrides) []string {
 	var out []string
 	isKnownUnion := func(variants []string) bool {
 		if hasVariants(variants, "int64", "string") {
@@ -166,17 +167,17 @@ func auditAny(api *spec.API) []string {
 	}
 	for _, t := range api.Types {
 		for _, f := range t.Fields {
-			if isAny(f.Type) {
+			if isAny(f.Type) && !ov.IsAnyApproved(t.Name+"."+f.Name) {
 				out = append(out, fmt.Sprintf("any field: %s.%s (variants=%v)", t.Name, f.Name, f.Type.Variants))
 			}
 		}
 	}
 	for _, m := range api.Methods {
-		if isAny(m.Returns) {
+		if isAny(m.Returns) && !ov.IsAnyApproved(m.Name) {
 			out = append(out, fmt.Sprintf("any return: %s (variants=%v)", m.Name, m.Returns.Variants))
 		}
 		for _, p := range m.Params {
-			if isAny(p.Type) {
+			if isAny(p.Type) && !ov.IsAnyApproved(m.Name+"."+p.Name) {
 				out = append(out, fmt.Sprintf("any param: %s.%s (variants=%v)", m.Name, p.Name, p.Type.Variants))
 			}
 		}
