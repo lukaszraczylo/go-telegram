@@ -88,6 +88,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Open PR
+        id: pr
         if: steps.diff.outputs.no_changes != 'true'
         uses: peter-evans/create-pull-request@v8
         with:
@@ -115,4 +116,17 @@ jobs:
 
             Inspect the IR diff (`internal/spec/api.json`) for added/changed/removed methods.
 
-            CI must pass before merge. Auto-merge: enable when satisfied with the diff.
+            This PR merges itself once every step above passes. The gates are
+            `make regen` (which fails on any audit fallback) and `go test -race ./...`,
+            both run in this job before the PR opens.
+
+      # A PR opened with GITHUB_TOKEN does not trigger `ci.yml`, so waiting for
+      # PR checks would wait forever. The gates already ran in this job: `make
+      # regen` fails on any audit fallback, and the test step runs the full race
+      # suite. Merging here therefore means "merged because the checks passed".
+      # `ci.yml` then runs on the push to main and cuts the release.
+      - name: Merge regen PR
+        if: steps.diff.outputs.no_changes != 'true' && steps.pr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge "${{ steps.pr.outputs.pull-request-number }}" --squash --delete-branch
