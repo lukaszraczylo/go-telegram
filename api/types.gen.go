@@ -72,6 +72,8 @@ type Update struct {
 	ManagedBot *ManagedBotUpdated `json:"managed_bot,omitempty"`
 	// Optional. User payment subscription has changed
 	Subscription *BotSubscriptionUpdated `json:"subscription,omitempty"`
+	// Optional. A user asked the bot to stop the generation of a message
+	StoppedMessageGeneration *MessageGenerationStopped `json:"stopped_message_generation,omitempty"`
 }
 
 // Describes the current status of a webhook.
@@ -482,9 +484,11 @@ type Message struct {
 	ChecklistTasksDone *ChecklistTasksDone `json:"checklist_tasks_done,omitempty"`
 	// Optional. Service message: tasks were added to a checklist
 	ChecklistTasksAdded *ChecklistTasksAdded `json:"checklist_tasks_added,omitempty"`
-	// Optional. Service message: chat added to a Community
+	// Optional. Service message: chat or bot added to a Community
 	CommunityChatAdded *CommunityChatAdded `json:"community_chat_added,omitempty"`
-	// Optional. Service message: chat removed from a Community
+	// Optional. Service message: chat was joined by a user from a Community
+	CommunityChatJoined *CommunityChatJoined `json:"community_chat_joined,omitempty"`
+	// Optional. Service message: chat or bot removed from a Community
 	CommunityChatRemoved *CommunityChatRemoved `json:"community_chat_removed,omitempty"`
 	// Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed
 	DirectMessagePriceChanged *DirectMessagePriceChanged `json:"direct_message_price_changed,omitempty"`
@@ -765,6 +769,15 @@ type ReplyParameters struct {
 	ChecklistTaskID *int64 `json:"checklist_task_id,omitempty"`
 	// Optional. Persistent identifier of the specific poll option to be replied to
 	PollOptionID string `json:"poll_option_id,omitempty"`
+}
+
+type EphemeralMessageParameters struct {
+	// Identifier of the user who will receive the message. It is not guaranteed that the user will receive the message, especially if they are offline. See here for more details.
+	ReceiverUserID int64 `json:"receiver_user_id"`
+	// Optional. Identifier of the callback query which triggered the message, if any
+	CallbackQueryID string `json:"callback_query_id,omitempty"`
+	// Optional. Pass True if the ephemeral message must be shown in place of the original message. Must be False for callback queries from ephemeral messages, which must be edited using regular editEphemeralMessage… methods.
+	ReplaceCallbackQueryMessage *bool `json:"replace_callback_query_message,omitempty"`
 }
 
 // MessageOrigin is a union type. The following concrete variants implement
@@ -1073,7 +1086,7 @@ type Video struct {
 	FileSize *int64 `json:"file_size,omitempty"`
 }
 
-// This object represents a video message (available in Telegram apps as of v.4.0).
+// This object represents a video message.
 type VideoNote struct {
 	// Identifier for this file, which can be used to download or reuse the file
 	FileID string `json:"file_id"`
@@ -1651,6 +1664,16 @@ type BotSubscriptionUpdated struct {
 	State BotSubscriptionUpdatedState `json:"state"`
 }
 
+// This object describes an update about a user stopping message generation.
+type MessageGenerationStopped struct {
+	// Chat in which the message is generated
+	Chat Chat `json:"chat"`
+	// Optional. Unique identifier of the message thread in which the message is generated
+	MessageThreadID *int64 `json:"message_thread_id,omitempty"`
+	// Unique identifier of the message draft which was stopped
+	DraftID int64 `json:"draft_id"`
+}
+
 // Describes a service message about an option added to a poll.
 type PollOptionAdded struct {
 	// Optional. Message containing the poll to which the option was added, if known. Note that the Message object in this field will not contain the reply_to_message field even if it itself is a reply.
@@ -2107,13 +2130,19 @@ type ChecklistTasksAdded struct {
 	Tasks []ChecklistTask `json:"tasks"`
 }
 
-// Describes a service message about a chat being added to a community.
+// Describes a service message about a chat or a bot being added to a community.
 type CommunityChatAdded struct {
-	// The new community to which the chat belongs
+	// The new community to which the chat or the bot belongs
 	Community Community `json:"community"`
 }
 
-// Describes a service message about a chat being removed from a community. Currently holds no information.
+// Describes a service message about a chat being joined by a user from a community.
+type CommunityChatJoined struct {
+	// The community from which the chat was joined
+	Community Community `json:"community"`
+}
+
+// Describes a service message about a chat or a bot being removed from a community. Currently holds no information.
 type CommunityChatRemoved struct {
 }
 
@@ -2446,6 +2475,8 @@ type ReplyKeyboardMarkup struct {
 	InputFieldPlaceholder string `json:"input_field_placeholder,omitempty"`
 	// Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message.Example: A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language. Other users in the group don't see the keyboard.
 	Selective *bool `json:"selective,omitempty"`
+	// Optional. Pass True if the reply interface must be shown to the user, as if they had manually selected the bot's message and tapped 'Reply'
+	ForceReply *bool `json:"force_reply,omitempty"`
 }
 
 // This object represents one button of the reply keyboard. At most one of the fields other than text, icon_custom_emoji_id, and style must be used to specify the type of the button. For simple text buttons, String can be used instead of this object to specify the button text.
@@ -2544,6 +2575,8 @@ type ReplyKeyboardRemove struct {
 type InlineKeyboardMarkup struct {
 	// Array of button rows, each represented by an Array of InlineKeyboardButton objects
 	InlineKeyboard [][]InlineKeyboardButton `json:"inline_keyboard"`
+	// Optional. Pass True if the reply interface must be shown to the user, as if they had manually selected the bot's message and tapped 'Reply'. The value of the field can't be changed when the inline keyboard is edited.
+	ForceReply *bool `json:"force_reply,omitempty"`
 }
 
 // This object represents one button of an inline keyboard. Exactly one of the fields other than text, icon_custom_emoji_id, and style must be used to specify the type of the button.
@@ -2560,7 +2593,7 @@ type InlineKeyboardButton struct {
 	CallbackData string `json:"callback_data,omitempty"`
 	// Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a business account.
 	WebApp *WebAppInfo `json:"web_app,omitempty"`
-	// Optional. An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the Telegram Login Widget.
+	// Optional. An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the Telegram Login Widget. Not supported for ephemeral messages.
 	LoginURL *LoginUrl `json:"login_url,omitempty"`
 	// Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent in channel direct messages chats and on behalf of a business account.
 	SwitchInlineQuery string `json:"switch_inline_query,omitempty"`
@@ -2574,17 +2607,18 @@ type InlineKeyboardButton struct {
 	CallbackGame *CallbackGame `json:"callback_game,omitempty"`
 	// Optional. Specify True, to send a Pay button. Substrings “” and “XTR” in the buttons's text will be replaced with a Telegram Star icon.NOTE: This type of button must always be the first button in the first row and can only be used in invoice messages.
 	Pay *bool `json:"pay,omitempty"`
+	// Optional. If set, then the button is disabled and does nothing
+	Disabled *DisabledButton `json:"disabled,omitempty"`
 }
 
-// This object represents a parameter of the inline keyboard button used to automatically authorize a user. Serves as a great replacement for the Telegram Login Widget when the user is coming from Telegram. All the user needs to do is tap/click a button and confirm that they want to log in:
-// Telegram apps support these buttons as of version 5.7.
-// Sample bot: @discussbot
+// This object represents a parameter of the inline keyboard button used to automatically authorize a user. It serves as a great replacement for the Telegram Login Widget when the user is coming from Telegram. All the user needs to do is tap/click a button and confirm that they want to log in:
+// Sample bot: @DiscussBot
 type LoginUrl struct {
 	// An HTTPS URL to be opened with user authorization data added to the query string when the button is pressed. If the user refuses to provide authorization data, the original URL without information about the user will be opened. The data added is the same as described in Receiving authorization data.NOTE: You must always check the hash of the received data to verify the authentication and the integrity of the data as described in Checking authorization.
 	URL string `json:"url"`
 	// Optional. New text of the button in forwarded messages
 	ForwardText string `json:"forward_text,omitempty"`
-	// Optional. Username of a bot, which will be used for user authorization. See Setting up a bot for more details. If not specified, the current bot's username will be assumed. The url's domain must be the same as the domain linked with the bot. See Linking your domain to the bot for more details.
+	// Optional. Username of a bot, which will be used for user authorization; not supported in RichMessageButton. See Setting up a bot for more details. If not specified, the current bot's username will be assumed. The url's domain must be the same as the domain linked with the bot. See Linking your domain to the bot for more details.
 	BotUsername string `json:"bot_username,omitempty"`
 	// Optional. Pass True to request the permission for your bot to send messages to the user
 	RequestWriteAccess *bool `json:"request_write_access,omitempty"`
@@ -2608,6 +2642,10 @@ type SwitchInlineQueryChosenChat struct {
 type CopyTextButton struct {
 	// The text to be copied to the clipboard; 1-256 characters
 	Text string `json:"text"`
+}
+
+// This object represents a disabled button which does nothing. Currently holds no information.
+type DisabledButton struct {
 }
 
 // This object represents an incoming callback query from a callback button in an inline keyboard. If the button that originated the query was attached to a message sent by the bot, the field message will be present. If the button was attached to a message sent via the bot (in inline mode), the field inline_message_id will be present. Exactly one of the fields data or game_short_name will be present.
@@ -2657,7 +2695,7 @@ func (m *CallbackQuery) UnmarshalJSON(data []byte) error {
 // Example: A poll bot for groups runs in privacy mode (only receives commands, replies to its messages and mentions). There could be two ways to create a new poll:
 // The last option is definitely more attractive. And if you use ForceReply in your bot's questions, it will receive the user's answers even if it only receives replies, commands and mentions - without any extra work for the user.
 type ForceReply struct {
-	// Shows reply interface to the user, as if they manually selected the bot's message and tapped 'Reply'
+	// Shows reply interface to the user, as if they had manually selected the bot's message and tapped 'Reply'
 	ForceReply bool `json:"force_reply"`
 	// Optional. The placeholder to be shown in the input field when the reply is active; 1-64 characters
 	InputFieldPlaceholder string `json:"input_field_placeholder,omitempty"`
@@ -2745,8 +2783,10 @@ type ChatAdministratorRights struct {
 	CanManageTopics *bool `json:"can_manage_topics,omitempty"`
 	// Optional. True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only
 	CanManageDirectMessages *bool `json:"can_manage_direct_messages,omitempty"`
-	// Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted, defaults to the value of can_pin_messages.
+	// Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only
 	CanManageTags *bool `json:"can_manage_tags,omitempty"`
+	// True, if the administrator can manage chat welcome messages or directly send them in the case of bots
+	CanSendWelcomeMessages bool `json:"can_send_welcome_messages"`
 }
 
 // This object represents changes in the status of a chat member.
@@ -2933,8 +2973,10 @@ type ChatMemberAdministrator struct {
 	CanManageTopics *bool `json:"can_manage_topics,omitempty"`
 	// Optional. True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only
 	CanManageDirectMessages *bool `json:"can_manage_direct_messages,omitempty"`
-	// Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted, defaults to the value of can_pin_messages.
+	// Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only
 	CanManageTags *bool `json:"can_manage_tags,omitempty"`
+	// True, if the administrator can manage chat welcome messages or directly send them in the case of bots
+	CanSendWelcomeMessages bool `json:"can_send_welcome_messages"`
 	// Optional. Custom title for this user
 	CustomTitle string `json:"custom_title,omitempty"`
 }
@@ -3889,6 +3931,12 @@ type UniqueGiftInfo struct {
 	Gift UniqueGift `json:"gift"`
 	// Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, “resale” for gifts bought from other users, “gifted_upgrade” for upgrades purchased after the gift was sent, or “offer” for gifts bought or sold through gift purchase offers.
 	Origin UniqueGiftInfoOrigin `json:"origin"`
+	// Optional. Text of the message that was added to the gift
+	Text string `json:"text,omitempty"`
+	// Optional. Special entities that appear in the text
+	Entities []MessageEntity `json:"entities,omitempty"`
+	// Optional. True, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be able to see them
+	IsPrivate *bool `json:"is_private,omitempty"`
 	// Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.
 	LastResaleCurrency SuggestedPostPaidCurrency `json:"last_resale_currency,omitempty"`
 	// Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanograms
@@ -5464,7 +5512,7 @@ type InputRichMessage struct {
 	HTML string `json:"html,omitempty"`
 	// Optional. Content of the rich message to send described using Markdown formatting. See rich message formatting options for more details. Use media field to specify the media used in the message.
 	Markdown string `json:"markdown,omitempty"`
-	// Optional. List of media that are specified in the markdown or html fields using tg://photo?id=, tg://video?id=, and tg://audio?id= links
+	// Optional. List of media that are specified in the markdown or html fields using tg://photo?id=, tg://video?id=, tg://document?id=, and tg://audio?id= links
 	Media []InputRichMessageMedia `json:"media,omitempty"`
 	// Optional. Pass True if the rich message must be shown right-to-left
 	IsRtl *bool `json:"is_rtl,omitempty"`
@@ -5474,10 +5522,36 @@ type InputRichMessage struct {
 
 // Describes a media element embedded in an outgoing rich message.
 type InputRichMessageMedia struct {
-	// Unique identifier of the media used in a tg://photo?id=, tg://video?id=, or tg://audio?id= link. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed.
+	// Unique identifier of the media used in a tg://photo?id=, tg://video?id=, tg://document?id=, or tg://audio?id= link. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed.
 	ID string `json:"id"`
 	// The media to be sent. Everything except the media itself and its properties is ignored.
 	Media any `json:"media"`
+}
+
+// This object represents a button in a RichMessage. Exactly one of the fields other than text and style must be used to specify the type of the button.
+type RichMessageButton struct {
+	// Text of the button. May contain only plain text, RichTextCustomEmoji and RichTextDateTime entities.
+	Text RichText `json:"text"`
+	// Optional. Style of the button. Must be one of “danger”, “success”, “primary”, or “link” (the button is shown as a regular link without borders). Apps may use theme-specific colors for the button background and text based on the style. The style “link” is allowed only for callback buttons.
+	Style RichMessageButtonStyle `json:"style,omitempty"`
+	// Optional. HTTP or tg:// URL to be opened when the button is pressed. Links tg://user?id=<user_id> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.
+	URL string `json:"url,omitempty"`
+	// Optional. Data to be sent in a callback query to the bot when the button is pressed, 1-64 bytes
+	CallbackData string `json:"callback_data,omitempty"`
+	// Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a business account.
+	WebApp *WebAppInfo `json:"web_app,omitempty"`
+	// Optional. An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the Telegram Login Widget. Not supported for ephemeral messages.
+	LoginURL *LoginUrl `json:"login_url,omitempty"`
+	// Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent in channel direct messages chats and on behalf of a business account.
+	SwitchInlineQuery string `json:"switch_inline_query,omitempty"`
+	// Optional. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted. Not supported in channels and for messages sent in channel direct messages chats and on behalf of a business account.
+	SwitchInlineQueryCurrentChat string `json:"switch_inline_query_current_chat,omitempty"`
+	// Optional. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent in channel direct messages chats and on behalf of a business account.
+	SwitchInlineQueryChosenChat *SwitchInlineQueryChosenChat `json:"switch_inline_query_chosen_chat,omitempty"`
+	// Optional. A button that copies the specified text to the clipboard
+	CopyText *CopyTextButton `json:"copy_text,omitempty"`
+	// Optional. If set, then the button is disabled and does nothing
+	Disabled *DisabledButton `json:"disabled,omitempty"`
 }
 
 // RichText is a union type. The following concrete variants implement
@@ -5503,6 +5577,7 @@ type InputRichMessageMedia struct {
 //   - RichTextHashtag
 //   - RichTextCashtag
 //   - RichTextBotCommand
+//   - RichTextButton
 //   - RichTextAnchor
 //   - RichTextAnchorLink
 //   - RichTextReference
@@ -5573,6 +5648,9 @@ func (*RichTextCashtag) isRichText() {}
 
 // isRichText is the marker method that makes RichTextBotCommand implement RichText.
 func (*RichTextBotCommand) isRichText() {}
+
+// isRichText is the marker method that makes RichTextButton implement RichText.
+func (*RichTextButton) isRichText() {}
 
 // isRichText is the marker method that makes RichTextAnchor implement RichText.
 func (*RichTextAnchor) isRichText() {}
@@ -6114,6 +6192,30 @@ func (v *RichTextBotCommand) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// A button.
+type RichTextButton struct {
+	// Type of the rich text, always “button”
+	Type RichTextType `json:"type"`
+	// The button
+	Button RichMessageButton `json:"button"`
+}
+
+// MarshalJSON encodes RichTextButton with the discriminator field
+// "type" forced to "button".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichTextButton) MarshalJSON() ([]byte, error) {
+	type alias RichTextButton
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "button",
+		alias: (*alias)(v),
+	})
+}
+
 // An anchor.
 type RichTextAnchor struct {
 	// Type of the rich text, always “anchor”
@@ -6235,7 +6337,7 @@ type RichBlockTableCell struct {
 	// Optional. The number of rows the cell spans if it is bigger than 1
 	Rowspan *int64 `json:"rowspan,omitempty"`
 	// Horizontal cell content alignment. Currently, must be one of “left”, “center”, or “right”.
-	Align RichBlockTableCellAlign `json:"align"`
+	Align RichBlockButtonsAlign `json:"align"`
 	// Vertical cell content alignment. Currently, must be one of “top”, “middle”, or “bottom”.
 	Valign RichBlockTableCellValign `json:"valign"`
 }
@@ -6267,14 +6369,17 @@ type RichBlockListItem struct {
 //   - RichBlockAnchor
 //   - RichBlockList
 //   - RichBlockBlockQuotation
+//   - RichBlockExpandableBlockQuotation
 //   - RichBlockPullQuotation
 //   - RichBlockCollage
 //   - RichBlockSlideshow
 //   - RichBlockTable
 //   - RichBlockDetails
 //   - RichBlockMap
+//   - RichBlockButtons
 //   - RichBlockAnimation
 //   - RichBlockAudio
+//   - RichBlockDocument
 //   - RichBlockPhoto
 //   - RichBlockVideo
 //   - RichBlockVoiceNote
@@ -6310,6 +6415,9 @@ func (*RichBlockList) isRichBlock() {}
 // isRichBlock is the marker method that makes RichBlockBlockQuotation implement RichBlock.
 func (*RichBlockBlockQuotation) isRichBlock() {}
 
+// isRichBlock is the marker method that makes RichBlockExpandableBlockQuotation implement RichBlock.
+func (*RichBlockExpandableBlockQuotation) isRichBlock() {}
+
 // isRichBlock is the marker method that makes RichBlockPullQuotation implement RichBlock.
 func (*RichBlockPullQuotation) isRichBlock() {}
 
@@ -6328,11 +6436,17 @@ func (*RichBlockDetails) isRichBlock() {}
 // isRichBlock is the marker method that makes RichBlockMap implement RichBlock.
 func (*RichBlockMap) isRichBlock() {}
 
+// isRichBlock is the marker method that makes RichBlockButtons implement RichBlock.
+func (*RichBlockButtons) isRichBlock() {}
+
 // isRichBlock is the marker method that makes RichBlockAnimation implement RichBlock.
 func (*RichBlockAnimation) isRichBlock() {}
 
 // isRichBlock is the marker method that makes RichBlockAudio implement RichBlock.
 func (*RichBlockAudio) isRichBlock() {}
+
+// isRichBlock is the marker method that makes RichBlockDocument implement RichBlock.
+func (*RichBlockDocument) isRichBlock() {}
 
 // isRichBlock is the marker method that makes RichBlockPhoto implement RichBlock.
 func (*RichBlockPhoto) isRichBlock() {}
@@ -6566,6 +6680,32 @@ func (v *RichBlockBlockQuotation) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// A block quotation, corresponding to the HTML tag <blockquote> with custom attribute "expandable".
+type RichBlockExpandableBlockQuotation struct {
+	// Type of the block, always “expandable_blockquote”
+	Type RichBlockType `json:"type"`
+	// Content of the block
+	Text RichText `json:"text"`
+	// Optional. Credit of the block
+	Credit RichText `json:"credit,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockExpandableBlockQuotation with the discriminator field
+// "type" forced to "expandable_blockquote".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockExpandableBlockQuotation) MarshalJSON() ([]byte, error) {
+	type alias RichBlockExpandableBlockQuotation
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "expandable_blockquote",
+		alias: (*alias)(v),
+	})
+}
+
 // A quotation with centered text, loosely corresponding to the HTML tag <aside>.
 type RichBlockPullQuotation struct {
 	// Type of the block, always “pullquote”
@@ -6654,6 +6794,8 @@ type RichBlockTable struct {
 	IsBordered *bool `json:"is_bordered,omitempty"`
 	// Optional. True, if the table is striped
 	IsStriped *bool `json:"is_striped,omitempty"`
+	// Optional. True, if table cells have smaller indents
+	IsCompact *bool `json:"is_compact,omitempty"`
 	// Optional. Caption of the table
 	Caption RichText `json:"caption,omitempty"`
 }
@@ -6708,7 +6850,7 @@ type RichBlockMap struct {
 	Type RichBlockType `json:"type"`
 	// Location of the center of the map
 	Location Location `json:"location"`
-	// Map zoom level; 13-20
+	// Map zoom level
 	Zoom int64 `json:"zoom"`
 	// Expected width of the map
 	Width int64 `json:"width"`
@@ -6730,6 +6872,32 @@ func (v *RichBlockMap) MarshalJSON() ([]byte, error) {
 		*alias
 	}{
 		Type:  "map",
+		alias: (*alias)(v),
+	})
+}
+
+// A block containing a list of buttons that are shown in one row, corresponding to the custom HTML tag <tg-button-row>.
+type RichBlockButtons struct {
+	// Type of the block, always “buttons”
+	Type RichBlockType `json:"type"`
+	// The buttons
+	Buttons []RichMessageButton `json:"buttons"`
+	// Optional. Horizontal alignment of the buttons. Currently, must be one of “left”, “center”, or “right”.
+	Align RichBlockButtonsAlign `json:"align,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockButtons with the discriminator field
+// "type" forced to "buttons".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockButtons) MarshalJSON() ([]byte, error) {
+	type alias RichBlockButtons
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "buttons",
 		alias: (*alias)(v),
 	})
 }
@@ -6784,6 +6952,32 @@ func (v *RichBlockAudio) MarshalJSON() ([]byte, error) {
 		*alias
 	}{
 		Type:  "audio",
+		alias: (*alias)(v),
+	})
+}
+
+// A block with a general file, corresponding to the custom HTML tag <tg-document>.
+type RichBlockDocument struct {
+	// Type of the block, always “document”
+	Type RichBlockType `json:"type"`
+	// The document
+	Document Document `json:"document"`
+	// Optional. Caption of the block
+	Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+
+// MarshalJSON encodes RichBlockDocument with the discriminator field
+// "type" forced to "document".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *RichBlockDocument) MarshalJSON() ([]byte, error) {
+	type alias RichBlockDocument
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "document",
 		alias: (*alias)(v),
 	})
 }
@@ -6919,14 +7113,17 @@ type InputRichBlockListItem struct {
 //   - InputRichBlockAnchor
 //   - InputRichBlockList
 //   - InputRichBlockBlockQuotation
+//   - InputRichBlockExpandableBlockQuotation
 //   - InputRichBlockPullQuotation
 //   - InputRichBlockCollage
 //   - InputRichBlockSlideshow
 //   - InputRichBlockTable
 //   - InputRichBlockDetails
 //   - InputRichBlockMap
+//   - InputRichBlockButtons
 //   - InputRichBlockAnimation
 //   - InputRichBlockAudio
+//   - InputRichBlockDocument
 //   - InputRichBlockPhoto
 //   - InputRichBlockVideo
 //   - InputRichBlockVoiceNote
@@ -6962,6 +7159,9 @@ func (*InputRichBlockList) isInputRichBlock() {}
 // isInputRichBlock is the marker method that makes InputRichBlockBlockQuotation implement InputRichBlock.
 func (*InputRichBlockBlockQuotation) isInputRichBlock() {}
 
+// isInputRichBlock is the marker method that makes InputRichBlockExpandableBlockQuotation implement InputRichBlock.
+func (*InputRichBlockExpandableBlockQuotation) isInputRichBlock() {}
+
 // isInputRichBlock is the marker method that makes InputRichBlockPullQuotation implement InputRichBlock.
 func (*InputRichBlockPullQuotation) isInputRichBlock() {}
 
@@ -6980,11 +7180,17 @@ func (*InputRichBlockDetails) isInputRichBlock() {}
 // isInputRichBlock is the marker method that makes InputRichBlockMap implement InputRichBlock.
 func (*InputRichBlockMap) isInputRichBlock() {}
 
+// isInputRichBlock is the marker method that makes InputRichBlockButtons implement InputRichBlock.
+func (*InputRichBlockButtons) isInputRichBlock() {}
+
 // isInputRichBlock is the marker method that makes InputRichBlockAnimation implement InputRichBlock.
 func (*InputRichBlockAnimation) isInputRichBlock() {}
 
 // isInputRichBlock is the marker method that makes InputRichBlockAudio implement InputRichBlock.
 func (*InputRichBlockAudio) isInputRichBlock() {}
+
+// isInputRichBlock is the marker method that makes InputRichBlockDocument implement InputRichBlock.
+func (*InputRichBlockDocument) isInputRichBlock() {}
 
 // isInputRichBlock is the marker method that makes InputRichBlockPhoto implement InputRichBlock.
 func (*InputRichBlockPhoto) isInputRichBlock() {}
@@ -7218,6 +7424,32 @@ func (v *InputRichBlockBlockQuotation) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// A block quotation, corresponding to the HTML tag <blockquote> with custom attribute "expandable".
+type InputRichBlockExpandableBlockQuotation struct {
+	// Type of the block, always “expandable_blockquote”
+	Type InputRichBlockType `json:"type"`
+	// Content of the block
+	Text RichText `json:"text"`
+	// Optional. Credit of the block
+	Credit RichText `json:"credit,omitempty"`
+}
+
+// MarshalJSON encodes InputRichBlockExpandableBlockQuotation with the discriminator field
+// "type" forced to "expandable_blockquote".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputRichBlockExpandableBlockQuotation) MarshalJSON() ([]byte, error) {
+	type alias InputRichBlockExpandableBlockQuotation
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "expandable_blockquote",
+		alias: (*alias)(v),
+	})
+}
+
 // A quotation with centered text, loosely corresponding to the HTML tag <aside>.
 type InputRichBlockPullQuotation struct {
 	// Type of the block, always “pullquote”
@@ -7306,6 +7538,8 @@ type InputRichBlockTable struct {
 	IsBordered *bool `json:"is_bordered,omitempty"`
 	// Optional. Pass True if the table is striped
 	IsStriped *bool `json:"is_striped,omitempty"`
+	// Optional. Pass True if table cells must have smaller indents
+	IsCompact *bool `json:"is_compact,omitempty"`
 	// Optional. Caption of the table
 	Caption RichText `json:"caption,omitempty"`
 }
@@ -7360,12 +7594,12 @@ type InputRichBlockMap struct {
 	Type InputRichBlockType `json:"type"`
 	// Location of the center of the map
 	Location Location `json:"location"`
-	// Map zoom level; 0-24
-	Zoom int64 `json:"zoom"`
-	// Map width; 0-10000
-	Width int64 `json:"width"`
-	// Map height; 0-10000
-	Height int64 `json:"height"`
+	// Optional. Map zoom level; 0-24
+	Zoom *int64 `json:"zoom,omitempty"`
+	// Optional. Map width; 0-10000
+	Width *int64 `json:"width,omitempty"`
+	// Optional. Map height; 0-10000
+	Height *int64 `json:"height,omitempty"`
 	// Optional. Caption of the block
 	Caption *RichBlockCaption `json:"caption,omitempty"`
 }
@@ -7382,6 +7616,32 @@ func (v *InputRichBlockMap) MarshalJSON() ([]byte, error) {
 		*alias
 	}{
 		Type:  "map",
+		alias: (*alias)(v),
+	})
+}
+
+// A block containing a list of buttons that are shown in one row, corresponding to the custom HTML tag <tg-button-row>.
+type InputRichBlockButtons struct {
+	// Type of the block, always “buttons”
+	Type InputRichBlockType `json:"type"`
+	// List of 1-8 buttons to send
+	Buttons []RichMessageButton `json:"buttons"`
+	// Optional. Horizontal alignment of the buttons. Currently, must be one of “left”, “center”, or “right”.
+	Align RichBlockButtonsAlign `json:"align,omitempty"`
+}
+
+// MarshalJSON encodes InputRichBlockButtons with the discriminator field
+// "type" forced to "buttons".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputRichBlockButtons) MarshalJSON() ([]byte, error) {
+	type alias InputRichBlockButtons
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "buttons",
 		alias: (*alias)(v),
 	})
 }
@@ -7434,6 +7694,32 @@ func (v *InputRichBlockAudio) MarshalJSON() ([]byte, error) {
 		*alias
 	}{
 		Type:  "audio",
+		alias: (*alias)(v),
+	})
+}
+
+// A block with a general file, corresponding to the custom HTML tag <tg-document>.
+type InputRichBlockDocument struct {
+	// Type of the block, always “document”
+	Type InputRichBlockType `json:"type"`
+	// The document. Caption is ignored.
+	Document InputMediaDocument `json:"document"`
+	// Optional. Caption of the block
+	Caption *RichBlockCaption `json:"caption,omitempty"`
+}
+
+// MarshalJSON encodes InputRichBlockDocument with the discriminator field
+// "type" forced to "document".
+// The hardcoded value frees callers from setting Type by hand —
+// any user-supplied value on the struct literal is overridden so a typo
+// can't slip through to Telegram.
+func (v *InputRichBlockDocument) MarshalJSON() ([]byte, error) {
+	type alias InputRichBlockDocument
+	return json.Marshal(&struct {
+		Type string `json:"type"`
+		*alias
+	}{
+		Type:  "document",
 		alias: (*alias)(v),
 	})
 }
@@ -8544,7 +8830,7 @@ type InputTextMessageContent struct {
 
 // Represents the content of a rich message to be sent as the result of an inline query.
 type InputRichMessageContent struct {
-	// The message to be sent
+	// The message to be sent. Only previously uploaded files may be used in the message.
 	RichMessage InputRichMessage `json:"rich_message"`
 }
 
