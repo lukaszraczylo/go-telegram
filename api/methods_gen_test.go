@@ -19954,7 +19954,6 @@ func Test_EditEphemeralMessageText_Success(t *testing.T) {
 		ChatID:             ChatIDFromInt(123),
 		ReceiverUserID:     42,
 		EphemeralMessageID: 42,
-		Text:               "test_value",
 	}
 	_, err := EditEphemeralMessageText(context.Background(), bot, params)
 	require.NoError(t, err)
@@ -19970,7 +19969,6 @@ func Test_EditEphemeralMessageText_APIError(t *testing.T) {
 		ChatID:             ChatIDFromInt(123),
 		ReceiverUserID:     42,
 		EphemeralMessageID: 42,
-		Text:               "test_value",
 	}
 	_, err := EditEphemeralMessageText(context.Background(), bot, params)
 	require.Error(t, err)
@@ -19989,7 +19987,6 @@ func Test_EditEphemeralMessageText_NetworkError(t *testing.T) {
 		ChatID:             ChatIDFromInt(123),
 		ReceiverUserID:     42,
 		EphemeralMessageID: 42,
-		Text:               "test_value",
 	}
 	_, err := EditEphemeralMessageText(context.Background(), bot, params)
 	require.Error(t, err)
@@ -20006,7 +20003,6 @@ func Test_EditEphemeralMessageText_ParseError(t *testing.T) {
 		ChatID:             ChatIDFromInt(123),
 		ReceiverUserID:     42,
 		EphemeralMessageID: 42,
-		Text:               "test_value",
 	}
 	_, err := EditEphemeralMessageText(context.Background(), bot, params)
 	require.Error(t, err)
@@ -20026,7 +20022,6 @@ func Test_EditEphemeralMessageText_ContextCanceled(t *testing.T) {
 		ChatID:             ChatIDFromInt(123),
 		ReceiverUserID:     42,
 		EphemeralMessageID: 42,
-		Text:               "test_value",
 	}
 	_, err := EditEphemeralMessageText(ctx, bot, params)
 	require.Error(t, err)
@@ -20068,7 +20063,6 @@ func Test_EditEphemeralMessageText_Forbidden(t *testing.T) {
 		ChatID:             ChatIDFromInt(123),
 		ReceiverUserID:     42,
 		EphemeralMessageID: 42,
-		Text:               "test_value",
 	}
 	_, err := EditEphemeralMessageText(context.Background(), bot, params)
 	require.Error(t, err)
@@ -20091,7 +20085,6 @@ func Test_EditEphemeralMessageText_ServerError(t *testing.T) {
 		ChatID:             ChatIDFromInt(123),
 		ReceiverUserID:     42,
 		EphemeralMessageID: 42,
-		Text:               "test_value",
 	}
 	_, err := EditEphemeralMessageText(context.Background(), bot, params)
 	require.Error(t, err)

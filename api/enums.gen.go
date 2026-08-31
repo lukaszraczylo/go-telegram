@@ -200,14 +200,17 @@ const (
 	InputRichBlockTypeAnchor                 InputRichBlockType = "anchor"
 	InputRichBlockTypeList                   InputRichBlockType = "list"
 	InputRichBlockTypeBlockquote             InputRichBlockType = "blockquote"
+	InputRichBlockTypeExpandableBlockquote   InputRichBlockType = "expandable_blockquote"
 	InputRichBlockTypePullquote              InputRichBlockType = "pullquote"
 	InputRichBlockTypeCollage                InputRichBlockType = "collage"
 	InputRichBlockTypeSlideshow              InputRichBlockType = "slideshow"
 	InputRichBlockTypeTable                  InputRichBlockType = "table"
 	InputRichBlockTypeDetails                InputRichBlockType = "details"
 	InputRichBlockTypeMap                    InputRichBlockType = "map"
+	InputRichBlockTypeButtons                InputRichBlockType = "buttons"
 	InputRichBlockTypeAnimation              InputRichBlockType = "animation"
 	InputRichBlockTypeAudio                  InputRichBlockType = "audio"
+	InputRichBlockTypeDocument               InputRichBlockType = "document"
 	InputRichBlockTypePhoto                  InputRichBlockType = "photo"
 	InputRichBlockTypeVideo                  InputRichBlockType = "video"
 	InputRichBlockTypeVoiceNote              InputRichBlockType = "voice_note"
@@ -414,6 +417,14 @@ const (
 	RevenueWithdrawalStateKindFailed    RevenueWithdrawalStateKind = "failed"
 )
 
+type RichBlockButtonsAlign string
+
+const (
+	RichBlockButtonsAlignLeft   RichBlockButtonsAlign = "left"
+	RichBlockButtonsAlignCenter RichBlockButtonsAlign = "center"
+	RichBlockButtonsAlignRight  RichBlockButtonsAlign = "right"
+)
+
 type RichBlockListItemType string
 
 const (
@@ -422,14 +433,6 @@ const (
 	RichBlockListItemTypeLowerI RichBlockListItemType = "i"
 	RichBlockListItemTypeUpperI RichBlockListItemType = "I"
 	RichBlockListItemType1      RichBlockListItemType = "1"
-)
-
-type RichBlockTableCellAlign string
-
-const (
-	RichBlockTableCellAlignLeft   RichBlockTableCellAlign = "left"
-	RichBlockTableCellAlignCenter RichBlockTableCellAlign = "center"
-	RichBlockTableCellAlignRight  RichBlockTableCellAlign = "right"
 )
 
 type RichBlockTableCellValign string
@@ -452,18 +455,30 @@ const (
 	RichBlockTypeAnchor                 RichBlockType = "anchor"
 	RichBlockTypeList                   RichBlockType = "list"
 	RichBlockTypeBlockquote             RichBlockType = "blockquote"
+	RichBlockTypeExpandableBlockquote   RichBlockType = "expandable_blockquote"
 	RichBlockTypePullquote              RichBlockType = "pullquote"
 	RichBlockTypeCollage                RichBlockType = "collage"
 	RichBlockTypeSlideshow              RichBlockType = "slideshow"
 	RichBlockTypeTable                  RichBlockType = "table"
 	RichBlockTypeDetails                RichBlockType = "details"
 	RichBlockTypeMap                    RichBlockType = "map"
+	RichBlockTypeButtons                RichBlockType = "buttons"
 	RichBlockTypeAnimation              RichBlockType = "animation"
 	RichBlockTypeAudio                  RichBlockType = "audio"
+	RichBlockTypeDocument               RichBlockType = "document"
 	RichBlockTypePhoto                  RichBlockType = "photo"
 	RichBlockTypeVideo                  RichBlockType = "video"
 	RichBlockTypeVoiceNote              RichBlockType = "voice_note"
 	RichBlockTypeThinking               RichBlockType = "thinking"
+)
+
+type RichMessageButtonStyle string
+
+const (
+	RichMessageButtonStyleDanger  RichMessageButtonStyle = "danger"
+	RichMessageButtonStyleSuccess RichMessageButtonStyle = "success"
+	RichMessageButtonStylePrimary RichMessageButtonStyle = "primary"
+	RichMessageButtonStyleLink    RichMessageButtonStyle = "link"
 )
 
 type RichTextType string
@@ -490,6 +505,7 @@ const (
 	RichTextTypeHashtag                RichTextType = "hashtag"
 	RichTextTypeCashtag                RichTextType = "cashtag"
 	RichTextTypeBotCommand             RichTextType = "bot_command"
+	RichTextTypeButton                 RichTextType = "button"
 	RichTextTypeAnchor                 RichTextType = "anchor"
 	RichTextTypeAnchorLink             RichTextType = "anchor_link"
 	RichTextTypeReference              RichTextType = "reference"
