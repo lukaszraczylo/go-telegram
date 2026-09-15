@@ -69,7 +69,13 @@ jobs:
             ~/go/pkg/mod
             ~/.cache/go-build
           key: ${{ runner.os }}-go-1.25-${{ hashFiles('**/go.sum') }}
-      - run: go install golang.org/x/vuln/cmd/govulncheck@latest
+      # Pinned, matching staticcheck above. govulncheck@latest is v1.8.0,
+      # which declares go 1.26.0 and therefore cannot be installed by the
+      # 1.25.x toolchain this workflow pins - the install step fails before
+      # any scanning happens. v1.7.0 declares go 1.25.0. Pinning the binary
+      # does not freeze the vulnerability database, which govulncheck
+      # fetches at run time. Re-pin deliberately when bumping go-version.
+      - run: go install golang.org/x/vuln/cmd/govulncheck@v1.7.0
       - run: govulncheck ./...
 
   gosec:
