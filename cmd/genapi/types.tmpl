@@ -7,14 +7,16 @@
 package api
 
 import (
+	"bytes"
 	"github.com/goccy/go-json"
 	"fmt"
 	"io"
 )
 
-var _ = io.Discard   // keep import even if no fields use io
-var _ = json.Marshal // keep import for UnmarshalXxx helpers
-var _ = fmt.Errorf   // keep import for UnmarshalXxx helpers
+var _ = io.Discard     // keep import even if no fields use io
+var _ = json.Marshal   // keep import for UnmarshalXxx helpers
+var _ = fmt.Errorf     // keep import for UnmarshalXxx helpers
+var _ = bytes.TrimLeft // keep import for shape-dispatching UnmarshalXxx helpers (unions with alternates)
 
 {{range .Types}}
 {{- $td := . -}}
@@ -22,6 +24,7 @@ var _ = fmt.Errorf   // keep import for UnmarshalXxx helpers
 // {{.Name}} is a union type. The following concrete variants implement
 // it:
 {{range .OneOf}}//   - {{.}}
+{{end}}{{range unionAlternates .}}//   - {{.Name}} ({{if .IsString}}bare JSON string{{else}}JSON array of {{$td.Name}}{{end}})
 {{end}}//
 {{docComment .Doc -}}
 type {{.Name}} interface{ is{{.Name}}() }
@@ -30,11 +33,67 @@ type {{.Name}} interface{ is{{.Name}}() }
 // is{{$td.Name}} is the marker method that makes {{.}} implement {{$td.Name}}.
 func (*{{.}}) is{{$td.Name}}() {}
 {{end}}
+{{range unionAlternates .}}
+// {{.Name}} implements {{$td.Name}} for the {{if .IsString}}bare JSON string{{else}}JSON array of {{$td.Name}}{{end}} wire
+// shape Telegram documents for this union, alongside its object variants.
+type {{.Name}} struct {
+{{if .IsString}}	Text string
+{{else}}	Items []{{$td.Name}}
+{{end}}}
+
+// is{{$td.Name}} is the marker method that makes {{.Name}} implement {{$td.Name}}.
+func (*{{.Name}}) is{{$td.Name}}() {}
+
+{{if .IsString}}// MarshalJSON encodes {{.Name}} back to its bare JSON string wire shape.
+func (v *{{.Name}}) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.Text)
+}
+{{else}}// MarshalJSON encodes {{.Name}} back to its bare JSON array wire shape.
+func (v *{{.Name}}) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.Items)
+}
+{{end}}
+{{end}}
 {{if hasDiscriminator .Name}}
-// Unmarshal{{.Name}} decodes a {{.Name}} from JSON by inspecting the
+{{$alts := unionAlternates .}}{{if $alts}}// Unmarshal{{.Name}} decodes a {{.Name}} from JSON. Telegram documents
+// this type as either a bare JSON string, a JSON array of {{.Name}}, or
+// an object dispatched by its "{{discriminatorField .Name}}" field;
+// leading whitespace is trimmed and the first remaining byte selects
+// the shape.
+{{else}}// Unmarshal{{.Name}} decodes a {{.Name}} from JSON by inspecting the
 // "{{discriminatorField .Name}}" field and dispatching to the correct concrete type.
-func Unmarshal{{.Name}}(data []byte) ({{.Name}}, error) {
-	var probe struct {
+{{end}}func Unmarshal{{.Name}}(data []byte) ({{.Name}}, error) {
+{{if $alts}}	trimmed := bytes.TrimLeft(data, " \t\r\n")
+	if len(trimmed) == 0 {
+		return nil, fmt.Errorf("{{.Name}}: empty JSON value")
+	}
+	switch trimmed[0] {
+{{range $alts}}{{if .IsString}}	case '"':
+		var s string
+		if err := json.Unmarshal(data, &s); err != nil {
+			return nil, fmt.Errorf("{{$td.Name}}: decoding string: %w", err)
+		}
+		return &{{.Name}}{Text: s}, nil
+{{else}}	case '[':
+		var raws []json.RawMessage
+		if err := json.Unmarshal(data, &raws); err != nil {
+			return nil, fmt.Errorf("{{$td.Name}}: decoding array: %w", err)
+		}
+		items := make([]{{$td.Name}}, 0, len(raws))
+		for i, r := range raws {
+			v, err := Unmarshal{{$td.Name}}(r)
+			if err != nil {
+				return nil, fmt.Errorf("{{$td.Name}}: decoding array[%d]: %w", i, err)
+			}
+			items = append(items, v)
+		}
+		return &{{.Name}}{Items: items}, nil
+{{end}}{{end}}	case '{':
+		// fall through to the discriminator switch below.
+	default:
+		return nil, fmt.Errorf("{{.Name}}: unrecognised JSON value starting with %q", trimmed[0])
+	}
+{{end}}	var probe struct {
 		V string `json:"{{discriminatorField .Name}}"`
 	}
 	if err := json.Unmarshal(data, &probe); err != nil {

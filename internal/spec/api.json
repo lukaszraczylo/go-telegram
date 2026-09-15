@@ -13717,6 +13717,14 @@
         "RichTextAnchorLink",
         "RichTextReference",
         "RichTextReferenceLink"
+      ],
+      "alternates": [
+        {
+          "shape": "string"
+        },
+        {
+          "shape": "array"
+        }
       ]
     },
     {

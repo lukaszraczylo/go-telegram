@@ -271,32 +271,12 @@ func planUnifiedUnionEnums(api *spec.API) (map[string]enumDecl, map[string]strin
 			continue
 		}
 
-		// Build the candidate Go-name list. Priority order:
+		// Build the candidate Go-name list (shared with deriveDiscriminators
+		// in emitter.go so enum naming and decode dispatch never disagree
+		// on where to look). Priority order:
 		//  1. discriminator GoField from knownDiscriminators (resolved via JSONName);
 		//  2. "Type", "Status", "Source".
-		var candidateNames []string
-		seen := map[string]bool{}
-		add := func(name string) {
-			if name == "" || seen[name] {
-				return
-			}
-			seen[name] = true
-			candidateNames = append(candidateNames, name)
-		}
-		if ds, ok := knownDiscriminators[u.Name]; ok && ds.Field != "" {
-			// Resolve Go-name from the first variant whose field matches the JSON name.
-			for _, v := range variants {
-				for _, f := range v.Fields {
-					if f.JSONName == ds.Field {
-						add(f.Name)
-						break
-					}
-				}
-			}
-		}
-		for _, n := range []string{"Type", "Status", "Source"} {
-			add(n)
-		}
+		candidateNames := discriminatorFieldCandidates(u.Name, variants)
 
 		// Find the first candidate Go-name where every variant has a
 		// matching single-value string-enum field.

@@ -24,6 +24,31 @@ type TypeDecl struct {
 	// OneOf, when non-empty, indicates this type is a union and lists the concrete variant type names.
 	// Variants are emitted as concrete structs implementing a sealed interface.
 	OneOf []string `json:"one_of,omitempty"`
+	// Alternates lists non-object wire shapes this union may also decode
+	// as, in addition to the object variants in OneOf. Only populated for
+	// unions whose doc declares them (Telegram's "can be either a String
+	// for plain text, an Array of X, or any of the following types:"
+	// phrasing) — as of Bot API v10 that's RichText alone, so every other
+	// type's serialised IR is unaffected by this field's existence.
+	Alternates []Alternate `json:"alternates,omitempty"`
+}
+
+// AlternateShape enumerates the non-object wire shapes a union's
+// Alternates field records.
+type AlternateShape string
+
+const (
+	// AlternateString: the union may decode from a bare JSON string.
+	AlternateString AlternateShape = "string"
+	// AlternateArray: the union may decode from a JSON array whose
+	// elements are themselves the same union type.
+	AlternateArray AlternateShape = "array"
+)
+
+// Alternate records one non-object shape a union type may appear as on
+// the wire, beyond its OneOf object variants.
+type Alternate struct {
+	Shape AlternateShape `json:"shape"`
 }
 
 // MethodDecl describes a Telegram API method.

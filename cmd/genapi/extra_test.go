@@ -280,7 +280,7 @@ func TestMultipartFieldEntry_Named_Optional(t *testing.T) {
 
 func TestUnionTypeFor_DirectNamed(t *testing.T) {
 	tr := spec.TypeRef{Kind: spec.KindNamed, Name: "ChatMember"}
-	name, ok := unionTypeFor(tr)
+	name, ok := unionTypeFor(tr, knownDiscriminators)
 	require.True(t, ok)
 	require.Equal(t, "ChatMember", name)
 }
@@ -288,26 +288,26 @@ func TestUnionTypeFor_DirectNamed(t *testing.T) {
 func TestUnionTypeFor_Array(t *testing.T) {
 	elem := spec.TypeRef{Kind: spec.KindNamed, Name: "ChatMember"}
 	tr := spec.TypeRef{Kind: spec.KindArray, ElemType: &elem}
-	name, ok := unionTypeFor(tr)
+	name, ok := unionTypeFor(tr, knownDiscriminators)
 	require.True(t, ok)
 	require.Equal(t, "ChatMember", name)
 }
 
 func TestUnionTypeFor_ArrayNilElem(t *testing.T) {
 	tr := spec.TypeRef{Kind: spec.KindArray}
-	_, ok := unionTypeFor(tr)
+	_, ok := unionTypeFor(tr, knownDiscriminators)
 	require.False(t, ok)
 }
 
 func TestUnionTypeFor_NotUnion(t *testing.T) {
 	tr := spec.TypeRef{Kind: spec.KindNamed, Name: "Message"}
-	_, ok := unionTypeFor(tr)
+	_, ok := unionTypeFor(tr, knownDiscriminators)
 	require.False(t, ok)
 }
 
 func TestUnionTypeFor_Unknown(t *testing.T) {
 	tr := spec.TypeRef{Kind: spec.Kind(99)}
-	_, ok := unionTypeFor(tr)
+	_, ok := unionTypeFor(tr, knownDiscriminators)
 	require.False(t, ok)
 }
 
@@ -321,12 +321,12 @@ func TestUnionNameByVariants_ChatMember(t *testing.T) {
 		"ChatMemberOwner", "ChatMemberAdministrator", "ChatMemberMember",
 		"ChatMemberRestricted", "ChatMemberLeft", "ChatMemberBanned",
 	}
-	name := unionNameByVariants(variants)
+	name := unionNameByVariants(variants, knownDiscriminators)
 	require.Equal(t, "ChatMember", name)
 }
 
 func TestUnionNameByVariants_Unknown(t *testing.T) {
-	name := unionNameByVariants([]string{"X", "Y", "Z"})
+	name := unionNameByVariants([]string{"X", "Y", "Z"}, knownDiscriminators)
 	require.Equal(t, "", name)
 }
 
@@ -336,24 +336,24 @@ func TestUnionNameByVariants_Unknown(t *testing.T) {
 
 func TestHasUnionElem_NonArray(t *testing.T) {
 	tr := spec.TypeRef{Kind: spec.KindNamed, Name: "ChatMember"}
-	require.False(t, hasUnionElem(tr))
+	require.False(t, hasUnionElem(tr, knownDiscriminators))
 }
 
 func TestHasUnionElem_ArrayNilElem(t *testing.T) {
 	tr := spec.TypeRef{Kind: spec.KindArray}
-	require.False(t, hasUnionElem(tr))
+	require.False(t, hasUnionElem(tr, knownDiscriminators))
 }
 
 func TestHasUnionElem_ArrayUnionElem(t *testing.T) {
 	elem := spec.TypeRef{Kind: spec.KindNamed, Name: "ChatMember"}
 	tr := spec.TypeRef{Kind: spec.KindArray, ElemType: &elem}
-	require.True(t, hasUnionElem(tr))
+	require.True(t, hasUnionElem(tr, knownDiscriminators))
 }
 
 func TestHasUnionElem_ArrayNonUnionElem(t *testing.T) {
 	elem := spec.TypeRef{Kind: spec.KindNamed, Name: "Message"}
 	tr := spec.TypeRef{Kind: spec.KindArray, ElemType: &elem}
-	require.False(t, hasUnionElem(tr))
+	require.False(t, hasUnionElem(tr, knownDiscriminators))
 }
 
 // ---------------------------------------------------------------------------
@@ -369,7 +369,7 @@ func TestUnionFieldsOf_WithUnionField(t *testing.T) {
 			{Name: "Date", JSONName: "date", Type: spec.TypeRef{Kind: spec.KindPrimitive, Name: "int64"}},
 		},
 	}
-	uf := unionFieldsOf(td)
+	uf := unionFieldsOf(td, knownDiscriminators)
 	require.Len(t, uf, 2)
 	require.Equal(t, "ChatMember", uf[0].UnionName)
 }
@@ -621,14 +621,14 @@ func TestUnionTypeFor_OneOfVariants(t *testing.T) {
 			"ChatMemberRestricted", "ChatMemberLeft", "ChatMemberBanned",
 		},
 	}
-	name, ok := unionTypeFor(tr)
+	name, ok := unionTypeFor(tr, knownDiscriminators)
 	require.True(t, ok)
 	require.Equal(t, "ChatMember", name)
 }
 
 func TestUnionTypeFor_OneOfNoMatch(t *testing.T) {
 	tr := spec.TypeRef{Kind: spec.KindOneOf, Variants: []string{"Foo", "Bar"}}
-	_, ok := unionTypeFor(tr)
+	_, ok := unionTypeFor(tr, knownDiscriminators)
 	require.False(t, ok)
 }
 
@@ -637,7 +637,7 @@ func TestUnionTypeFor_OneOfNoMatch(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestFuncs_HasExpectedKeys(t *testing.T) {
-	fm := funcs(nil)
+	fm := funcs(nil, nil)
 	require.NotNil(t, fm)
 	for _, key := range []string{"goType", "docComment", "returnGoType", "unionFields"} {
 		require.NotNil(t, fm[key], "funcs() missing key %q", key)

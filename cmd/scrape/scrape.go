@@ -38,6 +38,10 @@ func typeFromSection(s section) spec.TypeDecl {
 	} else if len(s.Lists) > 0 {
 		// Union: extract variant names from <li><a>...</a></li>.
 		td.OneOf = extractListLinks(s.Lists[0])
+		// Some unions (e.g. RichText) also declare non-object wire shapes
+		// ("a String for plain text", "an Array of RichText") in the same
+		// sentence as the object-variant list; extract those too.
+		td.Alternates = extractAlternates(td.Name, td.Doc)
 	}
 	return td
 }

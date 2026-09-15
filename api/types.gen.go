@@ -7,14 +7,16 @@
 package api
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/goccy/go-json"
 	"io"
 )
 
-var _ = io.Discard   // keep import even if no fields use io
-var _ = json.Marshal // keep import for UnmarshalXxx helpers
-var _ = fmt.Errorf   // keep import for UnmarshalXxx helpers
+var _ = io.Discard     // keep import even if no fields use io
+var _ = json.Marshal   // keep import for UnmarshalXxx helpers
+var _ = fmt.Errorf     // keep import for UnmarshalXxx helpers
+var _ = bytes.TrimLeft // keep import for shape-dispatching UnmarshalXxx helpers (unions with alternates)
 
 // This object represents an incoming update.At most one of the optional fields can be present in any given update.
 type Update struct {
@@ -1394,6 +1396,42 @@ func (*InputMediaVenue) isInputPollMedia() {}
 // isInputPollMedia is the marker method that makes InputMediaVideo implement InputPollMedia.
 func (*InputMediaVideo) isInputPollMedia() {}
 
+// UnmarshalInputPollMedia decodes a InputPollMedia from JSON by inspecting the
+// "type" field and dispatching to the correct concrete type.
+func UnmarshalInputPollMedia(data []byte) (InputPollMedia, error) {
+	var probe struct {
+		V string `json:"type"`
+	}
+	if err := json.Unmarshal(data, &probe); err != nil {
+		return nil, err
+	}
+	var v InputPollMedia
+	switch probe.V {
+	case "animation":
+		v = &InputMediaAnimation{}
+	case "audio":
+		v = &InputMediaAudio{}
+	case "document":
+		v = &InputMediaDocument{}
+	case "live_photo":
+		v = &InputMediaLivePhoto{}
+	case "location":
+		v = &InputMediaLocation{}
+	case "photo":
+		v = &InputMediaPhoto{}
+	case "venue":
+		v = &InputMediaVenue{}
+	case "video":
+		v = &InputMediaVideo{}
+	default:
+		return nil, fmt.Errorf("InputPollMedia: unknown type %q", probe.V)
+	}
+	if err := json.Unmarshal(data, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
 // InputPollOptionMedia is a union type. The following concrete variants implement
 // it:
 //   - InputMediaAnimation
@@ -1432,6 +1470,42 @@ func (*InputMediaVenue) isInputPollOptionMedia() {}
 // isInputPollOptionMedia is the marker method that makes InputMediaVideo implement InputPollOptionMedia.
 func (*InputMediaVideo) isInputPollOptionMedia() {}
 
+// UnmarshalInputPollOptionMedia decodes a InputPollOptionMedia from JSON by inspecting the
+// "type" field and dispatching to the correct concrete type.
+func UnmarshalInputPollOptionMedia(data []byte) (InputPollOptionMedia, error) {
+	var probe struct {
+		V string `json:"type"`
+	}
+	if err := json.Unmarshal(data, &probe); err != nil {
+		return nil, err
+	}
+	var v InputPollOptionMedia
+	switch probe.V {
+	case "animation":
+		v = &InputMediaAnimation{}
+	case "link":
+		v = &InputMediaLink{}
+	case "live_photo":
+		v = &InputMediaLivePhoto{}
+	case "location":
+		v = &InputMediaLocation{}
+	case "photo":
+		v = &InputMediaPhoto{}
+	case "sticker":
+		v = &InputMediaSticker{}
+	case "venue":
+		v = &InputMediaVenue{}
+	case "video":
+		v = &InputMediaVideo{}
+	default:
+		return nil, fmt.Errorf("InputPollOptionMedia: unknown type %q", probe.V)
+	}
+	if err := json.Unmarshal(data, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
 // This object contains information about one answer option in a poll.
 type PollOption struct {
 	// Unique identifier of the option, persistent on option addition and deletion
@@ -1462,6 +1536,30 @@ type InputPollOption struct {
 	TextEntities []MessageEntity `json:"text_entities,omitempty"`
 	// Optional. Media added to the poll option
 	Media InputPollOptionMedia `json:"media,omitempty"`
+}
+
+// UnmarshalJSON decodes InputPollOption by dispatching union-typed fields
+// (Media) through their concrete UnmarshalXxx helpers.
+func (m *InputPollOption) UnmarshalJSON(data []byte) error {
+	type Alias InputPollOption
+	aux := &struct {
+		Media json.RawMessage `json:"media,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Media) > 0 && string(aux.Media) != "null" {
+		v, err := UnmarshalInputPollOptionMedia(aux.Media)
+		if err != nil {
+			return fmt.Errorf("decoding media: %w", err)
+		}
+		m.Media = v
+
+	}
+
+	return nil
 }
 
 // This object represents an answer of a user in a non-anonymous poll.
@@ -4191,6 +4289,40 @@ func (*BotCommandScopeChatAdministrators) isBotCommandScope() {}
 // isBotCommandScope is the marker method that makes BotCommandScopeChatMember implement BotCommandScope.
 func (*BotCommandScopeChatMember) isBotCommandScope() {}
 
+// UnmarshalBotCommandScope decodes a BotCommandScope from JSON by inspecting the
+// "type" field and dispatching to the correct concrete type.
+func UnmarshalBotCommandScope(data []byte) (BotCommandScope, error) {
+	var probe struct {
+		V string `json:"type"`
+	}
+	if err := json.Unmarshal(data, &probe); err != nil {
+		return nil, err
+	}
+	var v BotCommandScope
+	switch probe.V {
+	case "all_chat_administrators":
+		v = &BotCommandScopeAllChatAdministrators{}
+	case "all_group_chats":
+		v = &BotCommandScopeAllGroupChats{}
+	case "all_private_chats":
+		v = &BotCommandScopeAllPrivateChats{}
+	case "chat":
+		v = &BotCommandScopeChat{}
+	case "chat_administrators":
+		v = &BotCommandScopeChatAdministrators{}
+	case "chat_member":
+		v = &BotCommandScopeChatMember{}
+	case "default":
+		v = &BotCommandScopeDefault{}
+	default:
+		return nil, fmt.Errorf("BotCommandScope: unknown type %q", probe.V)
+	}
+	if err := json.Unmarshal(data, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
 // Represents the default scope of bot commands. Default commands are used if no commands with a narrower scope are specified for the user.
 type BotCommandScopeDefault struct {
 	// Scope type, must be default
@@ -4820,6 +4952,38 @@ func (*InputMediaPhoto) isInputMedia() {}
 // isInputMedia is the marker method that makes InputMediaVideo implement InputMedia.
 func (*InputMediaVideo) isInputMedia() {}
 
+// UnmarshalInputMedia decodes a InputMedia from JSON by inspecting the
+// "type" field and dispatching to the correct concrete type.
+func UnmarshalInputMedia(data []byte) (InputMedia, error) {
+	var probe struct {
+		V string `json:"type"`
+	}
+	if err := json.Unmarshal(data, &probe); err != nil {
+		return nil, err
+	}
+	var v InputMedia
+	switch probe.V {
+	case "animation":
+		v = &InputMediaAnimation{}
+	case "audio":
+		v = &InputMediaAudio{}
+	case "document":
+		v = &InputMediaDocument{}
+	case "live_photo":
+		v = &InputMediaLivePhoto{}
+	case "photo":
+		v = &InputMediaPhoto{}
+	case "video":
+		v = &InputMediaVideo{}
+	default:
+		return nil, fmt.Errorf("InputMedia: unknown type %q", probe.V)
+	}
+	if err := json.Unmarshal(data, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
 // Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
 type InputMediaAnimation struct {
 	// Type of the media, must be animation
@@ -5202,6 +5366,32 @@ func (*InputPaidMediaPhoto) isInputPaidMedia() {}
 // isInputPaidMedia is the marker method that makes InputPaidMediaVideo implement InputPaidMedia.
 func (*InputPaidMediaVideo) isInputPaidMedia() {}
 
+// UnmarshalInputPaidMedia decodes a InputPaidMedia from JSON by inspecting the
+// "type" field and dispatching to the correct concrete type.
+func UnmarshalInputPaidMedia(data []byte) (InputPaidMedia, error) {
+	var probe struct {
+		V string `json:"type"`
+	}
+	if err := json.Unmarshal(data, &probe); err != nil {
+		return nil, err
+	}
+	var v InputPaidMedia
+	switch probe.V {
+	case "live_photo":
+		v = &InputPaidMediaLivePhoto{}
+	case "photo":
+		v = &InputPaidMediaPhoto{}
+	case "video":
+		v = &InputPaidMediaVideo{}
+	default:
+		return nil, fmt.Errorf("InputPaidMedia: unknown type %q", probe.V)
+	}
+	if err := json.Unmarshal(data, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
 // The paid media to send is a live photo.
 type InputPaidMediaLivePhoto struct {
 	// Type of the media, must be live_photo
@@ -5304,6 +5494,30 @@ func (*InputProfilePhotoStatic) isInputProfilePhoto() {}
 // isInputProfilePhoto is the marker method that makes InputProfilePhotoAnimated implement InputProfilePhoto.
 func (*InputProfilePhotoAnimated) isInputProfilePhoto() {}
 
+// UnmarshalInputProfilePhoto decodes a InputProfilePhoto from JSON by inspecting the
+// "type" field and dispatching to the correct concrete type.
+func UnmarshalInputProfilePhoto(data []byte) (InputProfilePhoto, error) {
+	var probe struct {
+		V string `json:"type"`
+	}
+	if err := json.Unmarshal(data, &probe); err != nil {
+		return nil, err
+	}
+	var v InputProfilePhoto
+	switch probe.V {
+	case "animated":
+		v = &InputProfilePhotoAnimated{}
+	case "static":
+		v = &InputProfilePhotoStatic{}
+	default:
+		return nil, fmt.Errorf("InputProfilePhoto: unknown type %q", probe.V)
+	}
+	if err := json.Unmarshal(data, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
 // A static profile photo in the .JPG format.
 type InputProfilePhotoStatic struct {
 	// Type of the profile photo, must be static
@@ -5367,6 +5581,30 @@ func (*InputStoryContentPhoto) isInputStoryContent() {}
 
 // isInputStoryContent is the marker method that makes InputStoryContentVideo implement InputStoryContent.
 func (*InputStoryContentVideo) isInputStoryContent() {}
+
+// UnmarshalInputStoryContent decodes a InputStoryContent from JSON by inspecting the
+// "type" field and dispatching to the correct concrete type.
+func UnmarshalInputStoryContent(data []byte) (InputStoryContent, error) {
+	var probe struct {
+		V string `json:"type"`
+	}
+	if err := json.Unmarshal(data, &probe); err != nil {
+		return nil, err
+	}
+	var v InputStoryContent
+	switch probe.V {
+	case "photo":
+		v = &InputStoryContentPhoto{}
+	case "video":
+		v = &InputStoryContentVideo{}
+	default:
+		return nil, fmt.Errorf("InputStoryContent: unknown type %q", probe.V)
+	}
+	if err := json.Unmarshal(data, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
 
 // Describes a photo to post as a story.
 type InputStoryContentPhoto struct {
@@ -5504,6 +5742,38 @@ type RichMessage struct {
 	IsRtl *bool `json:"is_rtl,omitempty"`
 }
 
+// UnmarshalJSON decodes RichMessage by dispatching union-typed fields
+// (Blocks) through their concrete UnmarshalXxx helpers.
+func (m *RichMessage) UnmarshalJSON(data []byte) error {
+	type Alias RichMessage
+	aux := &struct {
+		Blocks json.RawMessage `json:"blocks,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]RichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	return nil
+}
+
 // Describes a rich message to be sent. Exactly one of the fields html, markdown, or blocks must be used.
 type InputRichMessage struct {
 	// Optional. Content of the rich message to send described as a list of blocks
@@ -5518,6 +5788,38 @@ type InputRichMessage struct {
 	IsRtl *bool `json:"is_rtl,omitempty"`
 	// Optional. Pass True to skip automatic detection of entities (e.g., URLs, email addresses, username mentions, hashtags, cashtags, bot commands, or phone numbers) in the text
 	SkipEntityDetection *bool `json:"skip_entity_detection,omitempty"`
+}
+
+// UnmarshalJSON decodes InputRichMessage by dispatching union-typed fields
+// (Blocks) through their concrete UnmarshalXxx helpers.
+func (m *InputRichMessage) UnmarshalJSON(data []byte) error {
+	type Alias InputRichMessage
+	aux := &struct {
+		Blocks json.RawMessage `json:"blocks,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]InputRichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalInputRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	return nil
 }
 
 // Describes a media element embedded in an outgoing rich message.
@@ -5554,6 +5856,30 @@ type RichMessageButton struct {
 	Disabled *DisabledButton `json:"disabled,omitempty"`
 }
 
+// UnmarshalJSON decodes RichMessageButton by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichMessageButton) UnmarshalJSON(data []byte) error {
+	type Alias RichMessageButton
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // RichText is a union type. The following concrete variants implement
 // it:
 //   - RichTextBold
@@ -5582,6 +5908,8 @@ type RichMessageButton struct {
 //   - RichTextAnchorLink
 //   - RichTextReference
 //   - RichTextReferenceLink
+//   - RichTextPlain (bare JSON string)
+//   - RichTextSequence (JSON array of RichText)
 //
 // This object represents a rich formatted text. Currently, it can be either a String for plain text, an Array of RichText, or any of the following types:
 type RichText interface{ isRichText() }
@@ -5664,6 +5992,139 @@ func (*RichTextReference) isRichText() {}
 // isRichText is the marker method that makes RichTextReferenceLink implement RichText.
 func (*RichTextReferenceLink) isRichText() {}
 
+// RichTextPlain implements RichText for the bare JSON string wire
+// shape Telegram documents for this union, alongside its object variants.
+type RichTextPlain struct {
+	Text string
+}
+
+// isRichText is the marker method that makes RichTextPlain implement RichText.
+func (*RichTextPlain) isRichText() {}
+
+// MarshalJSON encodes RichTextPlain back to its bare JSON string wire shape.
+func (v *RichTextPlain) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.Text)
+}
+
+// RichTextSequence implements RichText for the JSON array of RichText wire
+// shape Telegram documents for this union, alongside its object variants.
+type RichTextSequence struct {
+	Items []RichText
+}
+
+// isRichText is the marker method that makes RichTextSequence implement RichText.
+func (*RichTextSequence) isRichText() {}
+
+// MarshalJSON encodes RichTextSequence back to its bare JSON array wire shape.
+func (v *RichTextSequence) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.Items)
+}
+
+// UnmarshalRichText decodes a RichText from JSON. Telegram documents
+// this type as either a bare JSON string, a JSON array of RichText, or
+// an object dispatched by its "type" field;
+// leading whitespace is trimmed and the first remaining byte selects
+// the shape.
+func UnmarshalRichText(data []byte) (RichText, error) {
+	trimmed := bytes.TrimLeft(data, " \t\r\n")
+	if len(trimmed) == 0 {
+		return nil, fmt.Errorf("RichText: empty JSON value")
+	}
+	switch trimmed[0] {
+	case '"':
+		var s string
+		if err := json.Unmarshal(data, &s); err != nil {
+			return nil, fmt.Errorf("RichText: decoding string: %w", err)
+		}
+		return &RichTextPlain{Text: s}, nil
+	case '[':
+		var raws []json.RawMessage
+		if err := json.Unmarshal(data, &raws); err != nil {
+			return nil, fmt.Errorf("RichText: decoding array: %w", err)
+		}
+		items := make([]RichText, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalRichText(r)
+			if err != nil {
+				return nil, fmt.Errorf("RichText: decoding array[%d]: %w", i, err)
+			}
+			items = append(items, v)
+		}
+		return &RichTextSequence{Items: items}, nil
+	case '{':
+		// fall through to the discriminator switch below.
+	default:
+		return nil, fmt.Errorf("RichText: unrecognised JSON value starting with %q", trimmed[0])
+	}
+	var probe struct {
+		V string `json:"type"`
+	}
+	if err := json.Unmarshal(data, &probe); err != nil {
+		return nil, err
+	}
+	var v RichText
+	switch probe.V {
+	case "anchor":
+		v = &RichTextAnchor{}
+	case "anchor_link":
+		v = &RichTextAnchorLink{}
+	case "bank_card_number":
+		v = &RichTextBankCardNumber{}
+	case "bold":
+		v = &RichTextBold{}
+	case "bot_command":
+		v = &RichTextBotCommand{}
+	case "button":
+		v = &RichTextButton{}
+	case "cashtag":
+		v = &RichTextCashtag{}
+	case "code":
+		v = &RichTextCode{}
+	case "custom_emoji":
+		v = &RichTextCustomEmoji{}
+	case "date_time":
+		v = &RichTextDateTime{}
+	case "email_address":
+		v = &RichTextEmailAddress{}
+	case "hashtag":
+		v = &RichTextHashtag{}
+	case "italic":
+		v = &RichTextItalic{}
+	case "marked":
+		v = &RichTextMarked{}
+	case "mathematical_expression":
+		v = &RichTextMathematicalExpression{}
+	case "mention":
+		v = &RichTextMention{}
+	case "phone_number":
+		v = &RichTextPhoneNumber{}
+	case "reference":
+		v = &RichTextReference{}
+	case "reference_link":
+		v = &RichTextReferenceLink{}
+	case "spoiler":
+		v = &RichTextSpoiler{}
+	case "strikethrough":
+		v = &RichTextStrikethrough{}
+	case "subscript":
+		v = &RichTextSubscript{}
+	case "superscript":
+		v = &RichTextSuperscript{}
+	case "text_mention":
+		v = &RichTextTextMention{}
+	case "underline":
+		v = &RichTextUnderline{}
+	case "url":
+		v = &RichTextUrl{}
+	default:
+		return nil, fmt.Errorf("RichText: unknown type %q", probe.V)
+	}
+	if err := json.Unmarshal(data, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
 // A bold text.
 type RichTextBold struct {
 	// Type of the rich text, always “bold”
@@ -5686,6 +6147,30 @@ func (v *RichTextBold) MarshalJSON() ([]byte, error) {
 		Type:  "bold",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichTextBold by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextBold) UnmarshalJSON(data []byte) error {
+	type Alias RichTextBold
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // An italicized text.
@@ -5712,6 +6197,30 @@ func (v *RichTextItalic) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextItalic by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextItalic) UnmarshalJSON(data []byte) error {
+	type Alias RichTextItalic
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // An underlined text.
 type RichTextUnderline struct {
 	// Type of the rich text, always “underline”
@@ -5734,6 +6243,30 @@ func (v *RichTextUnderline) MarshalJSON() ([]byte, error) {
 		Type:  "underline",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichTextUnderline by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextUnderline) UnmarshalJSON(data []byte) error {
+	type Alias RichTextUnderline
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A strikethrough text.
@@ -5760,6 +6293,30 @@ func (v *RichTextStrikethrough) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextStrikethrough by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextStrikethrough) UnmarshalJSON(data []byte) error {
+	type Alias RichTextStrikethrough
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A text covered by a spoiler.
 type RichTextSpoiler struct {
 	// Type of the rich text, always “spoiler”
@@ -5782,6 +6339,30 @@ func (v *RichTextSpoiler) MarshalJSON() ([]byte, error) {
 		Type:  "spoiler",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichTextSpoiler by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextSpoiler) UnmarshalJSON(data []byte) error {
+	type Alias RichTextSpoiler
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // Formatted date and time.
@@ -5812,6 +6393,30 @@ func (v *RichTextDateTime) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextDateTime by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextDateTime) UnmarshalJSON(data []byte) error {
+	type Alias RichTextDateTime
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A mention of a Telegram user by their identifier.
 type RichTextTextMention struct {
 	// Type of the rich text, always “text_mention”
@@ -5838,6 +6443,30 @@ func (v *RichTextTextMention) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextTextMention by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextTextMention) UnmarshalJSON(data []byte) error {
+	type Alias RichTextTextMention
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A subscript text.
 type RichTextSubscript struct {
 	// Type of the rich text, always “subscript”
@@ -5860,6 +6489,30 @@ func (v *RichTextSubscript) MarshalJSON() ([]byte, error) {
 		Type:  "subscript",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichTextSubscript by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextSubscript) UnmarshalJSON(data []byte) error {
+	type Alias RichTextSubscript
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A superscript text.
@@ -5886,6 +6539,30 @@ func (v *RichTextSuperscript) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextSuperscript by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextSuperscript) UnmarshalJSON(data []byte) error {
+	type Alias RichTextSuperscript
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A marked text.
 type RichTextMarked struct {
 	// Type of the rich text, always “marked”
@@ -5910,6 +6587,30 @@ func (v *RichTextMarked) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextMarked by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextMarked) UnmarshalJSON(data []byte) error {
+	type Alias RichTextMarked
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A monowidth text.
 type RichTextCode struct {
 	// Type of the rich text, always “code”
@@ -5932,6 +6633,30 @@ func (v *RichTextCode) MarshalJSON() ([]byte, error) {
 		Type:  "code",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichTextCode by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextCode) UnmarshalJSON(data []byte) error {
+	type Alias RichTextCode
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A custom emoji.
@@ -6010,6 +6735,30 @@ func (v *RichTextUrl) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextUrl by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextUrl) UnmarshalJSON(data []byte) error {
+	type Alias RichTextUrl
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A text with an email address.
 type RichTextEmailAddress struct {
 	// Type of the rich text, always “email_address”
@@ -6034,6 +6783,30 @@ func (v *RichTextEmailAddress) MarshalJSON() ([]byte, error) {
 		Type:  "email_address",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichTextEmailAddress by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextEmailAddress) UnmarshalJSON(data []byte) error {
+	type Alias RichTextEmailAddress
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A text with a phone number.
@@ -6062,6 +6835,30 @@ func (v *RichTextPhoneNumber) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextPhoneNumber by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextPhoneNumber) UnmarshalJSON(data []byte) error {
+	type Alias RichTextPhoneNumber
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A text with a bank card number.
 type RichTextBankCardNumber struct {
 	// Type of the rich text, always “bank_card_number”
@@ -6086,6 +6883,30 @@ func (v *RichTextBankCardNumber) MarshalJSON() ([]byte, error) {
 		Type:  "bank_card_number",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichTextBankCardNumber by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextBankCardNumber) UnmarshalJSON(data []byte) error {
+	type Alias RichTextBankCardNumber
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A mention by a username.
@@ -6114,6 +6935,30 @@ func (v *RichTextMention) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextMention by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextMention) UnmarshalJSON(data []byte) error {
+	type Alias RichTextMention
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A hashtag.
 type RichTextHashtag struct {
 	// Type of the rich text, always “hashtag”
@@ -6138,6 +6983,30 @@ func (v *RichTextHashtag) MarshalJSON() ([]byte, error) {
 		Type:  "hashtag",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichTextHashtag by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextHashtag) UnmarshalJSON(data []byte) error {
+	type Alias RichTextHashtag
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A cashtag.
@@ -6166,6 +7035,30 @@ func (v *RichTextCashtag) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextCashtag by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextCashtag) UnmarshalJSON(data []byte) error {
+	type Alias RichTextCashtag
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A bot command.
 type RichTextBotCommand struct {
 	// Type of the rich text, always “bot_command”
@@ -6190,6 +7083,30 @@ func (v *RichTextBotCommand) MarshalJSON() ([]byte, error) {
 		Type:  "bot_command",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichTextBotCommand by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextBotCommand) UnmarshalJSON(data []byte) error {
+	type Alias RichTextBotCommand
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A button.
@@ -6266,6 +7183,30 @@ func (v *RichTextAnchorLink) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextAnchorLink by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextAnchorLink) UnmarshalJSON(data []byte) error {
+	type Alias RichTextAnchorLink
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A reference.
 type RichTextReference struct {
 	// Type of the rich text, always “reference”
@@ -6290,6 +7231,30 @@ func (v *RichTextReference) MarshalJSON() ([]byte, error) {
 		Type:  "reference",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichTextReference by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextReference) UnmarshalJSON(data []byte) error {
+	type Alias RichTextReference
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A link to a reference.
@@ -6318,12 +7283,70 @@ func (v *RichTextReferenceLink) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichTextReferenceLink by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichTextReferenceLink) UnmarshalJSON(data []byte) error {
+	type Alias RichTextReferenceLink
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // Caption of a rich formatted block.
 type RichBlockCaption struct {
 	// Block caption
 	Text RichText `json:"text"`
 	// Optional. Block credit which corresponds to the HTML tag <cite>
 	Credit RichText `json:"credit,omitempty"`
+}
+
+// UnmarshalJSON decodes RichBlockCaption by dispatching union-typed fields
+// (Text, Credit) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockCaption) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockCaption
+	aux := &struct {
+		Text   json.RawMessage `json:"text,omitempty"`
+		Credit json.RawMessage `json:"credit,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	if len(aux.Credit) > 0 && string(aux.Credit) != "null" {
+		v, err := UnmarshalRichText(aux.Credit)
+		if err != nil {
+			return fmt.Errorf("decoding credit: %w", err)
+		}
+		m.Credit = v
+
+	}
+
+	return nil
 }
 
 // Cell in a table.
@@ -6342,6 +7365,30 @@ type RichBlockTableCell struct {
 	Valign RichBlockTableCellValign `json:"valign"`
 }
 
+// UnmarshalJSON decodes RichBlockTableCell by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockTableCell) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockTableCell
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // An item of a list.
 type RichBlockListItem struct {
 	// Label of the item
@@ -6356,6 +7403,38 @@ type RichBlockListItem struct {
 	Value *int64 `json:"value,omitempty"`
 	// Optional. For ordered lists, the type of the item label; must be one of “a” for lowercase letters, “A” for uppercase letters, “i” for lowercase Roman numerals, “I” for uppercase Roman numerals, or “1” for decimal numbers
 	Type RichBlockListItemType `json:"type,omitempty"`
+}
+
+// UnmarshalJSON decodes RichBlockListItem by dispatching union-typed fields
+// (Blocks) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockListItem) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockListItem
+	aux := &struct {
+		Blocks json.RawMessage `json:"blocks,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]RichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	return nil
 }
 
 // RichBlock is a union type. The following concrete variants implement
@@ -6460,6 +7539,74 @@ func (*RichBlockVoiceNote) isRichBlock() {}
 // isRichBlock is the marker method that makes RichBlockThinking implement RichBlock.
 func (*RichBlockThinking) isRichBlock() {}
 
+// UnmarshalRichBlock decodes a RichBlock from JSON by inspecting the
+// "type" field and dispatching to the correct concrete type.
+func UnmarshalRichBlock(data []byte) (RichBlock, error) {
+	var probe struct {
+		V string `json:"type"`
+	}
+	if err := json.Unmarshal(data, &probe); err != nil {
+		return nil, err
+	}
+	var v RichBlock
+	switch probe.V {
+	case "anchor":
+		v = &RichBlockAnchor{}
+	case "animation":
+		v = &RichBlockAnimation{}
+	case "audio":
+		v = &RichBlockAudio{}
+	case "blockquote":
+		v = &RichBlockBlockQuotation{}
+	case "buttons":
+		v = &RichBlockButtons{}
+	case "collage":
+		v = &RichBlockCollage{}
+	case "details":
+		v = &RichBlockDetails{}
+	case "divider":
+		v = &RichBlockDivider{}
+	case "document":
+		v = &RichBlockDocument{}
+	case "expandable_blockquote":
+		v = &RichBlockExpandableBlockQuotation{}
+	case "footer":
+		v = &RichBlockFooter{}
+	case "heading":
+		v = &RichBlockSectionHeading{}
+	case "list":
+		v = &RichBlockList{}
+	case "map":
+		v = &RichBlockMap{}
+	case "mathematical_expression":
+		v = &RichBlockMathematicalExpression{}
+	case "paragraph":
+		v = &RichBlockParagraph{}
+	case "photo":
+		v = &RichBlockPhoto{}
+	case "pre":
+		v = &RichBlockPreformatted{}
+	case "pullquote":
+		v = &RichBlockPullQuotation{}
+	case "slideshow":
+		v = &RichBlockSlideshow{}
+	case "table":
+		v = &RichBlockTable{}
+	case "thinking":
+		v = &RichBlockThinking{}
+	case "video":
+		v = &RichBlockVideo{}
+	case "voice_note":
+		v = &RichBlockVoiceNote{}
+	default:
+		return nil, fmt.Errorf("RichBlock: unknown type %q", probe.V)
+	}
+	if err := json.Unmarshal(data, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
 // A text paragraph, corresponding to the HTML tag <p>.
 type RichBlockParagraph struct {
 	// Type of the block, always “paragraph”
@@ -6482,6 +7629,30 @@ func (v *RichBlockParagraph) MarshalJSON() ([]byte, error) {
 		Type:  "paragraph",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichBlockParagraph by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockParagraph) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockParagraph
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A section heading, corresponding to the HTML tags <h1>, <h2>, <h3>, <h4>, <h5>, or <h6>.
@@ -6510,6 +7681,30 @@ func (v *RichBlockSectionHeading) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichBlockSectionHeading by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockSectionHeading) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockSectionHeading
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A preformatted text block, corresponding to the nested HTML tags <pre> and <code>.
 type RichBlockPreformatted struct {
 	// Type of the block, always “pre”
@@ -6536,6 +7731,30 @@ func (v *RichBlockPreformatted) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichBlockPreformatted by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockPreformatted) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockPreformatted
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A footer, corresponding to the HTML tag <footer>.
 type RichBlockFooter struct {
 	// Type of the block, always “footer”
@@ -6558,6 +7777,30 @@ func (v *RichBlockFooter) MarshalJSON() ([]byte, error) {
 		Type:  "footer",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichBlockFooter by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockFooter) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockFooter
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A divider, corresponding to the HTML tag <hr/>.
@@ -6680,6 +7923,48 @@ func (v *RichBlockBlockQuotation) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichBlockBlockQuotation by dispatching union-typed fields
+// (Blocks, Credit) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockBlockQuotation) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockBlockQuotation
+	aux := &struct {
+		Blocks json.RawMessage `json:"blocks,omitempty"`
+		Credit json.RawMessage `json:"credit,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]RichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	if len(aux.Credit) > 0 && string(aux.Credit) != "null" {
+		v, err := UnmarshalRichText(aux.Credit)
+		if err != nil {
+			return fmt.Errorf("decoding credit: %w", err)
+		}
+		m.Credit = v
+
+	}
+
+	return nil
+}
+
 // A block quotation, corresponding to the HTML tag <blockquote> with custom attribute "expandable".
 type RichBlockExpandableBlockQuotation struct {
 	// Type of the block, always “expandable_blockquote”
@@ -6704,6 +7989,40 @@ func (v *RichBlockExpandableBlockQuotation) MarshalJSON() ([]byte, error) {
 		Type:  "expandable_blockquote",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichBlockExpandableBlockQuotation by dispatching union-typed fields
+// (Text, Credit) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockExpandableBlockQuotation) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockExpandableBlockQuotation
+	aux := &struct {
+		Text   json.RawMessage `json:"text,omitempty"`
+		Credit json.RawMessage `json:"credit,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	if len(aux.Credit) > 0 && string(aux.Credit) != "null" {
+		v, err := UnmarshalRichText(aux.Credit)
+		if err != nil {
+			return fmt.Errorf("decoding credit: %w", err)
+		}
+		m.Credit = v
+
+	}
+
+	return nil
 }
 
 // A quotation with centered text, loosely corresponding to the HTML tag <aside>.
@@ -6732,6 +8051,40 @@ func (v *RichBlockPullQuotation) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichBlockPullQuotation by dispatching union-typed fields
+// (Text, Credit) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockPullQuotation) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockPullQuotation
+	aux := &struct {
+		Text   json.RawMessage `json:"text,omitempty"`
+		Credit json.RawMessage `json:"credit,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	if len(aux.Credit) > 0 && string(aux.Credit) != "null" {
+		v, err := UnmarshalRichText(aux.Credit)
+		if err != nil {
+			return fmt.Errorf("decoding credit: %w", err)
+		}
+		m.Credit = v
+
+	}
+
+	return nil
+}
+
 // A collage, corresponding to the custom HTML tag <tg-collage>.
 type RichBlockCollage struct {
 	// Type of the block, always “collage”
@@ -6758,6 +8111,38 @@ func (v *RichBlockCollage) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichBlockCollage by dispatching union-typed fields
+// (Blocks) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockCollage) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockCollage
+	aux := &struct {
+		Blocks json.RawMessage `json:"blocks,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]RichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	return nil
+}
+
 // A slideshow, corresponding to the custom HTML tag <tg-slideshow>.
 type RichBlockSlideshow struct {
 	// Type of the block, always “slideshow”
@@ -6782,6 +8167,38 @@ func (v *RichBlockSlideshow) MarshalJSON() ([]byte, error) {
 		Type:  "slideshow",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichBlockSlideshow by dispatching union-typed fields
+// (Blocks) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockSlideshow) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockSlideshow
+	aux := &struct {
+		Blocks json.RawMessage `json:"blocks,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]RichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	return nil
 }
 
 // A table, corresponding to the HTML tag <table>.
@@ -6816,6 +8233,30 @@ func (v *RichBlockTable) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichBlockTable by dispatching union-typed fields
+// (Caption) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockTable) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockTable
+	aux := &struct {
+		Caption json.RawMessage `json:"caption,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Caption) > 0 && string(aux.Caption) != "null" {
+		v, err := UnmarshalRichText(aux.Caption)
+		if err != nil {
+			return fmt.Errorf("decoding caption: %w", err)
+		}
+		m.Caption = v
+
+	}
+
+	return nil
+}
+
 // An expandable block for details disclosure, corresponding to the HTML tag <details>.
 type RichBlockDetails struct {
 	// Type of the block, always “details”
@@ -6842,6 +8283,48 @@ func (v *RichBlockDetails) MarshalJSON() ([]byte, error) {
 		Type:  "details",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes RichBlockDetails by dispatching union-typed fields
+// (Summary, Blocks) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockDetails) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockDetails
+	aux := &struct {
+		Summary json.RawMessage `json:"summary,omitempty"`
+		Blocks  json.RawMessage `json:"blocks,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Summary) > 0 && string(aux.Summary) != "null" {
+		v, err := UnmarshalRichText(aux.Summary)
+		if err != nil {
+			return fmt.Errorf("decoding summary: %w", err)
+		}
+		m.Summary = v
+
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]RichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	return nil
 }
 
 // A block with a map, corresponding to the custom HTML tag <tg-map>.
@@ -7088,6 +8571,30 @@ func (v *RichBlockThinking) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes RichBlockThinking by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *RichBlockThinking) UnmarshalJSON(data []byte) error {
+	type Alias RichBlockThinking
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // An item of a list to be sent.
 type InputRichBlockListItem struct {
 	// The content of the item
@@ -7100,6 +8607,38 @@ type InputRichBlockListItem struct {
 	Value *int64 `json:"value,omitempty"`
 	// Optional. For ordered lists, the type of the item label; must be one of “a” for lowercase letters, “A” for uppercase letters, “i” for lowercase Roman numerals, “I” for uppercase Roman numerals, or “1” for decimal numbers
 	Type RichBlockListItemType `json:"type,omitempty"`
+}
+
+// UnmarshalJSON decodes InputRichBlockListItem by dispatching union-typed fields
+// (Blocks) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockListItem) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockListItem
+	aux := &struct {
+		Blocks json.RawMessage `json:"blocks,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]InputRichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalInputRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	return nil
 }
 
 // InputRichBlock is a union type. The following concrete variants implement
@@ -7204,6 +8743,74 @@ func (*InputRichBlockVoiceNote) isInputRichBlock() {}
 // isInputRichBlock is the marker method that makes InputRichBlockThinking implement InputRichBlock.
 func (*InputRichBlockThinking) isInputRichBlock() {}
 
+// UnmarshalInputRichBlock decodes a InputRichBlock from JSON by inspecting the
+// "type" field and dispatching to the correct concrete type.
+func UnmarshalInputRichBlock(data []byte) (InputRichBlock, error) {
+	var probe struct {
+		V string `json:"type"`
+	}
+	if err := json.Unmarshal(data, &probe); err != nil {
+		return nil, err
+	}
+	var v InputRichBlock
+	switch probe.V {
+	case "anchor":
+		v = &InputRichBlockAnchor{}
+	case "animation":
+		v = &InputRichBlockAnimation{}
+	case "audio":
+		v = &InputRichBlockAudio{}
+	case "blockquote":
+		v = &InputRichBlockBlockQuotation{}
+	case "buttons":
+		v = &InputRichBlockButtons{}
+	case "collage":
+		v = &InputRichBlockCollage{}
+	case "details":
+		v = &InputRichBlockDetails{}
+	case "divider":
+		v = &InputRichBlockDivider{}
+	case "document":
+		v = &InputRichBlockDocument{}
+	case "expandable_blockquote":
+		v = &InputRichBlockExpandableBlockQuotation{}
+	case "footer":
+		v = &InputRichBlockFooter{}
+	case "heading":
+		v = &InputRichBlockSectionHeading{}
+	case "list":
+		v = &InputRichBlockList{}
+	case "map":
+		v = &InputRichBlockMap{}
+	case "mathematical_expression":
+		v = &InputRichBlockMathematicalExpression{}
+	case "paragraph":
+		v = &InputRichBlockParagraph{}
+	case "photo":
+		v = &InputRichBlockPhoto{}
+	case "pre":
+		v = &InputRichBlockPreformatted{}
+	case "pullquote":
+		v = &InputRichBlockPullQuotation{}
+	case "slideshow":
+		v = &InputRichBlockSlideshow{}
+	case "table":
+		v = &InputRichBlockTable{}
+	case "thinking":
+		v = &InputRichBlockThinking{}
+	case "video":
+		v = &InputRichBlockVideo{}
+	case "voice_note":
+		v = &InputRichBlockVoiceNote{}
+	default:
+		return nil, fmt.Errorf("InputRichBlock: unknown type %q", probe.V)
+	}
+	if err := json.Unmarshal(data, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
 // A text paragraph, corresponding to the HTML tag <p>.
 type InputRichBlockParagraph struct {
 	// Type of the block, always “paragraph”
@@ -7226,6 +8833,30 @@ func (v *InputRichBlockParagraph) MarshalJSON() ([]byte, error) {
 		Type:  "paragraph",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes InputRichBlockParagraph by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockParagraph) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockParagraph
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A section heading, corresponding to the HTML tags <h1>, <h2>, <h3>, <h4>, <h5>, or <h6>.
@@ -7254,6 +8885,30 @@ func (v *InputRichBlockSectionHeading) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes InputRichBlockSectionHeading by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockSectionHeading) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockSectionHeading
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A preformatted text block, corresponding to the nested HTML tags <pre> and <code>.
 type InputRichBlockPreformatted struct {
 	// Type of the block, always “pre”
@@ -7280,6 +8935,30 @@ func (v *InputRichBlockPreformatted) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes InputRichBlockPreformatted by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockPreformatted) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockPreformatted
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
+}
+
 // A footer, corresponding to the HTML tag <footer>.
 type InputRichBlockFooter struct {
 	// Type of the block, always “footer”
@@ -7302,6 +8981,30 @@ func (v *InputRichBlockFooter) MarshalJSON() ([]byte, error) {
 		Type:  "footer",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes InputRichBlockFooter by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockFooter) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockFooter
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // A divider, corresponding to the HTML tag <hr/>.
@@ -7424,6 +9127,48 @@ func (v *InputRichBlockBlockQuotation) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes InputRichBlockBlockQuotation by dispatching union-typed fields
+// (Blocks, Credit) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockBlockQuotation) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockBlockQuotation
+	aux := &struct {
+		Blocks json.RawMessage `json:"blocks,omitempty"`
+		Credit json.RawMessage `json:"credit,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]InputRichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalInputRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	if len(aux.Credit) > 0 && string(aux.Credit) != "null" {
+		v, err := UnmarshalRichText(aux.Credit)
+		if err != nil {
+			return fmt.Errorf("decoding credit: %w", err)
+		}
+		m.Credit = v
+
+	}
+
+	return nil
+}
+
 // A block quotation, corresponding to the HTML tag <blockquote> with custom attribute "expandable".
 type InputRichBlockExpandableBlockQuotation struct {
 	// Type of the block, always “expandable_blockquote”
@@ -7448,6 +9193,40 @@ func (v *InputRichBlockExpandableBlockQuotation) MarshalJSON() ([]byte, error) {
 		Type:  "expandable_blockquote",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes InputRichBlockExpandableBlockQuotation by dispatching union-typed fields
+// (Text, Credit) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockExpandableBlockQuotation) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockExpandableBlockQuotation
+	aux := &struct {
+		Text   json.RawMessage `json:"text,omitempty"`
+		Credit json.RawMessage `json:"credit,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	if len(aux.Credit) > 0 && string(aux.Credit) != "null" {
+		v, err := UnmarshalRichText(aux.Credit)
+		if err != nil {
+			return fmt.Errorf("decoding credit: %w", err)
+		}
+		m.Credit = v
+
+	}
+
+	return nil
 }
 
 // A quotation with centered text, loosely corresponding to the HTML tag <aside>.
@@ -7476,6 +9255,40 @@ func (v *InputRichBlockPullQuotation) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes InputRichBlockPullQuotation by dispatching union-typed fields
+// (Text, Credit) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockPullQuotation) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockPullQuotation
+	aux := &struct {
+		Text   json.RawMessage `json:"text,omitempty"`
+		Credit json.RawMessage `json:"credit,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	if len(aux.Credit) > 0 && string(aux.Credit) != "null" {
+		v, err := UnmarshalRichText(aux.Credit)
+		if err != nil {
+			return fmt.Errorf("decoding credit: %w", err)
+		}
+		m.Credit = v
+
+	}
+
+	return nil
+}
+
 // A collage, corresponding to the custom HTML tag <tg-collage>.
 type InputRichBlockCollage struct {
 	// Type of the block, always “collage”
@@ -7502,6 +9315,38 @@ func (v *InputRichBlockCollage) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes InputRichBlockCollage by dispatching union-typed fields
+// (Blocks) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockCollage) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockCollage
+	aux := &struct {
+		Blocks json.RawMessage `json:"blocks,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]InputRichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalInputRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	return nil
+}
+
 // A slideshow, corresponding to the custom HTML tag <tg-slideshow>.
 type InputRichBlockSlideshow struct {
 	// Type of the block, always “slideshow”
@@ -7526,6 +9371,38 @@ func (v *InputRichBlockSlideshow) MarshalJSON() ([]byte, error) {
 		Type:  "slideshow",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes InputRichBlockSlideshow by dispatching union-typed fields
+// (Blocks) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockSlideshow) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockSlideshow
+	aux := &struct {
+		Blocks json.RawMessage `json:"blocks,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]InputRichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalInputRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	return nil
 }
 
 // A table, corresponding to the HTML tag <table>.
@@ -7560,6 +9437,30 @@ func (v *InputRichBlockTable) MarshalJSON() ([]byte, error) {
 	})
 }
 
+// UnmarshalJSON decodes InputRichBlockTable by dispatching union-typed fields
+// (Caption) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockTable) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockTable
+	aux := &struct {
+		Caption json.RawMessage `json:"caption,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Caption) > 0 && string(aux.Caption) != "null" {
+		v, err := UnmarshalRichText(aux.Caption)
+		if err != nil {
+			return fmt.Errorf("decoding caption: %w", err)
+		}
+		m.Caption = v
+
+	}
+
+	return nil
+}
+
 // An expandable block for details disclosure, corresponding to the HTML tag <details>.
 type InputRichBlockDetails struct {
 	// Type of the block, always “details”
@@ -7586,6 +9487,48 @@ func (v *InputRichBlockDetails) MarshalJSON() ([]byte, error) {
 		Type:  "details",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes InputRichBlockDetails by dispatching union-typed fields
+// (Summary, Blocks) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockDetails) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockDetails
+	aux := &struct {
+		Summary json.RawMessage `json:"summary,omitempty"`
+		Blocks  json.RawMessage `json:"blocks,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Summary) > 0 && string(aux.Summary) != "null" {
+		v, err := UnmarshalRichText(aux.Summary)
+		if err != nil {
+			return fmt.Errorf("decoding summary: %w", err)
+		}
+		m.Summary = v
+
+	}
+
+	if len(aux.Blocks) > 0 && string(aux.Blocks) != "null" {
+		var raws []json.RawMessage
+		if err := json.Unmarshal(aux.Blocks, &raws); err != nil {
+			return fmt.Errorf("decoding blocks: %w", err)
+		}
+		decoded := make([]InputRichBlock, 0, len(raws))
+		for i, r := range raws {
+			v, err := UnmarshalInputRichBlock(r)
+			if err != nil {
+				return fmt.Errorf("decoding blocks[%d]: %w", i, err)
+			}
+			decoded = append(decoded, v)
+		}
+		m.Blocks = decoded
+
+	}
+
+	return nil
 }
 
 // A block with a map, corresponding to the custom HTML tag <tg-map>. The map's width and height must not exceed 10000 in total. The width and height ratio must be at most 20.
@@ -7824,6 +9767,30 @@ func (v *InputRichBlockThinking) MarshalJSON() ([]byte, error) {
 		Type:  "thinking",
 		alias: (*alias)(v),
 	})
+}
+
+// UnmarshalJSON decodes InputRichBlockThinking by dispatching union-typed fields
+// (Text) through their concrete UnmarshalXxx helpers.
+func (m *InputRichBlockThinking) UnmarshalJSON(data []byte) error {
+	type Alias InputRichBlockThinking
+	aux := &struct {
+		Text json.RawMessage `json:"text,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(m)}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+
+	if len(aux.Text) > 0 && string(aux.Text) != "null" {
+		v, err := UnmarshalRichText(aux.Text)
+		if err != nil {
+			return fmt.Errorf("decoding text: %w", err)
+		}
+		m.Text = v
+
+	}
+
+	return nil
 }
 
 // This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
@@ -9660,6 +11627,44 @@ func (*PassportElementErrorTranslationFiles) isPassportElementError() {}
 
 // isPassportElementError is the marker method that makes PassportElementErrorUnspecified implement PassportElementError.
 func (*PassportElementErrorUnspecified) isPassportElementError() {}
+
+// UnmarshalPassportElementError decodes a PassportElementError from JSON by inspecting the
+// "source" field and dispatching to the correct concrete type.
+func UnmarshalPassportElementError(data []byte) (PassportElementError, error) {
+	var probe struct {
+		V string `json:"source"`
+	}
+	if err := json.Unmarshal(data, &probe); err != nil {
+		return nil, err
+	}
+	var v PassportElementError
+	switch probe.V {
+	case "data":
+		v = &PassportElementErrorDataField{}
+	case "file":
+		v = &PassportElementErrorFile{}
+	case "files":
+		v = &PassportElementErrorFiles{}
+	case "front_side":
+		v = &PassportElementErrorFrontSide{}
+	case "reverse_side":
+		v = &PassportElementErrorReverseSide{}
+	case "selfie":
+		v = &PassportElementErrorSelfie{}
+	case "translation_file":
+		v = &PassportElementErrorTranslationFile{}
+	case "translation_files":
+		v = &PassportElementErrorTranslationFiles{}
+	case "unspecified":
+		v = &PassportElementErrorUnspecified{}
+	default:
+		return nil, fmt.Errorf("PassportElementError: unknown source %q", probe.V)
+	}
+	if err := json.Unmarshal(data, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
 
 // Represents an issue in one of the data fields that was provided by the user. The error is considered resolved when the field's value changes.
 type PassportElementErrorDataField struct {

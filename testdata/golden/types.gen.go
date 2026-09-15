@@ -7,14 +7,16 @@
 package api
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/goccy/go-json"
 	"io"
 )
 
-var _ = io.Discard   // keep import even if no fields use io
-var _ = json.Marshal // keep import for UnmarshalXxx helpers
-var _ = fmt.Errorf   // keep import for UnmarshalXxx helpers
+var _ = io.Discard     // keep import even if no fields use io
+var _ = json.Marshal   // keep import for UnmarshalXxx helpers
+var _ = fmt.Errorf     // keep import for UnmarshalXxx helpers
+var _ = bytes.TrimLeft // keep import for shape-dispatching UnmarshalXxx helpers (unions with alternates)
 
 // This object represents a Telegram user or bot.
 type User struct {

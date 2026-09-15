@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	_ "embed"
+	"errors"
 	"fmt"
 	"github.com/goccy/go-json"
 	"go/format"
@@ -10,6 +11,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strings"
 	"text/template"
 
 	"github.com/lukaszraczylo/go-telegram/internal/spec"
@@ -77,9 +79,18 @@ type discriminatorSpec struct {
 	Variants map[string]string // discriminator value → concrete Go type name
 }
 
-// knownDiscriminators maps parent union name → discriminator spec.
-// Used by the template helpers hasDiscriminator / discriminatorField /
-// discriminatorMap to emit UnmarshalXxx helpers.
+// knownDiscriminators is the hand-curated OVERRIDE table for sealed-union
+// discriminators. deriveDiscriminators computes the same kind of map
+// automatically from the IR for every union that has one (see
+// mergeDiscriminators); an entry here always wins the merge regardless of
+// what derivation would have produced. Use this table only for unions the
+// generic rule can't handle — e.g. MaybeInaccessibleMessage's integer
+// discriminator, which needs bespoke decode logic no discriminatorSpec
+// can express (Field is "" and Variants is nil; the template emits a
+// hand-coded Unmarshal via isMaybeInaccessibleMessage instead). Every
+// other entry here exists only because it predates derivation — removing
+// one and re-running `go test -run TestEmit -update ./cmd/genapi/...`
+// should reproduce it byte-for-byte from deriveDiscriminators.
 var knownDiscriminators = map[string]discriminatorSpec{
 	"ChatMember": {
 		Field: "status",
@@ -205,15 +216,24 @@ type emitter struct {
 	// template to emit per-variant MarshalJSON that hardcodes the
 	// discriminator so callers don't have to set it by hand.
 	variantDiscs map[string]variantDiscriminator
+	// discs is the merged union-level discriminator table: derivation
+	// output with knownDiscriminators layered on top as overrides (see
+	// mergeDiscriminators). Every codegen path that decides whether a
+	// union auto-decodes — and how — consults this instead of the
+	// package-level knownDiscriminators map, so a union qualifies the
+	// moment deriveDiscriminators can resolve it, hand-curated or not.
+	discs map[string]discriminatorSpec
 }
 
 func newEmitter(api *spec.API, outDir string) *emitter {
 	knownInterfaceTypes = buildUnionTypeSet(api)
+	derived, _ := deriveDiscriminators(api)
 	return &emitter{
 		api:          api,
 		outDir:       outDir,
 		enums:        planEnums(api),
 		variantDiscs: variantDiscriminators(api),
+		discs:        mergeDiscriminators(derived),
 	}
 }
 
@@ -349,6 +369,262 @@ func parseDiscriminatorDoc(doc string) string {
 	return ""
 }
 
+// discriminatorFieldCandidates returns the Go field names to try, in
+// priority order, when looking for a discriminator shared by every
+// variant of a union: the hand-curated field from knownDiscriminators
+// (resolved to its Go name via the first variant that declares it) when
+// the union already has an override entry, then "Type", "Status",
+// "Source" — the three names Telegram's docs consistently use for this
+// purpose. Shared by planUnifiedUnionEnums (enum naming, enums.go) and
+// deriveDiscriminators (decode dispatch, below) so the two never disagree
+// on where to look.
+func discriminatorFieldCandidates(unionName string, variants []*spec.TypeDecl) []string {
+	var candidates []string
+	seen := map[string]bool{}
+	add := func(name string) {
+		if name == "" || seen[name] {
+			return
+		}
+		seen[name] = true
+		candidates = append(candidates, name)
+	}
+	if ds, ok := knownDiscriminators[unionName]; ok && ds.Field != "" {
+		for _, v := range variants {
+			for _, f := range v.Fields {
+				if f.JSONName == ds.Field {
+					add(f.Name)
+					break
+				}
+			}
+		}
+	}
+	add("Type")
+	add("Status")
+	add("Source")
+	return candidates
+}
+
+// fieldByGoName returns the field named name on fields, or nil if none matches.
+func fieldByGoName(fields []spec.Field, name string) *spec.Field {
+	for i := range fields {
+		if fields[i].Name == name {
+			return &fields[i]
+		}
+	}
+	return nil
+}
+
+// discriminatorValue extracts the wire-level value a variant field
+// contributes to a discriminator: a single-entry EnumValues list (the
+// scraper's detected value), or a doc-parsed "must be X" / "always “X”"
+// literal via parseDiscriminatorDoc (the same extraction
+// extractVariantDiscriminator uses for the first-field case). Returns ""
+// when the field isn't a required string or carries no resolvable value.
+func discriminatorValue(f spec.Field) string {
+	if !f.Required || f.Type.Kind != spec.KindPrimitive || f.Type.Name != "string" {
+		return ""
+	}
+	if len(f.EnumValues) == 1 {
+		return f.EnumValues[0]
+	}
+	return parseDiscriminatorDoc(f.Doc)
+}
+
+// deriveDiscriminators inspects every union TypeDecl (len(OneOf) > 0) in
+// api and tries to pick a discriminator JSON field automatically, so the
+// hand-maintained knownDiscriminators map no longer has to name every
+// union that qualifies. A union qualifies when, for some candidate field
+// (see discriminatorFieldCandidates), EVERY variant declares that field
+// and discriminatorValue resolves a non-empty wire value for it, and
+// those values are unique across variants.
+//
+// Returns the derived map plus the names of unions that did not qualify,
+// in declaration order. Callers merge the derived map with
+// knownDiscriminators (mergeDiscriminators) and decide what to do about
+// the leftovers — rescue via a hand-curated override, or fail the build
+// if the union is reachable from real Telegram data (checkDiscriminatorGate).
+func deriveDiscriminators(api *spec.API) (map[string]discriminatorSpec, []string) {
+	typeByName := make(map[string]*spec.TypeDecl, len(api.Types))
+	for i := range api.Types {
+		typeByName[api.Types[i].Name] = &api.Types[i]
+	}
+
+	derived := make(map[string]discriminatorSpec, 32)
+	var ungated []string
+
+	for i := range api.Types {
+		u := &api.Types[i]
+		if len(u.OneOf) == 0 {
+			continue
+		}
+
+		variants := make([]*spec.TypeDecl, 0, len(u.OneOf))
+		resolved := true
+		for _, vName := range u.OneOf {
+			v, found := typeByName[vName]
+			if !found {
+				resolved = false
+				break
+			}
+			variants = append(variants, v)
+		}
+		if !resolved {
+			ungated = append(ungated, u.Name)
+			continue
+		}
+
+		ds, qualified := deriveUnionDiscriminator(u.Name, variants)
+		if !qualified {
+			ungated = append(ungated, u.Name)
+			continue
+		}
+		derived[u.Name] = ds
+	}
+	return derived, ungated
+}
+
+// deriveUnionDiscriminator tries each candidate Go field name in
+// priority order and returns the first one where every variant declares
+// that field with a resolvable, unique wire value.
+func deriveUnionDiscriminator(unionName string, variants []*spec.TypeDecl) (discriminatorSpec, bool) {
+	for _, goName := range discriminatorFieldCandidates(unionName, variants) {
+		jsonField := ""
+		values := make(map[string]string, len(variants)) // wire value -> variant Go type name
+		qualifies := true
+		for _, v := range variants {
+			f := fieldByGoName(v.Fields, goName)
+			if f == nil {
+				qualifies = false
+				break
+			}
+			value := discriminatorValue(*f)
+			if value == "" {
+				qualifies = false
+				break
+			}
+			if jsonField == "" {
+				jsonField = f.JSONName
+			} else if f.JSONName != jsonField {
+				qualifies = false
+				break
+			}
+			if _, dup := values[value]; dup {
+				qualifies = false
+				break
+			}
+			values[value] = v.Name
+		}
+		if qualifies {
+			return discriminatorSpec{Field: jsonField, Variants: values}, true
+		}
+	}
+	return discriminatorSpec{}, false
+}
+
+// mergeDiscriminators layers the hand-curated knownDiscriminators table
+// on top of derived: every entry deriveDiscriminators produces is used
+// as-is unless knownDiscriminators also names that union, in which case
+// the hand-curated entry wins outright (the whole discriminatorSpec, not
+// a per-key merge).
+func mergeDiscriminators(derived map[string]discriminatorSpec) map[string]discriminatorSpec {
+	merged := make(map[string]discriminatorSpec, len(derived)+len(knownDiscriminators))
+	for name, ds := range derived {
+		merged[name] = ds
+	}
+	for name, ds := range knownDiscriminators {
+		merged[name] = ds
+	}
+	return merged
+}
+
+// isInboundReachable reports whether Telegram can actually send data
+// typed as the named union to the bot: as a field on some type that
+// isn't itself send-only, or as a method's return value. "Input*"-named
+// unions are excluded outright regardless of where they're referenced —
+// by Telegram's own naming convention in this API, every such union is
+// something the bot constructs and marshals, never something it decodes.
+func isInboundReachable(api *spec.API, unionName string) bool {
+	if strings.HasPrefix(unionName, "Input") {
+		return false
+	}
+	for _, m := range api.Methods {
+		if typeRefIsUnion(m.Returns, api, unionName) {
+			return true
+		}
+	}
+	for _, t := range api.Types {
+		if strings.HasPrefix(t.Name, "Input") {
+			continue // send-only struct; its fields are never decoded either.
+		}
+		for _, f := range t.Fields {
+			if typeRefIsUnion(f.Type, api, unionName) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// typeRefIsUnion reports whether tr resolves to the named union: directly,
+// as an array element, or via an inline oneOf variant-set match against
+// unionName's own OneOf list.
+func typeRefIsUnion(tr spec.TypeRef, api *spec.API, unionName string) bool {
+	switch tr.Kind {
+	case spec.KindNamed:
+		return tr.Name == unionName
+	case spec.KindArray:
+		if tr.ElemType != nil {
+			return typeRefIsUnion(*tr.ElemType, api, unionName)
+		}
+	case spec.KindOneOf:
+		for i := range api.Types {
+			if api.Types[i].Name == unionName && matchesVariants(tr.Variants, api.Types[i].OneOf...) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// checkDiscriminatorGate fails codegen when a union Telegram can actually
+// send to the bot has no usable discriminator — neither derived nor
+// hand-curated. Such a union decodes to a bare interface field that no
+// JSON codec can ever fill (the RichBlock/RichText Bot API v10
+// regression this generalisation fixes: both had 20+ variants and no
+// knownDiscriminators entry, so genapi silently emitted no UnmarshalXxx
+// helper at all). Send-only "Input*" unions are exempt — see
+// isInboundReachable.
+func checkDiscriminatorGate(api *spec.API) error {
+	_, ungated := deriveDiscriminators(api)
+
+	typeByName := make(map[string]*spec.TypeDecl, len(api.Types))
+	for i := range api.Types {
+		typeByName[api.Types[i].Name] = &api.Types[i]
+	}
+
+	var offending []string
+	for _, name := range ungated {
+		if _, overridden := knownDiscriminators[name]; overridden {
+			continue // hand-curated rescue, e.g. MaybeInaccessibleMessage.
+		}
+		if isInboundReachable(api, name) {
+			offending = append(offending, name)
+		}
+	}
+	if len(offending) == 0 {
+		return nil
+	}
+
+	var b strings.Builder
+	fmt.Fprintf(&b, "genapi: %d inbound union(s) have no derivable or hand-curated discriminator "+
+		"and would decode as an unfillable interface field:", len(offending))
+	for _, name := range offending {
+		fmt.Fprintf(&b, "\n  - %s (variants: %s): no single field is present, required, and holds a unique non-empty wire value on every variant",
+			name, strings.Join(typeByName[name].OneOf, ", "))
+	}
+	return errors.New(b.String())
+}
+
 // knownInterfaceTypes is the full set of sealed-interface union type names
 // (both auto-decoded ones in knownDiscriminators and marker-only ones from
 // types with OneOf). Populated at emitter construction. goType and
@@ -359,7 +635,7 @@ var knownInterfaceTypes = map[string]bool{}
 
 // emitTypes renders types.gen.go.
 func (e *emitter) emitTypes() error {
-	t, err := template.New("types").Funcs(funcsWithDiscs(e.enums, e.variantDiscs)).Parse(typesTmpl)
+	t, err := template.New("types").Funcs(funcsWithDiscs(e.enums, e.variantDiscs, e.discs)).Parse(typesTmpl)
 	if err != nil {
 		return fmt.Errorf("parse types.tmpl: %w", err)
 	}
@@ -396,24 +672,28 @@ func loadAPI(path string) (*spec.API, error) {
 }
 
 // funcsWithDiscs returns the shared FuncMap with the variant
-// discriminator helpers bound to discs. types.tmpl uses
+// discriminator helpers bound to variantDiscs. types.tmpl uses
 // variantDiscFor/variantHasDisc to emit per-variant MarshalJSON that
-// hardcodes the wire discriminator value.
-func funcsWithDiscs(plan *enumPlan, discs map[string]variantDiscriminator) template.FuncMap {
-	fm := funcs(plan)
+// hardcodes the wire discriminator value. unionDiscs is the merged
+// union-level table (see mergeDiscriminators), threaded into funcs.
+func funcsWithDiscs(plan *enumPlan, variantDiscs map[string]variantDiscriminator, unionDiscs map[string]discriminatorSpec) template.FuncMap {
+	fm := funcs(plan, unionDiscs)
 	fm["variantHasDisc"] = func(name string) bool {
-		_, ok := discs[name]
+		_, ok := variantDiscs[name]
 		return ok
 	}
-	fm["variantDiscField"] = func(name string) string { return discs[name].JSONField }
-	fm["variantDiscGoField"] = func(name string) string { return discs[name].GoField }
-	fm["variantDiscValue"] = func(name string) string { return discs[name].Value }
+	fm["variantDiscField"] = func(name string) string { return variantDiscs[name].JSONField }
+	fm["variantDiscGoField"] = func(name string) string { return variantDiscs[name].GoField }
+	fm["variantDiscValue"] = func(name string) string { return variantDiscs[name].Value }
 	return fm
 }
 
 // funcs is the FuncMap shared across templates. plan is the resolved
-// enum plan; pass nil only in unit tests that don't exercise enums.
-func funcs(plan *enumPlan) template.FuncMap {
+// enum plan; pass nil only in unit tests that don't exercise enums. discs
+// is the merged union-level discriminator table (see
+// mergeDiscriminators); pass nil (or knownDiscriminators directly) in
+// unit tests that only exercise the hand-curated unions.
+func funcs(plan *enumPlan, discs map[string]discriminatorSpec) template.FuncMap {
 	return template.FuncMap{
 		"goType": goType,
 		"goField": func(parent string, f spec.Field) string {
@@ -444,20 +724,22 @@ func funcs(plan *enumPlan) template.FuncMap {
 			return plan.All()
 		},
 		"enumConstName": constName,
-		// discriminator helpers for types.tmpl
-		"hasDiscriminator": func(name string) bool { s, ok := knownDiscriminators[name]; return ok && len(s.Variants) > 0 },
+		// discriminator helpers for types.tmpl — all consult the merged
+		// table (discs), not the package-level knownDiscriminators, so a
+		// derived-only union gates exactly like a hand-curated one.
+		"hasDiscriminator": func(name string) bool { s, ok := discs[name]; return ok && len(s.Variants) > 0 },
 		"isSealedUnionReturn": func(tr spec.TypeRef) bool {
 			if tr.Kind != spec.KindNamed {
 				return false
 			}
-			s, ok := knownDiscriminators[tr.Name]
+			s, ok := discs[tr.Name]
 			return ok && len(s.Variants) > 0
 		},
 		"isSealedUnionArrayReturn": func(tr spec.TypeRef) bool {
 			if tr.Kind != spec.KindArray || tr.ElemType == nil || tr.ElemType.Kind != spec.KindNamed {
 				return false
 			}
-			s, ok := knownDiscriminators[tr.ElemType.Name]
+			s, ok := discs[tr.ElemType.Name]
 			return ok && len(s.Variants) > 0
 		},
 		"sealedUnionElemName": func(tr spec.TypeRef) string {
@@ -467,12 +749,13 @@ func funcs(plan *enumPlan) template.FuncMap {
 			return ""
 		},
 		"isMaybeInaccessibleMessage": func(name string) bool { return name == "MaybeInaccessibleMessage" },
-		"discriminatorField":         func(name string) string { return knownDiscriminators[name].Field },
-		"discriminatorMap":           func(name string) map[string]string { return knownDiscriminators[name].Variants },
+		"discriminatorField":         func(name string) string { return discs[name].Field },
+		"discriminatorMap":           func(name string) map[string]string { return discs[name].Variants },
 		// union-field helpers for per-struct UnmarshalJSON emission
-		"unionFields":   unionFieldsOf,
-		"isArrayUnion":  func(tr spec.TypeRef) bool { return hasUnionElem(tr) },
-		"unionTypeName": func(tr spec.TypeRef) string { name, _ := unionTypeFor(tr); return name },
+		"unionFields":     func(t spec.TypeDecl) []unionField { return unionFieldsOf(t, discs) },
+		"isArrayUnion":    func(tr spec.TypeRef) bool { return hasUnionElem(tr, discs) },
+		"unionTypeName":   func(tr spec.TypeRef) string { name, _ := unionTypeFor(tr, discs); return name },
+		"unionAlternates": unionAlternates,
 	}
 }
 
@@ -645,7 +928,7 @@ func returnGoElem(tr spec.TypeRef) string {
 
 // emitMethods renders methods.gen.go.
 func (e *emitter) emitMethods() error {
-	t, err := template.New("methods").Funcs(funcs(e.enums)).Parse(methodsTmpl)
+	t, err := template.New("methods").Funcs(funcs(e.enums, e.discs)).Parse(methodsTmpl)
 	if err != nil {
 		return fmt.Errorf("parse methods.tmpl: %w", err)
 	}
@@ -662,7 +945,7 @@ func (e *emitter) emitMethods() error {
 
 // emitEnums renders enums.gen.go.
 func (e *emitter) emitEnums() error {
-	t, err := template.New("enums").Funcs(funcs(e.enums)).Parse(enumsTmpl)
+	t, err := template.New("enums").Funcs(funcs(e.enums, e.discs)).Parse(enumsTmpl)
 	if err != nil {
 		return fmt.Errorf("parse enums.tmpl: %w", err)
 	}
@@ -735,11 +1018,12 @@ type unionField struct {
 }
 
 // unionFieldsOf returns the subset of t.Fields whose type is a known
-// discriminated union (directly or as array element).
-func unionFieldsOf(t spec.TypeDecl) []unionField {
+// discriminated union (directly or as array element), per discs — the
+// merged union-level discriminator table (see mergeDiscriminators).
+func unionFieldsOf(t spec.TypeDecl, discs map[string]discriminatorSpec) []unionField {
 	var out []unionField
 	for _, f := range t.Fields {
-		if u, ok := unionTypeFor(f.Type); ok {
+		if u, ok := unionTypeFor(f.Type, discs); ok {
 			out = append(out, unionField{Field: f, UnionName: u})
 		}
 	}
@@ -747,19 +1031,20 @@ func unionFieldsOf(t spec.TypeDecl) []unionField {
 }
 
 // unionTypeFor inspects a TypeRef and reports whether it (or its array
-// element) is a known discriminated union. Returns the union name and true.
-func unionTypeFor(tr spec.TypeRef) (string, bool) {
+// element) is a known discriminated union in discs. Returns the union
+// name and true.
+func unionTypeFor(tr spec.TypeRef, discs map[string]discriminatorSpec) (string, bool) {
 	switch tr.Kind {
 	case spec.KindNamed:
-		if _, ok := knownDiscriminators[tr.Name]; ok {
+		if _, ok := discs[tr.Name]; ok {
 			return tr.Name, true
 		}
 	case spec.KindArray:
 		if tr.ElemType != nil {
-			return unionTypeFor(*tr.ElemType)
+			return unionTypeFor(*tr.ElemType, discs)
 		}
 	case spec.KindOneOf:
-		if u := unionNameByVariants(tr.Variants); u != "" {
+		if u := unionNameByVariants(tr.Variants, discs); u != "" {
 			return u, true
 		}
 	}
@@ -768,8 +1053,8 @@ func unionTypeFor(tr spec.TypeRef) (string, bool) {
 
 // unionNameByVariants finds the parent union whose variant type names exactly
 // match the given variant set (order-insensitive).
-func unionNameByVariants(variants []string) string {
-	for parentName, ds := range knownDiscriminators {
+func unionNameByVariants(variants []string, discs map[string]discriminatorSpec) string {
+	for parentName, ds := range discs {
 		wanted := make([]string, 0, len(ds.Variants))
 		for _, vt := range ds.Variants {
 			wanted = append(wanted, vt)
@@ -782,12 +1067,48 @@ func unionNameByVariants(variants []string) string {
 }
 
 // hasUnionElem reports whether tr is an array whose element type is a known union.
-func hasUnionElem(tr spec.TypeRef) bool {
+func hasUnionElem(tr spec.TypeRef, discs map[string]discriminatorSpec) bool {
 	if tr.Kind != spec.KindArray || tr.ElemType == nil {
 		return false
 	}
-	_, ok := unionTypeFor(*tr.ElemType)
+	_, ok := unionTypeFor(*tr.ElemType, discs)
 	return ok
+}
+
+// alternateVariant describes one synthetic sealed-interface variant the
+// generator emits for a union's non-object wire shape (see
+// spec.Alternate): a bare-JSON-string variant, or a variant holding a
+// JSON array of the union itself. Exactly one of IsString / IsArray is
+// set. types.tmpl emits the struct, marker method, and MarshalJSON for
+// each, and Unmarshal<Union> dispatches to it by inspecting the first
+// non-whitespace byte of the wire value.
+type alternateVariant struct {
+	Name     string // synthetic Go type name, e.g. "RichTextPlain"
+	IsString bool
+	IsArray  bool
+}
+
+// unionAlternates maps a union TypeDecl's spec.Alternate entries (see
+// cmd/scrape's extractAlternates) to the synthetic Go variant
+// descriptors types.tmpl emits alongside the regular OneOf variants:
+// "<Union>Plain" for the bare-string shape, "<Union>Sequence" for the
+// array-of-<Union> shape. Returns nil for a union with no alternates,
+// which is every union except RichText as of Bot API v10 — so this is a
+// no-op for the rest of the type list.
+func unionAlternates(t spec.TypeDecl) []alternateVariant {
+	if len(t.Alternates) == 0 {
+		return nil
+	}
+	out := make([]alternateVariant, 0, len(t.Alternates))
+	for _, a := range t.Alternates {
+		switch a.Shape {
+		case spec.AlternateString:
+			out = append(out, alternateVariant{Name: t.Name + "Plain", IsString: true})
+		case spec.AlternateArray:
+			out = append(out, alternateVariant{Name: t.Name + "Sequence", IsArray: true})
+		}
+	}
+	return out
 }
 
 // matchesVariants reports whether got equals want as a set (order-insensitive).
@@ -1023,7 +1344,7 @@ func (e *emitter) emitTests() error {
 	unionTypes := buildUnionTypeSet(e.api)
 
 	// Add test-specific helpers to the shared func map.
-	fm := funcs(e.enums)
+	fm := funcs(e.enums, e.discs)
 	fm["sentinelValue"] = makeSentinelValue(unionTypes, e.enums)
 	fm["successResp"] = successResp
 

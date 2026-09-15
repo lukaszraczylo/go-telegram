@@ -29,6 +29,9 @@ func run(input, outdir string) error {
 	if err != nil {
 		return fmt.Errorf("load api: %w", err)
 	}
+	if err := checkDiscriminatorGate(api); err != nil {
+		return err
+	}
 	if err := os.MkdirAll(outdir, 0o750); err != nil {
 		return err
 	}
