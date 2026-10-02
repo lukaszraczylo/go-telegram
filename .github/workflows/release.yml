@@ -16,7 +16,11 @@ permissions:
   id-token: write
 
 jobs:
+  checks:
+    uses: ./.github/workflows/checks.yml
+
   release:
+    needs: checks
     uses: lukaszraczylo/shared-actions/.github/workflows/go-release.yaml@main
     with:
       go-version: ">=1.25"

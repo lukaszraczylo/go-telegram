@@ -1,7 +1,8 @@
 name: ci
 
-# Repo-specific checks only. Generic vet, staticcheck, govulncheck, gosec and
-# tests run in pr.yaml (shared go-pr). Releases run in release.yml (shared go-release).
+# Repo-specific checks run through checks.yml. Generic vet, staticcheck,
+# govulncheck, gosec and tests run in pr.yaml (shared go-pr). Releases run in
+# release.yml (shared go-release), gated by the same checks.yml.
 on:
   push:
     branches: [main]
@@ -17,64 +18,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  examples:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-go@v6
-        with:
-          go-version: '>=1.25'
-          check-latest: true
-      - name: Build all examples
-        run: go build ./examples/...
-
-  codegen-clean:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-go@v6
-        with:
-          go-version: '>=1.25'
-          check-latest: true
-      - name: Regenerate against pinned snapshot
-        run: make regen-from-fixture
-      - name: Assert clean diff
-        run: git diff --exit-code internal/spec/api.json api/ docs/reference/
-
-  audit:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0   # need history for drift comparison
-      - uses: actions/setup-go@v6
-        with:
-          go-version: '>=1.25'
-          check-latest: true
-      - name: Audit fallbacks
-        run: make audit
-      - name: Audit drift vs base
-        # On PRs: compare against the merge base (origin/<base>).
-        # On push to main: compare against the parent commit.
-        # Drift is informational; doesn't fail CI.
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BASE="origin/${{ github.base_ref }}"
-          else
-            BASE="HEAD~1"
-          fi
-          echo "Drift base: $BASE"
-          go run ./cmd/audit -ir internal/spec/api.json -drift -against "$BASE" || true
+  checks:
+    uses: ./.github/workflows/checks.yml
 
   # Aggregate gate for the repo-local checks. Keeps the `ci-success` name
   # so an existing branch-protection rule keeps resolving.
   ci-success:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [examples, codegen-clean, audit]
+    needs: [checks]
     if: always()
     steps:
       - name: All checks passed

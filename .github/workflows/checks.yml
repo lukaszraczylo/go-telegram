@@ -1,0 +1,61 @@
+name: checks
+
+# Repo-specific gates. Called by ci.yml (PR/push) and release.yml (release gate).
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '>=1.25'
+          check-latest: true
+      - name: Build all examples
+        run: go build ./examples/...
+
+  codegen-clean:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '>=1.25'
+          check-latest: true
+      - name: Regenerate against pinned snapshot
+        run: make regen-from-fixture
+      - name: Assert clean diff
+        run: git diff --exit-code internal/spec/api.json api/ docs/reference/
+
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0   # need history for drift comparison
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '>=1.25'
+          check-latest: true
+      - name: Audit fallbacks
+        run: make audit
+      - name: Audit drift vs base
+        # On PRs: compare against the merge base (origin/<base>).
+        # On push to main: compare against the parent commit.
+        # Drift is informational; doesn't fail CI.
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="origin/${{ github.base_ref }}"
+          else
+            BASE="HEAD~1"
+          fi
+          echo "Drift base: $BASE"
+          go run ./cmd/audit -ir internal/spec/api.json -drift -against "$BASE" || true
