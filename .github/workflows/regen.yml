@@ -128,11 +128,11 @@ jobs:
             `make regen` (which fails on any audit fallback) and `go test -race ./...`,
             both run in this job before the PR opens.
 
-      # A PR opened with GITHUB_TOKEN does not trigger `ci.yml`, so waiting for
+      # A PR opened with GITHUB_TOKEN does not trigger `ci.yml` or `pr.yaml`, so waiting for
       # PR checks would wait forever. The gates already ran in this job: `make
       # regen` fails on any audit fallback, and the test step runs the full race
       # suite. Merging here therefore means "merged because the checks passed".
-      # `ci.yml` then runs on the push to main and cuts the release.
+      # `release.yml` then runs on the push to main and cuts the release.
       - name: Merge regen PR
         if: steps.diff.outputs.no_changes != 'true' && steps.pr.outputs.pull-request-number != ''
         env:
