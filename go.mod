@@ -6,7 +6,7 @@ require (
 	github.com/goccy/go-json v0.11.2
 	github.com/lukaszraczylo/oss-telemetry v0.2.5
 	github.com/stretchr/testify v1.12.1
-	github.com/valyala/fasthttp v1.74.0
+	github.com/valyala/fasthttp v1.75.0
 	golang.org/x/net v0.59.0
 )
 
