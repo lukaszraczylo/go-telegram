@@ -21,7 +21,7 @@ require (
 	github.com/goccy/go-json v0.11.2 // indirect
 	github.com/grbit/go-json v0.11.0 // indirect
 	github.com/klauspost/compress v1.20.3 // indirect
-	github.com/klauspost/cpuid/v2 v2.4.0 // indirect
+	github.com/klauspost/cpuid/v2 v2.4.1 // indirect
 	github.com/lukaszraczylo/oss-telemetry v0.2.5 // indirect
 	github.com/molecule-man/go-brrr v1.3.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
