@@ -3,7 +3,7 @@ module github.com/lukaszraczylo/go-telegram
 go 1.26.0
 
 require (
-	github.com/goccy/go-json v0.11.2
+	github.com/goccy/go-json v0.12.0
 	github.com/lukaszraczylo/oss-telemetry v0.2.5
 	github.com/stretchr/testify v1.12.1
 	github.com/valyala/fasthttp v1.77.0
