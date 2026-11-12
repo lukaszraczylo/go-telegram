@@ -7,7 +7,7 @@ replace github.com/lukaszraczylo/go-telegram => ../../
 require (
 	github.com/NicoNex/echotron/v3 v3.46.0
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
-	github.com/go-telegram/bot v1.27.0
+	github.com/go-telegram/bot v1.28.0
 	github.com/lukaszraczylo/go-telegram v0.0.0-00010101000000-000000000000
 	github.com/mymmrac/telego v1.12.1
 	gopkg.in/telebot.v3 v3.3.8
@@ -20,13 +20,13 @@ require (
 	github.com/cloudwego/base64x v0.1.7 // indirect
 	github.com/goccy/go-json v0.12.0 // indirect
 	github.com/grbit/go-json v0.11.0 // indirect
-	github.com/klauspost/compress v1.20.3 // indirect
+	github.com/klauspost/compress v1.20.4 // indirect
 	github.com/klauspost/cpuid/v2 v2.4.2 // indirect
 	github.com/lukaszraczylo/oss-telemetry v0.2.5 // indirect
 	github.com/molecule-man/go-brrr v1.3.1 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.77.0 // indirect
+	github.com/valyala/fasthttp v1.78.0 // indirect
 	github.com/valyala/fastjson v1.6.10 // indirect
 	golang.org/x/arch v0.33.0 // indirect
 	golang.org/x/sys v0.50.0 // indirect
