@@ -5,7 +5,7 @@ go 1.26.7
 replace github.com/lukaszraczylo/go-telegram => ../../
 
 require (
-	github.com/NicoNex/echotron/v3 v3.46.0
+	github.com/NicoNex/echotron/v3 v3.47.0
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
 	github.com/go-telegram/bot v1.28.0
 	github.com/lukaszraczylo/go-telegram v0.0.0-00010101000000-000000000000
