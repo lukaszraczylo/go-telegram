@@ -1,6 +1,6 @@
 module github.com/lukaszraczylo/go-telegram/test/benchmarks
 
-go 1.26.7
+go 1.26.11
 
 replace github.com/lukaszraczylo/go-telegram => ../../
 
@@ -9,7 +9,7 @@ require (
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
 	github.com/go-telegram/bot v1.28.0
 	github.com/lukaszraczylo/go-telegram v0.0.0-00010101000000-000000000000
-	github.com/mymmrac/telego v1.12.1
+	github.com/mymmrac/telego v1.13.0
 	gopkg.in/telebot.v3 v3.3.8
 )
 
@@ -19,7 +19,6 @@ require (
 	github.com/bytedance/sonic/loader v0.5.3 // indirect
 	github.com/cloudwego/base64x v0.1.7 // indirect
 	github.com/goccy/go-json v0.12.0 // indirect
-	github.com/grbit/go-json v0.11.0 // indirect
 	github.com/klauspost/compress v1.20.4 // indirect
 	github.com/klauspost/cpuid/v2 v2.4.2 // indirect
 	github.com/lukaszraczylo/oss-telemetry v0.2.5 // indirect
