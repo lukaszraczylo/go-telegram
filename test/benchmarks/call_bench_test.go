@@ -22,7 +22,7 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	gobot "github.com/go-telegram/bot"
 	telego "github.com/mymmrac/telego"
-	tele "gopkg.in/telebot.v3"
+	tele "gopkg.in/telebot.v4"
 )
 
 // Telegram-format token (digits:[\w-]{35}). telego enforces this format on construction.
