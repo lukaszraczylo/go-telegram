@@ -14,7 +14,7 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	gobotmodels "github.com/go-telegram/bot/models"
 	telego "github.com/mymmrac/telego"
-	tele "gopkg.in/telebot.v3"
+	tele "gopkg.in/telebot.v4"
 )
 
 var largeUpdateBytes = []byte(shared.LargeUpdateJSON)

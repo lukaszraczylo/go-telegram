@@ -10,7 +10,7 @@ require (
 	github.com/go-telegram/bot v1.29.0
 	github.com/lukaszraczylo/go-telegram v0.0.0-00010101000000-000000000000
 	github.com/mymmrac/telego v1.13.0
-	gopkg.in/telebot.v3 v3.3.8
+	gopkg.in/telebot.v4 v4.0.0
 )
 
 require (

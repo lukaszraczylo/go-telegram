@@ -28,7 +28,7 @@ import (
 
 	gobot "github.com/go-telegram/bot"
 	gobotmodels "github.com/go-telegram/bot/models"
-	tele "gopkg.in/telebot.v3"
+	tele "gopkg.in/telebot.v4"
 )
 
 const dispatchN = 20
