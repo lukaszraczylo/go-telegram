@@ -31,7 +31,7 @@ func TestGetMe(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	u, err := api.GetMe(ctx, b)
+	u, err := api.GetMe(ctx, b, &api.GetMeParams{})
 	require.NoError(t, err)
 	require.True(t, u.IsBot)
 }
@@ -48,7 +48,7 @@ func TestSendMessage(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	msg, err := api.SendMessage(ctx, b, &api.SendMessageParams{
-		ChatID: chatID,
+		ChatID: api.ChatIDFromInt(chatID),
 		Text:   "integration test " + time.Now().UTC().Format(time.RFC3339),
 	})
 	require.NoError(t, err)
