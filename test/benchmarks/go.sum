@@ -320,8 +320,8 @@ github.com/molecule-man/go-brrr v1.3.1 h1:EwaJUzRIlp/dFmIpzq4J17CA5Zi5OHo2vOGmu0
 github.com/molecule-man/go-brrr v1.3.1/go.mod h1:7ybW6/7gA3oKY45jOfVNjSJDtrr6ea4tzbsTkjmQDC4=
 github.com/mwitkow/go-conntrack v0.0.0-20161129095857-cc309e4a2223/go.mod h1:qRWi+5nqEBWmkhHvq77mSJWrCKwh8bxhgT7d/eI7P4U=
 github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f/go.mod h1:qRWi+5nqEBWmkhHvq77mSJWrCKwh8bxhgT7d/eI7P4U=
-github.com/mymmrac/telego v1.13.0 h1:1sz4F5bstBJYjZNPPJykYBT0HHIIKvPLvARZt45swM0=
-github.com/mymmrac/telego v1.13.0/go.mod h1:gsRatcXPP0UBU9gWbKzp21yQWoPHte86AUKrVcikuaw=
+github.com/mymmrac/telego v1.14.0 h1:6wI282H2dXYTgJjESckU29vVDZhpC/kfxuCaeyG9vF8=
+github.com/mymmrac/telego v1.14.0/go.mod h1:H2FYDs8ahk5zxt+QlPpPZF55k+J/qKfGxgdWIvWv5UQ=
 github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c/go.mod h1:lzWF7FIEvWOWxwDKqyGYQf6ZUaNfKdP144TG7ZOy1lc=
 github.com/pascaldekloe/goe v0.1.0/go.mod h1:lzWF7FIEvWOWxwDKqyGYQf6ZUaNfKdP144TG7ZOy1lc=
 github.com/pelletier/go-toml v1.9.5/go.mod h1:u1nR/EPcESfeI/szUZKdtJ0xRNbUoANCkoOuaOx1Y+c=
